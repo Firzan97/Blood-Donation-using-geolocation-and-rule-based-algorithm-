@@ -1,1 +1,0 @@
-# Blood-Donation-using-geolocation-and-rule-based-algorithm-
