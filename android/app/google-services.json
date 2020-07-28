@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "548291286712",
+    "firebase_url": "https://easy-blood-aa7fd.firebaseio.com",
+    "project_id": "easy-blood-aa7fd",
+    "storage_bucket": "easy-blood-aa7fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548291286712:android:12e2a94ea9e6c44e2ec64d",
+        "android_client_info": {
+          "package_name": "com.example.easy_blood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548291286712-dk96eoeui0o14kglqk39v2pf9pbvuin4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwxY4JamlprLos5cqkGeu0_wBQe55wbWQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548291286712-dk96eoeui0o14kglqk39v2pf9pbvuin4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
