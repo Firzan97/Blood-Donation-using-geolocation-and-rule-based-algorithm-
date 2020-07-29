@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:easy_blood/signin.dart';
 import 'package:easy_blood/model/event.dart';
 import 'package:easy_blood/signup.dart';
+import 'package:easy_blood/userdashboard.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -55,7 +56,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: Welcome(),
+        body: UserDashboard(),
 //        Center(
 //          child: FutureBuilder<Event>(
 //            future: futureAlbum,
