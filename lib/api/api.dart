@@ -10,9 +10,7 @@ class Api{
     return await http.post(
       fullURL,
       headers: _reqHeader(),
-      body: jsonEncode(<String, String>{
-        'title': "jejeje",
-      }),
+      body: jsonEncode(data),
 
     );
   }
