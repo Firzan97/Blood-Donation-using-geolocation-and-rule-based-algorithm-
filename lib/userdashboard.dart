@@ -35,7 +35,7 @@ class _UserDashboardState extends State<UserDashboard> {
                   ),
                 ),
                 Container(
-                  height: size.height * 0.2,
+                  height: size.height * 0.18,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: kPrimaryColor,
@@ -66,8 +66,8 @@ class _UserDashboardState extends State<UserDashboard> {
                   top: 95,
                   right: 140,
                   child: Container(
-                    height: size.height * 0.15,
-                    width: size.width * 0.30,
+                    height: size.height * 0.16,
+                    width: size.width * 0.25,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: new DecorationImage(

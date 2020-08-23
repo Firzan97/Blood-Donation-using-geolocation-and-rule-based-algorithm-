@@ -32,6 +32,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SingleChildScrollView(
             child: Container(
@@ -39,7 +40,7 @@ class _SignUpState extends State<SignUp> {
                 color: kPrimaryColor,
               ),
                  child: Padding(
-                   padding: const EdgeInsets.symmetric(vertical: 80.0),
+                   padding: const EdgeInsets.symmetric(vertical: 40.0),
                    child: Center(
                      child: Column(
                        children: <Widget>[
@@ -48,7 +49,7 @@ class _SignUpState extends State<SignUp> {
                            fontSize: 15.0,
 
                          ),),
-                         SizedBox(height: 40.0,),
+                         SizedBox(height: 10.0,),
                          Image.asset("assets/images/joinus.png", width: size.height*0.25,),
                          SizedBox(height: 30.0,),
                          Form(
@@ -77,17 +78,17 @@ class _SignUpState extends State<SignUp> {
                                  (value.isEmpty) ? 'Please enter some text' :
                                  null,
                                ),
-                               InputRound(
-                                 controller: phoneNumber,
-                                 deco: InputDecoration(
-                                   hintText: "Phone Number",
-                                   border: InputBorder.none,
-                                   icon: Icon(Icons.phone, color: kThirdColor,),
-                                 ),
-                                 validator: (value) =>
-                                 (value.isEmpty) ? 'Please enter some text' :
-                                 null,
-                               ),
+//                               InputRound(
+//                                 controller: phoneNumber,
+//                                 deco: InputDecoration(
+//                                   hintText: "Phone Number",
+//                                   border: InputBorder.none,
+//                                   icon: Icon(Icons.phone, color: kThirdColor,),
+//                                 ),
+//                                 validator: (value) =>
+//                                 (value.isEmpty) ? 'Please enter some text' :
+//                                 null,
+//                               ),
                                InputRound(
                                  controller: age,
                                  deco: InputDecoration(
@@ -99,17 +100,17 @@ class _SignUpState extends State<SignUp> {
                                  (value.isEmpty) ? 'Please enter some text' :
                                  null,
                                ),
-                               InputRound(
-                                 controller: gender,
-                                 deco: InputDecoration(
-                                   hintText: "Gender",
-                                   border: InputBorder.none,
-                                   icon: Icon(Icons.people, color: kThirdColor,),
-                                 ),
-                                 validator: (value) =>
-                                 (value.isEmpty) ? 'Please enter some text' :
-                                 null,
-                               ),
+//                               InputRound(
+//                                 controller: gender,
+//                                 deco: InputDecoration(
+//                                   hintText: "Gender",
+//                                   border: InputBorder.none,
+//                                   icon: Icon(Icons.people, color: kThirdColor,),
+//                                 ),
+//                                 validator: (value) =>
+//                                 (value.isEmpty) ? 'Please enter some text' :
+//                                 null,
+//                               ),
                                InputPasswordRound(
                                  controller: password,
                                  validator: (val) =>
@@ -161,16 +162,14 @@ class _SignUpState extends State<SignUp> {
     });
 
     var data={
-      'email' : email,
-      'username' : username,
-      'password' : password,
-      'phoneNumber' : phoneNumber,
-      'age' : age,
-      'gender' : gender,
+      'email' : email.text,
+      'username' : username.text,
+      'password' : password.text,
+      'age' : age.text,
     };
 
-    var res = await Api().postData(data,"create");
-    var body = json.encode(res.body);
+    var res = await Api().postData(data,"user");
+    var body = json.decode(res.body);
     print(body);
   }
 
