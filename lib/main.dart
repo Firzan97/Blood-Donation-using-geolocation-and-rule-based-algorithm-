@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: UserDashboard(),
+        body: Welcome(),
 //        Center(
 //          child: FutureBuilder<Event>(
 //            future: futureAlbum,

@@ -1,3 +1,4 @@
+import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class Background extends StatelessWidget {
           Positioned(
             top: 130,
             left: 70,
-            child: Image.asset("assets/images/bloodicon.png"),
+            child: FadeAnimation(1.7,Image.asset("assets/images/bloodicon.png"),),
           ),
           Positioned(
             top: 137,
@@ -32,7 +33,7 @@ class Background extends StatelessWidget {
           Positioned(
             top: 350,
             left: 20,
-            child: Image.asset("assets/images/bloodicon.png"),
+            child: FadeAnimation(1.7,Image.asset("assets/images/bloodicon.png"),),
           ),
           Positioned(
             top: 357,
@@ -42,7 +43,7 @@ class Background extends StatelessWidget {
           Positioned(
             top: 250,
             right: 150,
-            child: Image.asset("assets/images/bloodicon.png"),
+            child: FadeAnimation(1.7,Image.asset("assets/images/bloodicon.png"),),
           ),
           Positioned(
             top: 257,
@@ -52,7 +53,7 @@ class Background extends StatelessWidget {
           Positioned(
             top: 380,
             right: 0,
-            child: Image.asset("assets/images/bloodicon.png"),
+            child: FadeAnimation(1.7,Image.asset("assets/images/bloodicon.png"),),
           ),
           Positioned(
             top: 387,
@@ -62,7 +63,7 @@ class Background extends StatelessWidget {
           Positioned(
             top: 100,
             right: 60,
-            child: Image.asset("assets/images/bloodicon.png"),
+            child: FadeAnimation(1.7,Image.asset("assets/images/bloodicon.png"),),
           ),
           Positioned(
             top: 107,

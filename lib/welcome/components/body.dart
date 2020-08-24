@@ -1,3 +1,4 @@
+import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/component/button_round.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/signin.dart';
@@ -15,12 +16,28 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-           Text("WELCOME TO EASY BLOOD",style: TextStyle(
-             fontWeight: FontWeight.w700,
-           ),),
-            SizedBox(height: 30.0,),
-            Image.asset("assets/images/welcome.png",height: size.height*0.5,),
-            SizedBox(height: 30.0,),
+            FadeAnimation(
+              1.4,
+              Text(
+                "WELCOME TO EASY BLOOD",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
+            FadeAnimation(
+              1.4,
+              Image.asset(
+                "assets/images/welcome.png",
+                height: size.height * 0.5,
+              ),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
             ButtonRound(
               text: "SIGN IN",
               color: kThirdColor,

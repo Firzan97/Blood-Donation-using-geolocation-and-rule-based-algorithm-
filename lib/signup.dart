@@ -6,6 +6,7 @@ import 'package:easy_blood/component/button_round.dart';
 import 'package:easy_blood/component/input_password_round.dart';
 import 'package:easy_blood/component/input_round.dart';
 import 'package:easy_blood/constant.dart';
+import 'package:easy_blood/signin.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -125,6 +126,10 @@ class _SignUpState extends State<SignUp> {
                                    if (_formkey.currentState.validate()) {
                                      print("Validate");
                                      register();
+                                     Navigator.push(
+                                       context,
+                                       MaterialPageRoute(builder: (context) => SignIn()),
+                                     );
                                    }
                                    else{
                                      error =
@@ -138,7 +143,10 @@ class _SignUpState extends State<SignUp> {
                          AlreadyHaveAnAccountCheck(
                            login: false,
                            press: () {
-                             widget.toggleView();
+                             Navigator.push(
+                               context,
+                               MaterialPageRoute(builder: (context) => SignIn()),
+                             );
                            },
                          ),
                          Text(
@@ -162,15 +170,19 @@ class _SignUpState extends State<SignUp> {
     });
 
     var data={
-      'email' : email.text,
-      'username' : username.text,
-      'password' : password.text,
-      'age' : age.text,
+      "email" : email.text,
+      "username" : username.text,
+      "password" : password.text,
+      "age" : age.text,
     };
 
     var res = await Api().postData(data,"user");
-    var body = json.decode(res.body);
-    print(body);
+    print(res.statusCode);
+    if(res.statusCode==200) {
+      var body = json.decode(res.body);
+      print(body);
+    }
+
   }
 
 }

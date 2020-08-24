@@ -32,6 +32,8 @@ dependencies:
   datetime_picker_formfield: ^1.0.0
   intl: ^0.16.1
   flutter_datetime_picker: ^1.4.0
+  simple_animations: ^2.2.1
+
 
 
 
