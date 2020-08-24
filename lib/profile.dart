@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -8,16 +9,18 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              
-            ],
-          ),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
         ),
-      ),
-    );
+        child: MaterialApp(
+          home: Scaffold(
+            body: Container(
+              child: Column(
+                children: <Widget>[],
+              ),
+            ),
+          ),
+        ));
   }
 }

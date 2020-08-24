@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Notifications extends StatefulWidget {
   @override
@@ -8,7 +9,11 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+    ),
+    child:MaterialApp(
       home: Scaffold(
         body: Container(
           child: Column(
@@ -18,6 +23,7 @@ class _NotificationsState extends State<Notifications> {
           ),
         )
       ),
+    )
     );
   }
 }

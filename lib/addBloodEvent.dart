@@ -8,6 +8,7 @@ import 'package:easy_blood/component/input_round.dart';
 import 'package:easy_blood/component/input_time.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 
@@ -30,7 +31,11 @@ class _AddBloodEventState extends State<AddBloodEvent> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return MaterialApp(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+    ),
+    child: MaterialApp(
       home: Scaffold(
         body: SingleChildScrollView(
           child: Container(
@@ -151,6 +156,7 @@ class _AddBloodEventState extends State<AddBloodEvent> {
           ),
         ),
       ),
+    )
     );
   }
 

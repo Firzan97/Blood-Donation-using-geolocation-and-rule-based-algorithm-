@@ -1,5 +1,6 @@
 import 'package:easy_blood/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class About extends StatefulWidget {
   @override
@@ -10,7 +11,12 @@ class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return MaterialApp(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+    ),
+    child:MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
           child: Column(
@@ -84,6 +90,7 @@ class _AboutState extends State<About> {
           ),
         ),
       ),
+    )
     );
   }
 }

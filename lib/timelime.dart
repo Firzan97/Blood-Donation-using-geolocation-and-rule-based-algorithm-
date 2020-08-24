@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Timeline extends StatefulWidget {
   @override
@@ -11,7 +12,11 @@ class _TimelineState extends State<Timeline> {
     Size size = MediaQuery
         .of(context)
         .size;
-    return Scaffold(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+    ),
+    child:Scaffold(
       body: Container(
         decoration: BoxDecoration(
           color: Color(0XFF343a69)
@@ -74,6 +79,7 @@ class _TimelineState extends State<Timeline> {
           ],
         ),
       ),
+    )
     );
   }
 }

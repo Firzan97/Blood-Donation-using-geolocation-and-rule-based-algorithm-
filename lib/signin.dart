@@ -9,6 +9,7 @@ import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -27,87 +28,89 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomPadding: false,
-        body: Container(
-          decoration: BoxDecoration(
-            color: kPrimaryColor,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 60.0),
-            child: Column(
-              children: <Widget>[
-                Center(
-                  child: Text("LOGIN",style: TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 25.0,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+    ),
+    child:Scaffold(
+      resizeToAvoidBottomPadding: false,
+      body: Container(
+        decoration: BoxDecoration(
+          color: kPrimaryColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 60.0),
+          child: Column(
+            children: <Widget>[
+              Center(
+                child: Text("LOGIN",style: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 25.0,
 
-                  ),),
-                ),
-                SizedBox(height: 30.0,),
-                Image.asset("assets/images/blood2.png", width: size.height*0.3,),
-                Form(
-                  key: _formkey,
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 15.0),
-                      InputRound(
-                        controller: email,
-                        deco: InputDecoration(
-                          hintText: "Email",
-                          border: InputBorder.none,
-                          icon: Icon(Icons.email, color: kThirdColor,),
-                        ),
-                        validator: (value) =>
-                        (value.isEmpty) ? 'Please enter some text' :
-                        null,
+                ),),
+              ),
+              SizedBox(height: 30.0,),
+              Image.asset("assets/images/blood2.png", width: size.height*0.3,),
+              Form(
+                key: _formkey,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 15.0),
+                    InputRound(
+                      controller: email,
+                      deco: InputDecoration(
+                        hintText: "Email",
+                        border: InputBorder.none,
+                        icon: Icon(Icons.email, color: kThirdColor,),
                       ),
-                      InputPasswordRound(
-                        controller: password,
-                        validator: (val) =>
-                        val.length < 6
-                            ? "Enter a password 6+ chars long"
-                            : null,
-                      ),
-                      ButtonRound(
-                        color: Color(0XFF343a69),
-                        text: "LOGIN",
-                        press: () async {
-                          if (_formkey.currentState.validate()) {
-                            print("Validate");
-                            print(login());
-                            if(login()==200){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => SignUp()),
-                              );
-                            }
+                      validator: (value) =>
+                      (value.isEmpty) ? 'Please enter some text' :
+                      null,
+                    ),
+                    InputPasswordRound(
+                      controller: password,
+                      validator: (val) =>
+                      val.length < 6
+                          ? "Enter a password 6+ chars long"
+                          : null,
+                    ),
+                    ButtonRound(
+                      color: Color(0XFF343a69),
+                      text: "LOGIN",
+                      press: () async {
+                        if (_formkey.currentState.validate()) {
+                          print("Validate");
+                          print(login());
+                          if(login()==200){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => SignUp()),
+                            );
                           }
-                          else{
-                            error =
-                            "Could  not sign in. Wrong input ";
-                          }
-                        },
-                      ),
-                    ],
-                  ),
+                        }
+                        else{
+                          error =
+                          "Could  not sign in. Wrong input ";
+                        }
+                      },
+                    ),
+                  ],
                 ),
-                SizedBox(height: size.height * 0.02),
-                AlreadyHaveAnAccountCheck(
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUp()),
-                    );
-                  },
-                ),
-              ],
-            ),
+              ),
+              SizedBox(height: size.height * 0.02),
+              AlreadyHaveAnAccountCheck(
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUp()),
+                  );
+                },
+              ),
+            ],
           ),
         ),
-
       ),
+    )
     );
   }
 }

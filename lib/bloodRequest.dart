@@ -1,5 +1,6 @@
 import 'package:easy_blood/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BloodRequest extends StatefulWidget {
   @override
@@ -10,7 +11,11 @@ class _BloodRequestState extends State<BloodRequest> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return MaterialApp(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+    ),
+    child: MaterialApp(
       home: Scaffold(
         body: Container(
           child: Column(
@@ -47,6 +52,7 @@ class _BloodRequestState extends State<BloodRequest> {
           ),
         ),
       ),
+    )
     );
   }
 }
