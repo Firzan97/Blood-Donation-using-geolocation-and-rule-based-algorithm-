@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:easy_blood/about.dart';
 import 'package:easy_blood/addBloodEvent.dart';
+import 'package:easy_blood/bloodEvent.dart';
 import 'package:easy_blood/bloodRequest.dart';
-import 'package:easy_blood/datetime.dart';
 import 'package:easy_blood/home.dart';
 import 'package:easy_blood/signin.dart';
 import 'package:easy_blood/model/event.dart';
@@ -21,8 +21,8 @@ Future<Event> fetchAlbum() async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    EventList eventlist = EventList.fromJson(json.decode(response.body));
-    return eventlist.events[0];
+
+
 //    return Event.fromJson(json.decode(response.body));
 
   } else {
@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: AddBloodEvent(),
+        body: UserDashboard(),
 //        Center(
 //          child: FutureBuilder<Event>(
 //            future: futureAlbum,

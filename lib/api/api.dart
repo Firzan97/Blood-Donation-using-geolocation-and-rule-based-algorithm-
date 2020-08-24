@@ -14,8 +14,8 @@ class Api{
     );
   }
 
-  getData() async {
-    var fullURL = "http://192.168.1.2:8000/api/";
+  getData(apiURL) async {
+    var fullURL = apiLink + apiURL;
     return await http.get(
       fullURL,
       headers: _reqHeader()

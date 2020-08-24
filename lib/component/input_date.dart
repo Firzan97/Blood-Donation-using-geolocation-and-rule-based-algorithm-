@@ -2,7 +2,12 @@ import 'package:easy_blood/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
-class InputDate extends StatelessWidget {
+class InputDate extends StatefulWidget {
+  @override
+  _InputDateState createState() => _InputDateState();
+}
+
+class _InputDateState extends State<InputDate> {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
@@ -23,7 +28,7 @@ class InputDate extends StatelessWidget {
             print('change $date in time zone ' +
                 date.timeZoneOffset.inHours.toString());
           }, onConfirm: (date) {
-            print('confirm $date');
+            print('confirm ${date}');
           }, currentTime: DateTime.now(), locale: LocaleType.en);
         },
         child: Text(

@@ -11,39 +11,43 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery
         .of(context)
         .size;
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: size.height*0.3,
-            child: Column(
-              children: <Widget>[
-                Row(
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: size.height*0.3,
+                child: Column(
                   children: <Widget>[
-                    Column(
+                    Row(
                       children: <Widget>[
-                        Text("Hai, Firzan Azrai"),
-                        Text("Let's help people !")
+                        Column(
+                          children: <Widget>[
+                            Text("Hai, Firzan Azrai"),
+                            Text("Let's help people !")
+                          ],
+                        )
                       ],
-                    )
+                    ),
+                    Row(),
+                    Row()
                   ],
                 ),
-                Row(),
-                Row()
-              ],
-            ),
-          decoration: BoxDecoration(
-              color: Color(0XFF343a69),
-            borderRadius: BorderRadius.circular(15.0)
-          ),),
-          Container(
-            child: Column(
-              children: <Widget>[
-                Row()
-              ],
-            ),
-          )
-        ],
+              decoration: BoxDecoration(
+                  color: Color(0XFF343a69),
+                borderRadius: BorderRadius.circular(15.0)
+              ),),
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    Row()
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
