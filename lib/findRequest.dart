@@ -8,6 +8,16 @@ class FindRequest extends StatefulWidget {
 class _FindRequestState extends State<FindRequest> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return MaterialApp(
+      home: Scaffold(
+          body: Container(
+            child: Column(
+              children: <Widget>[
+
+              ],
+            ),
+          )
+      ),
+    );
   }
 }

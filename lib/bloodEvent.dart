@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:easy_blood/addBloodEvent.dart';
 import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/bloodEventDetail.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/model/album.dart';
 import 'package:easy_blood/model/event.dart';
@@ -104,7 +105,6 @@ Future<List<Event>> futureEvent;
               ),
             Expanded(
               child: Container(
-                height: 200,
                 child: FutureBuilder(
                   future: fetchEvent(),
                   builder: (context, snapshot) {
@@ -118,9 +118,19 @@ Future<List<Event>> futureEvent;
                     return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                            title: Text(snapshot.data[index].name),
-                            subtitle: Text(snapshot.data[index].location),
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => BloodEventDetail(event: snapshot.data[index])),
+                              );
+                            });
+                          },
+                          child: ListTile(
+                              title: Text(snapshot.data[index].name),
+                              subtitle: Text(snapshot.data[index].location),
+                          ),
                         );
                       },
                     );
@@ -129,8 +139,8 @@ Future<List<Event>> futureEvent;
                     return CircularProgressIndicator();
                   },
                 ),
-            ),
               ),
+            ),
           ],
         ),
       )),
@@ -141,17 +151,13 @@ Future<List<Event>> futureEvent;
   {
     var res = await Api().getData("event");
     var body = json.decode(res.body);
-    print(body);
     if(res.statusCode == 200){
-      print("masukk bohhh");
       List<Event> events = [];
       for(var u in body){
         Event event = Event(u["name"], u["location"]);
         events.add(event);
       }
-//      EventList event= EventList.fromJson(json.decode(res.body));
-//      print(event);
-    print(events.length);
+
       return events;
     }
     else{

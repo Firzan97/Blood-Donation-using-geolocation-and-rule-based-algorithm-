@@ -26,29 +26,30 @@ class _UserDashboardState extends State<UserDashboard> {
         child: Column(
           children: <Widget>[
             Container(
-              height: size.height * 0.3,
+              height: size.height * 0.32,
               child: Stack(
                 children: <Widget>[
-                  Container(
-                    height: size.height * 0.18,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                            Color(0xFFd50000),
-                            kPrimaryColor,
-                          ]),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0.7),
-                            spreadRadius: 1,
-                            blurRadius: 12),
-                      ],
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(60),
-                          bottomRight: Radius.circular(60)),
+                  ClipPath(
+                    clipper: MyClipper(),
+                    child: Container(
+                      height: size.height * 0.32,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            colors: [
+//                              Color(0xffff5959),
+                              kPrimaryColor,
+                              Color(0xFFd50000),
+                            ]),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.6),
+                              spreadRadius: 10,
+                              blurRadius: 12),
+                        ],
+                      ),
                     ),
                   ),
                   Positioned(
@@ -343,5 +344,24 @@ class _UserDashboardState extends State<UserDashboard> {
         ),
       ),
     );
+  }
+
+}
+
+class MyClipper extends CustomClipper<Path>{
+  @override
+  Path getClip(Size size) {
+    // TODO: implement getClip
+    var path = Path();
+    path.lineTo(0,size.height-80);
+    path.quadraticBezierTo(size.width/2, size.height, size.width,size.height-80);
+    path.lineTo(size.width,0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper){
+    return false;
   }
 }

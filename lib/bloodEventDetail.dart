@@ -1,11 +1,10 @@
+import 'package:easy_blood/model/event.dart';
 import 'package:flutter/material.dart';
 
-class Notifications extends StatefulWidget {
-  @override
-  _NotificationsState createState() => _NotificationsState();
-}
+class BloodEventDetail extends StatelessWidget {
+  final Event event;
 
-class _NotificationsState extends State<Notifications> {
+  const BloodEventDetail({Key key, this.event}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,12 +12,12 @@ class _NotificationsState extends State<Notifications> {
         body: Container(
           child: Column(
             children: <Widget>[
-
+              Text(event.name),
+              Text(event.location)
             ],
           ),
-        )
+        ),
       ),
     );
   }
 }
-
