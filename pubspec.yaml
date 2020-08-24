@@ -33,6 +33,8 @@ dependencies:
   intl: ^0.16.1
   flutter_datetime_picker: ^1.4.0
   simple_animations: ^2.2.1
+  curved_navigation_bar: ^0.3.3
+
 
 
 

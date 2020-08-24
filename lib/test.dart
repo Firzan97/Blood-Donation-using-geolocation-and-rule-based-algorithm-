@@ -1,16 +1,13 @@
-import 'package:easy_blood/constant.dart';
-import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-void main() => runApp(MaterialApp(home: Main()));
 
-class Main extends StatefulWidget {
+class BottomNavBar extends StatefulWidget {
   @override
-  _MainState createState() => _MainState();
+  _BottomNavBarState createState() => _BottomNavBarState();
 }
 
-class _MainState extends State<Main> {
+class _BottomNavBarState extends State<BottomNavBar> {
   int _page = 0;
   GlobalKey _bottomNavigationKey = GlobalKey();
 
@@ -30,16 +27,32 @@ class _MainState extends State<Main> {
           ],
           color: Colors.white,
           buttonBackgroundColor: Colors.white,
-          backgroundColor: kPrimaryColor,
+          backgroundColor: Colors.blueAccent,
           animationCurve: Curves.easeInOut,
-          animationDuration: Duration(milliseconds: 400),
+          animationDuration: Duration(milliseconds: 600),
           onTap: (index) {
             setState(() {
               _page = index;
             });
           },
         ),
-      body: Welcome(),
-        );
+        body: Container(
+          color: Colors.blueAccent,
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Text(_page.toString(), textScaleFactor: 10.0),
+                RaisedButton(
+                  child: Text('Go To Page of index 1'),
+                  onPressed: () {
+                    final CurvedNavigationBarState navBarState =
+                        _bottomNavigationKey.currentState;
+                    navBarState.setPage(1);
+                  },
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }
