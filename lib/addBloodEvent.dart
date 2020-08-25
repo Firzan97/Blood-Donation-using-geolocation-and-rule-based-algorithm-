@@ -7,6 +7,7 @@ import 'package:easy_blood/component/input_date.dart';
 import 'package:easy_blood/component/input_round.dart';
 import 'package:easy_blood/component/input_time.dart';
 import 'package:easy_blood/constant.dart';
+import 'package:easy_blood/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -69,7 +70,7 @@ class _AddBloodEventState extends State<AddBloodEvent> {
                               onPressed: (){
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => BloodEvent()),
+                                  MaterialPageRoute(builder: (context) => Home()),
                                 );
                               },
                             ),

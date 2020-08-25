@@ -4,6 +4,7 @@ import 'package:easy_blood/addBloodEvent.dart';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/bloodEventDetail.dart';
 import 'package:easy_blood/constant.dart';
+import 'package:easy_blood/home.dart';
 import 'package:easy_blood/model/album.dart';
 import 'package:easy_blood/model/event.dart';
 import 'package:easy_blood/userdashboard.dart';
@@ -62,7 +63,7 @@ class _BloodEventState extends State<BloodEvent> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => UserDashboard()),
+                                      builder: (context) => Home()),
                                 );
                               },
                             ),
