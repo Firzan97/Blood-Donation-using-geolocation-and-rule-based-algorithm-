@@ -21,48 +21,116 @@ class _ProfileState extends State<Profile> {
             body: Container(
               child: Column(
                 children: <Widget>[
-                  ClipPath(
-                    clipper: MyClipper(),
-                    child: Container(
-                      height: size.height * 0.4,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [
+                  Stack(children: <Widget>[
+                    ClipPath(
+                      clipper: MyClipper(),
+                      child: Container(
+                        height: size.height * 0.4,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
 //                            Color(0xffff5959),
-                              kPrimaryColor,
-                              Color(0xFFd50000),
-                            ]),
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 80.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  height: size.height * 0.16,
-                                  width: size.width * 0.23,
+                                kPrimaryColor,
+                                Color(0xFFd50000),
+                              ]),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 80.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    height: size.height * 0.16,
+                                    width: size.width * 0.23,
                                     decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: AssetImage("assets/images/tonystark.jpg"),
-                                      )
-                                    ),
-                                    )
-                              ],
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: AssetImage(
+                                              "assets/images/tonystark.jpg"),
+                                        )),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 210),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                            height: 80,
+                            width: 170,
+                            decoration: BoxDecoration(
+                                color:  Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 9,
+                                    spreadRadius: 1
+                                  )
+                                ]
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Image.asset("assets/images/blood.png",
+                                      width: 60),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("  55KG \n Weight")
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                          Row(
-                            children: <Widget>[],
+                          Container(
+                            height: 80,
+                            width: 170,
+                            decoration: BoxDecoration(
+                                color:  Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 9,
+                                    spreadRadius: 1
+                                )
+                              ]
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Image.asset("assets/images/blood.png",
+                                      width: 60),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text("  4 Times \n Donated")
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
                           )
                         ],
                       ),
-                    ),
-                  )
+                    )
+                  ])
                 ],
               ),
             ),

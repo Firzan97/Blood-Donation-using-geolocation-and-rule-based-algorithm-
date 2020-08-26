@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:easy_blood/about.dart';
+import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/bloodEvent.dart';
 import 'package:easy_blood/bloodRequest.dart';
 import 'package:easy_blood/constant.dart';
@@ -30,90 +31,116 @@ class _HomeState extends State<Home> {
           debugShowCheckedModeBanner: false,
           home: Scaffold(
             drawer: Drawer(
-              child: ListView(
-                children: <Widget>[
-                  UserAccountsDrawerHeader(
-                    accountName: Text("FIRZAN AZRAI"),
-                    accountEmail: Text("FirzanAzrai97@gmail.com"),
-                    currentAccountPicture: CircleAvatar(
-                      backgroundColor: kThirdColor,
+              child: Container(
+                color: kThirdColor,
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: <Widget>[
+                    Container(
+                      child: UserAccountsDrawerHeader(
+                        decoration: BoxDecoration(
+                          color: kThirdColor
+                        ),
+                        accountName: Text("FIRZAN AZRAI"),
+                        accountEmail: Text("FirzanAzrai97@gmail.com"),
+                        currentAccountPicture: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          backgroundImage: AssetImage("assets/images/tonystark.jpg")
+                        ),
+                      ),
                     ),
-                  ),
-                  DrawerHeader(),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Profile()),
-                      );
-                    },
-                    child: ListTile(
-                      title: Text("Profile"),
-                      trailing: Icon(Icons.person),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Profile()),
-                      );
-                    },
-                    child: ListTile(
-                      title: Text("Request Blood"),
-                      trailing: Icon(Icons.person),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => About()),
-                      );
-                    },
-                    child: ListTile(
-                      title: Text("About"),
-                      trailing: Icon(Icons.account_box),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => BloodEvent()),
-                      );
-                    },
-                    child: ListTile(
-                      title: Text("Blood Event"),
-                      trailing: Icon(Icons.event),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => BloodRequest()),
-                      );
-                    },
-                    child: ListTile(
-                      title: Text("Find request"),
-                      trailing: Icon(Icons.find_in_page),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Notifications()),
-                      );
-                    },
-                    child: ListTile(
-                      title: Text("Notification"),
-                      trailing: Icon(Icons.notifications),
-                    ),
-                  )
-                ],
+            FadeAnimation(1.4,GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Profile()),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text("Profile", style: TextStyle(color: kPrimaryColor),),
+                        trailing: Icon(Icons.person),
+                      ),
+                    )),
+                    FadeAnimation(1.4,GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Profile()),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text("Request Blood", style: TextStyle(color: kPrimaryColor)),
+                        trailing: Icon(Icons.person),
+                      ),
+                    )),
+                    FadeAnimation(1.4,GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => About()),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text("Find Request", style: TextStyle(color: kPrimaryColor)),
+                        trailing: Icon(Icons.account_box),
+                      ),
+                    )),
+            FadeAnimation(1.4,GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => BloodEvent()),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text("Blood Event", style: TextStyle(color: kPrimaryColor)),
+                        trailing: Icon(Icons.event),
+                      ),
+                    )),
+            FadeAnimation(1.4,GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => BloodRequest()),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text("Notification", style: TextStyle(color: kPrimaryColor)),
+                        trailing: Icon(Icons.find_in_page),
+                      ),
+                    )),
+                    FadeAnimation(1.4,GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Notifications()),
+                        );
+                      },
+                      child: ListTile(
+                        title: Text("About",
+                            style: TextStyle(color: kPrimaryColor)),
+                        trailing: Icon(Icons.notifications),
+                      ),
+                    )),
+                    FadeAnimation(
+                        1.4,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Notifications()),
+                            );
+                          },
+                          child: ListTile(
+                            title: Text("Log Out",
+                                style: TextStyle(color: kPrimaryColor)),
+                            trailing: Icon(Icons.notifications),
+                          ),
+                        ))
+                  ],
+                ),
               ),
             ),
             bottomNavigationBar: CurvedNavigationBar(

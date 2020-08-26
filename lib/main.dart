@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: MyHomePage(),
+        body: Home(),
           ),
     );
   }
