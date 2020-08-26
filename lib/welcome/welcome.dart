@@ -5,11 +5,10 @@ import 'package:flutter/services.dart';
 class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-   return AnnotatedRegion<SystemUiOverlayStyle>(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-    ),
-     child: Body()
-   );
+          statusBarColor: Colors.transparent,
+        ),
+        child: MaterialApp(home: Scaffold(body: Body())));
   }
 }

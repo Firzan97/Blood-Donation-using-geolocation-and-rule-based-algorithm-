@@ -4,10 +4,14 @@ import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/bloodEvent.dart';
 import 'package:easy_blood/bloodRequest.dart';
 import 'package:easy_blood/constant.dart';
+import 'package:easy_blood/findRequest.dart';
 import 'package:easy_blood/notification.dart';
 import 'package:easy_blood/profile.dart';
+import 'package:easy_blood/userdashboard.dart';
+import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Home extends StatefulWidget {
@@ -30,116 +34,194 @@ class _HomeState extends State<Home> {
           theme: ThemeData(primaryColor: kPrimaryColor),
           debugShowCheckedModeBanner: false,
           home: Scaffold(
-            drawer: Drawer(
-              child: Container(
-                color: kThirdColor,
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: <Widget>[
-                    Container(
-                      child: UserAccountsDrawerHeader(
-                        decoration: BoxDecoration(
-                          color: kThirdColor
-                        ),
-                        accountName: Text("FIRZAN AZRAI"),
-                        accountEmail: Text("FirzanAzrai97@gmail.com"),
-                        currentAccountPicture: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          backgroundImage: AssetImage("assets/images/tonystark.jpg")
-                        ),
-                      ),
-                    ),
-            FadeAnimation(1.4,GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Profile()),
-                        );
-                      },
-                      child: ListTile(
-                        title: Text("Profile", style: TextStyle(color: kPrimaryColor),),
-                        trailing: Icon(Icons.person),
-                      ),
-                    )),
-                    FadeAnimation(1.4,GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Profile()),
-                        );
-                      },
-                      child: ListTile(
-                        title: Text("Request Blood", style: TextStyle(color: kPrimaryColor)),
-                        trailing: Icon(Icons.person),
-                      ),
-                    )),
-                    FadeAnimation(1.4,GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => About()),
-                        );
-                      },
-                      child: ListTile(
-                        title: Text("Find Request", style: TextStyle(color: kPrimaryColor)),
-                        trailing: Icon(Icons.account_box),
-                      ),
-                    )),
-            FadeAnimation(1.4,GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => BloodEvent()),
-                        );
-                      },
-                      child: ListTile(
-                        title: Text("Blood Event", style: TextStyle(color: kPrimaryColor)),
-                        trailing: Icon(Icons.event),
-                      ),
-                    )),
-            FadeAnimation(1.4,GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => BloodRequest()),
-                        );
-                      },
-                      child: ListTile(
-                        title: Text("Notification", style: TextStyle(color: kPrimaryColor)),
-                        trailing: Icon(Icons.find_in_page),
-                      ),
-                    )),
-                    FadeAnimation(1.4,GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Notifications()),
-                        );
-                      },
-                      child: ListTile(
-                        title: Text("About",
-                            style: TextStyle(color: kPrimaryColor)),
-                        trailing: Icon(Icons.notifications),
-                      ),
-                    )),
-                    FadeAnimation(
-                        1.4,
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Notifications()),
-                            );
-                          },
-                          child: ListTile(
-                            title: Text("Log Out",
-                                style: TextStyle(color: kPrimaryColor)),
-                            trailing: Icon(Icons.notifications),
+            drawer: Container(
+              width: 230,
+              child: Drawer(
+                child: Container(
+                  color: Colors.white70,
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: <Widget>[
+                      Container(
+                        child: UserAccountsDrawerHeader(
+                          decoration: BoxDecoration(
+                            color: kThirdColor
                           ),
-                        ))
-                  ],
+                          accountName: Text("FIRZAN AZRAI", style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w700
+                          )),
+                          accountEmail: Text("FirzanAzrai97@gmail.com", style: TextStyle(
+                            fontSize: 11
+                          ),),
+                          currentAccountPicture: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              backgroundImage:
+                                  AssetImage("assets/images/tonystark.jpg")),
+                        ),
+                      ),
+                      FadeAnimation(
+                          0.5,
+                          Container(
+                            height: 50,
+                            child: FlatButton(
+                              disabledColor: Colors.white70,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text("Profile"),
+                                  Icon(Icons.person,color: kPrimaryColor,)
+                                ],
+                              ),
+                              onPressed: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Profile()),
+                                );
+                              },
+
+                            ),
+                          )),
+                      FadeAnimation(
+                          0.5,
+                          Container(
+                            height: 50,
+                            child: FlatButton(
+                              disabledColor: Colors.white70,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text("Request Blood"),
+                                  FaIcon(FontAwesomeIcons.handsHelping,color: kPrimaryColor,)
+                                ],
+                              ),
+                              onPressed: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BloodRequest()),
+                                );
+                              },
+
+                            ),
+                          )),
+                      FadeAnimation(
+                          0.5,
+                          Container(
+                            height: 50,
+                            child: FlatButton(
+                              disabledColor: Colors.white70,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text("Find Request"),
+                                  Icon(Icons.find_in_page,color: kPrimaryColor,)
+                                ],
+                              ),
+                              onPressed: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FindRequest()),
+                                );
+                              },
+
+                            ),
+                          )),
+                      FadeAnimation(
+                          0.5,
+                          Container(
+                            height: 50,
+                            child: FlatButton(
+                              disabledColor: Colors.white70,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text("Blood Event"),
+                                  Icon(Icons.event,color: kPrimaryColor,),
+                                ],
+                              ),
+                              onPressed: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BloodEvent()),
+                                );
+                              },
+
+                            ),
+                          )),
+                      FadeAnimation(
+                          0.5,
+                          Container(
+                            height: 50,
+                            child: FlatButton(
+                              disabledColor: Colors.white70,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text("Notification"),
+                                  FaIcon(FontAwesomeIcons.bell,color: kPrimaryColor,)
+                                ],
+                              ),
+                              onPressed: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Notifications()),
+                                );
+                              },
+
+                            ),
+                          )),
+                      FadeAnimation(
+                          0.5,
+                          Container(
+                            height: 50,
+                            child: FlatButton(
+                              disabledColor: Colors.white70,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text("About"),
+                                  FaIcon(FontAwesomeIcons.info,color: kPrimaryColor,),
+                                ],
+                              ),
+                              onPressed: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => About()),
+                                );
+                              },
+
+                            ),
+                          )),
+                      FadeAnimation(
+                          0.5,
+                          Container(
+                            height: 50,
+                            child: FlatButton(
+                              disabledColor: Colors.white70,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text("Log Out"),
+                                  FaIcon(FontAwesomeIcons.doorOpen,color: kPrimaryColor,),
+                                ],
+                              ),
+                              onPressed: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Welcome()),
+                                );
+                              },
+
+                            ),
+                          )),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -168,161 +250,167 @@ class _HomeState extends State<Home> {
             body: Container(
               child: Column(
                 children: <Widget>[
-                  Container(
-                    height: size.height * 0.35,
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10.0, top: 30.0),
-                          child: Row(
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  RichText(
-                                    text: TextSpan(
-                                      text: 'Hai, ',
-                                      style: TextStyle(fontWeight: FontWeight.w100,fontSize: 18.0),
-                                      children: <TextSpan>[
-                                        TextSpan(text: 'Firzan Azrai', style: TextStyle(fontWeight: FontWeight.bold,color: kThirdColor)),
-                                      ],
-                                    ),
-                                  ),
-                                  Text(
-                                    "Let's save people's life !",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w300,
-                                        letterSpacing: 1,
-                                        wordSpacing: 2),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.02),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                height: size.height * 0.07,
-                                width: size.width * 0.7,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(11.00)),
-                                child: Row(
+                  ClipPath(
+                    clipper: MyClipper(),
+                    child: Container(
+                      height: size.height * 0.41,
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0, top: 30.0),
+                            child: Row(
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.location_on,
-                                        color: Colors.black87,
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Hai, ',
+                                        style: TextStyle(fontWeight: FontWeight.w100,fontSize: 18.0),
+                                        children: <TextSpan>[
+                                          TextSpan(text: 'Firzan Azrai', style: TextStyle(fontWeight: FontWeight.bold,color: kThirdColor)),
+                                        ],
                                       ),
                                     ),
-                                    Text("Locate your location")
+                                    Text(
+                                      "Let's save people's life !",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w300,
+                                          letterSpacing: 1,
+                                          wordSpacing: 2),
+                                    )
                                   ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  color: Colors.lightBlue,
-                                  child: Icon(
-                                    Icons.search,
-                                    color: Colors.white,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: size.height * 0.02),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  height: size.height * 0.07,
+                                  width: size.width * 0.7,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(11.00)),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.location_on,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                      Text("Locate your location")
+                                    ],
                                   ),
                                 ),
-                              )
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    color: Colors.lightBlue,
+                                    child: Icon(
+                                      Icons.search,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          child: Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Icon(Icons.library_books),
-                                    SizedBox(
-                                      width: size.width * 0.03,
-                                    ),
-                                    Text("Blood Type."),
-                                    Text(
-                                      "AB",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    SizedBox(
-                                      width: size.width * 0.1,
-                                    ),
-                                    Text("Age."),
-                                    Text(
-                                      "19",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    SizedBox(
-                                      width: size.width * 0.1,
-                                    ),
-                                    Text("Weight."),
-                                    Text(
-                                      "55KG",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                  ],
+                          Container(
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(Icons.library_books),
+                                      SizedBox(
+                                        width: size.width * 0.03,
+                                      ),
+                                      Text("Blood Type."),
+                                      Text(
+                                        "AB",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.1,
+                                      ),
+                                      Text("Age."),
+                                      Text(
+                                        "19",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      SizedBox(
+                                        width: size.width * 0.1,
+                                      ),
+                                      Text("Weight."),
+                                      Text(
+                                        "55KG",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 40.0,
-                                      width: 40.0,
-                                      child: Icon(Icons.search),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Container(
+                                        height: 40.0,
+                                        width: 40.0,
+                                        child: Icon(Icons.search),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      height: 40.0,
-                                      width: 40.0,
-                                      child: Icon(Icons.search),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
+                                      Container(
+                                        height: 40.0,
+                                        width: 40.0,
+                                        child: Icon(Icons.search),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      height: 40.0,
-                                      width: 40.0,
-                                      child: Icon(Icons.event),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
+                                      Container(
+                                        height: 40.0,
+                                        width: 40.0,
+                                        child: Icon(Icons.event),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      color: kPrimaryColor,
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            colors: [kGradient1, kGradient2]),
+                      ),
                     ),
                   ),
                   Expanded(
