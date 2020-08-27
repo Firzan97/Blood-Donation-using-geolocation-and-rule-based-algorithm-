@@ -205,10 +205,6 @@ class _ProfileState extends State<Profile> {
                           Container(
                             child: Column(
                               children: <Widget>[
-                                Text("Age",style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16
-                                ),),
                                 SizedBox(height: 5),
                                 Text("19")
                               ],

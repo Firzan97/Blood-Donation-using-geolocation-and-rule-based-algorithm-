@@ -13,46 +13,166 @@ class _BloodRequestState extends State<BloodRequest> {
     Size size = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-    ),
-    child: MaterialApp(
-      home: Scaffold(
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: size.height*0.1,
-                decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20.0),bottomRight: Radius.circular(20.0))
-                ),
+          statusBarColor: Colors.transparent,
+        ),
+        child: MaterialApp(
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: Container(
+                width: size.width * 1,
+                height: size.height * 1,
+                color: Colors.grey.withOpacity(0.1),
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Center(child: Text("ABOUT")),
-                          SizedBox(width: size.width*0.25,),
-                          Text("BLOOD REQUEST"),
-                        ],
+                      padding:
+                          const EdgeInsets.only(top: 70.0, left: 11, right: 11),
+                      child: Container(
+                        width: size.width * 1,
+                        decoration:
+                            BoxDecoration(color: Colors.white70, boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 10,
+                              spreadRadius: 3)
+                        ]),
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              leading: Container(
+                                height: size.height * 0.149,
+                                width: size.width * 0.15,
+                                decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 8,
+                                          spreadRadius: 5)
+                                    ],
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image:
+                                      AssetImage("assets/images/lari2.jpg"),
+                                    )),
+                              ),
+                              title: Text("Firzan Azrai"),
+                              isThreeLine: true,
+                              subtitle: RichText(
+                                text: TextSpan(
+                                  text: 'Looking for AB blood donor\n',
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'Posted 3 hours ago',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10.0)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, top: 10, bottom: 15),
+                              child: Text(
+                                  "Perlukan darah AB sebanyak 3 beg untuk pembedehan istyeri malam ini. harap dapat disharekan kepada semua pihak"),
+                            ),
+                            Container(
+                              child: Column(
+                                children: <Widget>[
+                                  Image.asset("assets/images/lari2.jpg"),
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Stack(children: <Widget>[
+                                          Image.asset(
+                                              "assets/images/bloodicon.png"),
+                                          Positioned(
+                                              top: size.height * 0.03,
+                                              left: size.width * 0.04,
+                                              child: Text("AB",
+                                                  style: TextStyle(
+                                                      fontSize: 11,
+                                                      color: kThirdColor,
+                                                      fontWeight:
+                                                          FontWeight.w700)))
+                                        ]),
+                                        Text(" Hospital Tumpat Kelantan"),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, left: 55),
+                                          child: FlatButton(
+                                            color: kPrimaryColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: Text("Saves a life"),
+                                            onPressed: () {},
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text("Like"),
+                                  Text("Comment")
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        FlatButton(
+                                          child: Icon(Icons.thumb_up),
+                                        ),
+                                        Text("Like")
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        FlatButton(
+                                          child: Icon(Icons.comment),
+                                        ),
+                                        Text("Comment")
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        FlatButton(
+                                          child: Icon(Icons.share),
+                                        ),
+                                        Text("Share")
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              Container(
-                child: Column(
-                  children: <Widget>[
-
-                  ],
-                ),
-              )
-            ],
+            ),
           ),
-        ),
-      ),
-    )
-    );
+        ));
   }
 }
