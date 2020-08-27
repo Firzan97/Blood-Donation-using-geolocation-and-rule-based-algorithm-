@@ -32,142 +32,147 @@ class _BloodEventState extends State<BloodEvent> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-        ),
-        child: MaterialApp(
-          home: Scaffold(
-              body: Container(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  height: size.height * 0.3,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Color(0xFFd50000),
-                          kPrimaryColor,
-                        ]),
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
+      child: MaterialApp(
+        home: Scaffold(
+          body: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(
+                        context,
+                        MaterialPageRoute(builder: (context) => Home()),
+                      );
+                    },
                   ),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        child: Row(
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.arrow_back),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Home()),
-                                );
-                              },
-                            ),
-                            SizedBox(width: size.width * 0.30),
-                            Text("EVENT LIST"),
-                          ],
-                        ),
+                  backgroundColor: kGradient2,
+                  expandedHeight: 150,
+                  floating: true,
+                  pinned: true,
+                  flexibleSpace: ClipPath(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            colors: [kGradient1, kGradient2]),
                       ),
-                      SizedBox(
-                        height: size.height * 0.06,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddBloodEvent()),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 6),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                RaisedButton(
-                                  color: Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: Colors.white)),
-                                  child: Icon(
-                                    Icons.add,
-                                    size: 35.0,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    child: FutureBuilder(
-                      future: fetchEvent(),
-                      builder: (context, snapshot) {
-                        if (snapshot.data == null) {
-                          return Container(
-                            child: Center(
-                              child: Text("Loading..."),
-                            ),
-                          );
-                        }
-                        return ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color:kThirdColor,
+                                  borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    spreadRadius:3,
+                                    blurRadius: 7
+                                  )
+                                ]
+                              ),
+                              child: FlatButton(
+                                onPressed: (){
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => BloodEventDetail(
-                                            event: snapshot.data[index])),
+                                        builder: (context) => AddBloodEvent()),
                                   );
-                                });
-                              },
-                              child: ListTile(
-                                title: Text(snapshot.data[index].name),
-                                subtitle: Text(snapshot.data[index].location),
+                                },
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)
+                                ),
+                                child: Icon(Icons.add,color: Colors.white,),
                               ),
-                            );
-                          },
-                        );
-
-                        // By default, show a loading spinner.
-                        return CircularProgressIndicator();
-                      },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
+                  )),
+              SliverFillRemaining(
+                child: Container(
+                  color: Colors.grey.withOpacity(0.1),
+                  child: FutureBuilder(
+                    future: fetchEvent(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return Container(
+                          child: Center(
+                            child: Text("Loading..."),
+                          ),
+                        );
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0)),
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) => Divider(
+                              color: Colors.black.withOpacity(0.1),
+                            ),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              BloodEventDetail(
+                                                  event: snapshot.data[index])),
+                                    );
+                                  });
+                                },
+                                child: ListTile(
+                                  leading: Image.asset(
+                                      "assets/images/dermadarah1.jpg"),
+                                  title: Text(snapshot.data[index].name),
+                                  isThreeLine: true,
+                                  subtitle: Text(snapshot.data[index].location),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+
+                      // By default, show a loading spinner.
+                      return CircularProgressIndicator();
+                    },
                   ),
                 ),
-              ],
-            ),
-          )),
-        ));
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  Future<List<Event>> fetchEvent() async
-  {
+  Future<List<Event>> fetchEvent() async {
     var res = await Api().getData("event");
     var body = json.decode(res.body);
-    if(res.statusCode == 200){
+    if (res.statusCode == 200) {
       List<Event> events = [];
-      for(var u in body){
+      for (var u in body) {
         Event event = Event(u["name"], u["location"]);
         events.add(event);
       }
 
       return events;
-    }
-    else{
+    } else {
       throw Exception('Failed to load album');
     }
   }

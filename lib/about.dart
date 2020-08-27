@@ -1,4 +1,5 @@
 import 'package:easy_blood/constant.dart';
+import 'package:easy_blood/home.dart';
 import 'package:easy_blood/userdashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,18 +24,39 @@ class _AboutState extends State<About> {
               color: Colors.grey.withOpacity(0.1),
               child: Column(
                 children: <Widget>[
+
                   ClipPath(
                     clipper: MyClipper(),
                     child: Container(
-                      padding: EdgeInsets.only(left: 40, top: 50, right: 20),
+                      padding: EdgeInsets.only(top: 10),
                       height: size.height * 0.41,
                       width: size.width*1,
                       child: Column(
                         children: <Widget>[
                           Expanded(
                             child: Stack(children: <Widget>[
-                              Positioned(left: size.width*0.37,child: Text("ABOUT")),
-                              Positioned(top:20,left: 60,child: Image.asset("assets/images/humaaans.png",width: 200,)),
+                              Positioned(
+                                left:0,
+                                top:10,
+                                child: IconButton(
+                                  icon: Icon(Icons.arrow_back),
+                                  onPressed: () {
+                                    Navigator.pop(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Home()),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Positioned(
+                                  left: 191,
+                                  top:25,
+                                  child: Text("ABOUT")),
+                              Positioned(
+                                  top: 60,
+                                  left: 100,
+                                  child: Image.asset("assets/images/humaaans.png",width: 200,)),
 
                             ]),
                           ),

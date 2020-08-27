@@ -47,14 +47,21 @@ class _ProfileState extends State<Profile> {
                                 children: <Widget>[
 
                                   Container(
-                                    height: size.height * 0.16,
-                                    width: size.width * 0.23,
+                                    height: size.height * 0.149,
+                                    width: size.width * 0.265,
                                     decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 8,
+                                          spreadRadius: 5
+                                        )
+                                      ],
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.cover,
                                           image: AssetImage(
-                                              "assets/images/tonystark.jpg"),
+                                              "assets/images/lari2.jpg"),
                                         )),
                                   ),
 
@@ -150,50 +157,65 @@ class _ProfileState extends State<Profile> {
                         color: Colors.white70,
                         borderRadius: BorderRadius.circular(20)
                     ),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          child: Column(
-                            children: <Widget>[
-                              Text("Username"),
-                              SizedBox(height: 5),
-                              Text("FIRZANFX")
-                            ],
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 35),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            child: Column(
+                              children: <Widget>[
+                                Text("Username",style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16
+                                ),),
+                                SizedBox(height: 5),
+                                Text("Firzan Azrai")
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          child: Column(
-                            children: <Widget>[
-                              Text("Email"),
-                              SizedBox(height: 5),
+                          SizedBox(height: 20),
+                          Container(
+                            child: Column(
+                              children: <Widget>[
+                                Text("Email",style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16
+                                ),),
+                                SizedBox(height: 5),
 
-                              Text("fIRZANaZRAI97@GMAIL.COM")
-                            ],
+                                Text("FirzanAzrai97@gmail.com")
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          child: Column(
-                            children: <Widget>[
-                              Text("Blood Type"),
-                              SizedBox(height: 5),
+                          SizedBox(height: 20),
+                          Container(
+                            child: Column(
+                              children: <Widget>[
+                                Text("Blood Type",style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16
+                                ),),
+                                SizedBox(height: 5),
 
-                              Text("AB")
-                            ],
+                                Text("AB")
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          child: Column(
-                            children: <Widget>[
-                              Text("Age"),
-                              SizedBox(height: 5),
-                              Text("19")
-                            ],
+                          SizedBox(height: 20),
+                          Container(
+                            child: Column(
+                              children: <Widget>[
+                                Text("Age",style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16
+                                ),),
+                                SizedBox(height: 5),
+                                Text("19")
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
                 ],
