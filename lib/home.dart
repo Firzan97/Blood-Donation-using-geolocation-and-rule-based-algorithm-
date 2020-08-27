@@ -35,23 +35,33 @@ class _HomeState extends State<Home> {
           debugShowCheckedModeBanner: false,
           home: Scaffold(
             drawer: Container(
-              width: 230,
+              width: 250,
               child: Drawer(
                 child: Container(
-                  color: Colors.white70,
+                  color: Colors.grey.withOpacity(0.14),
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: <Widget>[
                       Container(
                         child: UserAccountsDrawerHeader(
                           decoration: BoxDecoration(
-                            color: kThirdColor
+                              gradient: LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [kGradient1, kGradient2]),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 3,
+                                blurRadius: 13
+                              )
+                            ]
                           ),
                           accountName: Text("FIRZAN AZRAI", style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w700
+                              fontSize: 15, fontWeight: FontWeight.w700,color: Colors.black
                           )),
                           accountEmail: Text("FirzanAzrai97@gmail.com", style: TextStyle(
-                            fontSize: 11
+                            fontSize: 11,color: Colors.black
                           ),),
                           currentAccountPicture: CircleAvatar(
                               backgroundColor: Colors.white,
@@ -61,163 +71,236 @@ class _HomeState extends State<Home> {
                       ),
                       FadeAnimation(
                           0.5,
-                          Container(
-                            height: 50,
-                            child: FlatButton(
-                              disabledColor: Colors.white70,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Profile"),
-                                  Icon(Icons.person,color: kPrimaryColor,)
-                                ],
-                              ),
-                              onPressed: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Profile()),
-                                );
-                              },
+                          Padding(
+                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            child: Container(
 
+                              decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(20)
+                              ),
+                              height: 50,
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)
+                                ),
+                                disabledColor: Colors.white70,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text("Profile"),
+                                    Icon(Icons.person,color: kPrimaryColor,)
+                                  ],
+                                ),
+                                onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Profile()),
+                                  );
+                                },
+
+                              ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
-                          Container(
-                            height: 50,
-                            child: FlatButton(
-                              disabledColor: Colors.white70,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Request Blood"),
-                                  FaIcon(FontAwesomeIcons.handsHelping,color: kPrimaryColor,)
-                                ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(20)
                               ),
-                              onPressed: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BloodRequest()),
-                                );
-                              },
+                              height: 50,
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)
+                                ),
+                                disabledColor: Colors.white70,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text("Request Blood"),
+                                    FaIcon(FontAwesomeIcons.handsHelping,color: kPrimaryColor,)
+                                  ],
+                                ),
+                                onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BloodRequest()),
+                                  );
+                                },
 
+                              ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
-                          Container(
-                            height: 50,
-                            child: FlatButton(
-                              disabledColor: Colors.white70,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Find Request"),
-                                  Icon(Icons.find_in_page,color: kPrimaryColor,)
-                                ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(20)
                               ),
-                              onPressed: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => FindRequest()),
-                                );
-                              },
+                              height: 50,
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)
+                                ),
+                                disabledColor: Colors.white70,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text("Find Request"),
+                                    Icon(Icons.find_in_page,color: kPrimaryColor,)
+                                  ],
+                                ),
+                                onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FindRequest()),
+                                  );
+                                },
 
+                              ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
-                          Container(
-                            height: 50,
-                            child: FlatButton(
-                              disabledColor: Colors.white70,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Blood Event"),
-                                  Icon(Icons.event,color: kPrimaryColor,),
-                                ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(20)
                               ),
-                              onPressed: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BloodEvent()),
-                                );
-                              },
+                              height: 50,
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)
+                                ),
+                                disabledColor: Colors.white70,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text("Blood Event"),
+                                    Icon(Icons.event,color: kPrimaryColor,),
+                                  ],
+                                ),
+                                onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BloodEvent()),
+                                  );
+                                },
 
+                              ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
-                          Container(
-                            height: 50,
-                            child: FlatButton(
-                              disabledColor: Colors.white70,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Notification"),
-                                  FaIcon(FontAwesomeIcons.bell,color: kPrimaryColor,)
-                                ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(20)
                               ),
-                              onPressed: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Notifications()),
-                                );
-                              },
+                              height: 50,
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)
+                                ),
+                                disabledColor: Colors.white70,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text("Notification"),
+                                    FaIcon(FontAwesomeIcons.bell,color: kPrimaryColor,),
 
+
+                                  ],
+                                ),
+                                onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Notifications()),
+                                  );
+                                },
+
+                              ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
-                          Container(
-                            height: 50,
-                            child: FlatButton(
-                              disabledColor: Colors.white70,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("About"),
-                                  FaIcon(FontAwesomeIcons.info,color: kPrimaryColor,),
-                                ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(20)
                               ),
-                              onPressed: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => About()),
-                                );
-                              },
+                              height: 50,
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)
+                                ),
+                                disabledColor: Colors.white70,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text("About"),
+                                    FaIcon(FontAwesomeIcons.info,color: kPrimaryColor,),
+                                  ],
+                                ),
+                                onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => About()),
+                                  );
+                                },
 
+                              ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
-                          Container(
-                            height: 50,
-                            child: FlatButton(
-                              disabledColor: Colors.white70,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Log Out"),
-                                  FaIcon(FontAwesomeIcons.doorOpen,color: kPrimaryColor,),
-                                ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(20)
                               ),
-                              onPressed: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Welcome()),
-                                );
-                              },
+                              height: 50,
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)
+                                ),
+                                disabledColor: Colors.white70,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text("Log Out"),
+                                    FaIcon(FontAwesomeIcons.doorOpen,color: kPrimaryColor,),
+                                  ],
+                                ),
+                                onPressed: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Welcome()),
+                                  );
+                                },
 
+                              ),
                             ),
                           )),
                     ],

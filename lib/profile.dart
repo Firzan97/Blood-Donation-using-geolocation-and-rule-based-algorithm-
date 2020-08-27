@@ -1,7 +1,11 @@
+import 'dart:ui';
+
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/userdashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 
 class Profile extends StatefulWidget {
   @override
@@ -19,6 +23,7 @@ class _ProfileState extends State<Profile> {
         child: MaterialApp(
           home: Scaffold(
             body: Container(
+              color: Colors.grey.withOpacity(0.1),
               child: Column(
                 children: <Widget>[
                   Stack(children: <Widget>[
@@ -30,11 +35,7 @@ class _ProfileState extends State<Profile> {
                           gradient: LinearGradient(
                               begin: Alignment.topRight,
                               end: Alignment.bottomLeft,
-                              colors: [
-//                            Color(0xffff5959),
-                                kPrimaryColor,
-                                Color(0xFFd50000),
-                              ]),
+                              colors: [kGradient1, kGradient2]),
                         ),
                         child: Column(
                           children: <Widget>[
@@ -44,6 +45,7 @@ class _ProfileState extends State<Profile> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
+
                                   Container(
                                     height: size.height * 0.16,
                                     width: size.width * 0.23,
@@ -54,7 +56,8 @@ class _ProfileState extends State<Profile> {
                                           image: AssetImage(
                                               "assets/images/tonystark.jpg"),
                                         )),
-                                  )
+                                  ),
+
                                 ],
                               ),
                             ),
@@ -62,8 +65,10 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 210),
+                    Positioned(left: 50,top:30,child: Image.asset("assets/images/profile.png",width: 70,)),
+                    Positioned(
+                      bottom: 10,
+                      left: 25,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
@@ -71,7 +76,10 @@ class _ProfileState extends State<Profile> {
                             height: 80,
                             width: 170,
                             decoration: BoxDecoration(
-                                color:  Colors.white,
+                                gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                    colors: [kGradient1, Colors.white70]),
                                 borderRadius: BorderRadius.circular(5),
                                 boxShadow: [
                                   BoxShadow(
@@ -97,11 +105,15 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                           ),
+                          SizedBox(width: 30,),
                           Container(
                             height: 80,
                             width: 170,
                             decoration: BoxDecoration(
-                                color:  Colors.white,
+                                gradient: LinearGradient(
+                                    begin: Alignment.bottomLeft,
+                                    end:  Alignment.topRight,
+                                    colors: [kGradient1, Colors.white70]),
                               borderRadius: BorderRadius.circular(5),
                               boxShadow: [
                                 BoxShadow(
@@ -130,7 +142,60 @@ class _ProfileState extends State<Profile> {
                         ],
                       ),
                     )
-                  ])
+                  ]),
+                  Container(
+                    width: 350,
+                    height: 350,
+                    decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(20)
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Text("Username"),
+                              SizedBox(height: 5),
+                              Text("FIRZANFX")
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Text("Email"),
+                              SizedBox(height: 5),
+
+                              Text("fIRZANaZRAI97@GMAIL.COM")
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Text("Blood Type"),
+                              SizedBox(height: 5),
+
+                              Text("AB")
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Text("Age"),
+                              SizedBox(height: 5),
+                              Text("19")
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
