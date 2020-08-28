@@ -2,6 +2,7 @@ import 'package:easy_blood/findRequest.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/home.dart';
 import 'package:easy_blood/signin.dart';
+import 'package:easy_blood/splash.dart';
 import 'package:easy_blood/test.dart';
 import 'package:easy_blood/userdashboard.dart';
 import 'package:easy_blood/welcome/welcome.dart';
@@ -22,9 +23,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: UserDashboard(),
+      home: Splash(),
       routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => Home()
+        '/home': (BuildContext context) => Home(),
       }
     );
   }

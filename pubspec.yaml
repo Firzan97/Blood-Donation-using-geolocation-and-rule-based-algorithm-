@@ -102,6 +102,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-flutter_native_splash:
-  image: assets/images/blood.png
-  color: "d72323"
+#flutter_native_splash:
+#  image: assets/images/blood.png
+#  color: "d72323"
