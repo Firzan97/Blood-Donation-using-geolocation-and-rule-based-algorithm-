@@ -49,20 +49,21 @@ class _HomeState extends State<Home> {
                                   begin: Alignment.topRight,
                                   end: Alignment.bottomLeft,
                                   colors: [kGradient1, kGradient2]),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                spreadRadius: 3,
-                                blurRadius: 13
-                              )
-                            ]
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: 3,
+                                    blurRadius: 13)
+                              ]),
+                          accountName: Text("FIRZAN AZRAI",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black)),
+                          accountEmail: Text(
+                            "FirzanAzrai97@gmail.com",
+                            style: TextStyle(fontSize: 11, color: Colors.black),
                           ),
-                          accountName: Text("FIRZAN AZRAI", style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w700,color: Colors.black
-                          )),
-                          accountEmail: Text("FirzanAzrai97@gmail.com", style: TextStyle(
-                            fontSize: 11,color: Colors.black
-                          ),),
                           currentAccountPicture: CircleAvatar(
                               backgroundColor: Colors.white,
                               backgroundImage:
@@ -72,234 +73,245 @@ class _HomeState extends State<Home> {
                       FadeAnimation(
                           0.5,
                           Padding(
-                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            padding: const EdgeInsets.only(
+                                top: 13, right: 8, left: 8),
                             child: Container(
-
                               decoration: BoxDecoration(
                                   color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)
-                              ),
+                                  borderRadius: BorderRadius.circular(20)),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)
-                                ),
+                                    borderRadius: BorderRadius.circular(20)),
                                 disabledColor: Colors.white70,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text("Profile"),
-                                    Icon(Icons.person,color: kPrimaryColor,)
+                                    Icon(
+                                      Icons.person,
+                                      color: kPrimaryColor,
+                                    )
                                   ],
                                 ),
-                                onPressed: (){
+                                onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Profile()),
                                   );
                                 },
-
                               ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
                           Padding(
-                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            padding: const EdgeInsets.only(
+                                top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)
-                              ),
+                                  borderRadius: BorderRadius.circular(20)),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)
-                                ),
+                                    borderRadius: BorderRadius.circular(20)),
                                 disabledColor: Colors.white70,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text("Request Blood"),
-                                    FaIcon(FontAwesomeIcons.handsHelping,color: kPrimaryColor,)
+                                    FaIcon(
+                                      FontAwesomeIcons.handsHelping,
+                                      color: kPrimaryColor,
+                                    )
                                   ],
                                 ),
-                                onPressed: (){
+                                onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => RequestBlood()),
                                   );
                                 },
-
                               ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
                           Padding(
-                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            padding: const EdgeInsets.only(
+                                top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)
-                              ),
+                                  borderRadius: BorderRadius.circular(20)),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)
-                                ),
+                                    borderRadius: BorderRadius.circular(20)),
                                 disabledColor: Colors.white70,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text("Find Request"),
-                                    Icon(Icons.find_in_page,color: kPrimaryColor,)
+                                    Icon(
+                                      Icons.find_in_page,
+                                      color: kPrimaryColor,
+                                    )
                                   ],
                                 ),
-                                onPressed: (){
+                                onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => FindRequest()),
                                   );
                                 },
-
                               ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
                           Padding(
-                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            padding: const EdgeInsets.only(
+                                top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)
-                              ),
+                                  borderRadius: BorderRadius.circular(20)),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)
-                                ),
+                                    borderRadius: BorderRadius.circular(20)),
                                 disabledColor: Colors.white70,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text("Blood Event"),
-                                    Icon(Icons.event,color: kPrimaryColor,),
+                                    Icon(
+                                      Icons.event,
+                                      color: kPrimaryColor,
+                                    ),
                                   ],
                                 ),
-                                onPressed: (){
+                                onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => BloodEvent()),
                                   );
                                 },
-
                               ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
                           Padding(
-                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            padding: const EdgeInsets.only(
+                                top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)
-                              ),
+                                  borderRadius: BorderRadius.circular(20)),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)
-                                ),
+                                    borderRadius: BorderRadius.circular(20)),
                                 disabledColor: Colors.white70,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text("Notification"),
-                                    FaIcon(FontAwesomeIcons.bell,color: kPrimaryColor,),
-
-
+                                    FaIcon(
+                                      FontAwesomeIcons.bell,
+                                      color: kPrimaryColor,
+                                    ),
                                   ],
                                 ),
-                                onPressed: (){
+                                onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Notifications()),
                                   );
                                 },
-
                               ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
                           Padding(
-                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            padding: const EdgeInsets.only(
+                                top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)
-                              ),
+                                  borderRadius: BorderRadius.circular(20)),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)
-                                ),
+                                    borderRadius: BorderRadius.circular(20)),
                                 disabledColor: Colors.white70,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text("About"),
-                                    FaIcon(FontAwesomeIcons.info,color: kPrimaryColor,),
+                                    FaIcon(
+                                      FontAwesomeIcons.info,
+                                      color: kPrimaryColor,
+                                    ),
                                   ],
                                 ),
-                                onPressed: (){
+                                onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => About()),
                                   );
                                 },
-
                               ),
                             ),
                           )),
                       FadeAnimation(
                           0.5,
                           Padding(
-                            padding: const EdgeInsets.only(top: 13,right: 8,left: 8),
+                            padding: const EdgeInsets.only(
+                                top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)
-                              ),
+                                  borderRadius: BorderRadius.circular(20)),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)
-                                ),
+                                    borderRadius: BorderRadius.circular(20)),
                                 disabledColor: Colors.white70,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text("Log Out"),
-                                    FaIcon(FontAwesomeIcons.doorOpen,color: kPrimaryColor,),
+                                    FaIcon(
+                                      FontAwesomeIcons.doorOpen,
+                                      color: kPrimaryColor,
+                                    ),
                                   ],
                                 ),
-                                onPressed: (){
+                                onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Welcome()),
                                   );
                                 },
-
                               ),
                             ),
                           )),
@@ -333,18 +345,14 @@ class _HomeState extends State<Home> {
             body: Container(
               child: Column(
                 children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      ClipPath(
-                        clipper: MyClipper2(),
-                        child: Container(
-                          height: size.height * 0.39,
-
-                          decoration: BoxDecoration(
-                            color: kGradient1
-              ),
-              ),
+                  Stack(children: <Widget>[
+                    ClipPath(
+                      clipper: MyClipper2(),
+                      child: Container(
+                        height: size.height * 0.39,
+                        decoration: BoxDecoration(color: kGradient1),
                       ),
+                    ),
                     ClipPath(
                       clipper: MyClipper(),
                       child: Opacity(
@@ -354,21 +362,32 @@ class _HomeState extends State<Home> {
                           child: Column(
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.only(left: 10.0, top: 30.0),
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, top: 10.0),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         RichText(
                                           text: TextSpan(
                                             text: 'Hai, ',
-                                            style: TextStyle(fontWeight: FontWeight.w100,fontSize: 18.0),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w100,
+                                                fontSize: 18.0),
                                             children: <TextSpan>[
-                                              TextSpan(text: 'Firzan Azrai', style: TextStyle(fontWeight: FontWeight.bold,color: kThirdColor)),
+                                              TextSpan(
+                                                  text: 'Firzan Azrai',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: kThirdColor)),
                                             ],
                                           ),
                                         ),
+
                                         Text(
                                           "Let's save people's life !",
                                           style: TextStyle(
@@ -378,7 +397,14 @@ class _HomeState extends State<Home> {
                                               wordSpacing: 2),
                                         )
                                       ],
-                                    )
+                                    ),
+                                    IconButton(
+                                      iconSize: 25.0,
+                                      onPressed: (){
+                                      },hoverColor: Colors.red,
+                                      splashColor: Colors.black,
+                                      icon: Icon(Icons.notifications,color: Colors.white,),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -392,7 +418,8 @@ class _HomeState extends State<Home> {
                                       width: size.width * 0.7,
                                       decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: BorderRadius.circular(11.00)),
+                                          borderRadius:
+                                              BorderRadius.circular(11.00)),
                                       child: Row(
                                         children: <Widget>[
                                           Padding(
@@ -461,8 +488,8 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 10.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
@@ -510,191 +537,299 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                    ),]
-                  ),
+                    ),
+                  ]),
                   Expanded(
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      color: Colors.black.withOpacity(0.01),
                       child: Column(
                         children: <Widget>[
+                         Padding(
+                           padding: const EdgeInsets.all(8.0),
+                           child: Container(
+                             decoration: BoxDecoration(
+                                 color: Colors.white,
+                                 borderRadius: BorderRadius.circular(9),
+                                 boxShadow: [
+                                   BoxShadow(
+                                       color: Colors.black.withOpacity(0.1),
+                                       spreadRadius: 3,
+                                       blurRadius: 12
+                                   )
+                                 ]
+                             ),
+                             child: Padding(
+                               padding: const EdgeInsets.all(8.0),
+                               child: Column(
+                                 children: <Widget>[
+                                   Row(
+                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                     children: <Widget>[
+                                       Text("New Blood Campaign",style: TextStyle(
+                                           fontWeight: FontWeight.w400
+                                       ),),
+                                       Text("See All")
+                                     ],
+                                   ),
+                                   Container(
+
+                                     child: Row(
+                                       children: <Widget>[
+                                         Container(
+                                           width: 120,
+                                           height: 170,
+                                           child: Stack(
+                                             children: <Widget>[
+                                               Positioned(
+                                                 bottom: 0,
+                                                 left: 5,
+                                                 child: Padding(
+                                                   padding: const EdgeInsets.all(8.0),
+                                                   child: Container(
+                                                     height: 130,
+                                                     width: 100,
+                                                     decoration: BoxDecoration(
+                                                       borderRadius:
+                                                       BorderRadius.circular(20.0),
+                                                       color: kThirdColor,
+                                                     ),
+                                                     child: Column(
+                                                       children: <Widget>[
+                                                         SizedBox(
+                                                           height: 110.0,
+                                                         ),
+                                                         Text(
+                                                           "17/8/2020",
+                                                           style: TextStyle(
+                                                               color: Colors.white),
+                                                         )
+                                                       ],
+                                                     ),
+                                                   ),
+                                                 ),
+                                               ),
+                                               Padding(
+                                                 padding: const EdgeInsets.all(8.0),
+                                                 child: Container(
+                                                   decoration: BoxDecoration(
+                                                       borderRadius:
+                                                       BorderRadius.circular(20.0),
+                                                       boxShadow: [
+                                                         BoxShadow(
+                                                             spreadRadius: 4,
+                                                             color: Colors.black
+                                                                 .withOpacity(0.1),
+                                                             blurRadius: 5)
+                                                       ]),
+                                                   child: ClipRRect(
+                                                       borderRadius:
+                                                       BorderRadius.circular(20.0),
+                                                       child: Image.asset(
+                                                         "assets/images/dermadarah1.jpg",
+                                                         width: 100,
+                                                       )),
+                                                 ),
+                                               ),
+                                             ],
+                                           ),
+                                         ),
+                                         Container(
+                                           width: 120,
+                                           height: 170,
+                                           child: Stack(
+                                             children: <Widget>[
+                                               Positioned(
+                                                 bottom: 0,
+                                                 left: 5,
+                                                 child: Padding(
+                                                   padding: const EdgeInsets.all(8.0),
+                                                   child: Container(
+                                                     height: 130,
+                                                     width: 100,
+                                                     decoration: BoxDecoration(
+                                                       borderRadius:
+                                                       BorderRadius.circular(20.0),
+                                                       color: kThirdColor,
+                                                     ),
+                                                     child: Column(
+                                                       children: <Widget>[
+                                                         SizedBox(
+                                                           height: 110.0,
+                                                         ),
+                                                         Text(
+                                                           "17/8/2020",
+                                                           style: TextStyle(
+                                                               color: Colors.white),
+                                                         )
+                                                       ],
+                                                     ),
+                                                   ),
+                                                 ),
+                                               ),
+                                               Padding(
+                                                 padding: const EdgeInsets.all(8.0),
+                                                 child: Container(
+                                                   decoration: BoxDecoration(
+                                                       borderRadius:
+                                                       BorderRadius.circular(20.0),
+                                                       boxShadow: [
+                                                         BoxShadow(
+                                                             spreadRadius: 4,
+                                                             color: Colors.black
+                                                                 .withOpacity(0.1),
+                                                             blurRadius: 5)
+                                                       ]),
+                                                   child: ClipRRect(
+                                                       borderRadius:
+                                                       BorderRadius.circular(20.0),
+                                                       child: Image.asset(
+                                                         "assets/images/dermadarah1.jpg",
+                                                         width: 100,
+                                                       )),
+                                                 ),
+                                               ),
+                                             ],
+                                           ),
+                                         ),
+                                         Container(
+                                           width: 130,
+                                           height: 170,
+                                           child: Stack(
+                                             children: <Widget>[
+                                               Positioned(
+                                                 bottom: 0,
+                                                 left: 5,
+                                                 child: Padding(
+                                                   padding: const EdgeInsets.all(8.0),
+                                                   child: Container(
+                                                     height: 130,
+                                                     width: 100,
+                                                     decoration: BoxDecoration(
+                                                       borderRadius:
+                                                       BorderRadius.circular(20.0),
+                                                       color: kThirdColor,
+                                                     ),
+                                                     child: Column(
+                                                       children: <Widget>[
+                                                         SizedBox(
+                                                           height: 110.0,
+                                                         ),
+                                                         Text(
+                                                           "17/8/2020",
+                                                           style: TextStyle(
+                                                               color: Colors.white),
+                                                         )
+                                                       ],
+                                                     ),
+                                                   ),
+                                                 ),
+                                               ),
+                                               Padding(
+                                                 padding: const EdgeInsets.all(8.0),
+                                                 child: Container(
+                                                   decoration: BoxDecoration(
+                                                       borderRadius:
+                                                       BorderRadius.circular(20.0),
+                                                       boxShadow: [
+                                                         BoxShadow(
+                                                             spreadRadius: 4,
+                                                             color: Colors.black
+                                                                 .withOpacity(0.1),
+                                                             blurRadius: 5)
+                                                       ]),
+                                                   child: ClipRRect(
+                                                       borderRadius:
+                                                       BorderRadius.circular(20.0),
+                                                       child: Image.asset(
+                                                         "assets/images/dermadarah1.jpg",
+                                                         width: 100,
+                                                       )),
+                                                 ),
+                                               ),
+                                             ],
+                                           ),
+                                         ),
+                                       ],
+                                     ),
+                                   ),
+                                 ],
+                               ),
+                             ),
+                           ),
+                         ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text("New Blood Campaign"),
-                                Text("See All")
-                              ],
-                            ),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                width: 130,
-                                height: 170,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Positioned(
-                                      bottom: 0,
-                                      left: 5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          height: 130,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(20.0),
-                                            color: kThirdColor,
-                                          ),
-
-                                          child: Column(
-                                          children: <Widget>[
-                                            SizedBox(height: 110.0,),
-                                            Text("17/8/2020",style: TextStyle(
-                                              color: Colors.white
-                                            ),)
-                                          ],
-                                        ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  spreadRadius: 4,
-                                                  color: Colors.black
-                                                      .withOpacity(0.1),
-                                                  blurRadius: 5)
-                                            ]),
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                            child: Image.asset(
-                                              "assets/images/dermadarah1.jpg",
-                                              width: 100,
-                                            )),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(9),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        spreadRadius: 3,
+                                        blurRadius: 12
+                                    )
+                                  ]
                               ),
-                              Container(
-                                width: 130,
-                                height: 170,
-                                child: Stack(
-                                  children: <Widget>[
-                                    Positioned(
-                                      bottom: 0,
-                                      left: 5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          height: 130,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(20.0),
-                                            color: kThirdColor,
-                                          ),
-
-                                          child: Column(
-                                            children: <Widget>[
-                                              SizedBox(height: 110.0,),
-                                              Text("17/8/2020",style: TextStyle(
-                                                  color: Colors.white
-                                              ),)
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text("Blood Request"),
+                                        Text("See All")
+                                      ],
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(20.0),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  spreadRadius: 4,
-                                                  color: Colors.black
-                                                      .withOpacity(0.1),
-                                                  blurRadius: 5)
-                                            ]),
-                                        child: ClipRRect(
-                                            borderRadius:
-                                            BorderRadius.circular(20.0),
-                                            child: Image.asset(
-                                              "assets/images/dermadarah1.jpg",
-                                              width: 100,
-                                            )),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text("Blood Request"),
-                                    Text("See All")
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white
-                                ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ListTile(
-                                        dense: true,
-                                        leading: Container(
-                                          height: size.height * 0.149,
-                                          width: size.width * 0.15,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image:
-                                              AssetImage("assets/images/lari2.jpg"),
+                                  ),
+                                  Container(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ListTile(
+                                              dense: true,
+                                              leading: Container(
+                                                height: size.height * 0.149,
+                                                width: size.width * 0.15,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image: AssetImage(
+                                                          "assets/images/lari2.jpg"),
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(5)),
+                                              ),
+                                              title: Text(
+                                                "Syazwan Asraf",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 17),
+                                              ),
+                                              subtitle: Text(
+                                                "Posted: 3 hours ago",
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.w300),
+                                              ),
+                                              trailing: Text(
+                                                "AB+",
+                                                style:
+                                                    TextStyle(color: kPrimaryColor),
+                                              ),
                                             ),
-                                            borderRadius: BorderRadius.circular(5)
                                           ),
-                                        ),
-                                        title: Text("Syazwan Asraf",style: TextStyle(
-                                            color: Colors.black,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 17
-                                        ),),
-                                        subtitle: Text("Posted: 3 hours ago",style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w300
-                                        ),),
-                                        trailing: Text("AB+",style: TextStyle(
-                                          color: kPrimaryColor
-                                        ),),
-                                      ),
-                                    ),
 
-                                  ],
-
-                                )
-                              )
-                            ],
+                                        ],
+                                      ))
+                                ],
+                              ),
+                            ),
                           )
                         ],
                       ),
