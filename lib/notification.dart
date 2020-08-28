@@ -1,3 +1,6 @@
+import 'package:easy_blood/constant.dart';
+import 'package:easy_blood/home.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -9,22 +12,433 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
+      value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-    ),
-    child:MaterialApp(
-      home: Scaffold(
-        body: Container(
-          child: Column(
-            children: <Widget>[
-
-            ],
-          ),
-        )
       ),
-    )
+      child: MaterialApp(
+        home: Scaffold(
+            body: SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [kGradient1, kGradient2]),
+            ),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0,right: 30.0,top: 25,bottom: 15.0),
+                  child: Container(
+                    child: Column(children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.arrow_back),
+                            onPressed: (){
+                              Navigator.pop(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Home()),
+                              );
+                            },
+                          ),
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage("assets/images/lari2.jpg"))),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: size.height * 0.05,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Notification",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                                fontSize: 30),
+                          ),
+                          Text(
+                            "View All",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                                fontSize: 11),
+                          )
+                        ],
+                      ),
+                    ]),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 18.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.only(topLeft: Radius.circular(30))),
+                    child: Column(
+                      children: <Widget>[
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                        ListTile(
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage("assets/images/lari2.jpg"))),
+                          ),
+                          title: RichText(
+                            text: TextSpan(
+                              text: 'Firzan, ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18.0,
+                                  color: kThirdColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'has request blood from you',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        color: kThirdColor)),
+                              ],
+                            ),
+                          ),
+                          subtitle: Text("7 minutes ago.."),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+          ),
+        ),
+            )),
+      ),
     );
   }
 }
-

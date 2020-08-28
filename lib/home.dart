@@ -401,6 +401,11 @@ class _HomeState extends State<Home> {
                                     IconButton(
                                       iconSize: 25.0,
                                       onPressed: (){
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Notifications()),
+                                        );
                                       },hoverColor: Colors.red,
                                       splashColor: Colors.black,
                                       icon: Icon(Icons.notifications,color: Colors.white,),
