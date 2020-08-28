@@ -8,6 +8,8 @@ class BloodRequest extends StatefulWidget {
 }
 
 class _BloodRequestState extends State<BloodRequest> {
+
+  final pi = 3.1415926535897932;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -38,36 +40,52 @@ class _BloodRequestState extends State<BloodRequest> {
                         ]),
                         child: Column(
                           children: <Widget>[
-                            ListTile(
-                              leading: Container(
-                                height: size.height * 0.149,
-                                width: size.width * 0.15,
-                                decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
-                                          blurRadius: 8,
-                                          spreadRadius: 5)
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                    colors: [
+//                              Color(0xffff5959),
+                                      kGradient1,
+                                      kGradient2,
+                                    ]),
+                        ),
+                              child: ListTile(
+                                leading: Container(
+                                  height: size.height * 0.149,
+                                  width: size.width * 0.15,
+                                  decoration: BoxDecoration(
+
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black.withOpacity(0.2),
+                                            blurRadius: 8,
+                                            spreadRadius: 5)
+                                      ],
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image:
+                                        AssetImage("assets/images/lari2.jpg"),
+                                      )),
+                                ),
+                                title: Text("Firzan Azrai"),
+                                isThreeLine: true,
+                                subtitle: RichText(
+                                  text: TextSpan(
+                                    text: 'Looking for AB blood donor\n',
+                                    style: TextStyle(
+                                      color: Colors.black
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: 'Posted 3 hours ago',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w300,
+                                              fontSize: 10.0)),
                                     ],
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image:
-                                      AssetImage("assets/images/lari2.jpg"),
-                                    )),
-                              ),
-                              title: Text("Firzan Azrai"),
-                              isThreeLine: true,
-                              subtitle: RichText(
-                                text: TextSpan(
-                                  text: 'Looking for AB blood donor\n',
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                        text: 'Posted 3 hours ago',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 10.0)),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -86,28 +104,30 @@ class _BloodRequestState extends State<BloodRequest> {
                                       children: <Widget>[
                                         Stack(children: <Widget>[
                                           Image.asset(
-                                              "assets/images/bloodicon.png"),
+                                              "assets/images/begdarah.png",width: 50,),
                                           Positioned(
-                                              top: size.height * 0.03,
+                                              top: size.height * 0.028,
                                               left: size.width * 0.04,
-                                              child: Text("AB",
-                                                  style: TextStyle(
-                                                      fontSize: 11,
-                                                      color: kThirdColor,
-                                                      fontWeight:
-                                                          FontWeight.w700)))
+                                              child: Transform.rotate(angle: - pi / 5,
+                                                child: Text("AB",
+                                                    style: TextStyle(
+                                                        fontSize: 9,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w700)),
+                                              ))
                                         ]),
                                         Text(" Hospital Tumpat Kelantan"),
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               top: 8.0, left: 55),
                                           child: FlatButton(
-                                            color: kPrimaryColor,
+                                            color: kThirdColor,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5),
                                             ),
-                                            child: Text("Saves a life"),
+                                            child: Text("Saves a life",style: TextStyle(color: Colors.white70),),
                                             onPressed: () {},
                                           ),
                                         )
@@ -129,18 +149,26 @@ class _BloodRequestState extends State<BloodRequest> {
                               ),
                             ),
                             Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                    colors: [
+//                              Color(0xffff5959),
+                                      kGradient1,
+                                      kGradient2,
+                                    ]),
+                              ),
                               child: Row(
                                 children: <Widget>[
-                                  Container(
-                                    child: Row(
-                                      children: <Widget>[
-                                        FlatButton(
-                                          child: Icon(Icons.thumb_up),
-                                        ),
-                                        Text("Like")
-                                      ],
-                                    ),
-                                  ),
+                                 Container(
+                                   child: IconButton(
+                                     icon: Icon(Icons.thumb_up),
+                                     onPressed: (){
+
+                                     },
+                                   ),
+                                 ),
                                   Container(
                                     child: Row(
                                       children: <Widget>[
