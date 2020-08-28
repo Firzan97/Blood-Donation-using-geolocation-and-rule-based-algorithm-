@@ -1,10 +1,13 @@
+import 'dart:async';
+
 import 'package:easy_blood/about.dart';
 import 'package:easy_blood/bloodEvent.dart';
-import 'package:easy_blood/bloodRequest.dart';
+import 'package:easy_blood/findRequest.dart';
 import 'package:easy_blood/findRequest.dart';
 import 'package:easy_blood/notification.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/profile.dart';
+import 'package:easy_blood/welcome/requestBlood.dart';
 import 'package:flutter/material.dart';
 
 class UserDashboard extends StatefulWidget {
@@ -13,6 +16,15 @@ class UserDashboard extends StatefulWidget {
 }
 
 class _UserDashboardState extends State<UserDashboard> {
+
+  startTime() async {
+    var _duration = new Duration( seconds: 2);
+    return new Timer(_duration, navigationPage);
+  }
+
+  void navigationPage(){
+    Navigator.of(context).pushReplacementNamed('/home');
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -138,7 +150,7 @@ class _UserDashboardState extends State<UserDashboard> {
                           onTap: (){
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => BloodRequest()),
+                              MaterialPageRoute(builder: (context) =>RequestBlood()),
                             );
                           },
                           child: Stack(
