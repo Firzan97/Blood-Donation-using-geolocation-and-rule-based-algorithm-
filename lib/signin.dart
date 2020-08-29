@@ -64,7 +64,7 @@ class _SignInState extends State<SignIn> {
                       deco: InputDecoration(
                         hintText: "Email",
                         border: InputBorder.none,
-                        icon: Icon(Icons.email, color: kGradient1,),
+                        icon: Icon(Icons.email, color: kPrimaryColor,),
                       ),
                       validator: (value) =>
                       (value.isEmpty) ? 'Please enter some text' :

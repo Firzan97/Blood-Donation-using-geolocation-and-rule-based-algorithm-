@@ -26,16 +26,19 @@ class _SplashState extends State<Splash> {
   }
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
+        width: size.width*1,
         decoration: BoxDecoration(
           color: kPrimaryColor
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 200),
           child: FadeAnimation(2,Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Center(child: Image.asset("assets/images/blood.png",scale: 4,)),
               Text(
                 "EASY BLOOD",
                 style: TextStyle(

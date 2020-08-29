@@ -2,6 +2,8 @@ import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 class RequestBlood extends StatefulWidget {
   @override
@@ -22,6 +24,11 @@ class _RequestBloodState extends State<RequestBlood> {
         children: <Widget>[
           Container(
             height: size.height * 0.4,
+            child: GoogleMap(
+              initialCameraPosition: CameraPosition(target: LatLng(37.42796133580664, -122.085749655962),
+                zoom: 14.4746,),
+              zoomControlsEnabled: true,
+            ),
           ),
           Container(
             height: size.height * 0.6,
