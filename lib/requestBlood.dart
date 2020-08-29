@@ -2,7 +2,9 @@ import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 
 class RequestBlood extends StatefulWidget {
@@ -16,16 +18,16 @@ class _RequestBloodState extends State<RequestBlood> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    final currentPosition = Provider.of<Position>(context);
     return MaterialApp(
         home: Scaffold(
-            body: Container(
+            body: (currentPosition !=null ) ?  Container(
       child: Column(
         children: <Widget>[
           Container(
             height: size.height * 0.4,
             child: GoogleMap(
-              initialCameraPosition: CameraPosition(target: LatLng(37.42796133580664, -122.085749655962),
+              initialCameraPosition: CameraPosition(target: LatLng(currentPosition.latitude, currentPosition.longitude),
                 zoom: 14.4746,),
               zoomControlsEnabled: true,
             ),
@@ -240,6 +242,8 @@ class _RequestBloodState extends State<RequestBlood> {
           ),
         ],
       ),
-    )));
+    ) : Container(
+              child: Center(child: Text("We dont have your location")),
+            )));
   }
 }

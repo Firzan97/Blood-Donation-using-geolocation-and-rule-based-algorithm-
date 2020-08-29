@@ -10,6 +10,9 @@ import 'package:easy_blood/userdashboard.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:geolocation/geolocation.dart';
+import 'package:provider/provider.dart';
+import 'package:easy_blood/geolocation_service.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
 
@@ -19,16 +22,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
+final locaterService = GeolocationService();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Splash(),
-      routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => RequestBlood(),
-      }
+    return FutureProvider(
+      create: (context) => locaterService.getPosition(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Splash(),
+        routes: <String, WidgetBuilder>{
+          '/home': (BuildContext context) => RequestBlood(),
+        }
+      ),
     );
   }
 }
