@@ -35,7 +35,7 @@ class _ProfileState extends State<Profile> {
                       ClipPath(
                         clipper: MyClipper2(),
                         child: Container(
-                          height: size.height * 0.39,
+                          height: size.height * 0.42,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.bottomLeft,
@@ -127,37 +127,51 @@ class _ProfileState extends State<Profile> {
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(20)
                                         ),
-                                        child: Text("Donors"),
+                                        child: Text("AB+"),
                                         )),
 
                                   ],
                                 ),
                               ),
-                              Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Column(
-                                        children: <Widget>[
-                                          Text("4"),
-                                          Text("Blood donated")
-                                        ],
-                                      ),
-                                      Column(
-                                        children: <Widget>[
-                                          Text("4"),
-                                          Text("Blood Requested")
-                                        ],
-                                      ),
-                                      Column(
-                                        children: <Widget>[
-                                          Text("Status"),
-                                          Text("Eligible to donate")
-                                        ],
-                                      ),
-                                    ],
+                              Padding(
+                                padding: const EdgeInsets.only(left:8.0,right: 8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                     color: kGradient1,
+                                    boxShadow: [BoxShadow(
+                                      blurRadius: 9,
+                                      spreadRadius: 3,
+                                      color: Colors.black.withOpacity(0.1)
+                                    )],
+                                    borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Text("4"),
+                                              Text("Blood donated")
+                                            ],
+                                          ),
+                                        ),
+                                        Column(
+                                          children: <Widget>[
+                                            Text("4"),
+                                            Text("Blood Requested")
+                                          ],
+                                        ),
+                                        Column(
+                                          children: <Widget>[
+                                            Text("Status"),
+                                            Text("Eligible to donate")
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               )

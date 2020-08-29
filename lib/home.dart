@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
               width: 250,
               child: Drawer(
                 child: Container(
-                  color: Colors.grey.withOpacity(0.14),
+                  color: Colors.white,
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: <Widget>[
@@ -536,6 +536,7 @@ class _HomeState extends State<Home> {
                             ],
                           ),
                           decoration: BoxDecoration(
+                            color: Colors.white,
                             gradient: LinearGradient(
                                 begin: Alignment.topRight,
                                 end: Alignment.bottomLeft,
@@ -548,296 +549,385 @@ class _HomeState extends State<Home> {
                   Expanded(
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        children: <Widget>[
-                         Padding(
-                           padding: const EdgeInsets.all(8.0),
-                           child: Container(
-                             decoration: BoxDecoration(
-                                 color: Colors.white,
-                                 borderRadius: BorderRadius.circular(9),
-                                 boxShadow: [
-                                   BoxShadow(
-                                       color: Colors.black.withOpacity(0.1),
-                                       spreadRadius: 3,
-                                       blurRadius: 12
-                                   )
-                                 ]
-                             ),
-                             child: Padding(
-                               padding: const EdgeInsets.all(8.0),
-                               child: Column(
-                                 children: <Widget>[
-                                   Row(
-                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                     children: <Widget>[
-                                       Text("New Blood Campaign",style: TextStyle(
-                                           fontWeight: FontWeight.w400
-                                       ),),
-                                       Text("See All")
-                                     ],
-                                   ),
-                                   Container(
-
-                                     child: Row(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                           Padding(
+                             padding: const EdgeInsets.all(8.0),
+                             child: Container(
+                               decoration: BoxDecoration(
+                                   color: Colors.white,
+                                   borderRadius: BorderRadius.circular(9),
+                                   boxShadow: [
+                                     BoxShadow(
+                                         color: Colors.black.withOpacity(0.1),
+                                         spreadRadius: 3,
+                                         blurRadius: 12
+                                     )
+                                   ]
+                               ),
+                               child: Padding(
+                                 padding: const EdgeInsets.all(8.0),
+                                 child: Column(
+                                   children: <Widget>[
+                                     Row(
+                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                        children: <Widget>[
-                                         Container(
-                                           width: 120,
-                                           height: 170,
-                                           child: Stack(
-                                             children: <Widget>[
-                                               Positioned(
-                                                 bottom: 0,
-                                                 left: 5,
-                                                 child: Padding(
-                                                   padding: const EdgeInsets.all(8.0),
-                                                   child: Container(
-                                                     height: 130,
-                                                     width: 100,
-                                                     decoration: BoxDecoration(
-                                                       borderRadius:
-                                                       BorderRadius.circular(20.0),
-                                                       color: kThirdColor,
-                                                     ),
-                                                     child: Column(
-                                                       children: <Widget>[
-                                                         SizedBox(
-                                                           height: 110.0,
-                                                         ),
-                                                         Text(
-                                                           "17/8/2020",
-                                                           style: TextStyle(
-                                                               color: Colors.white),
-                                                         )
-                                                       ],
-                                                     ),
-                                                   ),
-                                                 ),
-                                               ),
-                                               Padding(
-                                                 padding: const EdgeInsets.all(8.0),
-                                                 child: Container(
-                                                   decoration: BoxDecoration(
-                                                       borderRadius:
-                                                       BorderRadius.circular(20.0),
-                                                       boxShadow: [
-                                                         BoxShadow(
-                                                             spreadRadius: 4,
-                                                             color: Colors.black
-                                                                 .withOpacity(0.1),
-                                                             blurRadius: 5)
-                                                       ]),
-                                                   child: ClipRRect(
-                                                       borderRadius:
-                                                       BorderRadius.circular(20.0),
-                                                       child: Image.asset(
-                                                         "assets/images/dermadarah1.jpg",
-                                                         width: 100,
-                                                       )),
-                                                 ),
-                                               ),
-                                             ],
-                                           ),
-                                         ),
-                                         Container(
-                                           width: 120,
-                                           height: 170,
-                                           child: Stack(
-                                             children: <Widget>[
-                                               Positioned(
-                                                 bottom: 0,
-                                                 left: 5,
-                                                 child: Padding(
-                                                   padding: const EdgeInsets.all(8.0),
-                                                   child: Container(
-                                                     height: 130,
-                                                     width: 100,
-                                                     decoration: BoxDecoration(
-                                                       borderRadius:
-                                                       BorderRadius.circular(20.0),
-                                                       color: kThirdColor,
-                                                     ),
-                                                     child: Column(
-                                                       children: <Widget>[
-                                                         SizedBox(
-                                                           height: 110.0,
-                                                         ),
-                                                         Text(
-                                                           "17/8/2020",
-                                                           style: TextStyle(
-                                                               color: Colors.white),
-                                                         )
-                                                       ],
-                                                     ),
-                                                   ),
-                                                 ),
-                                               ),
-                                               Padding(
-                                                 padding: const EdgeInsets.all(8.0),
-                                                 child: Container(
-                                                   decoration: BoxDecoration(
-                                                       borderRadius:
-                                                       BorderRadius.circular(20.0),
-                                                       boxShadow: [
-                                                         BoxShadow(
-                                                             spreadRadius: 4,
-                                                             color: Colors.black
-                                                                 .withOpacity(0.1),
-                                                             blurRadius: 5)
-                                                       ]),
-                                                   child: ClipRRect(
-                                                       borderRadius:
-                                                       BorderRadius.circular(20.0),
-                                                       child: Image.asset(
-                                                         "assets/images/dermadarah1.jpg",
-                                                         width: 100,
-                                                       )),
-                                                 ),
-                                               ),
-                                             ],
-                                           ),
-                                         ),
-                                         Container(
-                                           width: 130,
-                                           height: 170,
-                                           child: Stack(
-                                             children: <Widget>[
-                                               Positioned(
-                                                 bottom: 0,
-                                                 left: 5,
-                                                 child: Padding(
-                                                   padding: const EdgeInsets.all(8.0),
-                                                   child: Container(
-                                                     height: 130,
-                                                     width: 100,
-                                                     decoration: BoxDecoration(
-                                                       borderRadius:
-                                                       BorderRadius.circular(20.0),
-                                                       color: kThirdColor,
-                                                     ),
-                                                     child: Column(
-                                                       children: <Widget>[
-                                                         SizedBox(
-                                                           height: 110.0,
-                                                         ),
-                                                         Text(
-                                                           "17/8/2020",
-                                                           style: TextStyle(
-                                                               color: Colors.white),
-                                                         )
-                                                       ],
-                                                     ),
-                                                   ),
-                                                 ),
-                                               ),
-                                               Padding(
-                                                 padding: const EdgeInsets.all(8.0),
-                                                 child: Container(
-                                                   decoration: BoxDecoration(
-                                                       borderRadius:
-                                                       BorderRadius.circular(20.0),
-                                                       boxShadow: [
-                                                         BoxShadow(
-                                                             spreadRadius: 4,
-                                                             color: Colors.black
-                                                                 .withOpacity(0.1),
-                                                             blurRadius: 5)
-                                                       ]),
-                                                   child: ClipRRect(
-                                                       borderRadius:
-                                                       BorderRadius.circular(20.0),
-                                                       child: Image.asset(
-                                                         "assets/images/dermadarah1.jpg",
-                                                         width: 100,
-                                                       )),
-                                                 ),
-                                               ),
-                                             ],
-                                           ),
-                                         ),
+                                         Text("New Blood Campaign",style: TextStyle(
+                                             fontWeight: FontWeight.w400
+                                         ),),
+                                         Text("See All")
                                        ],
                                      ),
-                                   ),
-                                 ],
+                                     Container(
+
+                                       child: Row(
+                                         children: <Widget>[
+                                           Container(
+                                             width: 120,
+                                             height: 170,
+                                             child: Stack(
+                                               children: <Widget>[
+                                                 Positioned(
+                                                   bottom: 0,
+                                                   left: 5,
+                                                   child: Padding(
+                                                     padding: const EdgeInsets.all(8.0),
+                                                     child: Container(
+                                                       height: 130,
+                                                       width: 100,
+                                                       decoration: BoxDecoration(
+                                                         borderRadius:
+                                                         BorderRadius.circular(20.0),
+                                                         color: kThirdColor,
+                                                       ),
+                                                       child: Column(
+                                                         children: <Widget>[
+                                                           SizedBox(
+                                                             height: 110.0,
+                                                           ),
+                                                           Text(
+                                                             "17/8/2020",
+                                                             style: TextStyle(
+                                                                 color: Colors.white),
+                                                           )
+                                                         ],
+                                                       ),
+                                                     ),
+                                                   ),
+                                                 ),
+                                                 Padding(
+                                                   padding: const EdgeInsets.all(8.0),
+                                                   child: Container(
+                                                     decoration: BoxDecoration(
+                                                         borderRadius:
+                                                         BorderRadius.circular(20.0),
+                                                         boxShadow: [
+                                                           BoxShadow(
+                                                               spreadRadius: 4,
+                                                               color: Colors.black
+                                                                   .withOpacity(0.1),
+                                                               blurRadius: 5)
+                                                         ]),
+                                                     child: ClipRRect(
+                                                         borderRadius:
+                                                         BorderRadius.circular(20.0),
+                                                         child: Image.asset(
+                                                           "assets/images/dermadarah1.jpg",
+                                                           width: 100,
+                                                         )),
+                                                   ),
+                                                 ),
+                                               ],
+                                             ),
+                                           ),
+                                           Container(
+                                             width: 120,
+                                             height: 170,
+                                             child: Stack(
+                                               children: <Widget>[
+                                                 Positioned(
+                                                   bottom: 0,
+                                                   left: 5,
+                                                   child: Padding(
+                                                     padding: const EdgeInsets.all(8.0),
+                                                     child: Container(
+                                                       height: 130,
+                                                       width: 100,
+                                                       decoration: BoxDecoration(
+                                                         borderRadius:
+                                                         BorderRadius.circular(20.0),
+                                                         color: kThirdColor,
+                                                       ),
+                                                       child: Column(
+                                                         children: <Widget>[
+                                                           SizedBox(
+                                                             height: 110.0,
+                                                           ),
+                                                           Text(
+                                                             "17/8/2020",
+                                                             style: TextStyle(
+                                                                 color: Colors.white),
+                                                           )
+                                                         ],
+                                                       ),
+                                                     ),
+                                                   ),
+                                                 ),
+                                                 Padding(
+                                                   padding: const EdgeInsets.all(8.0),
+                                                   child: Container(
+                                                     decoration: BoxDecoration(
+                                                         borderRadius:
+                                                         BorderRadius.circular(20.0),
+                                                         boxShadow: [
+                                                           BoxShadow(
+                                                               spreadRadius: 4,
+                                                               color: Colors.black
+                                                                   .withOpacity(0.1),
+                                                               blurRadius: 5)
+                                                         ]),
+                                                     child: ClipRRect(
+                                                         borderRadius:
+                                                         BorderRadius.circular(20.0),
+                                                         child: Image.asset(
+                                                           "assets/images/dermadarah1.jpg",
+                                                           width: 100,
+                                                         )),
+                                                   ),
+                                                 ),
+                                               ],
+                                             ),
+                                           ),
+                                           Container(
+                                             width: 130,
+                                             height: 170,
+                                             child: Stack(
+                                               children: <Widget>[
+                                                 Positioned(
+                                                   bottom: 0,
+                                                   left: 5,
+                                                   child: Padding(
+                                                     padding: const EdgeInsets.all(8.0),
+                                                     child: Container(
+                                                       height: 130,
+                                                       width: 100,
+                                                       decoration: BoxDecoration(
+                                                         borderRadius:
+                                                         BorderRadius.circular(20.0),
+                                                         color: kThirdColor,
+                                                       ),
+                                                       child: Column(
+                                                         children: <Widget>[
+                                                           SizedBox(
+                                                             height: 110.0,
+                                                           ),
+                                                           Text(
+                                                             "17/8/2020",
+                                                             style: TextStyle(
+                                                                 color: Colors.white),
+                                                           )
+                                                         ],
+                                                       ),
+                                                     ),
+                                                   ),
+                                                 ),
+                                                 Padding(
+                                                   padding: const EdgeInsets.all(8.0),
+                                                   child: Container(
+                                                     decoration: BoxDecoration(
+                                                         borderRadius:
+                                                         BorderRadius.circular(20.0),
+                                                         boxShadow: [
+                                                           BoxShadow(
+                                                               spreadRadius: 4,
+                                                               color: Colors.black
+                                                                   .withOpacity(0.1),
+                                                               blurRadius: 5)
+                                                         ]),
+                                                     child: ClipRRect(
+                                                         borderRadius:
+                                                         BorderRadius.circular(20.0),
+                                                         child: Image.asset(
+                                                           "assets/images/dermadarah1.jpg",
+                                                           width: 100,
+                                                         )),
+                                                   ),
+                                                 ),
+                                               ],
+                                             ),
+                                           ),
+                                         ],
+                                       ),
+                                     ),
+                                   ],
+                                 ),
                                ),
                              ),
                            ),
-                         ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(9),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        spreadRadius: 3,
-                                        blurRadius: 12
-                                    )
-                                  ]
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text("Blood Request"),
-                                        Text("See All")
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                      child: Column(
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(9),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          spreadRadius: 3,
+                                          blurRadius: 12
+                                      )
+                                    ]
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: ListTile(
-                                              dense: true,
-                                              leading: Container(
-                                                height: size.height * 0.149,
-                                                width: size.width * 0.15,
-                                                decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      fit: BoxFit.cover,
-                                                      image: AssetImage(
-                                                          "assets/images/lari2.jpg"),
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(5)),
-                                              ),
-                                              title: Text(
-                                                "Syazwan Asraf",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 17),
-                                              ),
-                                              subtitle: Text(
-                                                "Posted: 3 hours ago",
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w300),
-                                              ),
-                                              trailing: Text(
-                                                "AB+",
-                                                style:
-                                                    TextStyle(color: kPrimaryColor),
+                                          Text("Blood Request"),
+                                          Text("See All")
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: ListTile(
+                                                dense: true,
+                                                leading: Container(
+                                                  height: size.height * 0.149,
+                                                  width: size.width * 0.15,
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: AssetImage(
+                                                            "assets/images/lari2.jpg"),
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(5)),
+                                                ),
+                                                title: Text(
+                                                  "Syazwan Asraf",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 17),
+                                                ),
+                                                subtitle: Text(
+                                                  "Posted: 3 hours ago",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 11,
+                                                      fontWeight: FontWeight.w300),
+                                                ),
+                                                trailing: Text(
+                                                  "AB+",
+                                                  style:
+                                                      TextStyle(color: kPrimaryColor),
+                                                ),
                                               ),
                                             ),
-                                          ),
 
-                                        ],
-                                      ))
-                                ],
+                                          ],
+                                        )),
+                                    Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: ListTile(
+                                                dense: true,
+                                                leading: Container(
+                                                  height: size.height * 0.149,
+                                                  width: size.width * 0.15,
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: AssetImage(
+                                                            "assets/images/lari2.jpg"),
+                                                      ),
+                                                      borderRadius:
+                                                      BorderRadius.circular(5)),
+                                                ),
+                                                title: Text(
+                                                  "Syazwan Asraf",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 17),
+                                                ),
+                                                subtitle: Text(
+                                                  "Posted: 3 hours ago",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 11,
+                                                      fontWeight: FontWeight.w300),
+                                                ),
+                                                trailing: Text(
+                                                  "AB+",
+                                                  style:
+                                                  TextStyle(color: kPrimaryColor),
+                                                ),
+                                              ),
+                                            ),
+
+                                          ],
+                                        )),
+                                    Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: ListTile(
+                                                dense: true,
+                                                leading: Container(
+                                                  height: size.height * 0.149,
+                                                  width: size.width * 0.15,
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                        fit: BoxFit.cover,
+                                                        image: AssetImage(
+                                                            "assets/images/lari2.jpg"),
+                                                      ),
+                                                      borderRadius:
+                                                      BorderRadius.circular(5)),
+                                                ),
+                                                title: Text(
+                                                  "Syazwan Asraf",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 17),
+                                                ),
+                                                subtitle: Text(
+                                                  "Posted: 3 hours ago",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 11,
+                                                      fontWeight: FontWeight.w300),
+                                                ),
+                                                trailing: Text(
+                                                  "AB+",
+                                                  style:
+                                                  TextStyle(color: kPrimaryColor),
+                                                ),
+                                              ),
+                                            ),
+
+                                          ],
+                                        ))
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   )

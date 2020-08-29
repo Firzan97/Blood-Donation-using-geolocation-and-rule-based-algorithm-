@@ -3,7 +3,6 @@ import 'package:easy_blood/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-
 class RequestBlood extends StatefulWidget {
   @override
   _RequestBloodState createState() => _RequestBloodState();
@@ -22,6 +21,9 @@ class _RequestBloodState extends State<RequestBlood> {
       child: Column(
         children: <Widget>[
           Container(
+            height: size.height * 0.4,
+          ),
+          Container(
             height: size.height * 0.6,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -30,7 +32,8 @@ class _RequestBloodState extends State<RequestBlood> {
                   colors: [kGradient1, kGradient2]),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(left: 15.0,right: 15.0,top: 35.0),
+              padding:
+                  const EdgeInsets.only(left: 15.0, right: 15.0, top: 35.0),
               child: Column(
                 children: <Widget>[
                   Row(
@@ -47,150 +50,180 @@ class _RequestBloodState extends State<RequestBlood> {
                       FaIcon(FontAwesomeIcons.sadCry)
                     ],
                   ),
-                  SizedBox(height: size.height*0.01,),
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
                   Form(
                     child: Column(
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      height:28,
-                                      width: 28,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white, shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.location_on,
-                                        size: 20,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Text(
-                                      "Your location",
-                                      style: TextStyle(
-                                          fontSize: 15, fontWeight: FontWeight.w500),
-                                    )
-                                  ],
-                                ),
-                                TextFormField(
-                                  controller: location,
-
-                                ),
-
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      height:28,
-                                      width: 28,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white, shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.group_work,
-                                        size: 20,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Text(
-                                      "Blood Group",
-                                      style: TextStyle(
-                                          fontSize: 15, fontWeight: FontWeight.w500),
-                                    )
-                                  ],
-                                ),
-                                TextFormField(
-                                  controller: location,
-                                ),
-
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      height:28,
-                                      width: 28,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white, shape: BoxShape.circle),
-                                      child: Icon(
-                                        Icons.whatshot,
-                                        size: 20,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Text(
-                                      "How many bag ?",
-                                      style: TextStyle(
-                                          fontSize: 15, fontWeight: FontWeight.w500),
-                                    )
-                                  ],
-                                ),
-                                TextFormField(
-                                  controller: location,
-                                ),
-
-                              ],
-                            ),
-                          ),
-                        ),
                         Container(
                           child: Column(
                             children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    height:28,
-                                    width: 28,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white, shape: BoxShape.circle),
-                                    child: Icon(
-                                      Icons.help,
-                                      size: 20,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: size.height * 0.07,
+                                  width: size.width,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(32),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black.withOpacity(0.1),
+                                            spreadRadius: 3,
+                                            blurRadius: 9)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      cursorColor: Colors.black,
+                                      decoration: InputDecoration(
+                                        icon: Icon(
+                                          Icons.location_on,
+                                          color: Colors.white,
+                                        ),
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        disabledBorder: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(
+                                            left: 15,
+                                            bottom: 11,
+                                            top: 11,
+                                            right: 15),
+                                        hintText: 'Location',
+                                      ),
+                                      controller: location,
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text(
-                                    "Reason",
-                                    style: TextStyle(
-                                        fontSize: 15, fontWeight: FontWeight.w500),
-                                  )
-                                ],
+                                ),
                               ),
-                              TextFormField(
-                                controller: location,
-                              ),
-
                             ],
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: size.height * 0.07,
+                                  width: size.width,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(32),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black.withOpacity(0.1),
+                                            spreadRadius: 3,
+                                            blurRadius: 9)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      cursorColor: Colors.black,
+                                      decoration: InputDecoration(
+                                        icon: Icon(
+                                          Icons.location_on,
+                                          color: Colors.white,
+                                        ),
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        disabledBorder: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(
+                                            left: 15,
+                                            bottom: 11,
+                                            top: 11,
+                                            right: 15),
+                                        hintText: 'Blood Group',
+                                      ),
+                                      controller: location,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: size.height * 0.07,
+                                  width: size.width,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(32),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black.withOpacity(0.1),
+                                            spreadRadius: 3,
+                                            blurRadius: 9)
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      cursorColor: Colors.black,
+                                      decoration: InputDecoration(
+                                        icon: Icon(
+                                          Icons.location_on,
+                                          color: Colors.white,
+                                        ),
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        disabledBorder: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(
+                                            left: 15,
+                                            bottom: 11,
+                                            top: 11,
+                                            right: 15),
+                                        hintText: 'Reason',
+                                      ),
+                                      controller: location,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: size.height*0.05,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: kPrimaryColor,
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 7,
+                                    spreadRadius: 3,
+                                    color: Colors.black.withOpacity(0.25)
+                                  )
+                                ]
+                              ),
+                              child: FlatButton(
+                                onPressed: (){
 
-
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: FaIcon(FontAwesomeIcons.search
+                                ),
+                              ),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   )
@@ -198,7 +231,6 @@ class _RequestBloodState extends State<RequestBlood> {
               ),
             ),
           ),
-          Container(),
         ],
       ),
     )));
