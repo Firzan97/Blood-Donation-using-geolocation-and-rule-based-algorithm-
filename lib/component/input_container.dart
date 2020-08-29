@@ -19,9 +19,9 @@ class InputContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 7,
-            spreadRadius: 4,
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 9,
+            spreadRadius: 1,
           )
         ]
       ),

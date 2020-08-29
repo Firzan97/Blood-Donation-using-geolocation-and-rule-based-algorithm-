@@ -44,7 +44,7 @@ class _SignUpState extends State<SignUp> {
             body: SingleChildScrollView(
                 child: Container(
               decoration: BoxDecoration(
-                color: kPrimaryColor,
+                color: Colors.white,
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 40.0),
@@ -54,7 +54,9 @@ class _SignUpState extends State<SignUp> {
                       Text(
                         "COME JOIN US NOW!",
                         style: TextStyle(
-                          fontWeight: FontWeight.w300,
+                          fontFamily: "Muli",
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
                           fontSize: 15.0,
                         ),
                       ),
@@ -79,7 +81,7 @@ class _SignUpState extends State<SignUp> {
                                 border: InputBorder.none,
                                 icon: Icon(
                                   Icons.email,
-                                  color: kThirdColor,
+                                  color: kPrimaryColor,
                                 ),
                               ),
                               validator: (value) => (value.isEmpty)
@@ -93,7 +95,7 @@ class _SignUpState extends State<SignUp> {
                                 border: InputBorder.none,
                                 icon: Icon(
                                   Icons.person,
-                                  color: kThirdColor,
+                                  color: kPrimaryColor,
                                 ),
                               ),
                               validator: (value) => (value.isEmpty)
@@ -118,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                                 border: InputBorder.none,
                                 icon: Icon(
                                   Icons.calendar_today,
-                                  color: kThirdColor,
+                                  color: kPrimaryColor,
                                 ),
                               ),
                               validator: (value) => (value.isEmpty)
@@ -143,7 +145,7 @@ class _SignUpState extends State<SignUp> {
                                   : null,
                             ),
                             ButtonRound(
-                              color: Color(0XFF343a69),
+                              color: kPrimaryColor,
                               text: "SIGN UP",
                               press: () async {
                                 if (_formkey.currentState.validate()) {

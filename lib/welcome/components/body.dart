@@ -40,7 +40,7 @@ class Body extends StatelessWidget {
             ),
             ButtonRound(
               text: "SIGN IN",
-              color: kThirdColor,
+              color: kPrimaryColor,
               press: () {
                 Navigator.push(
                   context,
@@ -54,7 +54,7 @@ class Body extends StatelessWidget {
             ),
             ButtonRound(
               text: "SIGN UP",
-              color: kThirdColor,
+              color: kPrimaryColor,
               press: () {
                 Navigator.push(
                   context,

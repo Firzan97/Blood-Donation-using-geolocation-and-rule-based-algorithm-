@@ -26,11 +26,11 @@ class InputPasswordRound extends StatelessWidget {
         decoration: InputDecoration(
           hintText: "Password",
           icon: Icon(Icons.lock,
-          color: kThirdColor,),
+          color: kPrimaryColor,),
           border: InputBorder.none,
           suffixIcon: Icon(
             Icons.visibility,
-            color: Color(0xFF2b2024),
+            color: kPrimaryColor,
           ),
         ),
       ),

@@ -14,7 +14,7 @@ class Background extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        color: kPrimaryColor,
+        color: Colors.white,
       ),
       height: size.height,
       width: double.infinity,

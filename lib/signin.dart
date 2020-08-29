@@ -37,7 +37,7 @@ class _SignInState extends State<SignIn> {
       resizeToAvoidBottomPadding: false,
       body: Container(
         decoration: BoxDecoration(
-          color: kPrimaryColor,
+          color: Colors.white,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 60.0),
@@ -45,12 +45,14 @@ class _SignInState extends State<SignIn> {
             children: <Widget>[
               Center(
                 child: Text("LOGIN",style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 25.0,
+                  fontFamily: "Muli",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40.0,
+                  color: kPrimaryColor
 
                 ),),
               ),
-              SizedBox(height: 30.0,),
+              SizedBox(height: 20.0,),
               Image.asset("assets/images/blood2.png", width: size.height*0.3,),
               Form(
                 key: _formkey,
@@ -62,7 +64,7 @@ class _SignInState extends State<SignIn> {
                       deco: InputDecoration(
                         hintText: "Email",
                         border: InputBorder.none,
-                        icon: Icon(Icons.email, color: kThirdColor,),
+                        icon: Icon(Icons.email, color: kGradient1,),
                       ),
                       validator: (value) =>
                       (value.isEmpty) ? 'Please enter some text' :
@@ -76,7 +78,7 @@ class _SignInState extends State<SignIn> {
                           : null,
                     ),
                     ButtonRound(
-                      color: Color(0XFF343a69),
+                      color: kPrimaryColor,
                       text: "LOGIN",
                       press: () async {
                         if (_formkey.currentState.validate()) {
