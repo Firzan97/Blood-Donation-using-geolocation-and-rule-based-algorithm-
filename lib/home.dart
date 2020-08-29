@@ -6,8 +6,8 @@ import 'package:easy_blood/findRequest.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/notification.dart';
 import 'package:easy_blood/profile.dart';
+import 'package:easy_blood/requestBlood.dart';
 import 'package:easy_blood/userdashboard.dart';
-import 'package:easy_blood/welcome/requestBlood.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -325,15 +325,15 @@ class _HomeState extends State<Home> {
               index: 0,
               height: 50.0,
               items: <Widget>[
-                Icon(Icons.add, size: 30),
-                Icon(Icons.list, size: 30),
-                Icon(Icons.compare_arrows, size: 30),
-                Icon(Icons.call_split, size: 30),
-                Icon(Icons.perm_identity, size: 30),
+                Icon(Icons.add, size: 30,color: Colors.black,),
+                Icon(Icons.list, size: 30,color: Colors.black),
+                Icon(Icons.compare_arrows, size: 30,color: Colors.black),
+                Icon(Icons.call_split, size: 30,color: Colors.black),
+                Icon(Icons.perm_identity, size: 30,color: Colors.black),
               ],
               color: Colors.white,
-              buttonBackgroundColor: Colors.white,
-              backgroundColor: kPrimaryColor,
+              buttonBackgroundColor: kPrimaryColor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ,
+              backgroundColor: Colors.white,
               animationCurve: Curves.easeInOut,
               animationDuration: Duration(milliseconds: 400),
               onTap: (index) {
@@ -343,6 +343,7 @@ class _HomeState extends State<Home> {
               },
             ),
             body: Container(
+              color: Colors.white,
               child: Column(
                 children: <Widget>[
                   Stack(children: <Widget>[
