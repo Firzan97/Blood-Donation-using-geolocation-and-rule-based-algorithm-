@@ -15,10 +15,10 @@ class LocateUser extends StatefulWidget {
 
 class _LocateUserState extends State<LocateUser> {
   Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController _controller2;
   static double latitude;
   static double longitude;
   bool isMapCreated = false;
-  List<Marker> myMarker = [];
 
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -28,6 +28,7 @@ class _LocateUserState extends State<LocateUser> {
     });
   }
 
+  //maps customization
   changeMapMode(){
     getJsonFile("assets/light.json").then(setMapStyle);
   }
@@ -37,19 +38,7 @@ class _LocateUserState extends State<LocateUser> {
   }
 
   void setMapStyle(String mapStyle){
-    _controller;
-  }
-
-  _handleTap(LatLng tappedPoint){
-    setState(() {
-      myMarker = [];
-      myMarker.add(
-        Marker(
-          markerId: MarkerId(tappedPoint.toString()),
-        position: tappedPoint,
-        )
-      );
-    });
+    _controller2.setMapStyle(mapStyle);
   }
 
  CameraPosition _initialLocation = CameraPosition(
@@ -85,11 +74,10 @@ class _LocateUserState extends State<LocateUser> {
                     zoomControlsEnabled: true,
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);
+                      _controller2=controller;
                       isMapCreated = true;
                       changeMapMode();
                     },
-                  markers: Set.from(myMarker),
-                onTap: _handleTap,
                 ),
               ),
             ),
