@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:easy_blood/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
+
 
 class LocateUser extends StatefulWidget {
 
@@ -10,9 +14,19 @@ class LocateUser extends StatefulWidget {
 }
 
 class _LocateUserState extends State<LocateUser> {
-  GoogleMapController _controller;
-
+  Completer<GoogleMapController> _controller = Completer();
+  static double latitude;
+  static double longitude;
   bool isMapCreated = false;
+  List<Marker> myMarker = [];
+
+  void getUserLocation()async{
+    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      latitude = position.latitude;
+      longitude = position.longitude;
+    });
+  }
 
   changeMapMode(){
     getJsonFile("assets/light.json").then(setMapStyle);
@@ -23,9 +37,36 @@ class _LocateUserState extends State<LocateUser> {
   }
 
   void setMapStyle(String mapStyle){
-    _controller.setMapStyle(mapStyle);
+    _controller;
   }
 
+  _handleTap(LatLng tappedPoint){
+    setState(() {
+      myMarker = [];
+      myMarker.add(
+        Marker(
+          markerId: MarkerId(tappedPoint.toString()),
+        position: tappedPoint,
+        )
+      );
+    });
+  }
+
+ CameraPosition _initialLocation = CameraPosition(
+    target: LatLng(37.43296265331129, -122.08832357078792),
+    zoom: 14.4746,
+  );
+
+  static final CameraPosition _userLocation = CameraPosition(
+      bearing: 192.8334901395799,
+      target: LatLng(latitude, longitude),
+      tilt: 59.440717697143555,
+      zoom: 19.151926040649414);
+
+  void initState(){
+    super.initState();
+    getUserLocation();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -40,17 +81,16 @@ class _LocateUserState extends State<LocateUser> {
             Positioned(
               child: Container(
                 child: GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(40, -74),
-                      zoom: 14.4746,
-                    ),
+                    initialCameraPosition: _initialLocation,
                     zoomControlsEnabled: true,
                     onMapCreated: (GoogleMapController controller) {
-                      _controller = controller;
+                      _controller.complete(controller);
                       isMapCreated = true;
                       changeMapMode();
-                      setState(() {});
-                    }),
+                    },
+                  markers: Set.from(myMarker),
+                onTap: _handleTap,
+                ),
               ),
             ),
             Positioned(
@@ -70,7 +110,7 @@ class _LocateUserState extends State<LocateUser> {
                 child: FlatButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () {},
+                  onPressed: _goToUserLocation,
                   child: Text("Locate your location"),
                 ),
               ),
@@ -79,5 +119,10 @@ class _LocateUserState extends State<LocateUser> {
         ),
       ),
     ));
+  }
+
+  Future<void> _goToUserLocation() async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(_userLocation));
   }
 }
