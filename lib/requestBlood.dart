@@ -1,6 +1,8 @@
 import 'package:easy_blood/constant.dart';
+import 'package:easy_blood/geolocation_service.dart';
 import 'package:easy_blood/signin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,35 +16,89 @@ class RequestBlood extends StatefulWidget {
 
 class _RequestBloodState extends State<RequestBlood> {
   TextEditingController location = new TextEditingController();
+  List<Marker> allMarkers = [];
+  final locaterService = GeolocationService();
+  var currentPosition ;
+  GoogleMapController _controller;
+  bool isMapCreated = false;
+
+  changeMapMode(){
+getJsonFile("assets/light.json").then(setMapStyle);
+  }
+
+  Future<String> getJsonFile(String path) async{
+    return await rootBundle.loadString(path);
+  }
+
+  void setMapStyle(String mapStyle){
+    _controller.setMapStyle(mapStyle);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    locaterService.getPosition().then((value) => {
+      setState((){
+        currentPosition = value;
+      })
+    });
+    currentPosition = locaterService.getPosition();
+    allMarkers.add(Marker(
+        markerId: MarkerId('myMarker'),
+        draggable: false,
+        onTap: () {
+          print(currentPosition);
+        },
+        position: LatLng(40, -74)));
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     final currentPosition = Provider.of<Position>(context);
+    if(isMapCreated){
+      changeMapMode();
+    }
     return MaterialApp(
         home: Scaffold(
-            body: (currentPosition !=null ) ?  Container(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: size.height * 0.4,
-            child: GoogleMap(
-              initialCameraPosition: CameraPosition(target: LatLng(currentPosition.latitude, currentPosition.longitude),
-                zoom: 14.4746,),
-              zoomControlsEnabled: true,
-            ),
-          ),
-          Container(
-            height: size.height * 0.6,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [kGradient1, kGradient2]),
-            ),
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(left: 15.0, right: 15.0, top: 35.0),
+            body: (currentPosition != null)
+                ? Container(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          height: size.height * 0.4,
+                          child: GoogleMap(
+                            myLocationEnabled: true,
+                            myLocationButtonEnabled: true,
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(40, -74),
+                              zoom: 14.4746,
+                            ),
+                            zoomControlsEnabled: true,
+                            markers: Set.from((allMarkers),
+
+                            ),
+                              onMapCreated: (GoogleMapController controller) {
+                                _controller = controller;
+                                isMapCreated = true;
+                                changeMapMode();
+                                setState(() {
+
+                                });
+                              }
+                          ),
+                        ),
+                        Container(
+                          height: size.height * 0.6,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [kGradient1, kGradient2]),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 35.0),
               child: Column(
                 children: <Widget>[
                   Row(

@@ -141,10 +141,10 @@ class _UserDashboardState extends State<UserDashboard> {
                         ),
                         GestureDetector(
                           onTap: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) =>RequestBlood()),
-                            );
+//                            Navigator.push(
+//                              context,
+//                              MaterialPageRoute(builder: (context) =>RequestBlood()),
+//                            );
                           },
                           child: Stack(
                             children: <Widget>[

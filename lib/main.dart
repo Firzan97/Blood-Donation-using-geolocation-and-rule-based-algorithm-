@@ -1,6 +1,7 @@
 import 'package:easy_blood/findRequest.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/home.dart';
+import 'package:easy_blood/locate_user.dart';
 import 'package:easy_blood/onboarding.dart';
 import 'package:easy_blood/requestBlood.dart';
 import 'package:easy_blood/signin.dart';
@@ -26,15 +27,12 @@ final locaterService = GeolocationService();
 
   @override
   Widget build(BuildContext context) {
-    return FutureProvider(
-      create: (context) => locaterService.getPosition(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Splash(),
-        routes: <String, WidgetBuilder>{
-          '/home': (BuildContext context) => RequestBlood(),
-        }
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Splash(),
+      routes: <String, WidgetBuilder>{
+        '/home': (BuildContext context) => LocateUser(),
+      }
     );
   }
 }
