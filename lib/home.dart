@@ -599,7 +599,14 @@ class _HomeState extends State<Home> {
                                                        decoration: BoxDecoration(
                                                          borderRadius:
                                                          BorderRadius.circular(20.0),
-                                                         color: kThirdColor,
+                                                         color: kGradient1,
+                                                         boxShadow: [
+                                                           BoxShadow(
+                                                             color: Colors.black.withOpacity(0.1),
+                                                             blurRadius: 5,
+                                                             spreadRadius: 3
+                                                           )
+                                                         ]
                                                        ),
                                                        child: Column(
                                                          children: <Widget>[
@@ -609,7 +616,7 @@ class _HomeState extends State<Home> {
                                                            Text(
                                                              "17/8/2020",
                                                              style: TextStyle(
-                                                                 color: Colors.white),
+                                                                 color: Colors.black),
                                                            )
                                                          ],
                                                        ),
@@ -657,7 +664,14 @@ class _HomeState extends State<Home> {
                                                        decoration: BoxDecoration(
                                                          borderRadius:
                                                          BorderRadius.circular(20.0),
-                                                         color: kThirdColor,
+                                                         color: kPrimaryColor,
+                                                           boxShadow: [
+                                                             BoxShadow(
+                                                                 color: Colors.black.withOpacity(0.1),
+                                                                 blurRadius: 5,
+                                                                 spreadRadius: 3
+                                                             )
+                                                           ]
                                                        ),
                                                        child: Column(
                                                          children: <Widget>[
@@ -667,7 +681,8 @@ class _HomeState extends State<Home> {
                                                            Text(
                                                              "17/8/2020",
                                                              style: TextStyle(
-                                                                 color: Colors.white),
+                                                                 color: Colors.white,
+                                                             fontWeight: FontWeight.w400),
                                                            )
                                                          ],
                                                        ),

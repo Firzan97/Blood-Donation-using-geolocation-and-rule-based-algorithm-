@@ -25,131 +25,161 @@ class _AboutState extends State<About> {
               child: Column(
                 children: <Widget>[
 
-                  ClipPath(
-                    clipper: MyClipper(),
-                    child: Container(
-                      padding: EdgeInsets.only(top: 10),
-                      height: size.height * 0.41,
-                      width: size.width*1,
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: Stack(children: <Widget>[
-                              Positioned(
-                                left:0,
-                                top:10,
-                                child: IconButton(
-                                  icon: Icon(Icons.arrow_back),
-                                  onPressed: () {
-                                    Navigator.pop(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Home()),
-                                    );
-                                  },
+                  Container(
+                    child: Stack(
+                      children: <Widget> [
+                        Container(
+                          height: size.height*1,
+                          width: size.width*1,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [kGradient1, kGradient2]),
+                          ),
+                          child: Column(
+
+                            children: <Widget>[
+                              SizedBox(height: size.height*0.5),
+                              Container(
+                                width: size.width*0.7,
+                                height: size.height*0.28,
+                                decoration: BoxDecoration(
+
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white70,
+                                          border:  Border(
+                                            bottom: BorderSide(
+                                              color: kPrimaryColor,
+                                              width: 1
+                                            )
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                                spreadRadius: 3,
+                                                blurRadius: 10,
+                                                color: Colors.black.withOpacity(0.05)
+                                            )
+                                          ]
+                                      ),
+                                      height: 40,
+                                      child: FlatButton(
+                                          color: Colors.white,
+                                          onPressed: () {},
+                                          child: Center(child: Text("Who are we?"))),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white70,
+                                        border:  Border(
+                                            bottom: BorderSide(
+                                                color: kPrimaryColor,
+                                                width: 1
+                                            )
+                                        ),
+
+                                      ),
+                                      height: 40,
+                                      child: FlatButton(
+                                          color: Colors.white,
+                                          onPressed: () {},
+                                          child: Center(child: Text("Why donate blood?"))),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white70,
+                                        border:  Border(
+                                            bottom: BorderSide(
+                                                color: kPrimaryColor,
+                                                width: 1
+                                            )
+                                        ),
+                                      ),
+                                      height: 40,
+                                      child: FlatButton(
+                                          color: Colors.white,
+                                          onPressed: () {},
+                                          child: Center(child: Text("Developer"))),
+                                    ),
+                                    Container(
+
+                                      decoration: BoxDecoration(
+                                        color: Colors.white70,
+                                        border:  Border(
+                                            bottom: BorderSide(
+                                                color: kPrimaryColor,
+                                                width: 1
+                                            )
+                                        ),
+                                      ),
+                                      height: 40,
+                                      child: FlatButton(
+                                          color: Colors.white,
+                                          onPressed: () {},
+                                          child: Center(child: Text("Version"))),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Positioned(
-                                  left: 191,
-                                  top:25,
-                                  child: Text("ABOUT")),
-                              Positioned(
-                                  top: 60,
-                                  left: 100,
-                                  child: Image.asset("assets/images/humaaans.png",width: 200,)),
-
-                            ]),
+                            ],
                           ),
-                          Container(
-                            child: Column(
-                              children: <Widget>[],
-                            ),
-                          )
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [kGradient1, kGradient2]),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: size.width*0.7,
-                    height: size.height*0.28,
-                    decoration: BoxDecoration(
+                        ),ClipPath(
+                        clipper: MyClipper(),
+                        child: Container(
+                          padding: EdgeInsets.only(top: 10),
+                          height: size.height * 0.41,
+                          width: size.width*1,
+                          child: Column(
+                            children: <Widget>[
+                              Expanded(
+                                child: Stack(children: <Widget>[
+                                  Positioned(
+                                    left:0,
+                                    top:10,
+                                    child: IconButton(
+                                      icon: Icon(Icons.arrow_back),
+                                      onPressed: () {
+                                        Navigator.pop(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Home()),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Positioned(
+                                      left: 191,
+                                      top:25,
+                                      child: Text("ABOUT")),
+                                  Positioned(
+                                      top: 60,
+                                      left: 100,
+                                      child: Image.asset("assets/images/humaaans.png",width: 200,)),
 
-                      borderRadius: BorderRadius.circular(20),
-                      ),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white70,
-
-                            boxShadow: [
-                              BoxShadow(
-                                spreadRadius: 3,
-                                blurRadius: 10,
-                                color: Colors.black.withOpacity(0.05)
+                                ]),
+                              ),
+                              Container(
+                                child: Column(
+                                  children: <Widget>[],
+                                ),
                               )
-                            ]
+                            ],
                           ),
-                          height: 40,
-                          child: FlatButton(
-
-                              onPressed: () {},
-                              child: Center(child: Text("Who are we?"))),
-                        ),
-                        Container(
                           decoration: BoxDecoration(
-                              color: Colors.white70,
-
-
+                            gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [kGradient1, kGradient2]),
                           ),
-                          height: 40,
-                          child: FlatButton(
-
-                              onPressed: () {},
-                              child: Center(child: Text("Why donate blood?"))),
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white70,
-
-                          ),
-                          height: 40,
-                          child: FlatButton(
-                              onPressed: () {},
-                              child: Center(child: Text("Developer"))),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white70,
-
-                          ),
-                          height: 40,
-                          child: FlatButton(
-                              onPressed: () {},
-                              child: Center(child: Text("Version"))),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: size.height*0.02,),
-                  Container(
-                    height: size.height * 0.2,
-                    width: size.width * 0.8,
-                    decoration:
-                    BoxDecoration(color: kPrimaryColor, boxShadow: [
-                      BoxShadow(
-                          spreadRadius: 0.5,
-                          blurRadius: 7,
-                          color: Colors.black.withOpacity(0.4))
+                      ),
                     ]),
-                    child: Text("sasasaasasa"),
-                  )
+                  ),
                 ],
               ),
             ),
