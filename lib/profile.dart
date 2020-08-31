@@ -53,7 +53,7 @@ class _ProfileState extends State<Profile> {
                       Opacity(
                         opacity: 0.9,
                         child: Container(
-                          height: size.height*0.7,
+                          height: size.height*1,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                                 begin: Alignment.topRight,
@@ -179,10 +179,13 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                       ),
-                      Positioned(
-                        bottom: 0,
-                        child: Container(
-                          height: size.height * 0.5,
+                      DraggableScrollableSheet(
+                        initialChildSize: 0.15,
+                        minChildSize: 0.15,
+                        maxChildSize: 0.8,
+                        builder: (BuildContext c,s){
+                        return Container(
+                          height: size.height * 0.2,
                           width: size.width * 1,
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -190,12 +193,13 @@ class _ProfileState extends State<Profile> {
                                   topLeft: Radius.circular(20),
                                   topRight: Radius.circular(20))),
                           child: SingleChildScrollView(
+                            controller: s,
                             child: Column(
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.all(19.0),
                                   child: Container(
-                                    height: size.height*0.3,
+                                    height: size.height*0.25,
                                     width: size.width * 1,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
@@ -459,7 +463,7 @@ class _ProfileState extends State<Profile> {
                               ],
                             ),
                           ),
-                        ),
+                        );}
                       ),
                     ],
                   ),

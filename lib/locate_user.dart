@@ -20,6 +20,8 @@ class _LocateUserState extends State<LocateUser> {
   static double longitude;
   bool isMapCreated = false;
 
+
+
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     setState(() {
@@ -52,6 +54,7 @@ class _LocateUserState extends State<LocateUser> {
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
 
+
   void initState(){
     super.initState();
     getUserLocation();
@@ -72,6 +75,7 @@ class _LocateUserState extends State<LocateUser> {
                 child: GoogleMap(
                     initialCameraPosition: _initialLocation,
                     zoomControlsEnabled: true,
+                    myLocationEnabled: true,
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);
                       _controller2=controller;
@@ -112,5 +116,7 @@ class _LocateUserState extends State<LocateUser> {
   Future<void> _goToUserLocation() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_userLocation));
+
+
   }
 }

@@ -1,7 +1,9 @@
+import 'package:easy_blood/blood_group_input.dart';
 import 'package:easy_blood/findRequest.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/home.dart';
 import 'package:easy_blood/locate_user.dart';
+import 'package:easy_blood/notification.dart';
 import 'package:easy_blood/onboarding.dart';
 import 'package:easy_blood/requestBlood.dart';
 import 'package:easy_blood/signin.dart';
@@ -31,7 +33,7 @@ final locaterService = GeolocationService();
       debugShowCheckedModeBanner: false,
       home: Splash(),
       routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => LocateUser(),
+        '/home': (BuildContext context) => Home(),
       }
     );
   }
