@@ -56,7 +56,6 @@ getJsonFile("assets/light.json").then(setMapStyle);
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    final currentPosition = Provider.of<Position>(context);
     if(isMapCreated){
       changeMapMode();
     }

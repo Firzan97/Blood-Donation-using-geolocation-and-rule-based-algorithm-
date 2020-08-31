@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
               width: 250,
               child: Drawer(
                 child: Container(
-                  color: Colors.white,
+                  color: Colors.white24,
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: <Widget>[
@@ -77,13 +77,20 @@ class _HomeState extends State<Home> {
                                 top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 7
+                                    )
+                                  ]),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
-                                disabledColor: Colors.white70,
+                                disabledColor: Colors.white,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -112,13 +119,20 @@ class _HomeState extends State<Home> {
                                 top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 7
+                                    )
+                                  ]),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
-                                disabledColor: Colors.white70,
+                                disabledColor: Colors.white,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -147,13 +161,20 @@ class _HomeState extends State<Home> {
                                 top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 7
+                                    )
+                                  ]),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
-                                disabledColor: Colors.white70,
+                                disabledColor: Colors.white,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -182,13 +203,21 @@ class _HomeState extends State<Home> {
                                 top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 7
+                                    )
+                                  ]),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                disabledColor: Colors.white70,
+                                    borderRadius: BorderRadius.circular(20),
+                                ),
+                                disabledColor: Colors.white,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -217,13 +246,20 @@ class _HomeState extends State<Home> {
                                 top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 7
+                                    )
+                                  ]),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
-                                disabledColor: Colors.white70,
+                                disabledColor: Colors.white,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -252,13 +288,21 @@ class _HomeState extends State<Home> {
                                 top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 7
+                                    )
+                                  ]
+                              ),
                               height: 50,
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
-                                disabledColor: Colors.white70,
+                                disabledColor: Colors.white,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -287,13 +331,20 @@ class _HomeState extends State<Home> {
                                 top: 13, right: 8, left: 8),
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(20)),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 7
+                                )
+                              ]),
                               height: 50,
                               child: FlatButton(
+                                color: Colors.white,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
-                                disabledColor: Colors.white70,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -560,9 +611,9 @@ class _HomeState extends State<Home> {
                                    borderRadius: BorderRadius.circular(9),
                                    boxShadow: [
                                      BoxShadow(
-                                         color: Colors.black.withOpacity(0.1),
-                                         spreadRadius: 3,
-                                         blurRadius: 12
+                                         color: Colors.grey.withOpacity(0.15),
+                                         spreadRadius: 10,
+                                         blurRadius: 10
                                      )
                                    ]
                                ),
@@ -602,7 +653,7 @@ class _HomeState extends State<Home> {
                                                          color: kGradient1,
                                                          boxShadow: [
                                                            BoxShadow(
-                                                             color: Colors.black.withOpacity(0.1),
+                                                             color: Colors.grey.withOpacity(0.15),
                                                              blurRadius: 5,
                                                              spreadRadius: 3
                                                            )
