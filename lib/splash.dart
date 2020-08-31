@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -10,13 +11,22 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+
+  String userEmail = null;
   startTime() async {
     var _duration = new Duration( seconds: 3);
     return new Timer(_duration, navigationPage);
   }
 
-  void navigationPage(){
-    Navigator.of(context).pushReplacementNamed('/home');
+
+  void navigationPage()async{
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      if (pref.getString("userEmail")!=null){
+        Navigator.of(context).pushReplacementNamed('/home');
+      }
+      else{
+        Navigator.of(context).pushReplacementNamed('/welcome');
+      }
   }
 
   @override

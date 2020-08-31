@@ -16,6 +16,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:geolocation/geolocation.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_blood/geolocation_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
 
@@ -33,8 +34,11 @@ final locaterService = GeolocationService();
       debugShowCheckedModeBanner: false,
       home: Splash(),
       routes: <String, WidgetBuilder>{
+        '/onboarding': (BuildContext context) => Onboarding(),
         '/home': (BuildContext context) => Home(),
+        '/welcome': (BuildContext context) => Welcome(),
       }
     );
   }
 }
+

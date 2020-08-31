@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -358,6 +359,7 @@ class _HomeState extends State<Home> {
                                   ],
                                 ),
                                 onPressed: () {
+                                  LogOut();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -1013,4 +1015,9 @@ void getPosition() async {
   print(position.accuracy);
   print(position.longitude);
   print("nate");
+}
+
+void LogOut() async{
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  pref.setString("email", null);
 }

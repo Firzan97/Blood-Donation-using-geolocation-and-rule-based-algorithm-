@@ -7,10 +7,12 @@ import 'package:easy_blood/component/input_password_round.dart';
 import 'package:easy_blood/component/input_round.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/home.dart';
+import 'package:easy_blood/model/user.dart';
 import 'package:easy_blood/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -24,7 +26,6 @@ class _SignInState extends State<SignIn> {
   TextEditingController password = new TextEditingController();
   final _formkey = GlobalKey<FormState>();
   String error = "";
-
 
   @override
   Widget build(BuildContext context) {
@@ -80,23 +81,8 @@ class _SignInState extends State<SignIn> {
                     ButtonRound(
                       color: kPrimaryColor,
                       text: "LOGIN",
-                      press: () async {
-                        if (_formkey.currentState.validate()) {
-                          print("Validate");
-                          print(login());
-                          login().then((value) {
-                            if(value==200){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Home()),
-                              );
-                            }
-                          });
-                        }
-                        else{
-                          error =
-                          "Could  not sign in. Wrong input ";
-                        }
+                      press: (){
+                        login();
                       },
                     ),
                   ],
@@ -118,12 +104,32 @@ class _SignInState extends State<SignIn> {
     )
     );
   }
-}
-Future<int> login() async
-{
-  var res = await Api().getData("user");
-  var body = json.decode(res.body);
-  return res.statusCode;
-}
 
+  Future<void> login() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
 
+    if (_formkey.currentState.validate()) {
+    } else {
+      print("Could  not sign in. Wrong input ");
+    }
+
+    var res = await Api().getData("user");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+      List<User> users = [];
+      for (var u in body) {
+        if (u["email"] == email.text) {
+          pref.setString("userEmail", email.text);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Home()),
+          );
+          print("ada");
+        }
+//  users.add(user);
+//          print('DAH MASUK');
+
+      }
+    }
+  }
+}

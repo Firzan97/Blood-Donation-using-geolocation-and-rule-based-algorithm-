@@ -1,5 +1,4 @@
-class Event{
-
+class Event {
   final String name;
 
   final String location;
@@ -8,6 +7,4 @@ class Event{
     this.name,
     this.location,
   );
-
-
 }
