@@ -43,13 +43,6 @@ getJsonFile("assets/light.json").then(setMapStyle);
       })
     });
     currentPosition = locaterService.getPosition();
-    allMarkers.add(Marker(
-        markerId: MarkerId('myMarker'),
-        draggable: false,
-        onTap: () {
-          print(currentPosition);
-        },
-        position: LatLng(40, -74)));
   }
 
   @override
@@ -80,11 +73,8 @@ getJsonFile("assets/light.json").then(setMapStyle);
                             ),
                               onMapCreated: (GoogleMapController controller) {
                                 _controller = controller;
-                                isMapCreated = true;
-                                changeMapMode();
-                                setState(() {
-
-                                });
+//                                isMapCreated = true;
+////                                changeMapMode();
                               }
                           ),
                         ),
@@ -294,11 +284,12 @@ getJsonFile("assets/light.json").then(setMapStyle);
                 ],
               ),
             ),
-          ),
-        ],
-      ),
-    ) : Container(
-              child: Center(child: Text("We dont have your location")),
-            )));
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    child: Center(child: Text("We dont have your location")),
+                  )));
   }
 }

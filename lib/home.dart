@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:easy_blood/about.dart';
 import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/bloodEvent.dart';
+import 'package:easy_blood/blood_request.dart';
 import 'package:easy_blood/findRequest.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/notification.dart';
@@ -190,7 +191,7 @@ class _HomeState extends State<Home> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => FindRequest()),
+                                        builder: (context) => BloodRequest()),
                                   );
                                 },
                               ),
@@ -390,6 +391,7 @@ class _HomeState extends State<Home> {
               onTap: (index) {
                 setState(() {
                   _page = index;
+
                 });
               },
             ),

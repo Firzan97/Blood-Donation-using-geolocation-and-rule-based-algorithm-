@@ -10,3 +10,8 @@ const kGradient1 = Color(0xffff867f);
 const kGradient2 = Color(0xffd72323);
 
 const kAnimationDuration = Duration(milliseconds: 200);
+
+const colorgradient = LinearGradient(
+begin: Alignment.topRight,
+end: Alignment.bottomLeft,
+colors: [kGradient1, kGradient2]);
