@@ -124,7 +124,7 @@ class _SignInState extends State<SignIn> {
             context,
             MaterialPageRoute(builder: (context) => Home()),
           );
-          print("ada");
+          print(pref.getString("userEmail"));
         }
 //  users.add(user);
 //          print('DAH MASUK');

@@ -359,12 +359,7 @@ class _HomeState extends State<Home> {
                                   ],
                                 ),
                                 onPressed: () {
-                                  LogOut();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Welcome()),
-                                  );
+                                  LogOutDialog(context);
                                 },
                               ),
                             ),
@@ -1019,5 +1014,39 @@ void getPosition() async {
 
 void LogOut() async{
   SharedPreferences pref = await SharedPreferences.getInstance();
-  pref.setString("email", null);
+  pref.setString("userEmail", null);
+  var email2=pref.getString("userEmail");
+  print(email2);
+}
+
+Future<bool> LogOutDialog(context){
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text("Alert!"),
+          content: Text("Are you sure want to Logout?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("No"),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Yes"),
+              onPressed: (){
+                LogOut();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Welcome()),
+                );
+              },
+            ),
+          ],
+        );
+      }
+  );
 }
