@@ -29,12 +29,6 @@ class _AboutState extends State<About> {
                       Container(
                         height: size.height * 1,
                         width: size.width * 1,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              colors: [kGradient1, kGradient2]),
-                        ),
                         child: Column(
                           children: <Widget>[
                             SizedBox(height: size.height * 0.5),
@@ -49,10 +43,7 @@ class _AboutState extends State<About> {
                                   Container(
                                     decoration: BoxDecoration(
                                         color: Colors.white70,
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: kPrimaryColor,
-                                                width: 1)),
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
                                         boxShadow: [
                                           BoxShadow(
                                               spreadRadius: 3,
@@ -62,6 +53,9 @@ class _AboutState extends State<About> {
                                         ]),
                                     height: 40,
                                     child: FlatButton(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))
+                                      ),
                                         color: Colors.white,
                                         onPressed: () {},
                                         child:
@@ -70,9 +64,7 @@ class _AboutState extends State<About> {
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white70,
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: kPrimaryColor, width: 1)),
+
                                     ),
                                     height: 40,
                                     child: FlatButton(
@@ -84,9 +76,6 @@ class _AboutState extends State<About> {
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white70,
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: kPrimaryColor, width: 1)),
                                     ),
                                     height: 40,
                                     child: FlatButton(
@@ -100,12 +89,15 @@ class _AboutState extends State<About> {
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white70,
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: kPrimaryColor, width: 1)),
+                                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20)),
+
                                     ),
                                     height: 40,
                                     child: FlatButton(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20)),
+
+                                      ),
                                         color: Colors.white,
                                         onPressed: () {},
                                         child: Center(child: Text("Version"))),
@@ -162,7 +154,7 @@ class _AboutState extends State<About> {
                             gradient: LinearGradient(
                                 begin: Alignment.topRight,
                                 end: Alignment.bottomLeft,
-                                colors: [kGradient1, kGradient2]),
+                                colors: [Color(0xffffbcaf), kGradient2]),
                           ),
                         ),
                       ),

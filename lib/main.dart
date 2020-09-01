@@ -2,6 +2,7 @@ import 'package:easy_blood/blood_group_input.dart';
 import 'package:easy_blood/findRequest.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/home.dart';
+import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/locate_user.dart';
 import 'package:easy_blood/notification.dart';
 import 'package:easy_blood/onboarding.dart';
@@ -37,6 +38,7 @@ final locaterService = GeolocationService();
         '/onboarding': (BuildContext context) => Onboarding(),
         '/home': (BuildContext context) => Home(),
         '/welcome': (BuildContext context) => Welcome(),
+        '/loading': (BuildContext context) => LoadingScreen(),
       }
     );
   }
