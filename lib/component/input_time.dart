@@ -4,7 +4,6 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class InputTime extends StatelessWidget {
   final String name;
-
   const InputTime({Key key, this.name}) : super(key: key);
 
 
@@ -17,10 +16,9 @@ class InputTime extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(20)),
       child: FlatButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20)
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           onPressed: () {
+
             DatePicker.showTime12hPicker(context,
                 theme: DatePickerTheme(
                     headerColor: kGradient1,

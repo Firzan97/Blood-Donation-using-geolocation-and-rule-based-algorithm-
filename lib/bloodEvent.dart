@@ -7,10 +7,13 @@ import 'package:easy_blood/model/event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'component/button_round.dart';
 import 'component/input_date.dart';
 import 'component/input_round.dart';
+import 'dart:convert' show JSON;
+
 import 'component/input_time.dart';
 
 class BloodEvent extends StatefulWidget {
@@ -35,7 +38,7 @@ class _BloodEventState extends State<BloodEvent> {
   TextEditingController eventDate = new TextEditingController();
   TextEditingController eventOrganizer = new TextEditingController();
   TextEditingController eventPhoneNumber = new TextEditingController();
-
+   var dateStart,dateEnd,timeStart,timeEnd;
   bool _isLoading = false;
   String error = "";
   final _formKey = GlobalKey<FormState>();
@@ -273,8 +276,90 @@ class _BloodEventState extends State<BloodEvent> {
                                                         MainAxisAlignment
                                                             .spaceEvenly,
                                                     children: <Widget>[
-                                                      InputDate(name: "Start"),
-                                                      InputDate(name: "End"),
+                                                    Container(
+                                                    width: 150,
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius.circular(20)
+                                                    ),
+                                                    child: FlatButton(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(20)
+                                                        ),
+                                                        onPressed: () {
+                                                          DatePicker.showDatePicker(context,
+                                                              showTitleActions: true,
+                                                              minTime: DateTime(2020, 3, 5),
+                                                              maxTime: DateTime(2029, 6, 7),
+                                                              theme: DatePickerTheme(
+                                                                  headerColor: kPrimaryColor,
+                                                                  backgroundColor: kThirdColor,
+                                                                  itemStyle: TextStyle(
+                                                                      color: Colors.white,
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 18),
+                                                                  doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
+                                                              onChanged: (date) {
+                                                                print('change $date in time zone ' +
+                                                                    date.timeZoneOffset.inHours.toString());
+                                                              }, onConfirm: (date) {
+                                                                dateStart = date;
+                                                                print('confirm ${date}');
+                                                              }, currentTime: DateTime.now(), locale: LocaleType.en);
+                                                        },
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Icon(Icons.date_range),
+                                                            Text(
+                                                              'Date Start',
+                                                              style: TextStyle(color: Colors.black),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  ),
+                                            Container(
+                                              width: 150,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(20)
+                                              ),
+                                              child: FlatButton(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20)
+                                                  ),
+                                                  onPressed: () {
+                                                    DatePicker.showDatePicker(context,
+                                                        showTitleActions: true,
+                                                        minTime: DateTime(2020, 3, 5),
+                                                        maxTime: DateTime(2029, 6, 7),
+                                                        theme: DatePickerTheme(
+                                                            headerColor: kPrimaryColor,
+                                                            backgroundColor: kThirdColor,
+                                                            itemStyle: TextStyle(
+                                                                color: Colors.white,
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 18),
+                                                            doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
+                                                        onChanged: (date) {
+                                                          print('change $date in time zone ' +
+                                                              date.timeZoneOffset.inHours.toString());
+                                                        }, onConfirm: (date) {
+                                                          dateEnd = date;
+                                                          print('confirm ${date}');
+                                                        }, currentTime: DateTime.now(), locale: LocaleType.en);
+                                                  },
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Icon(Icons.date_range),
+                                                      Text(
+                                                        'Date End',
+                                                        style: TextStyle(color: Colors.black),
+                                                      ),
+                                                    ],
+                                                  )),
+                                            )
                                                     ],
                                                   ),
                                                   SizedBox(
@@ -285,12 +370,80 @@ class _BloodEventState extends State<BloodEvent> {
                                                         MainAxisAlignment
                                                             .spaceEvenly,
                                                     children: <Widget>[
-                                                      InputTime(
-                                                          name: "start",
-                                                          key: Keys1),
-                                                      InputTime(
-                                                          name: "end",
-                                                          key: Keys2),
+                                                    Container(
+                                                    width: 150,
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius.circular(20)),
+                                                    child: FlatButton(
+                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                        onPressed: () {
+
+                                                          DatePicker.showTime12hPicker(context,
+                                                              theme: DatePickerTheme(
+                                                                  headerColor: kGradient1,
+                                                                  backgroundColor: Colors.white,
+                                                                  itemStyle: TextStyle(
+                                                                      color: Colors.black,
+                                                                      fontWeight: FontWeight.bold,
+                                                                      fontSize: 18),
+                                                                  doneStyle: TextStyle(color: Colors.black, fontSize: 16)),
+                                                              showTitleActions: true, onChanged: (time) {
+                                                                print('change $time in time zone ' +
+                                                                    time.timeZoneOffset.inHours.toString());
+                                                              }, onConfirm: (time) {
+                                                                timeStart=time;
+                                                                print('confirm $time');
+                                                              }, currentTime: DateTime.now());
+                                                        },
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Icon(Icons.timer),
+                                                            Text(
+                                                              "Time Start",
+                                                              style: TextStyle(color: Colors.black),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  ),
+                                            Container(
+                                              width: 150,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(20)),
+                                              child: FlatButton(
+                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                  onPressed: () {
+
+                                                    DatePicker.showTime12hPicker(context,
+                                                        theme: DatePickerTheme(
+                                                            headerColor: kGradient1,
+                                                            backgroundColor: Colors.white,
+                                                            itemStyle: TextStyle(
+                                                                color: Colors.black,
+                                                                fontWeight: FontWeight.bold,
+                                                                fontSize: 18),
+                                                            doneStyle: TextStyle(color: Colors.black, fontSize: 16)),
+                                                        showTitleActions: true, onChanged: (time) {
+                                                          print('change $time in time zone ' +
+                                                              time.timeZoneOffset.inHours.toString());
+                                                        }, onConfirm: (time) {
+                                                          timeEnd=time;
+                                                          print('confirm $time');
+                                                        }, currentTime: DateTime.now());
+                                                  },
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Icon(Icons.timer),
+                                                      Text(
+                                                        "Time End",
+                                                        style: TextStyle(color: Colors.black),
+                                                      ),
+                                                    ],
+                                                  )),
+                                            ),
                                                     ],
                                                   ),
                                                   SizedBox(
@@ -349,13 +502,14 @@ class _BloodEventState extends State<BloodEvent> {
     }
 
     var data={
-      "name": "Derma darah Seri Iskandar",
-      "location": "Hospital Tumpat, Kelantan",
-      "phoneNum": "0192351520",
-      "dateStart": "18/9/20",
-      "dateEnd": "20/9/20",
-      "organizer": "MPKM",
-      "time": "9:00 AM",
+      "name": eventName.text,
+      "location": eventLocation.text,
+      "phoneNum": eventPhoneNumber.text,
+      "dateStart": jsonEncode(dateStart, toEncodable: myEncode),
+      "dateEnd": jsonEncode(dateEnd, toEncodable: myEncode),
+      "organizer": eventOrganizer.text,
+      "timeStart":jsonEncode(timeStart, toEncodable: myEncode),
+      "timeEnd": jsonEncode(timeEnd, toEncodable: myEncode),
       "imageURL": "assets/images/dermadarah2.jpg"
     };
 
@@ -366,6 +520,13 @@ class _BloodEventState extends State<BloodEvent> {
     }
 
     }
+
+  dynamic myEncode(dynamic item) {
+    if(item is DateTime) {
+      return item.toIso8601String();
+    }
+    return item;
+  }
 
   Future<bool> eventInfoDialog(context){
     return showDialog(
