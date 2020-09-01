@@ -36,20 +36,19 @@ class _HomeState extends State<Home> {
        name= localStorage.getString("user");
        data = jsonDecode(name);
      });
-     print(data);
-  }
+    print(data);}
 
   @override
   void initState(){
     super.initState();
     getUserData();
-  ;
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return WillPopScope(
+
+    return   WillPopScope(
       onWillPop: _onBackPressed,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(
@@ -80,7 +79,7 @@ class _HomeState extends State<Home> {
                                       spreadRadius: 3,
                                       blurRadius: 13)
                                 ]),
-                            accountName: Text(data['username'],
+                            accountName: data['username']==null ? Text("Loading") : Text(data['username'],
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700,
@@ -171,8 +170,11 @@ class _HomeState extends State<Home> {
                                   ),
                                   onPressed: () {
                                     getUserData();
-
-                                    print("sasasa");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => RequestBlood()),
+                                    );
                                   },
                                 ),
                               ),
@@ -535,7 +537,9 @@ class _HomeState extends State<Home> {
                                               width: size.width * 0.03,
                                             ),
                                             Text("Blood Type."),
-                                            Text(
+                                            data["bloodType"]==null ? Text("None", style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700),) : Text(
                                               data["bloodType"],
                                               style: TextStyle(
                                                   color: Colors.white,
@@ -1036,7 +1040,7 @@ void getPosition() async {
 
 void LogOut() async{
   SharedPreferences pref = await SharedPreferences.getInstance();
-  pref.setString("userEmail", null);
+  pref.setString("user", null);
   var email2=pref.getString("userEmail");
   print(email2);
 }

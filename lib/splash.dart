@@ -12,7 +12,7 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
 
-  String token = null;
+  String user = null;
   startTime() async {
     var _duration = new Duration( seconds: 3);
     return new Timer(_duration, navigationPage);
@@ -21,10 +21,12 @@ class _SplashState extends State<Splash> {
 
   void navigationPage()async{
       SharedPreferences pref = await SharedPreferences.getInstance();
-      if (pref.getString("token")!=null){
+      if (pref.getString("user")!=null){
+        print("tak nall");
         Navigator.of(context).pushReplacementNamed('/home');
       }
       else{
+        print("nall");
         Navigator.of(context).pushReplacementNamed('/welcome');
       }
   }

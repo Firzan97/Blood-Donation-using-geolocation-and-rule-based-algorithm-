@@ -128,8 +128,6 @@ class _SignInState extends State<SignIn> {
 
 
   Future<void> login() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-
     if (_formkey.currentState.validate()) {
     } else {
       print("Could  not sign in. Wrong input ");
