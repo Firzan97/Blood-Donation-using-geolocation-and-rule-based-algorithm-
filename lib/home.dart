@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:easy_blood/about.dart';
 import 'package:easy_blood/animation/faceAnimation.dart';
@@ -24,6 +26,25 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _page = 0;
   GlobalKey _bottomNavigationKey = GlobalKey();
+  String name;
+  var data ;
+
+
+  void getUserData()async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+     setState(() {
+       name= localStorage.getString("user");
+       data = jsonDecode(name);
+     });
+     print(data);
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    getUserData();
+  ;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +80,13 @@ class _HomeState extends State<Home> {
                                       spreadRadius: 3,
                                       blurRadius: 13)
                                 ]),
-                            accountName: Text("FIRZAN AZRAI",
+                            accountName: Text(data['username'],
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700,
                                     color: Colors.black)),
                             accountEmail: Text(
-                              "FirzanAzrai97@gmail.com",
+                              data["email"],
                               style: TextStyle(fontSize: 11, color: Colors.black),
                             ),
                             currentAccountPicture: CircleAvatar(
@@ -149,11 +170,9 @@ class _HomeState extends State<Home> {
                                     ],
                                   ),
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => RequestBlood()),
-                                    );
+                                    getUserData();
+
+                                    print("sasasa");
                                   },
                                 ),
                               ),
@@ -432,7 +451,7 @@ class _HomeState extends State<Home> {
                                                   fontSize: 18.0),
                                               children: <TextSpan>[
                                                 TextSpan(
-                                                    text: 'Firzan Azrai',
+                                                    text: data['username'],
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -517,7 +536,7 @@ class _HomeState extends State<Home> {
                                             ),
                                             Text("Blood Type."),
                                             Text(
-                                              "AB",
+                                              data["bloodType"],
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w700),
@@ -527,7 +546,7 @@ class _HomeState extends State<Home> {
                                             ),
                                             Text("Age."),
                                             Text(
-                                              "19",
+                                              '${data["age"]}',
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w700),

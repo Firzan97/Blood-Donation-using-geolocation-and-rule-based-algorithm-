@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:password/password.dart';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/already_have_account.dart';
 import 'package:easy_blood/component/button_round.dart';
@@ -105,6 +105,28 @@ class _SignInState extends State<SignIn> {
     );
   }
 
+  Future<bool> infoDialog(context){
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("User not found"),
+            content: Text("There are no account sign up with this email/password"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.close),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        }
+    );
+  }
+
+
   Future<void> login() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
@@ -113,23 +135,24 @@ class _SignInState extends State<SignIn> {
       print("Could  not sign in. Wrong input ");
     }
 
-    var res = await Api().getData("user");
-    var body = json.decode(res.body);
-    if (res.statusCode == 200) {
-      List<User> users = [];
-      for (var u in body) {
-        if (u["email"] == email.text) {
-          pref.setString("userEmail", email.text);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Home()),
-          );
-          print(pref.getString("userEmail"));
-        }
-//  users.add(user);
-//          print('DAH MASUK');
+    var data={
+      "email": email.text,
+      "password": password.text
+    };
 
-      }
+    var res = await Api().postData(data, "login");
+    var body = json.decode(res.body);
+    if(body['success']){
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.setString('token', body['token']);
+      localStorage.setString('user', json.encode(body['user']));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );
+    }
+    else {
+      infoDialog(context);
     }
   }
 }

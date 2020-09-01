@@ -6,9 +6,11 @@ import 'package:easy_blood/component/button_round.dart';
 import 'package:easy_blood/component/input_password_round.dart';
 import 'package:easy_blood/component/input_round.dart';
 import 'package:easy_blood/constant.dart';
+import 'package:easy_blood/home.dart';
 import 'package:easy_blood/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
   final Function toggleView;
@@ -151,11 +153,6 @@ class _SignUpState extends State<SignUp> {
                                 if (_formkey.currentState.validate()) {
                                   print("Validate");
                                   register();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SignIn()),
-                                  );
                                 } else {
                                   error = "Could  not sign in. Wrong input ";
                                 }
@@ -186,8 +183,9 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  void register() async
-  {
+  void register() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
     setState(() {
       _isLoading = true;
     });
@@ -198,12 +196,19 @@ class _SignUpState extends State<SignUp> {
       "password" : password.text,
       "age" : age.text,
     };
-
+    print(age.text);
     var res = await Api().postData(data,"user");
+    var body = json.decode(res.body);
     print(res.statusCode);
     if(res.statusCode==200) {
-      var body = json.decode(res.body);
-      print(body);
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.setString('token', body['token']);
+      localStorage.setString('user', json.encode(body['user']));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Home()),
+      );
     }
 
   }
