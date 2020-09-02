@@ -1,10 +1,11 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/findRequest.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -101,215 +102,349 @@ class _BloodRequestState extends State<BloodRequest> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     onPressed: _goToUserLocation,
-                    child: Text("Locate your location"),
+                    child: Text("Locate your location",style: TextStyle(
+                      color: Colors.white
+                    ),),
                   ),
                 ),
               ),
               Positioned(
+                bottom: 250,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 163),
+                  child: Container(
+                    height: size.height*0.05,
+                    width: size.width*0.20,
+                    decoration: BoxDecoration(
+                        color: Colors.yellow,
+                        borderRadius: BorderRadius.circular(20)
+                    ),
+                    child: Row(
+
+                      children: <Widget>[
+                        IconButton(icon: FaIcon(FontAwesomeIcons.handsHelping,color: Colors.black,),
+                        ),
+                        Text("AB+",style: TextStyle(fontWeight: FontWeight.w700),)
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 55,
+                left: 15,
                 child: Container(
+                  height: size.height*0.26,
+                  width: size.width*0.92,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                    borderRadius: BorderRadius.circular(7)
+                  ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Row()
+                      Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Icon(Icons.details),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text("Nearest Request is 10.0  KM",style: TextStyle(
+                          fontFamily: "Muli",
+                          color: Colors.black.withOpacity(0.4),
+                          fontWeight: FontWeight.w700
+                        ),),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text("FIRZAN AZRAI",style: TextStyle(
+                            fontFamily: "Muli",
+                          fontWeight: FontWeight.w700
+                        ),),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text("Lot 702, Kampung Kok Keli",style: TextStyle(
+                            fontFamily: "Muli",
+                            fontWeight: FontWeight.w500
+                        ),),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Container(
+                              height: size.height*0.06,
+                              width: size.width*0.3,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: kPrimaryColor,
+                              ),
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Center(child: Text("NAVIGATE",style: TextStyle(
+                                  fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: 15
+                                ),)),
+                              ),
+                            ),
+                            Container(
+                              height: size.height*0.06,
+                              width: size.width*0.3,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: kPrimaryColor,
+                              ),
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Center(child: Text("CALL",style: TextStyle(
+                                    fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: 15
+                                ),)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+
                     ],
                   ),
-                ) ,
+                ),
               ),
               DraggableScrollableSheet(
-                  initialChildSize: 0.15,
-                  minChildSize: 0.15,
-                  maxChildSize: 0.5,
+                  initialChildSize: 0.05,
+                  minChildSize: 0.05,
+                  maxChildSize: 0.95,
                   builder: (BuildContext c, s)
                   {
                     return Container(
                       decoration: BoxDecoration(
-                        color: Colors.white24.withOpacity(0.0)
+                        borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
+                        gradient: LinearGradient(
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                            colors: [
+                              Color(0xffffbcaf),
+                              kGradient2.withOpacity(0.4)
+                            ]),
                       ),
-                      child: SingleChildScrollView(
-                        controller: s,
-                        child: Column(
-                          children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                          color: Colors.white
-                        ),
-                                child: ListTile(
-                                  leading: Container(
-                                    height: size.height * 0.149,
-                                    width: size.width * 0.15,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          child: SingleChildScrollView(
+                            controller: s,
+                            child: Column(
+                              children: <Widget>[
+                                Icon(Icons.drag_handle),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 30,
+                                    width: 150,
                                     decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                              "assets/images/lari2.jpg"),
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.black
+                                    ),
+                                    child: Center(
+                                      child: Text("Blood Request List",style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: "Muli",
+                                        color: Colors.white
+                                      ),),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: size.height*0.01,),
+                                  Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                              color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10)
+                            ),
+                                      child: ListTile(
+                                        leading: Container(
+                                          height: size.height * 0.149,
+                                          width: size.width * 0.15,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "assets/images/lari2.jpg"),
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                      ),
+                                      title: Text("SYAZWAN ASRAF"),
+                                      subtitle: Text("Blood Group O"),
+                                      trailing: Container(
+                                        width: 130,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.call,
+                                                color: kPrimaryColor,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FindRequest()),
+                                                );
+                                              },
+                                            ),
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.call_missed_outgoing,
+                                                color: kPrimaryColor,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FindRequest()),
+                                                );
+                                              },
+                                            ),
+                                          ],
                                         ),
-                                        borderRadius:
-                                        BorderRadius.circular(5)),
+                                      ),
+                                      ),
+                                    ),
                                   ),
-                                  title: Text("SYAZWAN ASRAF"),
-                                  subtitle: Text("Blood Group O"),
-                                  trailing: IconButton(
-                                    icon: Icon(Icons.call_missed_outgoing,color: kPrimaryColor,),
- onPressed: (){
-   Navigator.push(
-     context,
-     MaterialPageRoute(
-         builder: (context) => FindRequest()),
-   );
- },
+                                Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10)
+                                    ),
+                                    child: ListTile(
+                                      leading: Container(
+                                        height: size.height * 0.149,
+                                        width: size.width * 0.15,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "assets/images/lari2.jpg"),
+                                            ),
+                                            borderRadius:
+                                            BorderRadius.circular(5)),
+                                      ),
+                                      title: Text("SYAZWAN ASRAF"),
+                                      subtitle: Text("Blood Group O"),
+                                      trailing: Container(
+                                        width: 130,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.call,
+                                                color: kPrimaryColor,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FindRequest()),
+                                                );
+                                              },
+                                            ),
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.call_missed_outgoing,
+                                                color: kPrimaryColor,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FindRequest()),
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white
-                              ),
-                              child: ListTile(
-                                leading: Container(
-                                  height: size.height * 0.149,
-                                  width: size.width * 0.15,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            "assets/images/lari2.jpg"),
+                                Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10)
+                                    ),
+                                    child: ListTile(
+                                      leading: Container(
+                                        height: size.height * 0.149,
+                                        width: size.width * 0.15,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "assets/images/lari2.jpg"),
+                                            ),
+                                            borderRadius:
+                                            BorderRadius.circular(5)),
                                       ),
-                                      borderRadius:
-                                      BorderRadius.circular(5)),
+                                      title: Text("SYAZWAN ASRAF"),
+                                      subtitle: Text("Blood Group O"),
+                                      trailing: Container(
+                                        width: 130,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.call,
+                                                color: kPrimaryColor,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FindRequest()),
+                                                );
+                                              },
+                                            ),
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.call_missed_outgoing,
+                                                color: kPrimaryColor,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FindRequest()),
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                title: Text("SYAZWAN ASRAF"),
-                                subtitle: Text("Blood Group O"),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.call_missed_outgoing,color: kPrimaryColor,),
-
-                                ),
-                              ),
+                              ],
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white
-                              ),
-                              child: ListTile(
-                                leading: Container(
-                                  height: size.height * 0.149,
-                                  width: size.width * 0.15,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            "assets/images/lari2.jpg"),
-                                      ),
-                                      borderRadius:
-                                      BorderRadius.circular(5)),
-                                ),
-                                title: Text("SYAZWAN ASRAF"),
-                                subtitle: Text("Blood Group O"),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.call_missed_outgoing,color: kPrimaryColor,),
-
-                                ),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white
-                              ),
-                              child: ListTile(
-                                leading: Container(
-                                  height: size.height * 0.149,
-                                  width: size.width * 0.15,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            "assets/images/lari2.jpg"),
-                                      ),
-                                      borderRadius:
-                                      BorderRadius.circular(5)),
-                                ),
-                                title: Text("SYAZWAN ASRAF"),
-                                subtitle: Text("Blood Group O"),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.call_missed_outgoing,color: kPrimaryColor,),
-
-                                ),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white
-                              ),
-                              child: ListTile(
-                                leading: Container(
-                                  height: size.height * 0.149,
-                                  width: size.width * 0.15,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            "assets/images/lari2.jpg"),
-                                      ),
-                                      borderRadius:
-                                      BorderRadius.circular(5)),
-                                ),
-                                title: Text("SYAZWAN ASRAF"),
-                                subtitle: Text("Blood Group O"),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.call_missed_outgoing,color: kPrimaryColor,),
-
-                                ),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white
-                              ),
-                              child: ListTile(
-                                leading: Container(
-                                  height: size.height * 0.149,
-                                  width: size.width * 0.15,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            "assets/images/lari2.jpg"),
-                                      ),
-                                      borderRadius:
-                                      BorderRadius.circular(5)),
-                                ),
-                                title: Text("SYAZWAN ASRAF"),
-                                subtitle: Text("Blood Group O"),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.call_missed_outgoing,color: kPrimaryColor,),
-
-                                ),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white
-                              ),
-                              child: ListTile(
-                                leading: Container(
-                                  height: size.height * 0.149,
-                                  width: size.width * 0.15,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            "assets/images/lari2.jpg"),
-                                      ),
-                                      borderRadius:
-                                      BorderRadius.circular(5)),
-                                ),
-                                title: Text("SYAZWAN ASRAF"),
-                                subtitle: Text("Blood Group O"),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.call_missed_outgoing,color: kPrimaryColor,),
-
-                                ),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
                       ),
                     );
