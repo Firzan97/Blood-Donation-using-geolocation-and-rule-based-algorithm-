@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:html';
 
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/findRequest.dart';
@@ -103,6 +104,15 @@ class _BloodRequestState extends State<BloodRequest> {
                     child: Text("Locate your location"),
                   ),
                 ),
+              ),
+              Positioned(
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Row()
+                    ],
+                  ),
+                ) ,
               ),
               DraggableScrollableSheet(
                   initialChildSize: 0.15,

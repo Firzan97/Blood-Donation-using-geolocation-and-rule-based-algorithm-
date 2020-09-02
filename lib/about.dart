@@ -26,12 +26,62 @@ class _AboutState extends State<About> {
                 children: <Widget>[
                   Container(
                     child: Stack(children: <Widget>[
+                      ClipPath(
+                        clipper: MyClipper(),
+                        child: Container(
+                          padding: EdgeInsets.only(top: 10),
+                          height: size.height * 0.41,
+                          width: size.width * 1,
+                          child: Column(
+                            children: <Widget>[
+                              Expanded(
+                                child: Stack(children: <Widget>[
+                                  Positioned(
+                                    left: 0,
+                                    top: 10,
+                                    child: IconButton(
+                                      icon: Icon(Icons.arrow_back),
+                                      onPressed: () {
+                                        Navigator.pop(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Home()),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Positioned(
+                                      left: 191, top: 25, child: Text("ABOUT")),
+                                  Positioned(
+                                      top: 60,
+                                      left: 100,
+                                      child: Image.asset(
+                                        "assets/images/humaaans.png",
+                                        width: 200,
+                                      )),
+                                ]),
+                              ),
+                              Container(
+                                child: Column(
+                                  children: <Widget>[],
+                                ),
+                              )
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [Color(0xffffbcaf), kGradient2]),
+                          ),
+                        ),
+                      ),
                       Container(
                         height: size.height * 1,
                         width: size.width * 1,
                         child: Column(
                           children: <Widget>[
-                            SizedBox(height: size.height * 0.5),
+                            SizedBox(height: size.height * 0.3),
                             Container(
                               width: size.width * 0.7,
                               height: size.height * 0.28,
@@ -108,56 +158,7 @@ class _AboutState extends State<About> {
                           ],
                         ),
                       ),
-                      ClipPath(
-                        clipper: MyClipper(),
-                        child: Container(
-                          padding: EdgeInsets.only(top: 10),
-                          height: size.height * 0.41,
-                          width: size.width * 1,
-                          child: Column(
-                            children: <Widget>[
-                              Expanded(
-                                child: Stack(children: <Widget>[
-                                  Positioned(
-                                    left: 0,
-                                    top: 10,
-                                    child: IconButton(
-                                      icon: Icon(Icons.arrow_back),
-                                      onPressed: () {
-                                        Navigator.pop(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Home()),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  Positioned(
-                                      left: 191, top: 25, child: Text("ABOUT")),
-                                  Positioned(
-                                      top: 60,
-                                      left: 100,
-                                      child: Image.asset(
-                                        "assets/images/humaaans.png",
-                                        width: 200,
-                                      )),
-                                ]),
-                              ),
-                              Container(
-                                child: Column(
-                                  children: <Widget>[],
-                                ),
-                              )
-                            ],
-                          ),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topRight,
-                                end: Alignment.bottomLeft,
-                                colors: [Color(0xffffbcaf), kGradient2]),
-                          ),
-                        ),
-                      ),
+
                     ]),
                   ),
                 ],
