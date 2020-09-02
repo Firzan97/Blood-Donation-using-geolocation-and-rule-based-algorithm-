@@ -56,7 +56,7 @@ class _AboutState extends State<About> {
                                       top: 60,
                                       left: 100,
                                       child: Image.asset(
-                                        "assets/images/humaaans.png",
+                                        "assets/images/bloodcell2.png",
                                         width: 200,
                                       )),
                                 ]),

@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
             debugShowCheckedModeBanner: false,
             home: data==null ? LoadingScreen() : Scaffold(
               drawer: Container(
-                width: 300,
+                width: 340,
                 child: Drawer(
                   child: Container(
                     color: Colors.white24,
@@ -421,6 +421,7 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: <Widget>[
                     Stack(children: <Widget>[
+
                       ClipPath(
                         clipper: MyClipper2(),
                         child: Container(
@@ -428,196 +429,202 @@ class _HomeState extends State<Home> {
                           decoration: BoxDecoration(color: kGradient1),
                         ),
                       ),
+                      Positioned(
+                          right:40,
+                          top:20,
+                          child: Image.asset("assets/images/bloodcell.png",scale: 3,)),
+                      Positioned(
+                        right:225,
+                        top:130,
+                        child: Image.asset("assets/images/bloodcell.png",scale: 5,),
+                      ),
                       ClipPath(
                         clipper: MyClipper(),
-                        child: Opacity(
-                          opacity: 0.9,
-                          child: Container(
-                            height: size.height * 0.39,
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, top: 10.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                        child: Container(
+                          height: size.height * 0.39,
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, top: 10.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        RichText(
+                                          text: TextSpan(
+                                            text: 'Hai, ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w100,
+                                                fontSize: 18.0),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text: data['username'],
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: kThirdColor)),
+                                            ],
+                                          ),
+                                        ),
+
+                                        Text(
+                                          "Let's save people's life !",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w300,
+                                              letterSpacing: 1,
+                                              wordSpacing: 2),
+                                        )
+                                      ],
+                                    ),
+                                    IconButton(
+                                      iconSize: 25.0,
+                                      onPressed: (){
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Notifications()),
+                                        );
+                                      },hoverColor: Colors.red,
+                                      splashColor: Colors.black,
+                                      icon: Icon(Icons.notifications,color: Colors.white,),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: size.height * 0.02),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      height: size.height * 0.07,
+                                      width: size.width * 0.7,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(11.00)),
+                                      child: Row(
                                         children: <Widget>[
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'Hai, ',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w100,
-                                                  fontSize: 18.0),
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                    text: data['username'],
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: kThirdColor)),
-                                              ],
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              Icons.location_on,
+                                              color: Colors.black87,
                                             ),
                                           ),
-
-                                          Text(
-                                            "Let's save people's life !",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w300,
-                                                letterSpacing: 1,
-                                                wordSpacing: 2),
-                                          )
+                                          Text("Locate your location")
                                         ],
                                       ),
-                                      IconButton(
-                                        iconSize: 25.0,
-                                        onPressed: (){
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Notifications()),
-                                          );
-                                        },hoverColor: Colors.red,
-                                        splashColor: Colors.black,
-                                        icon: Icon(Icons.notifications,color: Colors.white,),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: size.height * 0.02),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        height: size.height * 0.07,
-                                        width: size.width * 0.7,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(11.00)),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Icon(
-                                                Icons.location_on,
-                                                color: Colors.black87,
-                                              ),
-                                            ),
-                                            Text("Locate your location")
-                                          ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        color: Colors.lightBlue,
+                                        child: Icon(
+                                          Icons.search,
+                                          color: Colors.white,
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          color: Colors.lightBlue,
-                                          child: Icon(
-                                            Icons.search,
-                                            color: Colors.white,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(Icons.library_books),
+                                          SizedBox(
+                                            width: size.width * 0.03,
                                           ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Icon(Icons.library_books),
-                                            SizedBox(
-                                              width: size.width * 0.03,
-                                            ),
-                                            Text("Blood Type."),
-                                            data["bloodType"]==null ? Text("None", style: TextStyle(
+                                          Text("Blood Type."),
+                                          data["bloodType"]==null ? Text("None", style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700),) : Text(
+                                            data["bloodType"],
+                                            style: TextStyle(
                                                 color: Colors.white,
-                                                fontWeight: FontWeight.w700),) : Text(
-                                              data["bloodType"],
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                            SizedBox(
-                                              width: size.width * 0.1,
-                                            ),
-                                            Text("Age."),
-                                            Text(
-                                              '${data["age"]}',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                            SizedBox(
-                                              width: size.width * 0.1,
-                                            ),
-                                            Text("Weight."),
-                                            Text(
-                                              "55KG",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ],
-                                        ),
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.1,
+                                          ),
+                                          Text("Age."),
+                                          Text(
+                                            '${data["age"]}',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          SizedBox(
+                                            width: size.width * 0.1,
+                                          ),
+                                          Text("Weight."),
+                                          Text(
+                                            "55KG",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: <Widget>[
-                                            Container(
-                                              height: 40.0,
-                                              width: 40.0,
-                                              child: Icon(Icons.search),
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white,
-                                              ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: <Widget>[
+                                          Container(
+                                            height: 40.0,
+                                            width: 40.0,
+                                            child: Icon(Icons.search),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white,
                                             ),
-                                            Container(
-                                              height: 40.0,
-                                              width: 40.0,
-                                              child: Icon(Icons.search),
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white,
-                                              ),
+                                          ),
+                                          Container(
+                                            height: 40.0,
+                                            width: 40.0,
+                                            child: Icon(Icons.search),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white,
                                             ),
-                                            Container(
-                                              height: 40.0,
-                                              width: 40.0,
-                                              child: Icon(Icons.event),
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white,
-                                              ),
+                                          ),
+                                          Container(
+                                            height: 40.0,
+                                            width: 40.0,
+                                            child: Icon(Icons.event),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white,
                                             ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              gradient: LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [kGradient1, kGradient2]),
-                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [kGradient1.withOpacity(0.7), kGradient2.withOpacity(0.7)]),
                           ),
                         ),
                       ),

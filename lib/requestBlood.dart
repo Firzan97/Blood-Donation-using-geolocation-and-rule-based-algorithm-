@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/geolocation_service.dart';
 import 'package:easy_blood/signin.dart';
@@ -7,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class RequestBlood extends StatefulWidget {
@@ -16,6 +20,9 @@ class RequestBlood extends StatefulWidget {
 
 class _RequestBloodState extends State<RequestBlood> {
   TextEditingController location = new TextEditingController();
+  TextEditingController bloodGroup = new TextEditingController();
+  TextEditingController reason = new TextEditingController();
+
   List<Marker> allMarkers = [];
   final locaterService = GeolocationService();
   var currentPosition ;
@@ -194,7 +201,7 @@ getJsonFile("assets/light.json").then(setMapStyle);
                                             right: 15),
                                         hintText: 'Blood Group',
                                       ),
-                                      controller: location,
+                                      controller: bloodGroup,
                                     ),
                                   ),
                                 ),
@@ -240,7 +247,7 @@ getJsonFile("assets/light.json").then(setMapStyle);
                                             right: 15),
                                         hintText: 'Reason',
                                       ),
-                                      controller: location,
+                                      controller: reason,
                                     ),
                                   ),
                                 ),
@@ -267,7 +274,7 @@ getJsonFile("assets/light.json").then(setMapStyle);
                               ),
                               child: FlatButton(
                                 onPressed: (){
-
+                                  addEvent();
                                 },
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
@@ -291,5 +298,53 @@ getJsonFile("assets/light.json").then(setMapStyle);
                 : Container(
                     child: Center(child: Text("We dont have your location")),
                   )));
+  }
+
+  Future<void> addEvent() async {
+//    if (_formKey.currentState.validate()) {
+//    } else {
+//      print("Could added. Wrong input ");
+//    }
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var userjson = localStorage.getString("user");
+    var user= jsonDecode(userjson);
+    var data={
+      "location": location.text,
+      "bloodType": bloodGroup.text,
+      "reason": reason.text,
+      "user_id": user["_id"],
+    };
+
+    var res = await Api().postData(data, "request");
+    print(res.statusCode);
+    if(res.statusCode==200){
+      eventInfoDialog(context);
+    }
+
+  }
+
+  Future<bool> eventInfoDialog(context){
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Request has been made. Please wait a minute for the system to find suitable donors"),
+            content: Text("Thank you :D"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.close),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => super.widget));
+                },
+              )
+            ],
+          );
+        }
+    );
   }
 }

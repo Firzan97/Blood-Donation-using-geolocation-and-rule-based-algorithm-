@@ -480,12 +480,13 @@ class _BloodEventState extends State<BloodEvent> {
   }
 
   Future<List<Event>> fetchEvent() async {
+
     var res = await Api().getData("event");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
       List<Event> events = [];
-      for (var u in body) {
-        Event event = Event(u["name"], u["location"]);
+      for (Map u in body) {
+        Event event = Event.fromJson(u);
         events.add(event);
       }
 
@@ -500,33 +501,37 @@ class _BloodEventState extends State<BloodEvent> {
     } else {
       print("Could added. Wrong input ");
     }
-
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var userjson = localStorage.getString("user");
+    var user= jsonDecode(userjson);
     var data={
       "name": eventName.text,
       "location": eventLocation.text,
       "phoneNum": eventPhoneNumber.text,
-      "dateStart": jsonEncode(dateStart, toEncodable: myEncode),
-      "dateEnd": jsonEncode(dateEnd, toEncodable: myEncode),
+      "dateStart": dateStart.toString(),
+      "dateEnd": dateEnd.toString(),
       "organizer": eventOrganizer.text,
-      "timeStart":jsonEncode(timeStart, toEncodable: myEncode),
-      "timeEnd": jsonEncode(timeEnd, toEncodable: myEncode),
-      "imageURL": "assets/images/dermadarah2.jpg"
+      "timeStart":timeStart.toString(),
+      "timeEnd": timeEnd.toString(),
+      "imageURL": "assets/images/dermadarah2.jpg",
+      "user_id": user["_id"],
     };
 
     var res = await Api().postData(data, "event");
     print(res.statusCode);
     if(res.statusCode==200){
+     if(timeStart is DateTime) print(dateStart);
       eventInfoDialog(context);
     }
 
     }
 
-  dynamic myEncode(dynamic item) {
-    if(item is DateTime) {
-      return item.toIso8601String();
-    }
-    return item;
-  }
+//  dynamic myEncode(dynamic item) {
+//    if(item is DateTime) {
+//      return item.toIso8601String();
+//    }
+//    return item;
+//  }
 
   Future<bool> eventInfoDialog(context){
     return showDialog(
