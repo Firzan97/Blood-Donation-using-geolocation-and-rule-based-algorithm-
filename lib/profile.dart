@@ -1,13 +1,16 @@
+import 'dart:convert';
 import 'dart:ui';
-
+import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/component/curvedBackground.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/home.dart';
-import 'package:easy_blood/userdashboard.dart';
+import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/model/event.dart';
+import 'package:easy_blood/model/Blood_Request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 class Profile extends StatefulWidget {
   @override
@@ -15,6 +18,15 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  Future<List<BloodRequest>> _future;
+
+
+  @override
+  void initState(){
+    _future = fetchBlood();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -180,8 +192,8 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                       DraggableScrollableSheet(
-                        initialChildSize: 0.15,
-                        minChildSize: 0.15,
+                        initialChildSize: 0.10,
+                        minChildSize: 0.10,
                         maxChildSize: 0.8,
                         builder: (BuildContext c,s){
                         return Container(
@@ -196,268 +208,322 @@ class _ProfileState extends State<Profile> {
                             controller: s,
                             child: Column(
                               children: <Widget>[
+                                SizedBox(height: size.height*0.01),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 30,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.black
+                                    ),
+                                    child: Center(
+                                      child: Text("Your Activities",style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: "Muli",
+                                          color: Colors.white
+                                      ),),
+                                    ),
+                                  ),
+                                ),
+
                                 Padding(
                                   padding: const EdgeInsets.all(19.0),
                                   child: Container(
-                                    height: size.height*0.25,
-                                    width: size.width * 1,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          spreadRadius: 3,
-                                          blurRadius: 12
-                                        )
-                                      ]
-                                        ),
-                                    child: Column(
+                                    child: Stack(
                                       children: <Widget>[
                                         Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(15.0),
-                                            child: Row(
-                                              children: <Widget>[
-                                                Container(
-                                                  height: 50,
-                                                  width: 60,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.rectangle,
-                                                  ),
-                                                  child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(5),
-                                                      child: Image.asset(
-                                                          "assets/images/lari2.jpg",fit: BoxFit.cover,)),
-                                                ),
-                                                SizedBox(width: size.width*0.09,),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text("6 hours ago"),
-                                                    Row(
-                                                      children: <Widget>[
-                                                        Container(
-                                                          child: Text("Syazwan Asraf"),
-                                                        ),
-                                                        SizedBox(width: size.width*0.08,),
-                                                        Container(
-                                                          child: Row(
-                                                            children: <Widget>[
-                                                              Row(
-                                                                children: <Widget>[
-                                                                  Icon(Icons.thumb_up),
-                                                                  Text("1")
-                                                                ],
-                                                              ),
-                                                              SizedBox(width: size.width*0.05,),
-                                                              Row(
-                                                                children: <Widget>[
-                                                                  Icon(Icons.comment),
-                                                                  Text("1")
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
-                                                )
-                                              ],
-                                            ),
+                                          width: size.width * 1,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                            borderRadius: BorderRadius.circular(20),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.1),
+                                                spreadRadius: 3,
+                                                blurRadius: 12
+                                              )
+                                            ]
+                                              ),
+                                          child: Column(
+                                            children: <Widget>[
+                                               SizedBox(height: size.height*0.03,),
+                                              FutureBuilder(
+                                                future: _future,
+                                                builder: (context,snapshot) {
+                                                  if (snapshot.data == null) {
+                                                    return Container(
+                                                      child: Center(
+                                                        child: LoadingScreen(),
+                                                      ),
+                                                    );
+                                                  }
+                                                  return Container(
+                                                    height: size.height*0.4,
+                                                    child: ListView.builder(
+                                                        itemCount: snapshot.data.length,
+                                                        itemBuilder: (BuildContext context, int index) {
+                                                          return Padding(
+                                                            padding: const EdgeInsets
+                                                                .all(
+                                                                15.0),
+                                                            child: Row(
+                                                              children: <Widget>[
+                                                                Container(
+                                                                  height: 50,
+                                                                  width: 60,
+                                                                  decoration: BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .rectangle,
+                                                                  ),
+                                                                  child: ClipRRect(
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                          5),
+                                                                      child: Image
+                                                                          .asset(
+                                                                        "assets/images/lari2.jpg",
+                                                                        fit: BoxFit
+                                                                            .cover,)),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: size.width *
+                                                                      0.09,),
+                                                                Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment
+                                                                      .start,
+                                                                  children: <Widget>[
+                                                                    Text(
+                                                                        "6 hours ago"),
+                                                                    Row(
+                                                                      children: <
+                                                                          Widget>[
+                                                                        Container(
+                                                                          child: Text(
+                                                                              "Syazwan Asraf"),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width: size
+                                                                              .width *
+                                                                              0.08,),
+                                                                        Container(
+                                                                          child: Row(
+                                                                            children: <
+                                                                                Widget>[
+                                                                              Row(
+                                                                                children: <
+                                                                                    Widget>[
+                                                                                  Icon(
+                                                                                      Icons
+                                                                                          .thumb_up),
+                                                                                  Text(
+                                                                                      "1")
+                                                                                ],
+                                                                              ),
+                                                                              SizedBox(
+                                                                                width: size
+                                                                                    .width *
+                                                                                    0.05,),
+                                                                              Row(
+                                                                                children: <
+                                                                                    Widget>[
+                                                                                  Icon(
+                                                                                      Icons
+                                                                                          .comment),
+                                                                                  Text(
+                                                                                      "1")
+                                                                                ],
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    )
+                                                                  ],
+                                                                )
+                                                              ],
+                                                            ),
+                                                          );
+
+                                                        }
+                                                    ),
+                                                  );
+                                                }
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(15.0),
-                                            child: Row(
-                                              children: <Widget>[
-                                                Container(
-                                                  height: 50,
-                                                  width: 60,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.rectangle,
-                                                  ),
-                                                  child: ClipRRect(
-                                                      borderRadius:
-                                                      BorderRadius.circular(5),
-                                                      child: Image.asset(
-                                                        "assets/images/lari2.jpg",fit: BoxFit.cover,)),
-                                                ),
-                                                SizedBox(width: size.width*0.09,),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text("6 hours ago"),
-                                                    Row(
-                                                      children: <Widget>[
-                                                        Container(
-                                                          child: Text("Syazwan Asraf"),
-                                                        ),
-                                                        SizedBox(width: size.width*0.08,),
-                                                        Container(
-                                                          child: Row(
-                                                            children: <Widget>[
-                                                              Row(
-                                                                children: <Widget>[
-                                                                  Icon(Icons.thumb_up),
-                                                                  Text("1")
-                                                                ],
-                                                              ),
-                                                              SizedBox(width: size.width*0.05,),
-                                                              Row(
-                                                                children: <Widget>[
-                                                                  Icon(Icons.comment),
-                                                                  Text("1")
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
-                                                )
-                                              ],
-                                            ),
+                                          height: 30,
+                                          width: 150,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20),
+                                              color: kGradient2
                                           ),
-                                        )
+                                          child: Center(
+                                            child: Text("Your Requests",style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: "Muli",
+                                                color: Colors.white
+                                            ),),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(19.0),
-                                  child: Container(
-                                    height: size.height*0.3,
-                                    width: size.width * 1,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(20),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.black.withOpacity(0.1),
-                                              spreadRadius: 3,
-                                              blurRadius: 12
-                                          )
-                                        ]
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(15.0),
-                                            child: Row(
-                                              children: <Widget>[
-                                                Container(
-                                                  height: 50,
-                                                  width: 60,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.rectangle,
-                                                  ),
-                                                  child: ClipRRect(
-                                                      borderRadius:
-                                                      BorderRadius.circular(5),
-                                                      child: Image.asset(
-                                                        "assets/images/lari2.jpg",fit: BoxFit.cover,)),
-                                                ),
-                                                SizedBox(width: size.width*0.09,),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text("6 hours ago"),
-                                                    Row(
-                                                      children: <Widget>[
-                                                        Container(
-                                                          child: Text("Syazwan Asraf"),
-                                                        ),
-                                                        SizedBox(width: size.width*0.08,),
-                                                        Container(
-                                                          child: Row(
-                                                            children: <Widget>[
-                                                              Row(
-                                                                children: <Widget>[
-                                                                  Icon(Icons.thumb_up),
-                                                                  Text("1")
-                                                                ],
-                                                              ),
-                                                              SizedBox(width: size.width*0.05,),
-                                                              Row(
-                                                                children: <Widget>[
-                                                                  Icon(Icons.comment),
-                                                                  Text("1")
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        height: size.height*0.3,
+                                        width: size.width * 1,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(20),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black.withOpacity(0.1),
+                                                  spreadRadius: 3,
+                                                  blurRadius: 12
+                                              )
+                                            ]
                                         ),
-                                        Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(15.0),
-                                            child: Row(
-                                              children: <Widget>[
-                                                Container(
-                                                  height: 50,
-                                                  width: 60,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.rectangle,
-                                                  ),
-                                                  child: ClipRRect(
-                                                      borderRadius:
-                                                      BorderRadius.circular(5),
-                                                      child: Image.asset(
-                                                        "assets/images/lari2.jpg",fit: BoxFit.cover,)),
-                                                ),
-                                                SizedBox(width: size.width*0.09,),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                        child: Column(
+                                          children: <Widget>[
+                                            SizedBox(height: size.height*0.03,),
+                                            Container(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(15.0),
+                                                child: Row(
                                                   children: <Widget>[
-                                                    Text("6 hours ago"),
-                                                    Row(
+                                                    Container(
+                                                      height: 50,
+                                                      width: 60,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.rectangle,
+                                                      ),
+                                                      child: ClipRRect(
+                                                          borderRadius:
+                                                          BorderRadius.circular(5),
+                                                          child: Image.asset(
+                                                            "assets/images/lari2.jpg",fit: BoxFit.cover,)),
+                                                    ),
+                                                    SizedBox(width: size.width*0.09,),
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: <Widget>[
-                                                        Container(
-                                                          child: Text("Syazwan Asraf"),
-                                                        ),
-                                                        SizedBox(width: size.width*0.08,),
-                                                        Container(
-                                                          child: Row(
-                                                            children: <Widget>[
-                                                              Row(
+                                                        Text("6 hours ago"),
+                                                        Row(
+                                                          children: <Widget>[
+                                                            Container(
+                                                              child: Text("Syazwan Asraf"),
+                                                            ),
+                                                            SizedBox(width: size.width*0.08,),
+                                                            Container(
+                                                              child: Row(
                                                                 children: <Widget>[
-                                                                  Icon(Icons.thumb_up),
-                                                                  Text("1")
+                                                                  Row(
+                                                                    children: <Widget>[
+                                                                      Icon(Icons.thumb_up),
+                                                                      Text("1")
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(width: size.width*0.05,),
+                                                                  Row(
+                                                                    children: <Widget>[
+                                                                      Icon(Icons.comment),
+                                                                      Text("1")
+                                                                    ],
+                                                                  )
                                                                 ],
                                                               ),
-                                                              SizedBox(width: size.width*0.05,),
-                                                              Row(
-                                                                children: <Widget>[
-                                                                  Icon(Icons.comment),
-                                                                  Text("1")
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
+                                                            )
+                                                          ],
                                                         )
                                                       ],
                                                     )
                                                   ],
-                                                )
-                                              ],
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                            Container(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(15.0),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      height: 50,
+                                                      width: 60,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.rectangle,
+                                                      ),
+                                                      child: ClipRRect(
+                                                          borderRadius:
+                                                          BorderRadius.circular(5),
+                                                          child: Image.asset(
+                                                            "assets/images/lari2.jpg",fit: BoxFit.cover,)),
+                                                    ),
+                                                    SizedBox(width: size.width*0.09,),
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Text("6 hours ago"),
+                                                        Row(
+                                                          children: <Widget>[
+                                                            Container(
+                                                              child: Text("Syazwan Asraf"),
+                                                            ),
+                                                            SizedBox(width: size.width*0.08,),
+                                                            Container(
+                                                              child: Row(
+                                                                children: <Widget>[
+                                                                  Row(
+                                                                    children: <Widget>[
+                                                                      Icon(Icons.thumb_up),
+                                                                      Text("1")
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(width: size.width*0.05,),
+                                                                  Row(
+                                                                    children: <Widget>[
+                                                                      Icon(Icons.comment),
+                                                                      Text("1")
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 30,
+                                        width: 150,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(20),
+                                            color: kGradient2
+                                        ),
+                                        child: Center(
+                                          child: Text("Lives Saved",style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: "Muli",
+                                              color: Colors.white
+                                          ),),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -474,6 +540,44 @@ class _ProfileState extends State<Profile> {
          )
         )
     );
+  }
+  Future<List<BloodRequest>> fetchBlood() async {
+
+    var res = await Api().getData("request");
+    var bodys = json.decode(res.body);
+    if (res.statusCode == 200) {
+      List<BloodRequest> requests = [];
+      var count=0;
+      for (Map u in bodys) {
+        count++;
+        print(count);
+        print(u);
+        BloodRequest event = BloodRequest.fromJson(u);
+        print('dapat');
+        requests.add(event);
+      }
+
+      return requests;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<List<Event>> fetchEvent() async {
+
+    var res = await Api().getData("event");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+      List<Event> events = [];
+      for (Map u in body) {
+        Event event = Event.fromJson(u);
+        events.add(event);
+      }
+
+      return events;
+    } else {
+      throw Exception('Failed to load album');
+    }
   }
 
 }

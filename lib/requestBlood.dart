@@ -315,7 +315,7 @@ getJsonFile("assets/light.json").then(setMapStyle);
       "user_id": user["_id"],
     };
 
-    var res = await Api().postData(data, "request");
+    var res = await Api().postData(data,"request");
     print(res.statusCode);
     if(res.statusCode==200){
       eventInfoDialog(context);

@@ -485,7 +485,10 @@ class _BloodEventState extends State<BloodEvent> {
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
       List<Event> events = [];
-      for (Map u in body) {
+      var count=0;
+      for (var u in body) {
+        count++;
+        print(count);
         Event event = Event.fromJson(u);
         events.add(event);
       }

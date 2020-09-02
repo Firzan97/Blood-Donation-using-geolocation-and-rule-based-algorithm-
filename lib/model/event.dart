@@ -1,5 +1,3 @@
-import 'package:easy_blood/model/user.dart';
-
 class Event {
   final String name;
   final String location;
@@ -11,7 +9,6 @@ class Event {
   final DateTime timeEnd;
   final String imageURL;
   final String user_id;
-
 
   Event(
     this.name,
