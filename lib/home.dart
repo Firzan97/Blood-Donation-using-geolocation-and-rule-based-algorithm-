@@ -589,7 +589,7 @@ class _HomeState extends State<Home> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0),
+                                          vertical: 2.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
@@ -639,17 +639,26 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Positioned(
-                        bottom:-10,
-                        right: 80,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 55,
-                            width: 240,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.yellow
+                        bottom:5,
+                        right: 70,
+                        child: Container(
+                          height: 55,
+                          width: 270,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.yellow
+                          ),
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)
                             ),
+                            onPressed: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Profile()),
+                              );
+                            },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
