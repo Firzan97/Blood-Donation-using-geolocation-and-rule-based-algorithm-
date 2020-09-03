@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:easy_blood/loadingScreen.dart';
-import 'package:password/password.dart';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/already_have_account.dart';
 import 'package:easy_blood/component/button_round.dart';
@@ -8,7 +6,6 @@ import 'package:easy_blood/component/input_password_round.dart';
 import 'package:easy_blood/component/input_round.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/home.dart';
-import 'package:easy_blood/model/user.dart';
 import 'package:easy_blood/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

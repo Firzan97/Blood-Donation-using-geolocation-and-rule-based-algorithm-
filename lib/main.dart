@@ -1,22 +1,10 @@
-import 'package:easy_blood/blood_group_input.dart';
-import 'package:easy_blood/findRequest.dart';
-import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/home.dart';
 import 'package:easy_blood/loadingScreen.dart';
-import 'package:easy_blood/locate_user.dart';
-import 'package:easy_blood/notification.dart';
 import 'package:easy_blood/onboarding.dart';
-import 'package:easy_blood/requestBlood.dart';
-import 'package:easy_blood/signin.dart';
 import 'package:easy_blood/splash.dart';
-import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:geolocation/geolocation.dart';
-import 'package:provider/provider.dart';
 import 'package:easy_blood/geolocation_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
 

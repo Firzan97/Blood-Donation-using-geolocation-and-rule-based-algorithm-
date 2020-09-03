@@ -184,8 +184,6 @@ class _SignUpState extends State<SignUp> {
   }
 
   void register() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-
     setState(() {
       _isLoading = true;
     });

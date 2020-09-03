@@ -1,5 +1,4 @@
 import 'package:easy_blood/animation/faceAnimation.dart';
-import 'package:easy_blood/constant.dart';
 import 'package:flutter/material.dart';
 
 class Background extends StatelessWidget {

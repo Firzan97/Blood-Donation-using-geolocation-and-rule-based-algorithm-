@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:easy_blood/api/api.dart';
-import 'package:easy_blood/bloodEvent.dart';
 import 'package:easy_blood/component/button_round.dart';
 import 'package:easy_blood/component/input_date.dart';
 import 'package:easy_blood/component/input_round.dart';

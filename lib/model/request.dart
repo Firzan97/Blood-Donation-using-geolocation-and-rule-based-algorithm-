@@ -1,13 +1,13 @@
-class BloodRequest {
+class Requestor {
 
   final String location;
   final String bloodType;
   final String reason;
   final String user_id;
 
-  BloodRequest(this.location, this.bloodType, this.reason, this.user_id);
+  Requestor(this.location, this.bloodType, this.reason, this.user_id);
 
-  BloodRequest.fromJson(Map<String, dynamic> json)
+  Requestor.fromJson(Map<String, dynamic> json)
       : location = json['location'],
         bloodType = json['bloodType'],
         reason = json['reason'],

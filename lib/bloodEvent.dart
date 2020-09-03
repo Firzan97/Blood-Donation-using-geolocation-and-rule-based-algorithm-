@@ -8,11 +8,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:mime/mime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'component/button_round.dart';
-import 'component/input_date.dart';
 import 'component/input_round.dart';
 import 'dart:convert' show JSON;
+import 'package:http/http.dart' as http;
+
 
 import 'component/input_time.dart';
 
@@ -560,4 +562,18 @@ class _BloodEventState extends State<BloodEvent> {
         }
     );
   }
+
+//  Future<Map<String, dynamic>> _uploadImage(File image) async{
+//    var addressUri= Uri.parse("http://192.168.1.7/api/uplaodimage");
+//    SharedPreferences userData = await SharedPreferences.getInstance();
+//    print(userData.getString("user"));
+//    final memeTypeData = lookupMimeType(image.path, headerBytes: [0xD8]).split('/');
+//
+//    final imageUploadRequest = http.MultipartRequest('POST',addressUri);
+//
+//    final file = await http.MultipartFile.fromPath('photo[0]', image.path),
+////    contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
+//
+//
+//  }
 }

@@ -1,15 +1,11 @@
 import 'dart:convert';
-
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/geolocation_service.dart';
-import 'package:easy_blood/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

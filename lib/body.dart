@@ -1,7 +1,5 @@
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/continueButton.dart';
-import 'package:easy_blood/home.dart';
-import 'package:easy_blood/size.config.dart';
 import 'package:easy_blood/splash_content.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';

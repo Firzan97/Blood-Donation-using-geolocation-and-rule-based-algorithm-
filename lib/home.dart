@@ -1,13 +1,15 @@
 import 'dart:convert';
-
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:easy_blood/about.dart';
 import 'package:easy_blood/animation/faceAnimation.dart';
+import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/bloodEvent.dart';
 import 'package:easy_blood/blood_request.dart';
 import 'package:easy_blood/component/curvedBackground.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/model/event.dart';
+import 'package:easy_blood/model/request.dart';
 import 'package:easy_blood/notification.dart';
 import 'package:easy_blood/profile.dart';
 import 'package:easy_blood/requestBlood.dart';
@@ -16,7 +18,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
+
+
 
 class Home extends StatefulWidget {
   @override
@@ -28,6 +34,8 @@ class _HomeState extends State<Home> {
   GlobalKey _bottomNavigationKey = GlobalKey();
   String name;
   var data ;
+  Future<List<Event>> _futureEvent;
+  Future<List<Requestor>> _futureRequest;
 
 
   void getUserData()async{
@@ -42,12 +50,13 @@ class _HomeState extends State<Home> {
   void initState(){
     super.initState();
     getUserData();
+    _futureEvent = fetchEvent();
+    _futureRequest = fetchBlood();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return   WillPopScope(
       onWillPop: _onBackPressed,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -55,7 +64,8 @@ class _HomeState extends State<Home> {
             statusBarColor: Colors.transparent,
           ),
           child: MaterialApp(
-            theme: ThemeData(primaryColor: kPrimaryColor),
+            theme: ThemeData(primaryColor: kPrimaryColor,
+            fontFamily: "Muli"),
             debugShowCheckedModeBanner: false,
             home: data==null ? LoadingScreen() : Scaffold(
               drawer: Container(
@@ -655,369 +665,200 @@ class _HomeState extends State<Home> {
                                        Row(
                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                          children: <Widget>[
-                                           Text("New Blood Campaign",style: TextStyle(
-                                               fontWeight: FontWeight.w400
-                                           ),),
-                                           Text("See All")
-                                         ],
-                                       ),
-                                       Container(
+                                           Text("New Campaign",style: TextStyle(
+                                               fontWeight: FontWeight.w700),
+                                                ),
+                                                Text("See All",style: TextStyle(
+                                                    fontWeight: FontWeight.w700),)
+                                              ],
+                                            ),
+                                            FutureBuilder(
+                                                future: _futureEvent,
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.data == null) {
 
-                                         child: Row(
-                                           children: <Widget>[
-                                             Container(
-                                               width: 120,
-                                               height: 170,
-                                               child: Stack(
-                                                 children: <Widget>[
-                                                   Positioned(
-                                                     bottom: 0,
-                                                     left: 5,
-                                                     child: Padding(
-                                                       padding: const EdgeInsets.all(8.0),
-                                                       child: Container(
-                                                         height: 130,
-                                                         width: 100,
-                                                         decoration: BoxDecoration(
-                                                           borderRadius:
-                                                           BorderRadius.circular(20.0),
-                                                           color: kGradient1,
-                                                           boxShadow: [
-                                                             BoxShadow(
-                                                               color: Colors.grey.withOpacity(0.15),
-                                                               blurRadius: 5,
-                                                               spreadRadius: 3
-                                                             )
-                                                           ]
-                                                         ),
-                                                         child: Column(
-                                                           children: <Widget>[
-                                                             SizedBox(
-                                                               height: 110.0,
+                                                    return Container(
+                                                      child: Center(
+                                                        child: LoadingScreen(),
+                                                      ),
+                                                    );
+                                                  }
+                                                  return Container(
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Container(
+                                                          height: 170,
+                                                          width: size.width*0.9,
+                                               child:  ListView.builder(
+                                                     shrinkWrap: true,
+                                                   scrollDirection: Axis.horizontal,
+                                                   itemCount: snapshot.data.length,
+                                                   itemBuilder: (BuildContext context, int index){
+                                                     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
+                                                     String dateStart = dateFormat.format(snapshot.data[index].timeStart);
+
+                                                     return Container(
+                                                       width: 120,
+                                                       height: 170,
+                                                       child: Stack(
+                                                         children: <Widget>[
+                                                           Positioned(
+                                                             bottom: 0,
+                                                             left: 5,
+                                                             child: Padding(
+                                                               padding: const EdgeInsets.all(8.0),
+                                                               child: Container(
+                                                                 height: 130,
+                                                                 width: 100,
+                                                                 decoration: BoxDecoration(
+                                                                     borderRadius:
+                                                                     BorderRadius.circular(20.0),
+                                                                     color: kGradient1,
+                                                                     boxShadow: [
+                                                                       BoxShadow(
+                                                                           color: Colors.grey.withOpacity(0.15),
+                                                                           blurRadius: 5,
+                                                                           spreadRadius: 3
+                                                                       )
+                                                                     ]
+                                                                 ),
+                                                                 child: Column(
+                                                                   children: <Widget>[
+                                                                     SizedBox(
+                                                                       height: 105.0,
+                                                                     ),
+                                                                     Text(
+                                                                       dateStart,
+                                                                       style: TextStyle(
+                                                                           color: Colors.black),
+                                                                     )
+                                                                   ],
+                                                                 ),
+                                                               ),
                                                              ),
-                                                             Text(
-                                                               "17/8/2020",
-                                                               style: TextStyle(
-                                                                   color: Colors.black),
-                                                             )
-                                                           ],
-                                                         ),
-                                                       ),
-                                                     ),
-                                                   ),
-                                                   Padding(
-                                                     padding: const EdgeInsets.all(8.0),
-                                                     child: Container(
-                                                       decoration: BoxDecoration(
-                                                           borderRadius:
-                                                           BorderRadius.circular(20.0),
-                                                           boxShadow: [
-                                                             BoxShadow(
-                                                                 spreadRadius: 4,
-                                                                 color: Colors.black
-                                                                     .withOpacity(0.1),
-                                                                 blurRadius: 5)
-                                                           ]),
-                                                       child: ClipRRect(
-                                                           borderRadius:
-                                                           BorderRadius.circular(20.0),
-                                                           child: Image.asset(
-                                                             "assets/images/dermadarah1.jpg",
-                                                             width: 100,
-                                                           )),
-                                                     ),
-                                                   ),
-                                                 ],
-                                               ),
-                                             ),
-                                             Container(
-                                               width: 120,
-                                               height: 170,
-                                               child: Stack(
-                                                 children: <Widget>[
-                                                   Positioned(
-                                                     bottom: 0,
-                                                     left: 5,
-                                                     child: Padding(
-                                                       padding: const EdgeInsets.all(8.0),
-                                                       child: Container(
-                                                         height: 130,
-                                                         width: 100,
-                                                         decoration: BoxDecoration(
-                                                           borderRadius:
-                                                           BorderRadius.circular(20.0),
-                                                           color: kPrimaryColor,
-                                                             boxShadow: [
-                                                               BoxShadow(
-                                                                   color: Colors.black.withOpacity(0.1),
-                                                                   blurRadius: 5,
-                                                                   spreadRadius: 3
-                                                               )
-                                                             ]
-                                                         ),
-                                                         child: Column(
-                                                           children: <Widget>[
-                                                             SizedBox(
-                                                               height: 110.0,
+                                                           ),
+                                                           Padding(
+                                                             padding: const EdgeInsets.all(8.0),
+                                                             child: Container(
+                                                               decoration: BoxDecoration(
+                                                                   borderRadius:
+                                                                   BorderRadius.circular(20.0),
+                                                                   boxShadow: [
+                                                                     BoxShadow(
+                                                                         spreadRadius: 4,
+                                                                         color: Colors.black
+                                                                             .withOpacity(0.1),
+                                                                         blurRadius: 5)
+                                                                   ]),
+                                                               child: ClipRRect(
+                                                                   borderRadius:
+                                                                   BorderRadius.circular(20.0),
+                                                                   child: Image.asset(
+                                                                     "assets/images/dermadarah1.jpg",
+                                                                     width: 100,
+                                                                   )),
                                                              ),
-                                                             Text(
-                                                               "17/8/2020",
-                                                               style: TextStyle(
-                                                                   color: Colors.white,
-                                                               fontWeight: FontWeight.w400),
-                                                             )
-                                                           ],
-                                                         ),
+                                                           ),
+                                                         ],
                                                        ),
-                                                     ),
-                                                   ),
-                                                   Padding(
-                                                     padding: const EdgeInsets.all(8.0),
-                                                     child: Container(
-                                                       decoration: BoxDecoration(
-                                                           borderRadius:
-                                                           BorderRadius.circular(20.0),
-                                                           boxShadow: [
-                                                             BoxShadow(
-                                                                 spreadRadius: 4,
-                                                                 color: Colors.black
-                                                                     .withOpacity(0.1),
-                                                                 blurRadius: 5)
-                                                           ]),
-                                                       child: ClipRRect(
-                                                           borderRadius:
-                                                           BorderRadius.circular(20.0),
-                                                           child: Image.asset(
-                                                             "assets/images/dermadarah1.jpg",
-                                                             width: 100,
-                                                           )),
-                                                     ),
-                                                   ),
-                                                 ],
-                                               ),
-                                             ),
-                                             Container(
-                                               width: 130,
-                                               height: 170,
-                                               child: Stack(
-                                                 children: <Widget>[
-                                                   Positioned(
-                                                     bottom: 0,
-                                                     left: 5,
-                                                     child: Padding(
-                                                       padding: const EdgeInsets.all(8.0),
-                                                       child: Container(
-                                                         height: 130,
-                                                         width: 100,
-                                                         decoration: BoxDecoration(
-                                                           borderRadius:
-                                                           BorderRadius.circular(20.0),
-                                                           color: kThirdColor,
-                                                         ),
-                                                         child: Column(
-                                                           children: <Widget>[
-                                                             SizedBox(
-                                                               height: 110.0,
-                                                             ),
-                                                             Text(
-                                                               "17/8/2020",
-                                                               style: TextStyle(
-                                                                   color: Colors.white),
-                                                             )
-                                                           ],
-                                                         ),
-                                                       ),
-                                                     ),
-                                                   ),
-                                                   Padding(
-                                                     padding: const EdgeInsets.all(8.0),
-                                                     child: Container(
-                                                       decoration: BoxDecoration(
-                                                           borderRadius:
-                                                           BorderRadius.circular(20.0),
-                                                           boxShadow: [
-                                                             BoxShadow(
-                                                                 spreadRadius: 4,
-                                                                 color: Colors.black
-                                                                     .withOpacity(0.1),
-                                                                 blurRadius: 5)
-                                                           ]),
-                                                       child: ClipRRect(
-                                                           borderRadius:
-                                                           BorderRadius.circular(20.0),
-                                                           child: Image.asset(
-                                                             "assets/images/dermadarah1.jpg",
-                                                             width: 100,
-                                                           )),
-                                                     ),
-                                                   ),
-                                                 ],
-                                               ),
-                                             ),
-                                           ],
-                                         ),
-                                       ),
-                                     ],
-                                   ),
-                                 ),
-                               ),
-                             ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(9),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
-                                            spreadRadius: 3,
-                                            blurRadius: 12
-                                        )
-                                      ]
-                                  ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
+                                                     );
+                                                   }),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                })
+                                          ]),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: size.height*0.33,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(9),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.1),
+                                                  spreadRadius: 3,
+                                                  blurRadius: 12)
+                                            ]),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
-                                            Text("Blood Request"),
-                                            Text("See All")
+                                            Text("Recent Requests",style: TextStyle(
+                                                fontWeight: FontWeight.w700),),
+                                            Text("See All",style: TextStyle(
+                                                fontWeight: FontWeight.w700),)
                                           ],
                                         ),
                                       ),
-                                      Container(
-                                          child: Column(
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: ListTile(
-                                                  dense: true,
-                                                  leading: Container(
-                                                    height: size.height * 0.149,
-                                                    width: size.width * 0.15,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image: AssetImage(
-                                                              "assets/images/lari2.jpg"),
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius.circular(5)),
-                                                  ),
-                                                  title: Text(
-                                                    "Syazwan Asraf",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 17),
-                                                  ),
-                                                  subtitle: Text(
-                                                    "Posted: 3 hours ago",
-                                                    style: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 11,
-                                                        fontWeight: FontWeight.w300),
-                                                  ),
-                                                  trailing: Text(
-                                                    "AB+",
-                                                    style:
-                                                        TextStyle(color: kPrimaryColor),
-                                                  ),
-                                                ),
+                                      FutureBuilder(
+                                        future: _futureRequest,
+                                        builder: (context,snapshot){
+                                          if(snapshot.data.length==null){
+                                            return Container(
+                                              child: Center(
+                                                child: LoadingScreen(),
                                               ),
-
-                                            ],
-                                          )),
-                                      Container(
-                                          child: Column(
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: ListTile(
-                                                  dense: true,
-                                                  leading: Container(
-                                                    height: size.height * 0.149,
-                                                    width: size.width * 0.15,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image: AssetImage(
-                                                              "assets/images/lari2.jpg"),
-                                                        ),
-                                                        borderRadius:
-                                                        BorderRadius.circular(5)),
+                                            );
+                                          }
+                                        return  Container(
+                                          height:size.height*0.27,
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                             itemCount: snapshot.data.length,
+                                              itemBuilder: (BuildContext context, int index) {
+                                              return Column(
+                                                children: <Widget>[
+                                                  ListTile(
+                                                    dense: true,
+                                                    leading: Container(
+                                                      height: size.height * 0.149,
+                                                      width: size.width * 0.15,
+                                                      decoration: BoxDecoration(
+                                                          image: DecorationImage(
+                                                            fit: BoxFit.cover,
+                                                            image: AssetImage(
+                                                                "assets/images/lari2.jpg"),
+                                                          ),
+                                                          borderRadius:
+                                                          BorderRadius.circular(5)),
+                                                    ),
+                                                    title: Text(
+                                                      snapshot.data[index].location,
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight.w700,
+                                                          fontSize: 17),
+                                                    ),
+                                                    subtitle: Text(
+                                                      "Posted: 3 hours ago",
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: 11,
+                                                          fontWeight: FontWeight.w300),
+                                                    ),
+                                                    trailing: Text(
+                                                      snapshot.data[index].bloodType,
+                                                      style:
+                                                      TextStyle(color: kPrimaryColor),
+                                                    ),
                                                   ),
-                                                  title: Text(
-                                                    "Syazwan Asraf",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 17),
-                                                  ),
-                                                  subtitle: Text(
-                                                    "Posted: 3 hours ago",
-                                                    style: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 11,
-                                                        fontWeight: FontWeight.w300),
-                                                  ),
-                                                  trailing: Text(
-                                                    "AB+",
-                                                    style:
-                                                    TextStyle(color: kPrimaryColor),
-                                                  ),
-                                                ),
-                                              ),
-
-                                            ],
-                                          )),
-                                      Container(
-                                          child: Column(
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: ListTile(
-                                                  dense: true,
-                                                  leading: Container(
-                                                    height: size.height * 0.149,
-                                                    width: size.width * 0.15,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image: AssetImage(
-                                                              "assets/images/lari2.jpg"),
-                                                        ),
-                                                        borderRadius:
-                                                        BorderRadius.circular(5)),
-                                                  ),
-                                                  title: Text(
-                                                    "Syazwan Asraf",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 17),
-                                                  ),
-                                                  subtitle: Text(
-                                                    "Posted: 3 hours ago",
-                                                    style: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 11,
-                                                        fontWeight: FontWeight.w300),
-                                                  ),
-                                                  trailing: Text(
-                                                    "AB+",
-                                                    style:
-                                                    TextStyle(color: kPrimaryColor),
-                                                  ),
-                                                ),
-                                              ),
-
-                                            ],
-                                          ))
+                                                ],
+                                              );}
+                                            ));},
+                                      )
                                     ],
                                   ),
                                 ),
@@ -1035,6 +876,23 @@ class _HomeState extends State<Home> {
           )),
     );
   }
+  Future<List<Event>> fetchEvent() async {
+
+    var res = await Api().getData("event");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+      List<Event> events = [];
+      for (Map u in body) {
+        Event event = Event.fromJson(u);
+        events.add(event);
+      }
+
+      return events;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
 }
 
 void getPosition() async {
@@ -1086,4 +944,26 @@ Future<bool> LogOutDialog(context){
         );
       }
   );
+
+}
+Future<List<Requestor>> fetchBlood() async {
+
+  var res = await Api().getData("request");
+  var bodys = json.decode(res.body);
+  if (res.statusCode == 200) {
+    List<Requestor> requests = [];
+    var count=0;
+    for (Map u in bodys) {
+      count++;
+      print(count);
+      print(u);
+      Requestor event = Requestor.fromJson(u);
+      print('dapat');
+      requests.add(event);
+    }
+
+    return requests;
+  } else {
+    throw Exception('Failed to load album');
+  }
 }

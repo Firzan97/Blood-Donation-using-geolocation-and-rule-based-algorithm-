@@ -6,7 +6,7 @@ import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/home.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/event.dart';
-import 'package:easy_blood/model/Blood_Request.dart';
+import 'package:easy_blood/model/request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +18,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  Future<List<BloodRequest>> _future;
+  Future<List<Requestor>> _future;
 
 
   @override
@@ -541,18 +541,18 @@ class _ProfileState extends State<Profile> {
         )
     );
   }
-  Future<List<BloodRequest>> fetchBlood() async {
+  Future<List<Requestor>> fetchBlood() async {
 
     var res = await Api().getData("request");
     var bodys = json.decode(res.body);
     if (res.statusCode == 200) {
-      List<BloodRequest> requests = [];
+      List<Requestor> requests = [];
       var count=0;
       for (Map u in bodys) {
         count++;
         print(count);
         print(u);
-        BloodRequest event = BloodRequest.fromJson(u);
+        Requestor event = Requestor.fromJson(u);
         print('dapat');
         requests.add(event);
       }
