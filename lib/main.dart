@@ -2,6 +2,7 @@ import 'package:easy_blood/home.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/onboarding.dart';
 import 'package:easy_blood/splash.dart';
+import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_blood/geolocation_service.dart';
@@ -26,6 +27,7 @@ final locaterService = GeolocationService();
         '/home': (BuildContext context) => Home(),
         '/welcome': (BuildContext context) => Welcome(),
         '/loading': (BuildContext context) => LoadingScreen(),
+        '/test': (BuildContext context) => MyHomePage(),
       }
     );
   }

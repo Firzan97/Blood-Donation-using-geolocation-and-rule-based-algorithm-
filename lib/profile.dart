@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/curvedBackground.dart';
@@ -10,6 +11,7 @@ import 'package:easy_blood/model/request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 class Profile extends StatefulWidget {
@@ -20,7 +22,24 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   Future<List<Requestor>> _future;
 
+  File _image;
+  final picker = ImagePicker();
 
+  Future getImageCamera() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      _image = File(pickedFile.path);
+    });
+  }
+
+  Future getImageGalerry() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(pickedFile.path);
+    });
+  }
   @override
   void initState(){
     _future = fetchBlood();
@@ -29,12 +48,13 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
         ),
-        child: MaterialApp(
+        child: MaterialApp(theme: ThemeData(fontFamily: "Muli"),
             home: Scaffold(
           body: Container(
             color: Colors.grey.withOpacity(0.1),
@@ -92,22 +112,82 @@ class _ProfileState extends State<Profile> {
                                   )
                                 ],
                               ),
-                              ListTile(
-                                leading: Container(
-                                  width: 55,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage("assets/images/lari2.jpg")
-                                    )
+                              Padding(
+                                padding: const EdgeInsets.only(left:8.0,right: 8.0),
+                                child: Container(
+                                  height: 100,
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Container(
+                                            width: 80,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: AssetImage("assets/images/lari2.jpg")
+                                                )
+                                            ),
+                                          ),
+                                          SizedBox(width: size.width*0.05,),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text("Firzan Azrai",style: TextStyle(
+                                                  color: Colors.black,
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold
+                                              )),
+                                              SizedBox(height: size.height*0.01,),
+                                              Text("Joined 3 days ago",style: TextStyle(
+                                                color: Colors.black.withOpacity(0.5)
+                                              ),),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      Positioned(
+                                        left:60,
+                                        top: 10,
+                                        child: ClipOval(
+                                          child: Material(
+                                            color: Colors.white, // button color
+                                            child: InkWell(
+                                              splashColor: Colors.black, // inkwell color
+                                              child: SizedBox(width: 36, height: 36, child: Icon(Icons.photo_library)),
+                                              onTap: () {
+                                                 getImageGalerry();
+
+                                              },
+                                            ),
+                                          ),
+                                        )
+                                      ),
+                                      Positioned(
+                                          left:60,
+                                          top: 60,
+                                          child: ClipOval(
+                                            child: Material(
+                                              color: Colors.white, // button color
+                                              child: InkWell(
+                                                splashColor: Colors.black, // inkwell color
+                                                child: SizedBox(width: 36, height: 36, child: Icon(Icons.camera_alt)),
+                                                onTap: () {
+                                                  getImageCamera();
+
+                                                },
+                                              ),
+                                            ),
+                                          )
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                title: Text("Firzan Azrai"),
-                                subtitle: Text("Joined 3 days ago"),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(15.0),
+                                padding: const EdgeInsets.only(left: 5,bottom: 10),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[

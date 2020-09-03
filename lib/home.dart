@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:easy_blood/about.dart';
 import 'package:easy_blood/animation/faceAnimation.dart';
@@ -20,6 +21,8 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
@@ -46,6 +49,7 @@ class _HomeState extends State<Home> {
        data = jsonDecode(name);
      });
     print(data);}
+
 
   @override
   void initState(){
@@ -840,8 +844,8 @@ class _HomeState extends State<Home> {
                                       ),
                                       FutureBuilder(
                                         future: _futureRequest,
-                                        builder: (context,snapshot){
-                                          if(snapshot.data.length==null){
+                                        builder: (BuildContext context,AsyncSnapshot snapshot){
+                                          if(!snapshot.hasData){
                                             return Container(
                                               child: Center(
                                                 child: LoadingScreen(),
@@ -854,6 +858,10 @@ class _HomeState extends State<Home> {
                                               shrinkWrap: true,
                                              itemCount: snapshot.data.length,
                                               itemBuilder: (BuildContext context, int index) {
+                                                DateTime dateTime = DateTime.parse(snapshot.data[index].created_at);
+                                                DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+                                                String time = dateFormat.format(dateTime);
+
                                               return Column(
                                                 children: <Widget>[
                                                   ListTile(
@@ -878,7 +886,8 @@ class _HomeState extends State<Home> {
                                                           fontSize: 17),
                                                     ),
                                                     subtitle: Text(
-                                                      "Posted: 3 hours ago",
+                                                      Jiffy(time).fromNow() // 7 years ago
+                                                      ,
                                                       style: TextStyle(
                                                           color: Colors.grey,
                                                           fontSize: 11,
@@ -923,6 +932,27 @@ class _HomeState extends State<Home> {
       }
 
       return events;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+  Future<List<Requestor>> fetchBlood() async {
+
+    var res = await Api().getData("request");
+    var bodys = json.decode(res.body);
+    if (res.statusCode == 200) {
+      List<Requestor> requests = [];
+      var count=0;
+      for (Map u in bodys) {
+        count++;
+        print(count);
+        print(u);
+        Requestor event = Requestor.fromJson(u);
+        print('dapat');
+        requests.add(event);
+      }
+
+      return requests;
     } else {
       throw Exception('Failed to load album');
     }
@@ -980,25 +1010,4 @@ Future<bool> LogOutDialog(context){
       }
   );
 
-}
-Future<List<Requestor>> fetchBlood() async {
-
-  var res = await Api().getData("request");
-  var bodys = json.decode(res.body);
-  if (res.statusCode == 200) {
-    List<Requestor> requests = [];
-    var count=0;
-    for (Map u in bodys) {
-      count++;
-      print(count);
-      print(u);
-      Requestor event = Requestor.fromJson(u);
-      print('dapat');
-      requests.add(event);
-    }
-
-    return requests;
-  } else {
-    throw Exception('Failed to load album');
-  }
 }

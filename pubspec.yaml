@@ -52,6 +52,8 @@ dependencies:
   pull_to_refresh: ^1.6.0
   mime: ^0.9.7
   dio: ^3.0.10
+  jiffy: ^3.0.1
+
 
 
 
