@@ -15,6 +15,7 @@ import 'package:easy_blood/profile.dart';
 import 'package:easy_blood/requestBlood.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -634,6 +635,31 @@ class _HomeState extends State<Home> {
                                 begin: Alignment.topRight,
                                 end: Alignment.bottomLeft,
                                 colors: [kGradient1.withOpacity(0.7), kGradient2.withOpacity(0.7)]),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom:-10,
+                        right: 80,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 55,
+                            width: 240,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.yellow
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text("Your profile is not updated yet. \n Please update your profile!",style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "Muli",
+                                    color: Colors.black,
+                                ),),
+                              ),
+                            ),
                           ),
                         ),
                       ),
