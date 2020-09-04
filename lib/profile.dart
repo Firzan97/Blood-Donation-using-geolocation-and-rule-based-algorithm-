@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
+import 'package:http/http.dart' as http;
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/curvedBackground.dart';
 import 'package:easy_blood/constant.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Profile extends StatefulWidget {
@@ -24,12 +26,51 @@ class _ProfileState extends State<Profile> {
 
   File _image;
   final picker = ImagePicker();
-
+  String base64Image;
+  File tmpFile;
+  String status = "";
+  String errMessage = "error Upload Image";
+  String uploadEndPoint = "";
+  var user;
   Future getImageCamera() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
       _image = File(pickedFile.path);
+      tmpFile=_image;
+      base64Image = base64Encode(tmpFile.readAsBytesSync());
+      uploadEndPoint="http://192.168.1.6:8000/api/user/${user['_id']}";
+    });
+    print(base64Image);
+  }
+
+  setStatus(String message){
+    setState(() {
+      status = message;
+    });
+
+    print("ssasas");
+  }
+  startUpload(){
+  if(null == tmpFile){
+    setStatus(errMessage);
+    return;
+  }
+  String filename = tmpFile.path.split('/').last;
+  upload(filename);
+  }
+
+  upload(String fileName){
+//    SharedPreferences pref = await SharedPreferences.getInstance();
+//    pref.setString("user", null);
+//    var email2=pref.getString("_id");
+    http.put(uploadEndPoint,body: {
+    "image": base64Image,
+    "imageURL": fileName,
+    }).then((result) {
+      setStatus(result.statusCode == 200 ? result.body : errMessage);
+    }).catchError((error){
+      setStatus(error);
     });
   }
 
@@ -38,11 +79,21 @@ class _ProfileState extends State<Profile> {
 
     setState(() {
       _image = File(pickedFile.path);
+      tmpFile=_image;
+      base64Image = base64Encode(tmpFile.readAsBytesSync());
     });
   }
+
+  void getUserData()async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    setState(() {
+      user = jsonDecode(localStorage.getString("user"));
+    });
+    }
   @override
   void initState(){
     _future = fetchBlood();
+    getUserData();
     super.initState();
   }
 
@@ -127,7 +178,7 @@ class _ProfileState extends State<Profile> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     fit: BoxFit.cover,
-                                                    image: AssetImage("assets/images/lari2.jpg")
+                                                    image: NetworkImage(user['imageURL'])
                                                 )
                                             ),
                                           ),
@@ -158,7 +209,7 @@ class _ProfileState extends State<Profile> {
                                               splashColor: Colors.black, // inkwell color
                                               child: SizedBox(width: 36, height: 36, child: Icon(Icons.photo_library)),
                                               onTap: () {
-                                                 getImageGalerry();
+                                                startUpload();
 
                                               },
                                             ),

@@ -106,7 +106,7 @@ class _HomeState extends State<Home> {
                             currentAccountPicture: CircleAvatar(
                                 backgroundColor: Colors.white,
                                 backgroundImage:
-                                    AssetImage("assets/images/tonystark.jpg")),
+                                    NetworkImage(data['imageURL'])),
                           ),
                         ),
                         FadeAnimation(
