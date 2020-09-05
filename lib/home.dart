@@ -72,7 +72,7 @@ class _HomeState extends State<Home> {
             theme: ThemeData(primaryColor: kPrimaryColor,
             fontFamily: "Muli"),
             debugShowCheckedModeBanner: false,
-            home: data==null ? LoadingScreen() : Scaffold(
+            home:  data==null ? LoadingScreen() : Scaffold(
               drawer: Container(
                 width: 340,
                 child: Drawer(
@@ -717,6 +717,8 @@ class _HomeState extends State<Home> {
                                                   if (snapshot.data == null) {
 
                                                     return Container(
+                                                      height: 170,
+                                                      width: size.width*0.9,
                                                       child: Center(
                                                         child: LoadingScreen(),
                                                       ),
@@ -847,6 +849,7 @@ class _HomeState extends State<Home> {
                                         builder: (BuildContext context,AsyncSnapshot snapshot){
                                           if(!snapshot.hasData){
                                             return Container(
+                                              height:size.height*0.27,
                                               child: Center(
                                                 child: LoadingScreen(),
                                               ),

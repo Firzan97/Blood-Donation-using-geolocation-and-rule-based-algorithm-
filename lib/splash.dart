@@ -21,13 +21,14 @@ class _SplashState extends State<Splash> {
 
   void navigationPage()async{
       SharedPreferences pref = await SharedPreferences.getInstance();
-      if (pref.getString("user")!=null){
+      user = pref.getString("user");
+      if (user!=null){
         print("tak nall");
         Navigator.of(context).pushReplacementNamed('/home');
       }
       else{
         print("nall");
-        Navigator.of(context).pushReplacementNamed('/welcome');
+        Navigator.of(context).pushReplacementNamed('/onboarding');
       }
   }
 

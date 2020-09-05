@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
+import 'package:easy_blood/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/curvedBackground.dart';
@@ -32,6 +33,7 @@ class _ProfileState extends State<Profile> {
   String errMessage = "error Upload Image";
   String uploadEndPoint = "";
   var user;
+
   Future getImageCamera() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
@@ -39,7 +41,7 @@ class _ProfileState extends State<Profile> {
       _image = File(pickedFile.path);
       tmpFile=_image;
       base64Image = base64Encode(tmpFile.readAsBytesSync());
-      uploadEndPoint="http://192.168.1.6:8000/api/user/${user['_id']}";
+      uploadEndPoint="http://192.168.1.3:8000/api/user/${user['_id']}";
     });
     print(base64Image);
   }
@@ -51,6 +53,8 @@ class _ProfileState extends State<Profile> {
 
     print("ssasas");
   }
+
+
   startUpload(){
   if(null == tmpFile){
     setStatus(errMessage);
@@ -92,9 +96,10 @@ class _ProfileState extends State<Profile> {
     }
   @override
   void initState(){
+    super.initState();
     _future = fetchBlood();
     getUserData();
-    super.initState();
+
   }
 
   @override
@@ -178,7 +183,7 @@ class _ProfileState extends State<Profile> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     fit: BoxFit.cover,
-                                                    image: NetworkImage(user['imageURL'])
+                                                    image: user==null ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.jpg') : NetworkImage(user['imageURL'])
                                                 )
                                             ),
                                           ),
@@ -210,6 +215,7 @@ class _ProfileState extends State<Profile> {
                                               child: SizedBox(width: 36, height: 36, child: Icon(Icons.photo_library)),
                                               onTap: () {
                                                 startUpload();
+                                                fetchUser();
 
                                               },
                                             ),
@@ -708,6 +714,30 @@ class _ProfileState extends State<Profile> {
       return events;
     } else {
       throw Exception('Failed to load album');
+    }
+  }
+
+  Future<String> fetchUser() async {
+    await Future.delayed(const Duration(seconds: 10));
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var res = await Api().getData("user/${user['_id']}");
+    print(res);
+    print(res.body);
+    var body = json.decode(res.body);
+    print(body);
+    if (res.statusCode == 200) {
+      print('dah tukar');
+      print(user['imageURL']);
+      setState(() {
+        localStorage.setString("user", json.encode(body));
+        user = jsonDecode(localStorage.getString("user"));
+
+      });
+      print(json.encode(body));
+      print(user['imageURL']);
+      return localStorage.getString("user");
+    } else {
+      throw Exception('Failed to load user');
     }
   }
 
