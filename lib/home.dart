@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
   int _page = 0;
   GlobalKey _bottomNavigationKey = GlobalKey();
   String name;
-  var data ;
+  var user ;
   Future<List<Event>> _futureEvent;
   Future<List<Requestor>> _futureRequest;
 
@@ -45,10 +45,9 @@ class _HomeState extends State<Home> {
   void getUserData()async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
      setState(() {
-       name= localStorage.getString("user");
-       data = jsonDecode(name);
+       user= jsonDecode(localStorage.getString("user"));
      });
-    print(data);}
+    print(user);}
 
 
   @override
@@ -72,7 +71,7 @@ class _HomeState extends State<Home> {
             theme: ThemeData(primaryColor: kPrimaryColor,
             fontFamily: "Muli"),
             debugShowCheckedModeBanner: false,
-            home:  data==null ? LoadingScreen() : Scaffold(
+            home:  user==null ? LoadingScreen() : Scaffold(
               drawer: Container(
                 width: 340,
                 child: Drawer(
@@ -94,19 +93,19 @@ class _HomeState extends State<Home> {
                                       spreadRadius: 3,
                                       blurRadius: 13)
                                 ]),
-                            accountName: data['username']==null ? Text("Loading") : Text(data['username'],
+                            accountName: user['username']==null ? Text("Loading") : Text(user['username'],
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700,
                                     color: Colors.black)),
                             accountEmail: Text(
-                              data["email"],
+                              user["email"],
                               style: TextStyle(fontSize: 11, color: Colors.black),
                             ),
                             currentAccountPicture: CircleAvatar(
                                 backgroundColor: Colors.white,
                                 backgroundImage:
-                                    NetworkImage(data['imageURL'])),
+                                    NetworkImage(user['imageURL'])),
                           ),
                         ),
                         FadeAnimation(
@@ -476,7 +475,7 @@ class _HomeState extends State<Home> {
                                                 fontSize: 18.0),
                                             children: <TextSpan>[
                                               TextSpan(
-                                                  text: data['username'],
+                                                  text: user['username'],
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -560,10 +559,10 @@ class _HomeState extends State<Home> {
                                             width: size.width * 0.03,
                                           ),
                                           Text("Blood Type."),
-                                          data["bloodType"]==null ? Text("None", style: TextStyle(
+                                          user["bloodType"]==null ? Text("None", style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w700),) : Text(
-                                            data["bloodType"],
+                                            user["bloodType"],
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w700),
@@ -573,7 +572,7 @@ class _HomeState extends State<Home> {
                                           ),
                                           Text("Age."),
                                           Text(
-                                            '${data["age"]}',
+                                            '${user["age"]}',
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w700),

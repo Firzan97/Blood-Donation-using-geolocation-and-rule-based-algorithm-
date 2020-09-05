@@ -1,4 +1,5 @@
 import 'package:easy_blood/component/curvedBackground.dart';
+import 'package:easy_blood/component/custom_dialog.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/home.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +108,9 @@ class _AboutState extends State<About> {
                                         borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))
                                       ),
                                         color: Colors.white,
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          whoAreWeDialog(context);
+                                        },
                                         child:
                                             Center(child: Text("Who are we?"))),
                                   ),
@@ -119,7 +122,9 @@ class _AboutState extends State<About> {
                                     height: 40,
                                     child: FlatButton(
                                         color: Colors.white,
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          whyDonateBloodDialog(context);
+                                        },
                                         child: Center(
                                             child: Text("Why donate blood?"))),
                                   ),
@@ -131,7 +136,7 @@ class _AboutState extends State<About> {
                                     child: FlatButton(
                                         color: Colors.white,
                                         onPressed: () {
-                                          infoDialog(context);
+                                          developerDialog(context);
                                         },
                                         child:
                                             Center(child: Text("Developer"))),
@@ -149,7 +154,9 @@ class _AboutState extends State<About> {
 
                                       ),
                                         color: Colors.white,
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          versionDialog(context);
+                                        },
                                         child: Center(child: Text("Version"))),
                                   ),
                                 ],
@@ -166,26 +173,55 @@ class _AboutState extends State<About> {
             ),
           ),
         ));
+
   }
 
-  Future<bool> infoDialog(context){
+  Future<bool> versionDialog(context){
     return showDialog(
       context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context){
-        return AlertDialog(
-          title: Text("DEVELOPER"),
-          content: Text("Final Year Student"),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.close),
-              onPressed: (){
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        );
-      }
+      builder: (BuildContext context) => CustomDialog(
+        title: "Version 1.0",
+        description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        buttonText: "Okay",
+      ),
     );
   }
+
+  Future<bool> whyDonateBloodDialog(context){
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => CustomDialog(
+        title: "Success",
+        description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        buttonText: "Okay",
+      ),
+    );
+  }
+
+  Future<bool> developerDialog(context){
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => CustomDialog(
+        title: "Success",
+        description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        buttonText: "Okay",
+      ),
+    );
+  }
+
+  Future<bool> whoAreWeDialog(context){
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => CustomDialog(
+        title: "Success",
+        description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        buttonText: "Okay",
+      ),
+    );
+  }
+
 }
