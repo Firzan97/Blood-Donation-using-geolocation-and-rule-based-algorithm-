@@ -323,14 +323,194 @@ class _ProfileState extends State<Profile> {
                                     ),
                                   ),
                                 ),
-                              )
-                            ],
+                              ),
+                                  SizedBox(height: size.height*0.045,),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      width: size.width*1,
+
+                                      decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.8),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.2),
+                                            blurRadius: 9,
+                                            spreadRadius: 3
+                                          )
+                                        ],
+                                        borderRadius: BorderRadius.circular(20)
+                                          ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.spaceBetween,
+                                                    children: <Widget>[
+                                                      Container(
+                                                        width: size.width*0.4,
+                                                        decoration: BoxDecoration(
+                                                            border: Border(right: BorderSide(color: Colors.grey.withOpacity(0.1),width: 1.0))
+                                                        ),
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Icon(Icons.verified_user),
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text("Username"),
+                                                                Text("Firzanfx"),
+                                                                SizedBox(height: size.height*0.02,),
+
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Icon(Icons.supervised_user_circle),
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text("Gender"),
+                                                                Text("Male"),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ), Container(
+                                              width: size.width*1,
+                                              decoration: BoxDecoration(
+                                                border: Border.symmetric(vertical: BorderSide(color: Colors.grey.withOpacity(0.1),width: 1.0))
+                                              ),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.email),
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      Text("Email"),
+                                                      Text("FirzanAzrai97@gmail.com"),
+                                                      SizedBox(height: size.height*0.02,),
+
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              width: size.width*1,
+                                              decoration: BoxDecoration(
+                                                  border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.1),width: 1.0))
+                                              ),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.person),
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                                                    children: <Widget>[
+                                                      Text("Age"),
+                                                      Text("23"),
+                                                      SizedBox(height: size.height*0.02,),
+
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              width: size.width*1,
+                                              decoration: BoxDecoration(
+                                                  border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.1),width: 1.0))
+                                              ),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.phone),
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Text("Mobile Number"),
+                                                        Text("019-2351520"),
+                                                        SizedBox(height: size.height*0.02,),
+
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              width: size.width*1,
+                                              decoration: BoxDecoration(
+                                                  border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.1),width: 1.0))
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Icon(Icons.brush),
+                                                        Text("Height"),
+                                                        SizedBox(width: size.width*0.52,),
+                                                        Text("170 CM")
+
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: size.height*0.02,),
+
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: size.width*1,
+                                              decoration: BoxDecoration(
+
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Icon(Icons.line_weight),
+                                                        Text("Weight"),
+                                                        SizedBox(width: size.width*0.54,),
+                                                        Text("60 KG"),
+                                                      ],
+                                                    ),                                          SizedBox(height: size.height*0.02,),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      DraggableScrollableSheet(
-                        initialChildSize: 0.10,
-                        minChildSize: 0.10,
+                          DraggableScrollableSheet(
+                              initialChildSize: 0.05,
+                        minChildSize: 0.05,
                         maxChildSize: 0.8,
                         builder: (BuildContext c,s){
                         return Container(
@@ -340,28 +520,32 @@ class _ProfileState extends State<Profile> {
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20))),
+                                  topRight: Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 7,
+                              spreadRadius: 4
+                            )
+                          ]),
                           child: SingleChildScrollView(
                             controller: s,
                             child: Column(
                               children: <Widget>[
-                                SizedBox(height: size.height*0.01),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: 30,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Colors.black
-                                    ),
-                                    child: Center(
-                                      child: Text("Your Activities",style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: "Muli",
-                                          color: Colors.white
-                                      ),),
-                                    ),
+                                SizedBox(height: size.height*0.007),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.black
+                                  ),
+                                  child: Center(
+                                    child: Text("Your Activities",style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: "Muli",
+                                        color: Colors.white
+                                    ),),
                                   ),
                                 ),
 
