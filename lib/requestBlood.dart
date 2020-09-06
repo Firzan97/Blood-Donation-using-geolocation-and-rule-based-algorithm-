@@ -23,6 +23,7 @@ class _RequestBloodState extends State<RequestBlood> {
   final locaterService = GeolocationService();
   var currentPosition ;
   GoogleMapController _controller;
+  GoogleMapController _controller2;
   bool isMapCreated = false;
 
   changeMapMode(){
@@ -34,7 +35,7 @@ getJsonFile("assets/light.json").then(setMapStyle);
   }
 
   void setMapStyle(String mapStyle){
-    _controller.setMapStyle(mapStyle);
+    _controller2.setMapStyle(mapStyle);
   }
 
   @override
@@ -62,7 +63,7 @@ getJsonFile("assets/light.json").then(setMapStyle);
                     child: Column(
                       children: <Widget>[
                         Container(
-                          height: size.height * 0.4,
+                          height: size.height * 0.5,
                           child: GoogleMap(
                             myLocationEnabled: true,
                             myLocationButtonEnabled: true,
@@ -76,13 +77,15 @@ getJsonFile("assets/light.json").then(setMapStyle);
                             ),
                               onMapCreated: (GoogleMapController controller) {
                                 _controller = controller;
+                                _controller2=controller;
+                                changeMapMode();
 //                                isMapCreated = true;
 ////                                changeMapMode();
                               }
                           ),
                         ),
                         Container(
-                          height: size.height * 0.6,
+                          height: size.height * 0.5,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                                 begin: Alignment.topRight,
@@ -251,7 +254,7 @@ getJsonFile("assets/light.json").then(setMapStyle);
                             ),
                           ),
                         ),
-                        SizedBox(height: size.height*0.05,),
+                        SizedBox(height: size.height*0.02,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[

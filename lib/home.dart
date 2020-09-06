@@ -83,10 +83,16 @@ class _HomeState extends State<Home> {
                         Container(
                           child: UserAccountsDrawerHeader(
                             decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/bloodcell.png"),
+                              ),
                                 gradient: LinearGradient(
                                     begin: Alignment.topRight,
                                     end: Alignment.bottomLeft,
-                                    colors: [kGradient1, kGradient2]),
+                                    colors: [
+                                      Color(0xffffbcaf),
+                                      kGradient2.withOpacity(0.9)
+                                    ]),
                                 boxShadow: [
                                   BoxShadow(
                                       color: Colors.black.withOpacity(0.2),
