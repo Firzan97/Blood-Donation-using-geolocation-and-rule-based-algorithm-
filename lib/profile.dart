@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
+import 'package:easy_blood/edit_profile.dart';
 import 'package:easy_blood/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:easy_blood/api/api.dart';
@@ -25,68 +26,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   Future<List<Requestor>> _future;
 
-  File _image;
-  final picker = ImagePicker();
-  String base64Image;
-  File tmpFile;
-  String status = "";
-  String errMessage = "error Upload Image";
-  String uploadEndPoint = "";
   var user;
-
-  Future getImageCamera() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = File(pickedFile.path);
-      tmpFile=_image;
-      base64Image = base64Encode(tmpFile.readAsBytesSync());
-      uploadEndPoint="http://192.168.1.3:8000/api/user/${user['_id']}";
-    });
-    print(base64Image);
-  }
-
-  setStatus(String message){
-    setState(() {
-      status = message;
-    });
-
-    print("ssasas");
-  }
-
-
-  startUpload(){
-  if(null == tmpFile){
-    setStatus(errMessage);
-    return;
-  }
-  String filename = tmpFile.path.split('/').last;
-  upload(filename);
-  }
-
-  upload(String fileName){
-//    SharedPreferences pref = await SharedPreferences.getInstance();
-//    pref.setString("user", null);
-//    var email2=pref.getString("_id");
-    http.put(uploadEndPoint,body: {
-    "image": base64Image,
-    "imageURL": fileName,
-    }).then((result) {
-      setStatus(result.statusCode == 200 ? result.body : errMessage);
-    }).catchError((error){
-      setStatus(error);
-    });
-  }
-
-  Future getImageGalerry() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = File(pickedFile.path);
-      tmpFile=_image;
-      base64Image = base64Encode(tmpFile.readAsBytesSync());
-    });
-  }
 
   void getUserData()async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -161,10 +101,17 @@ class _ProfileState extends State<Profile> {
                                             builder: (context) => Home()),
                                       );
                                     },
-                                    icon: Icon(Icons.arrow_back,color: Colors.white,),
+                                    icon: Icon(Icons.arrow_back,color: Colors.black,),
                                   ),
                                   IconButton(
-                                    icon: Icon(Icons.menu,color: Colors.white,),
+                                    icon: Icon(Icons.settings,color: Colors.black,),
+                                    onPressed: (){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => EditProfile()),
+                                      );
+                                    },
                                   )
                                 ],
                               ),
@@ -203,41 +150,6 @@ class _ProfileState extends State<Profile> {
                                             ],
                                           )
                                         ],
-                                      ),
-                                      Positioned(
-                                        left:60,
-                                        top: 10,
-                                        child: ClipOval(
-                                          child: Material(
-                                            color: Colors.white, // button color
-                                            child: InkWell(
-                                              splashColor: Colors.black, // inkwell color
-                                              child: SizedBox(width: 36, height: 36, child: Icon(Icons.photo_library)),
-                                              onTap: () {
-                                                startUpload();
-                                                fetchUser();
-
-                                              },
-                                            ),
-                                          ),
-                                        )
-                                      ),
-                                      Positioned(
-                                          left:60,
-                                          top: 60,
-                                          child: ClipOval(
-                                            child: Material(
-                                              color: Colors.white, // button color
-                                              child: InkWell(
-                                                splashColor: Colors.black, // inkwell color
-                                                child: SizedBox(width: 36, height: 36, child: Icon(Icons.camera_alt)),
-                                                onTap: () {
-                                                  getImageCamera();
-
-                                                },
-                                              ),
-                                            ),
-                                          )
                                       ),
                                     ],
                                   ),
@@ -331,7 +243,7 @@ class _ProfileState extends State<Profile> {
                                       width: size.width*1,
 
                                       decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.8),
+                                          color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
                                             color: Colors.black.withOpacity(0.2),
@@ -900,29 +812,4 @@ class _ProfileState extends State<Profile> {
       throw Exception('Failed to load album');
     }
   }
-
-  Future<String> fetchUser() async {
-    await Future.delayed(const Duration(seconds: 10));
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var res = await Api().getData("user/${user['_id']}");
-    print(res);
-    print(res.body);
-    var body = json.decode(res.body);
-    print(body);
-    if (res.statusCode == 200) {
-      print('dah tukar');
-      print(user['imageURL']);
-      setState(() {
-        localStorage.setString("user", json.encode(body));
-        user = jsonDecode(localStorage.getString("user"));
-
-      });
-      print(json.encode(body));
-      print(user['imageURL']);
-      return localStorage.getString("user");
-    } else {
-      throw Exception('Failed to load user');
-    }
-  }
-
 }

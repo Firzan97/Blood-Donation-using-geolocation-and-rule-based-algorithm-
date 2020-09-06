@@ -1,3 +1,4 @@
+import 'package:easy_blood/edit_profile.dart';
 import 'package:easy_blood/home.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/onboarding.dart';
@@ -30,6 +31,7 @@ final locaterService = GeolocationService();
         '/loading': (BuildContext context) => LoadingScreen(),
         '/test': (BuildContext context) => MyHomePage(),
         '/profile': (BuildContext context) => Profile(),
+        '/editprofile': (BuildContext context) => EditProfile(),
       }
     );
   }

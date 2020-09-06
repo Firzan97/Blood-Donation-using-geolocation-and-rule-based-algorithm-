@@ -40,6 +40,7 @@ class _HomeState extends State<Home> {
   var user ;
   Future<List<Event>> _futureEvent;
   Future<List<Requestor>> _futureRequest;
+  bool profileUpdate=false;
 
 
   void getUserData()async{
@@ -110,8 +111,9 @@ class _HomeState extends State<Home> {
                             ),
                             currentAccountPicture: CircleAvatar(
                                 backgroundColor: Colors.white,
-                                backgroundImage:
-                                    NetworkImage(user['imageURL'])),
+                                backgroundImage: user['imageURL']==null
+                                    ? AssetImage("assets/images/profile.png")
+                                    : NetworkImage(user['imageURL'])),
                           ),
                         ),
                         FadeAnimation(
@@ -587,8 +589,9 @@ class _HomeState extends State<Home> {
                                             width: size.width * 0.1,
                                           ),
                                           Text("Weight."),
+
                                           Text(
-                                            "55KG",
+                                            user["bloodType"]==null ? "None" : user["bloodType"],
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w700),

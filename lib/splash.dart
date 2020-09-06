@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/constant.dart';
+import 'package:easy_blood/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
