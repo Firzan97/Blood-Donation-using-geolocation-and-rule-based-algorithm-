@@ -112,7 +112,7 @@ class _AboutState extends State<About> {
                                           whoAreWeDialog(context);
                                         },
                                         child:
-                                            Center(child: Text("Who are we?"))),
+                                            Center(child: Text("Who are eligible to donate?"))),
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
@@ -182,8 +182,9 @@ class _AboutState extends State<About> {
       builder: (BuildContext context) => CustomDialog(
         title: "Version 1.0",
         description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "The initial version of the Easy Blood application currently releasing it first version to help more people.",
         buttonText: "Okay",
+          image: "assets/images/blood.png"
       ),
     );
   }
@@ -192,10 +193,11 @@ class _AboutState extends State<About> {
     return showDialog(
       context: context,
       builder: (BuildContext context) => CustomDialog(
-        title: "Success",
+        title: "Why donate blood?",
         description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Blood is the most precious gift that anyone can give to another person — the gift of life. A decision to donate your blood can save a life, or even several if your blood is separated into its components — red cells, platelets and plasma — which can be used individually for patients with specific conditions.",
         buttonText: "Okay",
+          image: "assets/images/whydonateblood.gif"
       ),
     );
   }
@@ -204,10 +206,11 @@ class _AboutState extends State<About> {
     return showDialog(
       context: context,
       builder: (BuildContext context) => CustomDialog(
-        title: "Success",
+        title: "Developer",
         description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Muhammad Firzan Azrai bin Nuzilan \n \n A final year student who created the Easy Blood Application by using Flutter, Laravel, AWS S3, MongoDB as the tech stack",
         buttonText: "Okay",
+        image: "assets/images/lari2.jpg"
       ),
     );
   }
@@ -216,10 +219,11 @@ class _AboutState extends State<About> {
     return showDialog(
       context: context,
       builder: (BuildContext context) => CustomDialog(
-        title: "Success",
+        title: "Eligible",
         description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "To donate blood or platelets, you must be in good general health, weigh at least 110 pounds, and be at least 16 years old. Parental consent is required for blood donation by 16 year olds; 16 year olds are NOT eligible to donate platelets.",
         buttonText: "Okay",
+          image: "assets/images/eligible.png"
       ),
     );
   }

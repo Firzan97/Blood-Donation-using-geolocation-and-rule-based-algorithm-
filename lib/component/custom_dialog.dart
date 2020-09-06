@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:easy_blood/constant.dart';
+
 class CustomDialog extends StatelessWidget {
   final String title, description, buttonText;
-  final Image image;
+  final String image;
 
   CustomDialog({
     @required this.title,
@@ -27,6 +28,8 @@ class CustomDialog extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Container(
+          height: 500,
+          width: 500,
           padding: EdgeInsets.only(
             top: avatarRadius + padding,
             bottom: padding,
@@ -38,10 +41,8 @@ class CustomDialog extends StatelessWidget {
             gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                colors: [
-                  Color(0xffffbcaf),
-                  kGradient2
-                ]),color: Colors.white,
+                colors: [Color(0xffffbcaf), kGradient2]),
+            color: Colors.white,
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(padding),
             boxShadow: [
@@ -71,31 +72,66 @@ class CustomDialog extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 24.0),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // To close the dialog
-                  },
-                  child: Text(buttonText),
-                ),
-              ),
+//              Align(
+//                alignment: Alignment.bottomRight,
+//                child: FlatButton(
+//                  onPressed: () {
+//                    Navigator.of(context).pop(); // To close the dialog
+//                  },
+//                  child: Text(buttonText),
+//                ),
+//              ),
             ],
           ),
         ),
+        image=="assets/images/whydonateblood.gif"
+            ? Positioned(
+          left: 80,
+        top: 369,
+        child: Container(
+          height: 170,
+          width: 170,
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white24,
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: AssetImage(image)
+          )
+          ),
+
+          ),
+        )
+
+            :
         Positioned(
           left: padding,
           right: padding,
           child: CircleAvatar(
             backgroundColor: kGradient1.withOpacity(0.7),
-            radius: 55,
+            radius: 59,
             child: CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage("assets/images/lari2.jpg"),
-
+              backgroundColor: kGradient2,
+              backgroundImage: AssetImage(image),
             ),
           ),
         ),
+        Positioned(
+          top: 75,
+          left: 10,
+          child: GestureDetector(
+            child: Icon(
+              Icons.close,
+              color: Colors.black,
+            ),
+            onTap: () {
+              Navigator.of(context).pop(); // To close the dialog
+            },
+          ),
+        ),
+
         //...top circlular image part,
       ],
     );
