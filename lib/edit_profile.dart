@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:easy_blood/api/api.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/profile.dart';
@@ -27,6 +28,8 @@ class _EditProfileState extends State<EditProfile> {
   String status = "";
   String errMessage = "error Upload Image";
   String uploadEndPoint = "";
+  static double latitude;
+  static double longitude;
 
   Future getImageCamera() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
@@ -87,6 +90,14 @@ class _EditProfileState extends State<EditProfile> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
+    });
+  }
+
+  void getUserLocation()async{
+    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      latitude = position.latitude;
+      longitude = position.longitude;
     });
   }
 
@@ -236,11 +247,21 @@ class _EditProfileState extends State<EditProfile> {
                                 fontFamily: "Muli",
                                 color: Colors.black
                             ),),onPressed: (){
+                            getUserLocation();
 
+                            print("laititude ialah ${latitude}");
+                            print("longitude ialah ${longitude}");
+print(longitude);
                           },
                           ),
                         ),
-
+                        SizedBox(
+                          height: size.height * 0.01,
+                        ),
+                        latitude==null ? Text("your address") : Text("Latitude = ${latitude} \n Longitude = ${longitude}"),
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
                         Text("Username"),
                         TextField(
                           decoration: InputDecoration(
