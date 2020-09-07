@@ -20,8 +20,8 @@ class User {
         bloodtype = json['bloodtype'],
         phoneNum = json['phoneNum'],
         gender = json['gender'],
-        latitude= json['latitude'],
-        longitude = json['longitude'],
+        latitude= double.parse(json['latitude']),
+        longitude = double.parse(json['longitude']),
         imageURL = json['imageURL'],
         role = json['role'];
 

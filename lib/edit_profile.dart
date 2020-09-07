@@ -77,6 +77,7 @@ class _EditProfileState extends State<EditProfile> {
 //    pref.setString("user", null);
 //    var email2=pref.getString("_id");
     http.put(uploadEndPoint,body: {
+      if(base64Image!=null) "image":base64Image,
       "latitude": latitude.toString(),
       "longitude": longitude.toString(),
     }).then((result) {
@@ -105,6 +106,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState(){
     super.initState();
+    getUserLocation();
     getUserData();
 
   }
@@ -158,7 +160,7 @@ class _EditProfileState extends State<EditProfile> {
                               ],
                               image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: user==null ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.jpg') : NetworkImage(user['imageURL'])
+                                  image: user['imageURL']==null ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.jpg') : NetworkImage(user['imageURL'])
                               )
                           ),
                         ),
@@ -383,7 +385,7 @@ print(longitude);
                                 child: Text("CONFIRM"),
                                 onPressed: () {
                                   upload();
-//                                  fetchUser();
+                                  fetchUser();
                                 },
                               ),
                             ),

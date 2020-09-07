@@ -4,4 +4,6 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
 </manifest>

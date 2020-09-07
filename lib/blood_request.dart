@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/findRequest.dart';
+import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,13 +64,14 @@ class _BloodRequestState extends State<BloodRequest> {
   void initState(){
     super.initState();
     getUserLocation();
+    fetchUser();
 //    allMarkers.add(Marker(
 //      markerId: MarkerId('myMarker'),
 //      draggable: false,
 //      onTap: (){
 //        print("I m here");
 //      },
-//      position: LatLng(latitude,longitude)
+//        position: LatLng(6.1756679, 102.2070323)
 //    ));
   }
 
@@ -79,7 +84,8 @@ class _BloodRequestState extends State<BloodRequest> {
         body: Container(
           child: Stack(
             children: <Widget>[
-              Positioned(
+              latitude==null ? LoadingScreen()
+                  : Positioned(
                 child: Container(
                   child: GoogleMap(
                     initialCameraPosition: _initialLocation,
@@ -194,6 +200,9 @@ class _BloodRequestState extends State<BloodRequest> {
                                 color: kPrimaryColor,
                               ),
                               child: FlatButton(
+                                onPressed: (){
+                                  fetchUser();
+                                },
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -468,6 +477,36 @@ class _BloodRequestState extends State<BloodRequest> {
     );
   }
 
+  Future<List<User>> fetchUser() async {
+
+    var res = await Api().getData("user");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+      List<User> users = [];
+      var count = 2;
+      for (var u in body) {
+        count++;
+        print(count);
+        User user = User.fromJson(u);
+        print(user.longitude);
+        double lat = user.latitude.toDouble();
+        double lon = user.longitude.toDouble();
+        print(lat);
+        print(lon);
+        allMarkers.add(Marker(
+            markerId: MarkerId('myMarker${count}'),
+            draggable: false,
+            onTap: () {
+              print("I m here");
+            },
+            position: LatLng(lat,lon)));
+
+      }
+      return users;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
 
   Future<void> _goToUserLocation() async {
     final GoogleMapController controller = await _controller.future;
