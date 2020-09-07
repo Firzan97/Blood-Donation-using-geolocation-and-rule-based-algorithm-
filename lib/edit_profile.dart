@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geocoder/geocoder.dart';
+
 
 class EditProfile extends StatefulWidget {
   @override
@@ -30,6 +32,15 @@ class _EditProfileState extends State<EditProfile> {
   String uploadEndPoint = "";
   static double latitude;
   static double longitude;
+  var addresses;
+  var first;
+
+  getUserAddress()async{
+    final coordinates = new Coordinates(latitude, longitude);
+    addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    first = addresses.first;
+    print("${first.featureName} : ${first.addressLine}");
+  }
 
   Future getImageCamera() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
@@ -108,6 +119,7 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
     getUserLocation();
     getUserData();
+    getUserAddress();
 
   }
 
@@ -251,9 +263,10 @@ class _EditProfileState extends State<EditProfile> {
                                 color: Colors.black
                             ),),onPressed: (){
                             getUserLocation();
-
+                            getUserAddress();
                             print("laititude ialah ${latitude}");
                             print("longitude ialah ${longitude}");
+                            print("${first.featureName} : ${first.addressLine}");
 print(longitude);
                           },
                           ),
@@ -261,7 +274,7 @@ print(longitude);
                         SizedBox(
                           height: size.height * 0.01,
                         ),
-                        latitude==null ? Text("your address") : Text("Latitude = ${latitude} \n Longitude = ${longitude}"),
+                        latitude==null ? Text("your address") : Text("${first.addressLine}"),
                         SizedBox(
                           height: size.height * 0.02,
                         ),

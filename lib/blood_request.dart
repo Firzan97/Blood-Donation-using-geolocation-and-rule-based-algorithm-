@@ -27,7 +27,7 @@ class _BloodRequestState extends State<BloodRequest> {
   var status;
   BitmapDescriptor customIcon;
   Set<Marker> markers;
-
+  PageController _pageController;
 
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -79,6 +79,7 @@ class _BloodRequestState extends State<BloodRequest> {
     super.initState();
     getUserLocation();
     fetchUser();
+
 //    allMarkers.add(Marker(
 //      markerId: MarkerId('myMarker'),
 //      draggable: false,
@@ -112,7 +113,6 @@ class _BloodRequestState extends State<BloodRequest> {
                       isMapCreated = true;
                       changeMapMode();
                     },
-
                   ),
                 ),
               ),
