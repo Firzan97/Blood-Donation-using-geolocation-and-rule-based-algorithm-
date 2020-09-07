@@ -60,7 +60,7 @@ class _EditProfileState extends State<EditProfile> {
       status = message;
     });
 
-    print("ssasas");
+    print(status);
   }
 
   startUpload(){
@@ -69,16 +69,16 @@ class _EditProfileState extends State<EditProfile> {
       return;
     }
     String filename = tmpFile.path.split('/').last;
-    upload(filename);
+//    upload(filename);
   }
 
-  upload(String fileName){
+  upload(){
 //    SharedPreferences pref = await SharedPreferences.getInstance();
 //    pref.setString("user", null);
 //    var email2=pref.getString("_id");
     http.put(uploadEndPoint,body: {
-      "image": base64Image,
-      "imageURL": fileName,
+      "latitude": latitude.toString(),
+      "longitude": longitude.toString(),
     }).then((result) {
       setStatus(result.statusCode == 200 ? result.body : errMessage);
     }).catchError((error){
@@ -90,6 +90,7 @@ class _EditProfileState extends State<EditProfile> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
+      uploadEndPoint = "http://192.168.1.3:8000/api/user/${user['_id']}";
     });
   }
 
@@ -381,8 +382,8 @@ print(longitude);
                                     borderRadius: BorderRadius.circular(20)),
                                 child: Text("CONFIRM"),
                                 onPressed: () {
-                                  startUpload();
-                                  fetchUser();
+                                  upload();
+//                                  fetchUser();
                                 },
                               ),
                             ),

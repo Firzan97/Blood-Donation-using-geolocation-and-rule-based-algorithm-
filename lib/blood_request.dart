@@ -20,7 +20,7 @@ class _BloodRequestState extends State<BloodRequest> {
   static double latitude;
   static double longitude;
   bool isMapCreated = false;
-
+  var status;
 
 
   void getUserLocation()async{
@@ -55,10 +55,19 @@ class _BloodRequestState extends State<BloodRequest> {
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
 
+  List<Marker> allMarkers= [];
 
   void initState(){
     super.initState();
     getUserLocation();
+//    allMarkers.add(Marker(
+//      markerId: MarkerId('myMarker'),
+//      draggable: false,
+//      onTap: (){
+//        print("I m here");
+//      },
+//      position: LatLng(latitude,longitude)
+//    ));
   }
 
 
@@ -75,12 +84,14 @@ class _BloodRequestState extends State<BloodRequest> {
                   child: GoogleMap(
                     initialCameraPosition: _initialLocation,
                     zoomControlsEnabled: true,
+                    markers: Set.from(allMarkers),
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);
                       _controller2=controller;
                       isMapCreated = true;
                       changeMapMode();
                     },
+
                   ),
                 ),
               ),
