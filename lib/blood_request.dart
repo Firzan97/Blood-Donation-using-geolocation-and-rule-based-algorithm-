@@ -25,6 +25,8 @@ class _BloodRequestState extends State<BloodRequest> {
   static double longitude;
   bool isMapCreated = false;
   var status;
+  BitmapDescriptor customIcon;
+  Set<Marker> markers;
 
 
   void getUserLocation()async{
@@ -61,6 +63,18 @@ class _BloodRequestState extends State<BloodRequest> {
 
   List<Marker> allMarkers= [];
 
+  createMarker(context){
+    if(customIcon==null){
+      ImageConfiguration configuration = createLocalImageConfiguration(context);
+      BitmapDescriptor.fromAssetImage(configuration, "assets/images/bloodMarker.png")
+      .then((icon) {
+        setState(() {
+          customIcon =icon;
+        });
+      });
+    }
+  }
+
   void initState(){
     super.initState();
     getUserLocation();
@@ -79,6 +93,7 @@ class _BloodRequestState extends State<BloodRequest> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    createMarker(context);
     return MaterialApp(
       home: Scaffold(
         body: Container(
@@ -495,6 +510,7 @@ class _BloodRequestState extends State<BloodRequest> {
         print(lon);
         allMarkers.add(Marker(
             markerId: MarkerId('myMarker${count}'),
+           icon: customIcon,
             draggable: false,
             onTap: () {
               print("I m here");
