@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/bloodEventDetail.dart';
 import 'package:easy_blood/constant.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'component/button_round.dart';
@@ -27,6 +29,24 @@ class BloodEvent extends StatefulWidget {
 
 class _BloodEventState extends State<BloodEvent> {
   Future<List<Event>> futureEvent;
+  File _image;
+  final picker = ImagePicker();
+  String base64Image;
+  File tmpFile;
+  String status = "";
+  String errMessage = "error Upload Image";
+  String uploadEndPoint = "";
+
+  Future getImageGallery() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(pickedFile.path);
+      tmpFile = _image;
+      base64Image = base64Encode(tmpFile.readAsBytesSync());
+    });
+    print(base64Image);
+  }
 
   @override
   void initState() {
@@ -103,8 +123,8 @@ class _BloodEventState extends State<BloodEvent> {
                                           });
                                         },
                                         child: ListTile(
-                                          leading: Image.asset(
-                                              "assets/images/dermadarah1.jpg"),
+                                          leading: Image.network(
+                                              snapshot.data[index].imageURL),
                                           title:
                                               Text(snapshot.data[index].name),
                                           isThreeLine: true,
@@ -193,24 +213,17 @@ class _BloodEventState extends State<BloodEvent> {
                                                                 BorderRadius
                                                                     .circular(
                                                                         30.0)),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(left: 6),
-                                                          child: Row(
-                                                            children: <Widget>[
-                                                              Icon(
-                                                                Icons.camera,
-                                                                size: 30.0,
-                                                              ),
-                                                              Text(
-                                                                "Upload",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        17.0),
-                                                              )
-                                                            ],
+                                                        child: FlatButton(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(20)
                                                           ),
+                                                          child: Text("Upload",style: TextStyle(
+                                                              fontWeight: FontWeight.w700,
+                                                              fontFamily: "Muli",
+                                                              color: Colors.black
+                                                          ),),onPressed: (){
+                                                          getImageGallery();
+                                                        },
                                                         )),
                                                   ),
                                                   InputRound(
@@ -510,6 +523,7 @@ class _BloodEventState extends State<BloodEvent> {
     var userjson = localStorage.getString("user");
     var user= jsonDecode(userjson);
     var data={
+      "image": base64Image,
       "name": eventName.text,
       "location": eventLocation.text,
       "phoneNum": eventPhoneNumber.text,
@@ -525,7 +539,6 @@ class _BloodEventState extends State<BloodEvent> {
     var res = await Api().postData(data, "event");
     print(res.statusCode);
     if(res.statusCode==200){
-     if(timeStart is DateTime) print(dateStart);
       eventInfoDialog(context);
     }
 

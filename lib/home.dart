@@ -691,144 +691,167 @@ class _HomeState extends State<Home> {
                         child: SingleChildScrollView(
                           child: Column(
                             children: <Widget>[
-                             Padding(
-                               padding: const EdgeInsets.all(8.0),
-                               child: Container(
-                                 decoration: BoxDecoration(
-                                     color: Colors.white,
-                                     borderRadius: BorderRadius.circular(9),
-                                     boxShadow: [
-                                       BoxShadow(
-                                           color: Colors.grey.withOpacity(0.15),
-                                           spreadRadius: 10,
-                                           blurRadius: 10
-                                       )
-                                     ]
-                                 ),
-                                 child: Padding(
-                                   padding: const EdgeInsets.all(8.0),
-                                   child: Column(
-                                     children: <Widget>[
-                                       Row(
-                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                         children: <Widget>[
-                                           Text("New Campaign",style: TextStyle(
-                                               fontWeight: FontWeight.w700),
-                                                ),
-                                                Text("See All",style: TextStyle(
-                                                    fontWeight: FontWeight.w700),)
-                                              ],
-                                            ),
-                                            FutureBuilder(
-                                                future: _futureEvent,
-                                                builder: (context, snapshot) {
-                                                  if (snapshot.data == null) {
+                              SizedBox(height: size.height*0.02,),
+                             Container(
+                               height: size.height*0.33,
+                               decoration: BoxDecoration(
+                                   color: Colors.white,
+                                   boxShadow: [
+                                     BoxShadow(
+                                         color: Colors.grey.withOpacity(0.15),
+                                         blurRadius: 5,
+                                         spreadRadius: 3
+                                     )
+                                   ]
+                               ),
+                               child: Column(
+                                 children: <Widget>[
+                                   Padding(
+                                     padding: const EdgeInsets.all(8.0),
+                                     child: Row(
+                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: <Widget>[
+                                         Text("New Campaign",style: TextStyle(
+                                             fontWeight: FontWeight.w700),
+                                              ),
+                                              Text("See All",style: TextStyle(
+                                                  fontWeight: FontWeight.w700),)
+                                            ],
+                                          ),
+                                   ),
+                                        FutureBuilder(
+                                            future: _futureEvent,
+                                            builder: (context, snapshot) {
+                                              if (snapshot.data == null) {
 
-                                                    return Container(
-                                                      height: 170,
-                                                      width: size.width*0.9,
-                                                      child: Center(
-                                                        child: LoadingScreen(),
-                                                      ),
-                                                    );
-                                                  }
-                                                  return Container(
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Container(
-                                                          height: 170,
-                                                          width: size.width*0.9,
-                                               child:  ListView.builder(
-                                                     shrinkWrap: true,
-                                                   scrollDirection: Axis.horizontal,
-                                                   itemCount: snapshot.data.length,
-                                                   itemBuilder: (BuildContext context, int index){
-                                                     DateFormat dateFormat = DateFormat('dd-MM-yyyy');
-                                                     String dateStart = dateFormat.format(snapshot.data[index].timeStart);
+                                                return Container(
+                                                  height: 170,
+                                                  width: size.width*0.9,
+                                                  child: Center(
+                                                    child: LoadingScreen(),
+                                                  ),
+                                                );
+                                              }
+                                              return Container(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      height: 200,
+                                                      width: size.width*0.9999,
+                                           child:  ListView.builder(
+                                                 shrinkWrap: true,
+                                               scrollDirection: Axis.horizontal,
+                                               itemCount: snapshot.data.length,
+                                               itemBuilder: (BuildContext context, int index){
+                                                 DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+                                                 String dateStart = dateFormat.format(snapshot.data[index].timeStart);
+                                                 dynamic currentTime = DateFormat.jm().format(snapshot.data[index].timeStart);
 
-                                                     return Container(
-                                                       width: 120,
-                                                       height: 170,
-                                                       child: Stack(
-                                                         children: <Widget>[
-                                                           Positioned(
-                                                             bottom: 0,
-                                                             left: 5,
+
+                                                 return Container(
+                                                   width: 280,
+                                                   child: Stack(
+                                                     children: <Widget>[
+                                                       Positioned(
+                                                         bottom: 15,
+                                                         left: 40,
+                                                         child: Padding(
+                                                           padding: const EdgeInsets.all(8.0),
+                                                           child: Container(
+                                                               height: size.height*0.23,
+                                                             width: 200,
+                                                             decoration: BoxDecoration(
+                                                                 borderRadius:
+                                                                 BorderRadius.circular(10.0),
+                                                                 color: Colors.white,
+                                                                 boxShadow: [
+                                                                   BoxShadow(
+                                                                       color: Colors.grey.withOpacity(0.15),
+                                                                       blurRadius: 5,
+                                                                       spreadRadius: 3,
+                                                                       offset: Offset(0.1, 0.2)
+                                                                   )
+                                                                 ]
+                                                             ),
                                                              child: Padding(
-                                                               padding: const EdgeInsets.all(8.0),
-                                                               child: Container(
-                                                                 height: 130,
-                                                                 width: 100,
-                                                                 decoration: BoxDecoration(
-                                                                     borderRadius:
-                                                                     BorderRadius.circular(20.0),
-                                                                     color: kGradient1,
-                                                                     boxShadow: [
-                                                                       BoxShadow(
-                                                                           color: Colors.grey.withOpacity(0.15),
-                                                                           blurRadius: 5,
-                                                                           spreadRadius: 3
-                                                                       )
-                                                                     ]
-                                                                 ),
-                                                                 child: Column(
-                                                                   children: <Widget>[
-                                                                     SizedBox(
-                                                                       height: 105.0,
-                                                                     ),
-                                                                     Text(
-                                                                       dateStart,
-                                                                       style: TextStyle(
-                                                                           color: Colors.black),
-                                                                     )
-                                                                   ],
-                                                                 ),
+                                                               padding: const EdgeInsets.only(left: 80.0),
+                                                               child: Column(
+                                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                                                 children: <Widget>[
+                                                                   Text(snapshot.data[index].name,style: TextStyle(
+                                                                       fontSize: 14,
+                                                                       fontWeight: FontWeight.w700
+                                                                   ),),
+                                                                   Text("Date"),
+                                                                   Text(
+                                                                     dateStart,
+                                                                     style: TextStyle(
+                                                                       color: Colors.black,
+                                                                       fontSize: 12,),
+                                                                   ),Text(
+                                                                     currentTime,
+                                                                     style: TextStyle(
+                                                                       color: Colors.black,
+                                                                       fontSize: 12,),
+                                                                   ),
+                                                                   Text(
+                                                                     snapshot.data[index].location,
+                                                                     style: TextStyle(
+                                                                       color: Colors.black,
+                                                                       fontSize: 12,),
+                                                                   ),
+                                                                 ],
                                                                ),
                                                              ),
                                                            ),
-                                                           Padding(
-                                                             padding: const EdgeInsets.all(8.0),
-                                                             child: Container(
-                                                               decoration: BoxDecoration(
-                                                                   borderRadius:
-                                                                   BorderRadius.circular(20.0),
-                                                                   boxShadow: [
-                                                                     BoxShadow(
-                                                                         spreadRadius: 4,
-                                                                         color: Colors.black
-                                                                             .withOpacity(0.1),
-                                                                         blurRadius: 5)
-                                                                   ]),
-                                                               child: ClipRRect(
-                                                                   borderRadius:
-                                                                   BorderRadius.circular(20.0),
-                                                                   child: Image.asset(
-                                                                     "assets/images/dermadarah1.jpg",
-                                                                     width: 100,
-                                                                   )),
-                                                             ),
-                                                           ),
-                                                         ],
+                                                         ),
                                                        ),
-                                                     );
-                                                   }),
-                                                        ),
-                                                      ],
+                                                       Padding(
+                                                         padding: const EdgeInsets.all(16.0),
+                                                         child: Container(
+                                                           height: size.height*0.20,
+                                                           decoration: BoxDecoration(
+                                                               borderRadius:
+                                                               BorderRadius.circular(20.0),
+                                                               boxShadow: [
+                                                                 BoxShadow(
+                                                                     spreadRadius: 4,
+                                                                     color: Colors.black
+                                                                         .withOpacity(0.1),
+                                                                     blurRadius: 5)
+                                                               ]),
+                                                           child: ClipRRect(
+                                                               borderRadius:
+                                                               BorderRadius.circular(10.0),
+                                                               child: Image.network(
+                                                                 snapshot.data[index].imageURL,
+                                                                 width: 100,
+                                                                 height: 200,
+                                                                 fit: BoxFit.fill,
+                                                               )),
+                                                         ),
+                                                       ),
+                                                     ],
+                                                   ),
+                                                 );
+                                               }),
                                                     ),
-                                                  );
-                                                })
-                                          ]),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
+                                                  ],
+                                                ),
+                                              );
+                                            })
+                                      ]),
+                             ),
+                              SizedBox(height: size.height*0.01,),
+
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
                                         height: size.height*0.33,
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
-                                                BorderRadius.circular(9),
+                                                BorderRadius.circular(5),
                                             boxShadow: [
                                               BoxShadow(
                                                   color: Colors.black
@@ -914,10 +937,9 @@ class _HomeState extends State<Home> {
                                               );}
                                             ));},
                                       )
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-
                               )
                             ],
                           ),

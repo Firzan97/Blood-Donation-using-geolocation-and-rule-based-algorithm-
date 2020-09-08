@@ -198,7 +198,7 @@ class _ProfileState extends State<Profile> {
                                 padding: const EdgeInsets.only(left:8.0,right: 8.0),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                     color: Colors.white.withOpacity(0.9),
+                                     color: Colors.white,
                                     boxShadow: [BoxShadow(
                                       blurRadius: 9,
                                       spreadRadius: 3,

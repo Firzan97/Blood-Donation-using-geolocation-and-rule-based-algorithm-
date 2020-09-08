@@ -87,13 +87,13 @@ class _EditProfileState extends State<EditProfile> {
 //    SharedPreferences pref = await SharedPreferences.getInstance();
 //    pref.setString("user", null);
 //    var email2=pref.getString("_id");
-    http.put(uploadEndPoint,body: {
-      if(base64Image!=null) "image":base64Image,
+    http.put(uploadEndPoint, body: {
+      if (base64Image != null) "image": base64Image,
       "latitude": latitude.toString(),
       "longitude": longitude.toString(),
     }).then((result) {
       setStatus(result.statusCode == 200 ? result.body : errMessage);
-    }).catchError((error){
+    }).catchError((error) {
       setStatus(error);
     });
   }
