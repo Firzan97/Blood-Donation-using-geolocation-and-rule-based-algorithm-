@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant.dart';
@@ -25,7 +27,7 @@ class _BloodRequestState extends State<BloodRequest> {
   static double longitude;
   bool isMapCreated = false;
   var status;
-  BitmapDescriptor customIcon;
+  Uint8List customIcon;
   Set<Marker> markers;
   PageController _pageController;
 
@@ -63,10 +65,10 @@ class _BloodRequestState extends State<BloodRequest> {
 
   List<Marker> allMarkers= [];
 
-  createMarker(context){
+  createMarker(context) async{
     if(customIcon==null){
       ImageConfiguration configuration = createLocalImageConfiguration(context);
-      BitmapDescriptor.fromAssetImage(configuration, "assets/images/bloodMarker.png")
+      await getBytesFromAsset('assets/images/bloodMarker.png', 100)
       .then((icon) {
         setState(() {
           customIcon =icon;
@@ -510,7 +512,7 @@ class _BloodRequestState extends State<BloodRequest> {
         print(lon);
         allMarkers.add(Marker(
             markerId: MarkerId('myMarker${count}'),
-           icon: customIcon,
+           icon: BitmapDescriptor.fromBytes(customIcon),
             draggable: false,
             onTap: () {
               print("I m here");
@@ -522,6 +524,13 @@ class _BloodRequestState extends State<BloodRequest> {
     } else {
       throw Exception('Failed to load album');
     }
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
   }
 
   Future<void> _goToUserLocation() async {
