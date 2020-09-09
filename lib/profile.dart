@@ -277,7 +277,7 @@ class _ProfileState extends State<Profile> {
                                                             Column(
                                                               children: <Widget>[
                                                                 Text("Username"),
-                                                                Text("Firzanfx"),
+                                                                Text(user["username"]),
                                                                 SizedBox(height: size.height*0.02,),
 
                                                               ],
@@ -292,7 +292,7 @@ class _ProfileState extends State<Profile> {
                                                             Column(
                                                               children: <Widget>[
                                                                 Text("Gender"),
-                                                                Text("Male"),
+                                                                Text(user["username"]),
                                                               ],
                                                             ),
                                                           ],

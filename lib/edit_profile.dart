@@ -22,7 +22,7 @@ class _EditProfileState extends State<EditProfile> {
   var user;
   bool checkedValueFemale = false;
   bool checkedValueMale = false;
-  String dropdownValue = 'O';
+  String dropdownValue ;
   File _image;
   final picker = ImagePicker();
   String base64Image;
@@ -30,10 +30,14 @@ class _EditProfileState extends State<EditProfile> {
   String status = "";
   String errMessage = "error Upload Image";
   String uploadEndPoint = "";
-  static double latitude;
-  static double longitude;
+  static double latitude=0.0;
+  static double longitude=0.0;
   var addresses;
   var first;
+  TextEditingController _mobileController = new TextEditingController();
+  TextEditingController _weightController = new TextEditingController();
+  TextEditingController _heightController = new TextEditingController();
+
 
   getUserAddress()async{
     final coordinates = new Coordinates(latitude, longitude);
@@ -87,10 +91,22 @@ class _EditProfileState extends State<EditProfile> {
 //    SharedPreferences pref = await SharedPreferences.getInstance();
 //    pref.setString("user", null);
 //    var email2=pref.getString("_id");
+  var gender;
+  if(checkedValueMale==true){
+    gender = "Male";
+  }
+  else{
+    gender="female";
+  }
     http.put(uploadEndPoint, body: {
-      if (base64Image != null) "image": base64Image,
-      "latitude": latitude.toString(),
-      "longitude": longitude.toString(),
+      "image": base64Image!=null ? base64Image : "" ,
+      "latitude": latitude!=null ? latitude.toString() : user['latitude'].toString(),
+      "longitude": longitude!=null ? longitude.toString() : user['longitude'].toString() ,
+      "bloodType": dropdownValue!=null ? dropdownValue : user['bloodType'].toString(),
+      "gender": (checkedValueFemale!=true && checkedValueMale!=true) ?  user['gender'].toString() : gender,
+      "phoneNumber": _mobileController.text!="" ? _mobileController.text : user['phoneNumber'].toString(),
+      "height": _heightController.text!="" ? _heightController.text : user['height'].toString(),
+      "weight": _weightController.text!="" ? _weightController.text : user['weight'].toString()
     }).then((result) {
       setStatus(result.statusCode == 200 ? result.body : errMessage);
     }).catchError((error) {
@@ -339,18 +355,21 @@ print(longitude);
                         ),
                         Text("Mobile Number"),
                         TextField(
+                          controller: _mobileController,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Enter mobile number'),
                         ),
                         Text("Height"),
                         TextField(
+                          controller: _heightController,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Enter height'),
                         ),
                         Text("Weight"),
                         TextField(
+                          controller: _weightController,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Enter weight'),
