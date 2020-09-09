@@ -429,7 +429,7 @@ class _ProfileState extends State<Profile> {
                           height: size.height * 0.2,
                           width: size.width * 1,
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: kGradient1.withOpacity(0.3),
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(20),
                                   topRight: Radius.circular(20)),
