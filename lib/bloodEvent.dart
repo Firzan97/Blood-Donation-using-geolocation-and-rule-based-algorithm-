@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'component/button_round.dart';
@@ -75,12 +76,15 @@ class _BloodEventState extends State<BloodEvent> {
           statusBarColor: Colors.transparent,
         ),
         child: MaterialApp(
+          theme: ThemeData(
+            fontFamily: "Muli"
+          ),
             home: Scaffold(
                 body: Container(
                     width: size.width * 1,
                     height: size.height * 1,
                     decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.1),
+                      color: Colors.white,
                     ),
                     child: Stack(
                       children: <Widget>[
@@ -95,21 +99,23 @@ class _BloodEventState extends State<BloodEvent> {
                                   ),
                                 );
                               }
-                              return Padding(
-                                padding: const EdgeInsets.all(14.0),
-                                child: ListView.separated(
-                                  separatorBuilder: (context, index) => Divider(
-                                    color: Colors.black.withOpacity(0.1),
-                                  ),
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(5.0)),
-                                      child: GestureDetector(
+                              return ListView.builder(
+                                itemCount: snapshot.data.length,
+                                itemBuilder:
+                                    (BuildContext context, int index) {
+                                      DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+                                      String dateStart = dateFormat.format(snapshot.data[index].timeStart);
+                                      dynamic currentTime = DateFormat.jm().format(snapshot.data[index].timeStart);
+
+
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+//                                      decoration: BoxDecoration(
+//                                          color: Colors.white,
+//                                          borderRadius:
+//                                              BorderRadius.circular(5.0)),
+                                    child: GestureDetector(
                                         onTap: () {
                                           setState(() {
                                             Navigator.push(
@@ -122,19 +128,159 @@ class _BloodEventState extends State<BloodEvent> {
                                             );
                                           });
                                         },
-                                        child: ListTile(
-                                          leading: Image.network(
-                                              snapshot.data[index].imageURL),
-                                          title:
-                                              Text(snapshot.data[index].name),
-                                          isThreeLine: true,
-                                          subtitle: Text(
-                                              snapshot.data[index].location),
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Positioned(
+                                              top:4,
+                                              right:13,
+                                              child: Container(
+                                                width: 280,
+                                                height: 180,
+                                                decoration: BoxDecoration(
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          blurRadius: 9,
+                                                          spreadRadius: 3,
+                                                          color: Colors.grey.withOpacity(0.1)
+                                                      )
+                                                    ],
+                                                    color: Colors.white  ,
+                                                    borderRadius: BorderRadius.circular(5.0)),
+                                                child:  Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      SizedBox(width: size.width*0.15,),
+
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: <Widget>[
+                                                          Text(snapshot.data[index].name),
+                                                          Text(
+                                                              snapshot.data[index].location),
+                                                          Text(
+                                                              currentTime),
+                                                          Text(
+                                                              dateStart),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              top:10,
+                                              right:20,
+                                              child: Container(
+                                                width: 280,
+                                              height: 184,
+                                              decoration: BoxDecoration(
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        blurRadius: 9,
+                                                        spreadRadius: 3,
+                                                        color: Colors.black.withOpacity(0.1)
+                                                    )
+                                                  ],
+                                          color: Colors.white,
+                                          borderRadius:
+                                                BorderRadius.circular(5.0)),
+                                                child:  Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      SizedBox(width: size.width*0.13,),
+
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Text("Title",style: TextStyle(
+                                                            fontWeight: FontWeight.w700
+                                                        ),),
+                                                        Text(snapshot.data[index].name,style: TextStyle(
+                                                            fontWeight: FontWeight.w300
+                                                        ),),
+                                                        Text("Location",style: TextStyle(
+                                                            fontWeight: FontWeight.w700
+                                                        ),),
+                                                        Text(
+                                                      snapshot.data[index].location),
+                                                        Text("Time",style: TextStyle(
+                                                          fontWeight: FontWeight.w700
+                                                        ),),
+                                                        Text(
+                                                           currentTime),
+                                                        Text("Date",style: TextStyle(
+                                                            fontWeight: FontWeight.w700
+                                                        ),),
+                                                        Text(
+                                                            dateStart),
+                                                      ],
+                                              ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    blurRadius: 9,
+                                                    spreadRadius: 3,
+                                                    color: Colors.grey.withOpacity(0.2)
+                                                  )
+                                                ]
+                                              ),
+                                              child:  ClipRRect(
+borderRadius: BorderRadius.circular(25),
+                                                  child: Image.network(
+                                                    snapshot.data[index].imageURL,
+                                                    width: 140,
+                                                    height: 200,
+                                                    fit: BoxFit.fill,
+                                                  )),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                    );
-                                  },
-                                ),
+//                                        child: Row(
+//                                          children: <Widget>[
+//                                            ClipRRect(
+//                                                borderRadius:
+//                                                BorderRadius.circular(10.0),
+//                                                child: Image.network(
+//                                                  snapshot.data[index].imageURL,
+//                                                  width: 140,
+//                                                  height: 200,
+//                                                  fit: BoxFit.fill,
+//                                                )),
+//                                            Column(
+//                                              children: <Widget>[
+//                                                Text(snapshot.data[index].name),
+//                                                Text(
+//                                              snapshot.data[index].location),
+//                                                Text(
+//                                                   currentTime),
+//                                                Text(
+//                                                    dateStart),
+//                                              ],
+//                                            )
+//                                          ],
+//                                        ),
+//                                        child: ListTile(
+//                                          leading: Image.network(
+//                                              snapshot.data[index].imageURL),
+//                                          title:
+//                                              Text(snapshot.data[index].name),
+//                                          isThreeLine: true,
+//                                          subtitle: Text(
+//                                              snapshot.data[index].location),
+//                                        ),
+                                    ),
+                                  ),
+                                      );
+                                },
                               );
 
                               // By default, show a loading spinner.
