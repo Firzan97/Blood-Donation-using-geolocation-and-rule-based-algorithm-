@@ -696,6 +696,8 @@ class _HomeState extends State<Home> {
                                height: size.height*0.33,
                                decoration: BoxDecoration(
                                    color: Colors.white,
+                                   borderRadius: BorderRadius.circular(20),
+
                                    boxShadow: [
                                      BoxShadow(
                                          color: Colors.grey.withOpacity(0.15),
@@ -749,7 +751,7 @@ class _HomeState extends State<Home> {
 
 
                                                  return Container(
-                                                   width: 280,
+                                                   width: 260,
                                                    child: Stack(
                                                      children: <Widget>[
                                                        Positioned(
@@ -842,7 +844,7 @@ class _HomeState extends State<Home> {
                                             })
                                       ]),
                              ),
-                              SizedBox(height: size.height*0.01,),
+                              SizedBox(height: size.height*0.03,),
 
                               Padding(
                                 padding: const EdgeInsets.all(4.0),
@@ -898,6 +900,69 @@ class _HomeState extends State<Home> {
 
                                               return Column(
                                                 children: <Widget>[
+                                                  Container(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Row(
+                                                        mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                                        children: <Widget>[
+                                                          Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: Row(
+                                                              children: <Widget>[
+                                                                Container(
+                                                                  height: size.height * 0.08,
+                                                                  width: size.width * 0.18,
+                                                                  decoration: BoxDecoration(
+                                                                      image: DecorationImage(
+                                                                        fit: BoxFit.cover,
+                                                                        image: AssetImage(
+                                                                            "assets/images/lari2.jpg"),
+                                                                      ),
+                                                                      borderRadius:
+                                                                      BorderRadius.circular(2)),
+                                                                ),
+                                                                SizedBox(width: size.width*0.03,),
+                                                                Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                  children: <Widget>[
+                                                                    Text(
+                                                                      snapshot.data[index].user_id,
+                                                                      style: TextStyle(
+                                                                          color: Colors.black,
+                                                                          fontWeight: FontWeight.w700,
+                                                                          fontSize: 17),
+                                                                    ),
+                                                                    Text(
+                                                                      snapshot.data[index].location,
+                                                                      style: TextStyle(
+                                                                          color: Colors.black,
+                                                                          fontWeight: FontWeight.w700,
+                                                                          fontSize: 17),
+                                                                    ),
+                                                                    Text(
+                                                                      Jiffy(time).fromNow() // 7 years ago
+                                                                      ,
+                                                                      style: TextStyle(
+                                                                          color: Colors.grey,
+                                                                          fontSize: 11,
+                                                                          fontWeight: FontWeight.w300),
+                                                                    ),
+                                                                  ],
+                                                                ),
+
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            snapshot.data[index].bloodType,
+                                                            style:
+                                                            TextStyle(color: kPrimaryColor),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
                                                   ListTile(
                                                     dense: true,
                                                     leading: Container(
@@ -940,6 +1005,79 @@ class _HomeState extends State<Home> {
                                       ],
                                     ),
                                   ),
+                              ),
+                              SizedBox(height: size.height*0.03,),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: size.width*1,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                     borderRadius: BorderRadius.circular(6),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        spreadRadius: 3,
+                                        blurRadius: 9
+                                      )
+                                    ]
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: <Widget>[
+                                            ClipOval(
+                                              child: Material(
+                                                color: kPrimaryColor, // button color
+                                                child: InkWell(
+                                                  splashColor: Colors.black, // inkwell color
+                                                  child: SizedBox(width: 36, height: 36, child: Icon(Icons.share)),
+                                                  onTap: () {
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text("Invite Your Friends",style: TextStyle(
+                                                    fontWeight: FontWeight.w700
+                                                ),),
+                                                Text("Inviting more people to become the life savior, \nit could be someone that you know.",style: TextStyle(
+                                                  fontWeight: FontWeight.w500
+                                                ),)
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(),
+                                            Container(
+                                              child: FlatButton(
+                                                onPressed: (){
+
+                                                },
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Icon(Icons.arrow_forward_ios,size: 15,),
+                                                    Text("Invite")
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
+
+                                      ],
+
+                                    ),
+                                  ),
+                                ),
                               )
                             ],
                           ),
