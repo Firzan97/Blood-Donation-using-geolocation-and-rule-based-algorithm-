@@ -8,7 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class RequestBlood extends StatefulWidget {
   @override
   _RequestBloodState createState() => _RequestBloodState();
@@ -21,20 +20,21 @@ class _RequestBloodState extends State<RequestBlood> {
 
   List<Marker> allMarkers = [];
   final locaterService = GeolocationService();
-  var currentPosition ;
+  var currentPosition;
+
   GoogleMapController _controller;
   GoogleMapController _controller2;
   bool isMapCreated = false;
 
-  changeMapMode(){
-getJsonFile("assets/light.json").then(setMapStyle);
+  changeMapMode() {
+    getJsonFile("assets/light.json").then(setMapStyle);
   }
 
-  Future<String> getJsonFile(String path) async{
+  Future<String> getJsonFile(String path) async {
     return await rootBundle.loadString(path);
   }
 
-  void setMapStyle(String mapStyle){
+  void setMapStyle(String mapStyle) {
     _controller2.setMapStyle(mapStyle);
   }
 
@@ -42,10 +42,10 @@ getJsonFile("assets/light.json").then(setMapStyle);
   void initState() {
     super.initState();
     locaterService.getPosition().then((value) => {
-      setState((){
-        currentPosition = value;
-      })
-    });
+          setState(() {
+            currentPosition = value;
+          })
+        });
     currentPosition = locaterService.getPosition();
   }
 
@@ -53,7 +53,7 @@ getJsonFile("assets/light.json").then(setMapStyle);
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    if(isMapCreated){
+    if (isMapCreated) {
       changeMapMode();
     }
     return MaterialApp(
@@ -65,24 +65,23 @@ getJsonFile("assets/light.json").then(setMapStyle);
                         Container(
                           height: size.height * 0.5,
                           child: GoogleMap(
-                            myLocationEnabled: true,
-                            myLocationButtonEnabled: true,
-                            initialCameraPosition: CameraPosition(
-                              target: LatLng(40, -74),
-                              zoom: 14.4746,
-                            ),
-                            zoomControlsEnabled: true,
-                            markers: Set.from((allMarkers),
-
-                            ),
+                              myLocationEnabled: true,
+                              myLocationButtonEnabled: true,
+                              initialCameraPosition: CameraPosition(
+                                target: LatLng(40, -74),
+                                zoom: 14.4746,
+                              ),
+                              zoomControlsEnabled: true,
+                              markers: Set.from(
+                                (allMarkers),
+                              ),
                               onMapCreated: (GoogleMapController controller) {
                                 _controller = controller;
-                                _controller2=controller;
+                                _controller2 = controller;
                                 changeMapMode();
 //                                isMapCreated = true;
 ////                                changeMapMode();
-                              }
-                          ),
+                              }),
                         ),
                         Container(
                           height: size.height * 0.5,
@@ -93,203 +92,240 @@ getJsonFile("assets/light.json").then(setMapStyle);
                                 colors: [kGradient1, kGradient2]),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 35.0),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "I need blood .. ",
-                        style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
-                      FaIcon(FontAwesomeIcons.sadCry)
-                    ],
-                  ),
-                  SizedBox(
-                    height: size.height * 0.03,
-                  ),
-                  Form(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          child: Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: size.height * 0.07,
-                                  width: size.width,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.5),
-                                      borderRadius: BorderRadius.circular(32),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
-                                            spreadRadius: 3,
-                                            blurRadius: 9)
-                                      ]),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                      cursorColor: Colors.black,
-                                      decoration: InputDecoration(
-                                        icon: Icon(
-                                          Icons.location_on,
-                                          color: Colors.white,
-                                        ),
-                                        border: InputBorder.none,
-                                        focusedBorder: InputBorder.none,
-                                        enabledBorder: InputBorder.none,
-                                        errorBorder: InputBorder.none,
-                                        disabledBorder: InputBorder.none,
-                                        contentPadding: EdgeInsets.only(
-                                            left: 15,
-                                            bottom: 11,
-                                            top: 11,
-                                            right: 15),
-                                        hintText: 'Location',
-                                      ),
-                                      controller: location,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
+                            padding: const EdgeInsets.only(
+                                left: 15.0, right: 15.0, top: 35.0),
                             child: Column(
                               children: <Widget>[
-                                Container(
-                                  height: size.height * 0.07,
-                                  width: size.width,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.5),
-                                      borderRadius: BorderRadius.circular(32),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
-                                            spreadRadius: 3,
-                                            blurRadius: 9)
-                                      ]),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                      cursorColor: Colors.black,
-                                      decoration: InputDecoration(
-                                        icon: Icon(
-                                          Icons.location_on,
-                                          color: Colors.white,
-                                        ),
-                                        border: InputBorder.none,
-                                        focusedBorder: InputBorder.none,
-                                        enabledBorder: InputBorder.none,
-                                        errorBorder: InputBorder.none,
-                                        disabledBorder: InputBorder.none,
-                                        contentPadding: EdgeInsets.only(
-                                            left: 15,
-                                            bottom: 11,
-                                            top: 11,
-                                            right: 15),
-                                        hintText: 'Blood Group',
-                                      ),
-                                      controller: bloodGroup,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "I need blood .. ",
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white),
                                     ),
-                                  ),
+                                    FaIcon(FontAwesomeIcons.sadCry)
+                                  ],
                                 ),
+                                SizedBox(
+                                  height: size.height * 0.03,
+                                ),
+                                Form(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                height: size.height * 0.07,
+                                                width: size.width,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white
+                                                        .withOpacity(0.5),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            32),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors.black
+                                                              .withOpacity(0.1),
+                                                          spreadRadius: 3,
+                                                          blurRadius: 9)
+                                                    ]),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: TextFormField(
+                                                    cursorColor: Colors.black,
+                                                    decoration: InputDecoration(
+                                                      icon: Icon(
+                                                        Icons.location_on,
+                                                        color: Colors.white,
+                                                      ),
+                                                      border: InputBorder.none,
+                                                      focusedBorder:
+                                                          InputBorder.none,
+                                                      enabledBorder:
+                                                          InputBorder.none,
+                                                      errorBorder:
+                                                          InputBorder.none,
+                                                      disabledBorder:
+                                                          InputBorder.none,
+                                                      contentPadding:
+                                                          EdgeInsets.only(
+                                                              left: 15,
+                                                              bottom: 11,
+                                                              top: 11,
+                                                              right: 15),
+                                                      hintText: 'Location',
+                                                    ),
+                                                    controller: location,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Container(
+                                                height: size.height * 0.07,
+                                                width: size.width,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white
+                                                        .withOpacity(0.5),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            32),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors.black
+                                                              .withOpacity(0.1),
+                                                          spreadRadius: 3,
+                                                          blurRadius: 9)
+                                                    ]),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: TextFormField(
+                                                    cursorColor: Colors.black,
+                                                    decoration: InputDecoration(
+                                                      icon: Icon(
+                                                        Icons.location_on,
+                                                        color: Colors.white,
+                                                      ),
+                                                      border: InputBorder.none,
+                                                      focusedBorder:
+                                                          InputBorder.none,
+                                                      enabledBorder:
+                                                          InputBorder.none,
+                                                      errorBorder:
+                                                          InputBorder.none,
+                                                      disabledBorder:
+                                                          InputBorder.none,
+                                                      contentPadding:
+                                                          EdgeInsets.only(
+                                                              left: 15,
+                                                              bottom: 11,
+                                                              top: 11,
+                                                              right: 15),
+                                                      hintText: 'Blood Group',
+                                                    ),
+                                                    controller: bloodGroup,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Container(
+                                                height: size.height * 0.07,
+                                                width: size.width,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white
+                                                        .withOpacity(0.5),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            32),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors.black
+                                                              .withOpacity(0.1),
+                                                          spreadRadius: 3,
+                                                          blurRadius: 9)
+                                                    ]),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: TextFormField(
+                                                    cursorColor: Colors.black,
+                                                    decoration: InputDecoration(
+                                                      icon: Icon(
+                                                        Icons.location_on,
+                                                        color: Colors.white,
+                                                      ),
+                                                      border: InputBorder.none,
+                                                      focusedBorder:
+                                                          InputBorder.none,
+                                                      enabledBorder:
+                                                          InputBorder.none,
+                                                      errorBorder:
+                                                          InputBorder.none,
+                                                      disabledBorder:
+                                                          InputBorder.none,
+                                                      contentPadding:
+                                                          EdgeInsets.only(
+                                                              left: 15,
+                                                              bottom: 11,
+                                                              top: 11,
+                                                              right: 15),
+                                                      hintText: 'Reason',
+                                                    ),
+                                                    controller: reason,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: size.height * 0.02,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: kPrimaryColor,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      blurRadius: 7,
+                                                      spreadRadius: 3,
+                                                      color: Colors.black
+                                                          .withOpacity(0.25))
+                                                ]),
+                                            child: FlatButton(
+                                              onPressed: () {
+                                                addEvent();
+                                              },
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              child: FaIcon(
+                                                  FontAwesomeIcons.search),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  height: size.height * 0.07,
-                                  width: size.width,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.5),
-                                      borderRadius: BorderRadius.circular(32),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
-                                            spreadRadius: 3,
-                                            blurRadius: 9)
-                                      ]),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                      cursorColor: Colors.black,
-                                      decoration: InputDecoration(
-                                        icon: Icon(
-                                          Icons.location_on,
-                                          color: Colors.white,
-                                        ),
-                                        border: InputBorder.none,
-                                        focusedBorder: InputBorder.none,
-                                        enabledBorder: InputBorder.none,
-                                        errorBorder: InputBorder.none,
-                                        disabledBorder: InputBorder.none,
-                                        contentPadding: EdgeInsets.only(
-                                            left: 15,
-                                            bottom: 11,
-                                            top: 11,
-                                            right: 15),
-                                        hintText: 'Reason',
-                                      ),
-                                      controller: reason,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: size.height*0.02,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: kPrimaryColor,
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 7,
-                                    spreadRadius: 3,
-                                    color: Colors.black.withOpacity(0.25)
-                                  )
-                                ]
-                              ),
-                              child: FlatButton(
-                                onPressed: (){
-                                  addEvent();
-                                },
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: FaIcon(FontAwesomeIcons.search
-                                ),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
                         ),
                       ],
                     ),
@@ -306,34 +342,34 @@ getJsonFile("assets/light.json").then(setMapStyle);
 //    }
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userjson = localStorage.getString("user");
-    var user= jsonDecode(userjson);
-    var data={
+    var user = jsonDecode(userjson);
+    var data = {
       "location": location.text,
       "bloodType": bloodGroup.text,
       "reason": reason.text,
       "user_id": user["_id"],
     };
 
-    var res = await Api().postData(data,"request");
+    var res = await Api().postData(data, "findDonor");
     print(res.statusCode);
-    if(res.statusCode==200){
+    if (res.statusCode == 200) {
       eventInfoDialog(context);
     }
-
   }
 
-  Future<bool> eventInfoDialog(context){
+  Future<bool> eventInfoDialog(context) {
     return showDialog(
         context: context,
         barrierDismissible: true,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Request has been made. Please wait a minute for the system to find suitable donors"),
+            title: Text(
+                "Request has been made. Please wait a minute for the system to find suitable donors"),
             content: Text("Thank you :D"),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.close),
-                onPressed: (){
+                onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.pushReplacement(
                       context,
@@ -343,7 +379,6 @@ getJsonFile("assets/light.json").then(setMapStyle);
               )
             ],
           );
-        }
-    );
+        });
   }
 }

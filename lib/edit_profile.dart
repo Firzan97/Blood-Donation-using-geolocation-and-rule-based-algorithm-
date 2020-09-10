@@ -280,10 +280,10 @@ class _EditProfileState extends State<EditProfile> {
                             ),),onPressed: (){
                             getUserLocation();
                             getUserAddress();
-                            print("laititude ialah ${latitude}");
-                            print("longitude ialah ${longitude}");
-                            print("${first.featureName} : ${first.addressLine}");
-print(longitude);
+//                            print("laititude ialah ${latitude}");
+//                            print("longitude ialah ${longitude}");
+//                            print("${first.featureName} : ${first.addressLine}");
+//print(longitude);
                           },
                           ),
                         ),

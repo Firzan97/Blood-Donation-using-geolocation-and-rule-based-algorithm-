@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant.dart';
@@ -28,6 +29,7 @@ class _BloodRequestState extends State<BloodRequest> {
   bool isMapCreated = false;
   var status;
   Uint8List customIcon;
+  Uint8List customHereIcon;
   Set<Marker> markers;
   PageController _pageController;
 
@@ -75,6 +77,16 @@ class _BloodRequestState extends State<BloodRequest> {
         });
       });
     }
+    if(customHereIcon==null){
+      ImageConfiguration configuration = createLocalImageConfiguration(context);
+      await getBytesFromAsset('assets/images/imhere.png', 100)
+          .then((icon) {
+        setState(() {
+          customHereIcon =icon;
+        });
+      });
+    }
+
   }
 
   void initState(){
@@ -495,7 +507,8 @@ class _BloodRequestState extends State<BloodRequest> {
   }
 
   Future<List<User>> fetchUser() async {
-
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var currentUser= jsonDecode(localStorage.getString("user"));
     var res = await Api().getData("user");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
@@ -512,7 +525,7 @@ class _BloodRequestState extends State<BloodRequest> {
         print(lon);
         allMarkers.add(Marker(
             markerId: MarkerId('myMarker${count}'),
-           icon: BitmapDescriptor.fromBytes(customIcon),
+           icon: user.email==currentUser['email'] ? BitmapDescriptor.fromBytes(customHereIcon) : BitmapDescriptor.fromBytes(customIcon),
             draggable: false,
             onTap: () {
               print("I m here");
