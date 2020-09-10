@@ -133,8 +133,8 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState(){
     super.initState();
-    getUserLocation();
     getUserData();
+    getUserLocation();
     getUserAddress();
 
   }
@@ -188,7 +188,7 @@ class _EditProfileState extends State<EditProfile> {
                               ],
                               image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: user['imageURL']==null ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.jpg') : NetworkImage(user['imageURL'])
+                                  image: user==null ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.jpg') : NetworkImage(user['imageURL'])
                               )
                           ),
                         ),
@@ -414,6 +414,9 @@ class _EditProfileState extends State<EditProfile> {
                                 onPressed: () {
                                   upload();
                                   fetchUser();
+                                  setState(() {
+
+                                  });
                                 },
                               ),
                             ),
@@ -429,6 +432,16 @@ class _EditProfileState extends State<EditProfile> {
         ),
       )),
     );
+  }
+
+  bool checkIfAnyIsNull() {
+    return [user['imageURL'],
+      user['imageURL'],
+      user['imageURL'],
+      user['imageURL'],
+      user['imageURL'],
+      user['imageURL'],
+      user['imageURL']].contains("");
   }
 
   Future<String> fetchUser() async {

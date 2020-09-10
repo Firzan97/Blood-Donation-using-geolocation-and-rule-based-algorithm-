@@ -19,6 +19,9 @@ class BloodEventDetail extends StatelessWidget {
         statusBarColor: Colors.transparent,
       ),
       child: MaterialApp(
+        theme: ThemeData(
+          fontFamily: "Muli"
+        ),
         home: Scaffold(
           body: Container(
             child: Stack(
@@ -35,7 +38,7 @@ class BloodEventDetail extends StatelessWidget {
                 DraggableScrollableSheet(
                     initialChildSize: 0.05,
                     minChildSize: 0.05,
-                    maxChildSize: 0.7,
+                    maxChildSize: 0.75,
                     builder: (BuildContext c, s) {
                       return Container(
                         width: size.width,
@@ -66,7 +69,7 @@ class BloodEventDetail extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Container(
-                                  height: size.height*0.62,
+                                  height: size.height*0.66,
                                   decoration: BoxDecoration(
                                    color: Colors.white,
                                     boxShadow: [

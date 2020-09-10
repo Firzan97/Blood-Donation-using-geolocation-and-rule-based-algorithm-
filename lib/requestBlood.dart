@@ -350,7 +350,7 @@ class _RequestBloodState extends State<RequestBlood> {
       "user_id": user["_id"],
     };
 
-    var res = await Api().postData(data, "findDonor");
+    var res = await Api().postData(data, "request");
     print(res.statusCode);
     if (res.statusCode == 200) {
       eventInfoDialog(context);

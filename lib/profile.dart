@@ -36,17 +36,19 @@ class _ProfileState extends State<Profile> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
+
     });
+    print(user['_id']);
   }
 
   @override
   void initState() {
     super.initState();
+    getUserData();
     _futureRequest = fetchRequest();
     _futureDonation = fetchDonation();
     _futureEvent = fetchEvent();
 
-    getUserData();
   }
 
   @override
@@ -54,7 +56,7 @@ class _ProfileState extends State<Profile> {
     Size size = MediaQuery
         .of(context)
         .size;
-    return AnnotatedRegion<SystemUiOverlayStyle>(
+    return  user==null ? LoadingScreen() : AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
         ),
@@ -1066,7 +1068,10 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<List<Requestor>> fetchRequest() async {
-    var res = await Api().getData("${user['_id']}/request");
+
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString("user"));
+    var res = await Api().getData("user/${user['_id']}/request");
     var bodys = json.decode(res.body);
     if (res.statusCode == 200) {
       List<Requestor> requests = [];
@@ -1087,6 +1092,8 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<List<Event>> fetchEvent() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString("user"));
     var res = await Api().getData("${user['_id']}/event");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
@@ -1103,6 +1110,8 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<List<Donation>> fetchDonation() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString("user"));
     var res = await Api().getData("${user['_id']}/donation");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {

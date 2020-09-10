@@ -12,6 +12,7 @@ import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/event.dart';
 import 'package:easy_blood/model/request.dart';
+import 'package:easy_blood/model/user.dart';
 import 'package:easy_blood/notification.dart';
 import 'package:easy_blood/profile.dart';
 import 'package:easy_blood/requestBlood.dart';
@@ -42,6 +43,8 @@ class _HomeState extends State<Home> {
   Future<List<Event>> _futureEvent;
   Future<List<Requestor>> _futureRequest;
   bool profileUpdate=false;
+  List<User> users = [];
+  bool statusUpdated=false;
 
 
   void getUserData()async{
@@ -56,8 +59,6 @@ class _HomeState extends State<Home> {
   void initState(){
     super.initState();
     getUserData();
-    _futureEvent = fetchEvent();
-    _futureRequest = fetchBlood();
   }
 
   @override
@@ -651,7 +652,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                      Positioned(
+                      statusUpdated==false ? Positioned(
                         bottom:5,
                         right: 70,
                         child: Container(
@@ -684,7 +685,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                      ),
+                      ) : Container()
                     ]),
                     Expanded(
                       child: Container(
@@ -732,7 +733,7 @@ class _HomeState extends State<Home> {
                                           ),
                                    ),
                                         FutureBuilder(
-                                            future: _futureEvent,
+                                            future: fetchEvent(),
                                             builder: (context, snapshot) {
                                               if (snapshot.data == null) {
 
@@ -902,7 +903,7 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                       FutureBuilder(
-                                        future: _futureRequest,
+                                        future: fetchBlood(),
                                         builder: (BuildContext context,AsyncSnapshot snapshot){
                                           if(!snapshot.hasData){
                                             return Container(
@@ -940,8 +941,8 @@ class _HomeState extends State<Home> {
                                                                   decoration: BoxDecoration(
                                                                       image: DecorationImage(
                                                                         fit: BoxFit.cover,
-                                                                        image: AssetImage(
-                                                                            "assets/images/lari2.jpg"),
+                                                                        image: NetworkImage(
+                                                                          users[index].imageURL,),
                                                                       ),
                                                                       borderRadius:
                                                                       BorderRadius.circular(2)),
@@ -951,7 +952,7 @@ class _HomeState extends State<Home> {
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: <Widget>[
                                                                     Text(
-                                                                      snapshot.data[index].user_id,
+                                                                      users[index].username,
                                                                       style: TextStyle(
                                                                           color: Colors.black,
                                                                           fontWeight: FontWeight.w700,
@@ -985,41 +986,6 @@ class _HomeState extends State<Home> {
                                                           ),
                                                         ],
                                                       ),
-                                                    ),
-                                                  ),
-                                                  ListTile(
-                                                    dense: true,
-                                                    leading: Container(
-                                                      height: size.height * 0.149,
-                                                      width: size.width * 0.15,
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image: AssetImage(
-                                                                "assets/images/lari2.jpg"),
-                                                          ),
-                                                          borderRadius:
-                                                          BorderRadius.circular(5)),
-                                                    ),
-                                                    title: Text(
-                                                      snapshot.data[index].location,
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight: FontWeight.w700,
-                                                          fontSize: 17),
-                                                    ),
-                                                    subtitle: Text(
-                                                      Jiffy(time).fromNow() // 7 years ago
-                                                      ,
-                                                      style: TextStyle(
-                                                          color: Colors.grey,
-                                                          fontSize: 11,
-                                                          fontWeight: FontWeight.w300),
-                                                    ),
-                                                    trailing: Text(
-                                                      snapshot.data[index].bloodType,
-                                                      style:
-                                                      TextStyle(color: kPrimaryColor),
                                                     ),
                                                   ),
                                                 ],
@@ -1153,6 +1119,7 @@ class _HomeState extends State<Home> {
       for (Map u in body) {
         Event event = Event.fromJson(u);
         events.add(event);
+
       }
 
       return events;
@@ -1171,9 +1138,10 @@ class _HomeState extends State<Home> {
         count++;
         print(count);
         print(u);
-        Requestor event = Requestor.fromJson(u);
-        print('dapat');
-        requests.add(event);
+        Requestor req = Requestor.fromJson(u);
+        User user = req.user;
+        users.add(user);
+        requests.add(req);
       }
 
       return requests;
@@ -1181,6 +1149,8 @@ class _HomeState extends State<Home> {
       throw Exception('Failed to load album');
     }
   }
+
+
 
 }
 
