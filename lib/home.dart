@@ -5,6 +5,7 @@ import 'package:easy_blood/about.dart';
 import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/bloodEvent.dart';
+import 'package:easy_blood/bloodEventDetail.dart';
 import 'package:easy_blood/blood_request.dart';
 import 'package:easy_blood/component/curvedBackground.dart';
 import 'package:easy_blood/constant.dart';
@@ -716,8 +717,17 @@ class _HomeState extends State<Home> {
                                          Text("New Campaign",style: TextStyle(
                                              fontWeight: FontWeight.w700),
                                               ),
-                                              Text("See All",style: TextStyle(
-                                                  fontWeight: FontWeight.w700),)
+                                              GestureDetector(
+                                                child: Text("See All",style: TextStyle(
+                                                    fontWeight: FontWeight.w700),),
+                                                onTap: (){
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => BloodEvent()),
+                                                  );
+                                                },
+                                              )
                                             ],
                                           ),
                                    ),
@@ -749,91 +759,105 @@ class _HomeState extends State<Home> {
                                                  String dateStart = dateFormat.format(snapshot.data[index].timeStart);
                                                  dynamic currentTime = DateFormat.jm().format(snapshot.data[index].timeStart);
 
-
-                                                 return Container(
-                                                   width: 260,
-                                                   child: Stack(
-                                                     children: <Widget>[
-                                                       Positioned(
-                                                         bottom: 15,
-                                                         left: 40,
-                                                         child: Padding(
-                                                           padding: const EdgeInsets.all(8.0),
-                                                           child: Container(
-                                                               height: size.height*0.23,
-                                                             width: 200,
-                                                             decoration: BoxDecoration(
-                                                                 borderRadius:
-                                                                 BorderRadius.circular(10.0),
-                                                                 color: Colors.white,
-                                                                 boxShadow: [
-                                                                   BoxShadow(
-                                                                       color: Colors.grey.withOpacity(0.15),
-                                                                       blurRadius: 5,
-                                                                       spreadRadius: 3,
-                                                                       offset: Offset(0.1, 0.2)
-                                                                   )
-                                                                 ]
-                                                             ),
-                                                             child: Padding(
-                                                               padding: const EdgeInsets.only(left: 80.0),
-                                                               child: Column(
-                                                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                                                 children: <Widget>[
-                                                                   Text(snapshot.data[index].name,style: TextStyle(
-                                                                       fontSize: 14,
-                                                                       fontWeight: FontWeight.w700
-                                                                   ),),
-                                                                   Text("Date"),
-                                                                   Text(
-                                                                     dateStart,
-                                                                     style: TextStyle(
-                                                                       color: Colors.black,
-                                                                       fontSize: 12,),
-                                                                   ),Text(
-                                                                     currentTime,
-                                                                     style: TextStyle(
-                                                                       color: Colors.black,
-                                                                       fontSize: 12,),
-                                                                   ),
-                                                                   Text(
-                                                                     snapshot.data[index].location,
-                                                                     style: TextStyle(
-                                                                       color: Colors.black,
-                                                                       fontSize: 12,),
-                                                                   ),
-                                                                 ],
+                                                            return GestureDetector(
+                                                              onTap: () {
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          BloodEventDetail(
+                                                                              event: snapshot.data[index])),
+                                                                );
+                                                              },
+                                                              child: Container(
+                                                                width: 260,
+                                                                child: Stack(
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Positioned(
+                                                                      bottom:
+                                                                          15,
+                                                                      left: 40,
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.all(8.0),
+                                                             child: Container(
+                                                                 height: size.height*0.23,
+                                                               width: 200,
+                                                               decoration: BoxDecoration(
+                                                                   borderRadius:
+                                                                   BorderRadius.circular(10.0),
+                                                                   color: Colors.white,
+                                                                   boxShadow: [
+                                                                     BoxShadow(
+                                                                         color: Colors.grey.withOpacity(0.15),
+                                                                         blurRadius: 5,
+                                                                         spreadRadius: 3,
+                                                                         offset: Offset(0.1, 0.2)
+                                                                     )
+                                                                   ]
+                                                               ),
+                                                               child: Padding(
+                                                                 padding: const EdgeInsets.only(left: 80.0),
+                                                                 child: Column(
+                                                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                                                   children: <Widget>[
+                                                                     Text(snapshot.data[index].name,style: TextStyle(
+                                                                         fontSize: 14,
+                                                                         fontWeight: FontWeight.w700
+                                                                     ),),
+                                                                     Text("Date"),
+                                                                     Text(
+                                                                       dateStart,
+                                                                       style: TextStyle(
+                                                                         color: Colors.black,
+                                                                         fontSize: 12,),
+                                                                     ),Text(
+                                                                       currentTime,
+                                                                       style: TextStyle(
+                                                                         color: Colors.black,
+                                                                         fontSize: 12,),
+                                                                     ),
+                                                                     Text(
+                                                                       snapshot.data[index].location,
+                                                                       style: TextStyle(
+                                                                         color: Colors.black,
+                                                                         fontSize: 12,),
+                                                                     ),
+                                                                   ],
+                                                                 ),
                                                                ),
                                                              ),
                                                            ),
                                                          ),
-                                                       ),
-                                                       Padding(
-                                                         padding: const EdgeInsets.all(16.0),
-                                                         child: Container(
-                                                           height: size.height*0.20,
-                                                           decoration: BoxDecoration(
-                                                               borderRadius:
-                                                               BorderRadius.circular(20.0),
-                                                               boxShadow: [
-                                                                 BoxShadow(
-                                                                     spreadRadius: 4,
-                                                                     color: Colors.black
-                                                                         .withOpacity(0.1),
-                                                                     blurRadius: 5)
-                                                               ]),
-                                                           child: ClipRRect(
-                                                               borderRadius:
-                                                               BorderRadius.circular(10.0),
-                                                               child: Image.network(
-                                                                 snapshot.data[index].imageURL,
-                                                                 width: 100,
-                                                                 height: 200,
-                                                                 fit: BoxFit.fill,
-                                                               )),
+                                                         Padding(
+                                                           padding: const EdgeInsets.all(16.0),
+                                                           child: Container(
+                                                             height: size.height*0.20,
+                                                             decoration: BoxDecoration(
+                                                                 borderRadius:
+                                                                 BorderRadius.circular(20.0),
+                                                                 boxShadow: [
+                                                                   BoxShadow(
+                                                                       spreadRadius: 4,
+                                                                       color: Colors.black
+                                                                           .withOpacity(0.1),
+                                                                       blurRadius: 5)
+                                                                 ]),
+                                                             child: ClipRRect(
+                                                                 borderRadius:
+                                                                 BorderRadius.circular(10.0),
+                                                                 child: Image.network(
+                                                                   snapshot.data[index].imageURL,
+                                                                   width: 100,
+                                                                   height: 200,
+                                                                   fit: BoxFit.fill,
+                                                                 )),
+                                                           ),
                                                          ),
-                                                       ),
-                                                     ],
+                                                       ],
+                                                     ),
                                                    ),
                                                  );
                                                }),
@@ -1090,7 +1114,36 @@ class _HomeState extends State<Home> {
             ),
           )),
     );
+
   }
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Confirm'),
+          content: Text('Do you want to exit the App'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(false); //Will not exit the App
+              },
+            ),
+            FlatButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop(true); //Will exit the App
+              },
+            )
+          ],
+        );
+      },
+    ) ?? false;
+  }
+
+
   Future<List<Event>> fetchEvent() async {
 
     var res = await Api().getData("event");
@@ -1146,9 +1199,7 @@ void LogOut() async{
   print(email2);
 }
 
-Future<bool> _onBackPressed(){
-  return SystemNavigator.pop();
-}
+
 
 Future<bool> LogOutDialog(context){
   return showDialog(

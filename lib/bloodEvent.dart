@@ -70,6 +70,7 @@ class _BloodEventState extends State<BloodEvent> {
 
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
@@ -115,9 +116,75 @@ class _BloodEventState extends State<BloodEvent> {
 //                                          color: Colors.white,
 //                                          borderRadius:
 //                                              BorderRadius.circular(5.0)),
-                                    child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Positioned(
+                                          top:10,
+                                          right:20,
+                                          child: Container(
+                                            width: 280,
+                                          height: 184,
+                                          decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    blurRadius: 9,
+                                                    spreadRadius: 3,
+                                                    color: Colors.black.withOpacity(0.1)
+                                                )
+                                              ],
+                                      color: Colors.white,
+                                      borderRadius:
+                                            BorderRadius.circular(5.0)),
+                                            child:  Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  SizedBox(width: size.width*0.11,),
+
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text("Title",style: TextStyle(
+                                                        fontWeight: FontWeight.w700,
+
+                                                    ),),
+                                                    Text(snapshot.data[index].name,style: TextStyle(
+                                                        fontWeight: FontWeight.w300,
+                                                      fontSize: 13
+                                                    ),),
+                                                    Text("Location",style: TextStyle(
+                                                        fontWeight: FontWeight.w700
+                                                    ),),
+                                                    Text(
+                                                  snapshot.data[index].location,style: TextStyle(
+                                                        fontWeight: FontWeight.w300,
+                                                        fontSize: 13
+                                                    ),),
+                                                    Text("Time",style: TextStyle(
+                                                      fontWeight: FontWeight.w700,
+                                                    ),),
+                                                    Text(
+                                                       currentTime,style: TextStyle(
+                                                        fontWeight: FontWeight.w300,
+                                                        fontSize: 13
+                                                    ),),
+                                                    Text("Date",style: TextStyle(
+                                                        fontWeight: FontWeight.w700
+                                                    ),),
+                                                    Text(
+                                                        dateStart,style: TextStyle(
+                                                        fontWeight: FontWeight.w300,
+                                                        fontSize: 13
+                                                    ),),
+                                                  ],
+                                          ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: (){
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -126,157 +193,28 @@ class _BloodEventState extends State<BloodEvent> {
                                                           event: snapshot
                                                               .data[index])),
                                             );
-                                          });
-                                        },
-                                        child: Stack(
-                                          children: <Widget>[
-                                            Positioned(
-                                              top:4,
-                                              right:13,
-                                              child: Container(
-                                                width: 280,
-                                                height: 180,
-                                                decoration: BoxDecoration(
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          blurRadius: 9,
-                                                          spreadRadius: 3,
-                                                          color: Colors.grey.withOpacity(0.1)
-                                                      )
-                                                    ],
-                                                    color: Colors.white  ,
-                                                    borderRadius: BorderRadius.circular(5.0)),
-                                                child:  Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      SizedBox(width: size.width*0.15,),
-
-                                                      Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: <Widget>[
-                                                          Text(snapshot.data[index].name),
-                                                          Text(
-                                                              snapshot.data[index].location),
-                                                          Text(
-                                                              currentTime),
-                                                          Text(
-                                                              dateStart),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 9,
+                                                  spreadRadius: 3,
+                                                  color: Colors.grey.withOpacity(0.2)
+                                                )
+                                              ]
                                             ),
-                                            Positioned(
-                                              top:10,
-                                              right:20,
-                                              child: Container(
-                                                width: 280,
-                                              height: 184,
-                                              decoration: BoxDecoration(
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        blurRadius: 9,
-                                                        spreadRadius: 3,
-                                                        color: Colors.black.withOpacity(0.1)
-                                                    )
-                                                  ],
-                                          color: Colors.white,
-                                          borderRadius:
-                                                BorderRadius.circular(5.0)),
-                                                child:  Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      SizedBox(width: size.width*0.13,),
-
-                                                      Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: <Widget>[
-                                                        Text("Title",style: TextStyle(
-                                                            fontWeight: FontWeight.w700
-                                                        ),),
-                                                        Text(snapshot.data[index].name,style: TextStyle(
-                                                            fontWeight: FontWeight.w300
-                                                        ),),
-                                                        Text("Location",style: TextStyle(
-                                                            fontWeight: FontWeight.w700
-                                                        ),),
-                                                        Text(
-                                                      snapshot.data[index].location),
-                                                        Text("Time",style: TextStyle(
-                                                          fontWeight: FontWeight.w700
-                                                        ),),
-                                                        Text(
-                                                           currentTime),
-                                                        Text("Date",style: TextStyle(
-                                                            fontWeight: FontWeight.w700
-                                                        ),),
-                                                        Text(
-                                                            dateStart),
-                                                      ],
-                                              ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 9,
-                                                    spreadRadius: 3,
-                                                    color: Colors.grey.withOpacity(0.2)
-                                                  )
-                                                ]
-                                              ),
-                                              child:  ClipRRect(
+                                            child:  ClipRRect(
 borderRadius: BorderRadius.circular(25),
-                                                  child: Image.network(
-                                                    snapshot.data[index].imageURL,
-                                                    width: 140,
-                                                    height: 200,
-                                                    fit: BoxFit.fill,
-                                                  )),
-                                            ),
-                                          ],
+                                                child: Image.network(
+                                                  snapshot.data[index].imageURL,
+                                                  width: 140,
+                                                  height: 200,
+                                                  fit: BoxFit.fill,
+                                                )),
+                                          ),
                                         ),
-//                                        child: Row(
-//                                          children: <Widget>[
-//                                            ClipRRect(
-//                                                borderRadius:
-//                                                BorderRadius.circular(10.0),
-//                                                child: Image.network(
-//                                                  snapshot.data[index].imageURL,
-//                                                  width: 140,
-//                                                  height: 200,
-//                                                  fit: BoxFit.fill,
-//                                                )),
-//                                            Column(
-//                                              children: <Widget>[
-//                                                Text(snapshot.data[index].name),
-//                                                Text(
-//                                              snapshot.data[index].location),
-//                                                Text(
-//                                                   currentTime),
-//                                                Text(
-//                                                    dateStart),
-//                                              ],
-//                                            )
-//                                          ],
-//                                        ),
-//                                        child: ListTile(
-//                                          leading: Image.network(
-//                                              snapshot.data[index].imageURL),
-//                                          title:
-//                                              Text(snapshot.data[index].name),
-//                                          isThreeLine: true,
-//                                          subtitle: Text(
-//                                              snapshot.data[index].location),
-//                                        ),
+                                      ],
                                     ),
                                   ),
                                       );

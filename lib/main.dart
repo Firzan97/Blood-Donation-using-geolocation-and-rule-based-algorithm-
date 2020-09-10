@@ -29,7 +29,7 @@ final locaterService = GeolocationService();
         '/home': (BuildContext context) => Home(),
         '/welcome': (BuildContext context) => Welcome(),
         '/loading': (BuildContext context) => LoadingScreen(),
-        '/test': (BuildContext context) => MyHomePage(),
+        '/test': (BuildContext context) => MyApp(),
         '/profile': (BuildContext context) => Profile(),
         '/editprofile': (BuildContext context) => EditProfile(),
       }

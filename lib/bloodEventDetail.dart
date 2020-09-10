@@ -27,7 +27,7 @@ class BloodEventDetail extends StatelessWidget {
                   height: size.height*0.96,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                       image: NetworkImage(event.imageURL),
                     ),
                   ),
@@ -40,7 +40,7 @@ class BloodEventDetail extends StatelessWidget {
                       return Container(
                         width: size.width,
                         decoration: BoxDecoration(
-                            color: kGradient1.withOpacity(0.3),
+                            color: Colors.white.withOpacity(0.9),
                             boxShadow: [
                               BoxShadow(
                                   color: Colors.grey.withOpacity(0.2),

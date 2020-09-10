@@ -55,6 +55,8 @@ dependencies:
   jiffy: ^3.0.1
   geocoder: ^0.2.1
   flutter_bloc: ^6.0.5
+  progress_dialog: ^1.2.4
+
 
 
 

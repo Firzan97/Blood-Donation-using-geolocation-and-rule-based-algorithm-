@@ -280,17 +280,13 @@ class _EditProfileState extends State<EditProfile> {
                             ),),onPressed: (){
                             getUserLocation();
                             getUserAddress();
-//                            print("laititude ialah ${latitude}");
-//                            print("longitude ialah ${longitude}");
-//                            print("${first.featureName} : ${first.addressLine}");
-//print(longitude);
                           },
                           ),
                         ),
                         SizedBox(
                           height: size.height * 0.01,
                         ),
-                        latitude==null ? Text("your address") : Text("${first.addressLine}"),
+                        first==null ? Text("your address") : Text("${first.addressLine}"),
                         SizedBox(
                           height: size.height * 0.02,
                         ),
