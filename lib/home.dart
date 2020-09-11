@@ -747,6 +747,17 @@ class _HomeState extends State<Home> {
                                                   ),
                                                 );
                                               }
+                                              else if(snapshot.data.length==0){
+                                                return Container(
+                                                  height: 170,
+                                                  width: size.width*0.9,
+                                                  child: Center(
+                                                    child: Image.asset(
+                                                      "assets/images/nodata.png"
+                                                    ),
+                                                  ),
+                                                );
+                                              }
                                               return Container(
                                                 child: Row(
                                                   children: <Widget>[
@@ -987,6 +998,17 @@ class _HomeState extends State<Home> {
                                               height:size.height*0.27,
                                               child: Center(
                                                 child: LoadingScreen(),
+                                              ),
+                                            );
+                                          }
+                                          else if(snapshot.data.length==0){
+                                            return Container(
+                                              height: 170,
+                                              width: size.width*0.9,
+                                              child: Center(
+                                                child: Image.asset(
+                                                    "assets/images/nodata.png"
+                                                ),
                                               ),
                                             );
                                           }
