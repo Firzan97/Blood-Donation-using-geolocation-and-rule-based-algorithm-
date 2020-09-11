@@ -7,7 +7,7 @@ import 'package:easy_blood/splash.dart';
 import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_blood/geolocation_service.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/service/geolocation_service.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
 

@@ -4,9 +4,9 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:easy_blood/about.dart';
 import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/api/api.dart';
-import 'package:easy_blood/bloodEvent.dart';
-import 'package:easy_blood/bloodEventDetail.dart';
-import 'package:easy_blood/blood_request.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/event/bloodEvent.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/event/bloodEventDetail.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/request/blood_request.dart';
 import 'package:easy_blood/component/curvedBackground.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
@@ -779,6 +779,63 @@ class _HomeState extends State<Home> {
                                                                       Widget>[
                                                                     Positioned(
                                                                       bottom:
+                                                                      22,
+                                                                      left: 47,
+                                                                      child:
+                                                                      Padding(
+                                                                        padding:
+                                                                        const EdgeInsets.all(8.0),
+                                                                        child: Container(
+                                                                          height: size.height*0.23,
+                                                                          width: 200,
+                                                                          decoration: BoxDecoration(
+                                                                              borderRadius:
+                                                                              BorderRadius.circular(10.0),
+                                                                              color: kPrimaryColor,
+                                                                              boxShadow: [
+                                                                                BoxShadow(
+                                                                                    color: Colors.grey.withOpacity(0.15),
+                                                                                    blurRadius: 5,
+                                                                                    spreadRadius: 3,
+                                                                                    offset: Offset(0.1, 0.2)
+                                                                                )
+                                                                              ]
+                                                                          ),
+                                                                          child: Padding(
+                                                                            padding: const EdgeInsets.only(left: 80.0),
+                                                                            child: Column(
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              children: <Widget>[
+                                                                                Text(snapshot.data[index].name,style: TextStyle(
+                                                                                    fontSize: 14,
+                                                                                    fontWeight: FontWeight.w700
+                                                                                ),),
+                                                                                Text("Date"),
+                                                                                Text(
+                                                                                  dateStart,
+                                                                                  style: TextStyle(
+                                                                                    color: Colors.black,
+                                                                                    fontSize: 12,),
+                                                                                ),Text(
+                                                                                  currentTime,
+                                                                                  style: TextStyle(
+                                                                                    color: Colors.black,
+                                                                                    fontSize: 12,),
+                                                                                ),
+                                                                                Text(
+                                                                                  snapshot.data[index].location,
+                                                                                  style: TextStyle(
+                                                                                    color: Colors.black,
+                                                                                    fontSize: 12,),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Positioned(
+                                                                      bottom:
                                                                           15,
                                                                       left: 40,
                                                                       child:
@@ -834,6 +891,24 @@ class _HomeState extends State<Home> {
                                                              ),
                                                            ),
                                                          ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.all(10.0),
+                                                                      child: Container(
+                                                                        width: 100,
+                                                                        height: 140,
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(10.0),
+                                                                            color: kPrimaryColor,
+                                                                            boxShadow: [
+                                                                              BoxShadow(
+                                                                                  spreadRadius: 4,
+                                                                                  color: Colors.grey
+                                                                                      .withOpacity(0.1),
+                                                                                  blurRadius: 2)
+                                                                            ]),
+                                                                      ),
+                                                                    ),
                                                          Padding(
                                                            padding: const EdgeInsets.all(16.0),
                                                            child: Container(
@@ -958,21 +1033,21 @@ class _HomeState extends State<Home> {
                                                                       style: TextStyle(
                                                                           color: Colors.black,
                                                                           fontWeight: FontWeight.w700,
-                                                                          fontSize: 17),
+                                                                          fontSize: 14),
                                                                     ),
                                                                     Text(
                                                                       snapshot.data[index].location,
                                                                       style: TextStyle(
                                                                           color: Colors.black,
-                                                                          fontWeight: FontWeight.w700,
-                                                                          fontSize: 17),
+                                                                          fontWeight: FontWeight.w500,
+                                                                          fontSize: 13),
                                                                     ),
                                                                     Text(
                                                                       Jiffy(time).fromNow() // 7 years ago
                                                                       ,
                                                                       style: TextStyle(
                                                                           color: Colors.grey,
-                                                                          fontSize: 11,
+                                                                          fontSize: 10,
                                                                           fontWeight: FontWeight.w300),
                                                                     ),
                                                                   ],

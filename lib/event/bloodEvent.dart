@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:easy_blood/api/api.dart';
-import 'package:easy_blood/bloodEventDetail.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/event/bloodEventDetail.dart';
 import 'package:easy_blood/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/event.dart';
@@ -13,13 +13,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'component/button_round.dart';
-import 'component/input_round.dart';
+import '../component/button_round.dart';
+import '../component/input_round.dart';
 import 'dart:convert' show JSON;
 import 'package:http/http.dart' as http;
 
 
-import 'component/input_time.dart';
+import '../component/input_time.dart';
 
 class BloodEvent extends StatefulWidget {
   BloodEvent({Key key}) : super(key: key);
