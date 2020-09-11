@@ -1,5 +1,5 @@
-import 'package:easy_blood/constant.dart';
-import 'package:easy_blood/continueButton.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/component/continueButton.dart';
 import 'package:easy_blood/splash_content.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';

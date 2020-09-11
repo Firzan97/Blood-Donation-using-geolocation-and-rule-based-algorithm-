@@ -1,5 +1,5 @@
 import 'package:easy_blood/component/input_container.dart';
-import 'package:easy_blood/constant.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'package:flutter/material.dart';
 
 class InputPasswordRound extends StatelessWidget {

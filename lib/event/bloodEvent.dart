@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:easy_blood/api/api.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/event/bloodEventDetail.dart';
-import 'package:easy_blood/constant.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/event.dart';
 import 'package:flutter/cupertino.dart';

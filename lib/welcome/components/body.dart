@@ -1,6 +1,6 @@
 import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/component/button_round.dart';
-import 'package:easy_blood/constant.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'package:easy_blood/signin.dart';
 import 'package:easy_blood/signup.dart';
 import 'package:easy_blood/welcome/components/background.dart';

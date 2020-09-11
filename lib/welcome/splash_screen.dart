@@ -1,5 +1,5 @@
 import 'package:easy_blood/body.dart';
-import 'package:easy_blood/size.config.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/size.config.dart';
 import 'package:flutter/material.dart';
 
 
