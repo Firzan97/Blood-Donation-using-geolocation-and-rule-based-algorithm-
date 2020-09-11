@@ -2,15 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/profile/edit_profile.dart';
+import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/event/edit_event.dart';
+import 'package:easy_blood/home/home.dart';
 import 'package:easy_blood/model/donation.dart';
 import 'package:easy_blood/model/user.dart';
+import 'package:easy_blood/profile/edit_profile.dart';
 import 'package:http/http.dart' as http;
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/curvedBackground.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/event.dart';
 import 'package:easy_blood/model/request.dart';
@@ -1145,9 +1145,7 @@ class _ProfileState extends State<Profile> {
       List<Requestor> requests = [];
       var count = 0;
       for (Map u in bodys) {
-        print('dapat12');
         Requestor req = Requestor.fromJson(u);
-        print('dapatsssss');
         if(user['_id']==req.user_id){
           requests.add(req);
         }

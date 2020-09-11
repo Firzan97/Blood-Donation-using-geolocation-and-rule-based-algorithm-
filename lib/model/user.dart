@@ -3,14 +3,14 @@ class User {
   String email;
   String password;
   String bloodtype;
-  String phoneNum;
+  String phoneNumber;
   String gender;
   double latitude;
   double longitude;
   String imageURL;
   String role;
 
-  User(this.username, this.email, this.password, this.bloodtype, this.phoneNum,
+  User(this.username, this.email, this.password, this.bloodtype, this.phoneNumber,
       this.gender, this.latitude, this.longitude, this.imageURL, this.role);
 
   User.fromJson(Map<String, dynamic> json)
@@ -18,7 +18,7 @@ class User {
         email= json['email'],
         password = json['password'],
         bloodtype = json['bloodtype'],
-        phoneNum = json['phoneNum'],
+        phoneNumber = json['phoneNumber'],
         gender = json['gender'],
         latitude= double.parse(json['latitude']),
         longitude = double.parse(json['longitude']),
@@ -31,7 +31,7 @@ class User {
         'email': email,
         'password': password,
         'bloodtype': bloodtype,
-        'phoneNum': phoneNum,
+        'phoneNumber': phoneNumber,
         'gender': gender,
         'latitude': latitude,
         'longitude': longitude,

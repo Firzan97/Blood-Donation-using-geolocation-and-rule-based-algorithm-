@@ -1232,17 +1232,11 @@ class _HomeState extends State<Home> {
     var bodys = json.decode(res.body);
     if (res.statusCode == 200) {
       List<Requestor> requests = [];
-      var count=0;
       for (Map u in bodys) {
-        count++;
-        print(count);
-        print(u);
         Requestor req = Requestor.fromJson(u);
         User user = req.user;
         a.add(user);
-        print(a.length);
         requests.add(req);
-        print(requests.length);
       }
 
       return requests;

@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/model/request.dart';
+import 'package:easy_blood/request/findRequest.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:easy_blood/api/api.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/request/findRequest.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BloodRequest extends StatefulWidget {
   @override
@@ -34,7 +35,8 @@ class _BloodRequestState extends State<BloodRequest> {
   Set<Marker> markers;
   PageController _pageController;
   Future<List<Requestor>> _futureRequest;
-
+  List<User> a = [];
+  String view="false";
 
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -294,23 +296,78 @@ class _BloodRequestState extends State<BloodRequest> {
                             child: Column(
                               children: <Widget>[
                                 Icon(Icons.drag_handle),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: 30,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Colors.black
-                                    ),
-                                    child: Center(
-                                      child: Text("Blood Request List",style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                            fontFamily: "Muli",
-                                            color: Colors.white),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: GestureDetector(
+                                        child: Container(
+                                          height: 30,
+                                          width: 70,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(2),
+                                              color: view=="list" ? kPrimaryColor : Colors.white
+                                          ),
+                                          child: Center(
+                                            child: Text("List",style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: "Muli",
+                                                color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+                                        onTap: (){
+                                          setState(() {
+                                            view="list";
+                                          });
+                                        },
                                       ),
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: 30,
+                                        width: 150,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          color: Colors.black
+                                        ),
+                                        child: Center(
+                                          child: Text("Blood Request List",style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                                fontFamily: "Muli",
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: GestureDetector(
+                                        child: Container(
+                                          height: 30,
+                                          width: 70,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(2),
+                                              color: view=="detail" ? kPrimaryColor : Colors.white
+                                          ),
+                                          child: Center(
+                                            child: Text("Detail",style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: "Muli",
+                                                color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+                                        onTap: (){
+                                          setState(() {
+                                            view="detail";
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(
                                   height: size.height * 0.01,
@@ -324,80 +381,106 @@ class _BloodRequestState extends State<BloodRequest> {
                                             itemCount: snapshot.data.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(3.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
-                                                  child: ListTile(
-                                                    leading: Container(
-                                                      height:
-                                                          size.height * 0.149,
-                                                      width: size.width * 0.15,
+                                              return Stack(
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(10.0),
+                                                    child: Container(
                                                       decoration: BoxDecoration(
-                                                          image:
-                                                              DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image: AssetImage(
-                                                                "assets/images/lari2.jpg"),
-                                                          ),
+                                                          color: Colors.white,
                                                           borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5)),
-                                                    ),
-                                                    title:
-                                                        Text("SYAZWAN ASRAF"),
-                                                    subtitle:
-                                                        Text("Blood Group O"),
-                                                    trailing: Container(
-                                                      width: 130,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
-                                                        children: <Widget>[
-                                                          IconButton(
-                                                            icon: Icon(
-                                                              Icons.call,
-                                                              color:
-                                                                  kPrimaryColor,
-                                                            ),
-                                                            onPressed: () {
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            FindRequest()),
-                                                              );
-                                                            },
+                                                              BorderRadius.circular(
+                                                                  10)),
+                                                      child: ListTile(
+                                                        leading: Container(
+                                                          height:
+                                                              size.height * 0.149,
+                                                          width: size.width * 0.11,
+                                                          decoration: BoxDecoration(
+                                                              image:
+                                                                  DecorationImage(
+                                                                fit: BoxFit.cover,
+                                                                image: NetworkImage(
+                                                                    a[index].imageURL),
+                                                              ),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(5)),
+                                                        ),
+                                                        title:
+                                                            Text(a[index].username),
+                                                        subtitle:
+                                                            Text("${snapshot.data[index].bloodType}",style: TextStyle(
+                                                              color: Colors.red
+                                                            ),),
+                                                        trailing: Container(
+                                                          width: 130,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: <Widget>[
+                                                              IconButton(
+                                                                icon: Icon(
+                                                                  Icons.call,
+                                                                  color:
+                                                                      kPrimaryColor,
+                                                                ),
+                                                                onPressed: () {
+                                                                  launch(('tel://${a[index].phoneNumber}'));       //launch(('tel://99999xxxxx'));
+
+
+                                                                },
+                                                              ),
+                                                              IconButton(
+                                                                icon: Icon(
+                                                                  Icons
+                                                                      .message,
+                                                                  color:
+                                                                      kPrimaryColor,
+                                                                ),
+                                                                onPressed: () {
+
+                                                                },
+                                                              ),
+                                                            ],
                                                           ),
-                                                          IconButton(
-                                                            icon: Icon(
-                                                              Icons
-                                                                  .call_missed_outgoing,
-                                                              color:
-                                                                  kPrimaryColor,
-                                                            ),
-                                                            onPressed: () {
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            FindRequest()),
-                                                              );
-                                                            },
-                                                          ),
-                                                        ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
+//                                                  Positioned(
+//                                                    bottom: 0,
+//                                                    left:160,
+//                                                    child: GestureDetector(
+//                                                      child: Container(
+//                                                        height: 30,
+//                                                        width: 80,
+//                                                        decoration: BoxDecoration(
+//                                                            borderRadius: BorderRadius.circular(20),
+//                                                            color: Colors.black
+//                                                        ),
+//                                                        child: Center(
+//                                                          child: Text("Details",style: TextStyle(
+//                                                              fontWeight: FontWeight.w700,
+//                                                              fontFamily: "Muli",
+//                                                              color: Colors.white),
+//                                                          ),
+//                                                        ),
+//                                                      ),
+//                                                      onTap: (){
+//                                                        Navigator.push(
+//                                                          context,
+//                                                          MaterialPageRoute(
+//                                                              builder:
+//                                                                  (context) =>
+//                                                                  FindRequest()),
+//                                                        );
+//                                                      },
+//                                                    ),
+//                                                  ),
+                                                ],
                                               );
                                             }),
                                       );
@@ -425,9 +508,9 @@ class _BloodRequestState extends State<BloodRequest> {
       List<Requestor> requests = [];
       var count = 0;
       for (Map u in bodys) {
-        print('dapat12');
         Requestor req = Requestor.fromJson(u);
-        print('dapatsssss');
+        User user = req.user;
+        a.add(user);
         requests.add(req);
       }
 
@@ -447,13 +530,9 @@ class _BloodRequestState extends State<BloodRequest> {
       var count = 2;
       for (var u in body) {
         count++;
-        print(count);
         User user = User.fromJson(u);
-        print(user.longitude);
         double lat = user.latitude.toDouble();
         double lon = user.longitude.toDouble();
-        print(lat);
-        print(lon);
         allMarkers.add(Marker(
             markerId: MarkerId('myMarker${count}'),
             icon: user.email == currentUser['email']

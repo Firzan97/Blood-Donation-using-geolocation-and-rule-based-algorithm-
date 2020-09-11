@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/constant/constant.dart';
+import 'package:easy_blood/profile/profile.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/profile/profile.dart';
 import 'package:easy_blood/welcome/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -453,22 +453,14 @@ class _EditProfileState extends State<EditProfile> {
     await Future.delayed(const Duration(seconds: 10));
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var res = await Api().getData("user/${user['_id']}");
-    print(res);
-    print(res.body);
     var body = json.decode(res.body);
-    print(body);
-    print(checkIfAnyIsNull());
     if (res.statusCode == 200) {
-      print('dah tukar');
-      print(user['imageURL']);
       setState(() {
         localStorage.setString("user", json.encode(body));
         user = jsonDecode(localStorage.getString("user"));
         localStorage.setBool("statusUpdated", checkIfAnyIsNull());
 
       });
-      print(json.encode(body));
-      print(user['imageURL']);
       return localStorage.getString("user");
     } else {
       throw Exception('Failed to load user');
