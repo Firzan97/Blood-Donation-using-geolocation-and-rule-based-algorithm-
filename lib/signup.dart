@@ -193,6 +193,14 @@ class _SignUpState extends State<SignUp> {
       "username" : username.text,
       "password" : password.text,
       "age" : age.text,
+      "bloodType": "",
+      "gender": "",
+      "height": "",
+      "imageURL": "",
+      "latitude": "",
+      "longitude": "",
+      "phoneNumber": "",
+      "weight": "",
     };
     print(age.text);
     var res = await Api().postData(data,"user");
