@@ -160,7 +160,7 @@ class _EditProfileState extends State<EditProfile> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    IconButton(icon: Icon(Icons.arrow_back),onPressed: (){Navigator.pop(
+                    IconButton(icon: Icon(Icons.arrow_back),onPressed: (){Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => Profile()),
@@ -188,7 +188,7 @@ class _EditProfileState extends State<EditProfile> {
                               ],
                               image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: user==null ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.jpg') : NetworkImage(user['imageURL'])
+                                  image: user['imageURL']==null ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.jpg') : NetworkImage(user['imageURL'])
                               )
                           ),
                         ),
@@ -436,12 +436,17 @@ class _EditProfileState extends State<EditProfile> {
 
   bool checkIfAnyIsNull() {
     return [user['imageURL'],
+      user['email'],
+      user['username'],
+      user['age'],
+      user['gender'],
+      user['bloodType'],
+      user['height'],
       user['imageURL'],
-      user['imageURL'],
-      user['imageURL'],
-      user['imageURL'],
-      user['imageURL'],
-      user['imageURL']].contains("");
+      user['latitude'],
+      user['longitude'],
+      user['phoneNumber'],
+      user['weight']].contains("");
   }
 
   Future<String> fetchUser() async {
@@ -452,12 +457,14 @@ class _EditProfileState extends State<EditProfile> {
     print(res.body);
     var body = json.decode(res.body);
     print(body);
+    print(checkIfAnyIsNull());
     if (res.statusCode == 200) {
       print('dah tukar');
       print(user['imageURL']);
       setState(() {
         localStorage.setString("user", json.encode(body));
         user = jsonDecode(localStorage.getString("user"));
+        localStorage.setBool("statusUpdated", checkIfAnyIsNull());
 
       });
       print(json.encode(body));

@@ -44,15 +44,16 @@ class _HomeState extends State<Home> {
   Future<List<Requestor>> _futureRequest;
   bool profileUpdate=false;
   List<User> users = [];
-  bool statusUpdated=false;
+  bool statusUpdated;
 
 
   void getUserData()async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
-    localStorage.setBool('statusUpdated',true);
      setState(() {
        user= jsonDecode(localStorage.getString("user"));
+       statusUpdated=localStorage.getBool('statusUpdated');
      });
+     print(statusUpdated);
     print(user);}
 
 
@@ -653,7 +654,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                      statusUpdated==false ? Positioned(
+                      statusUpdated==true ? Positioned(
                         bottom:5,
                         right: 70,
                         child: Container(

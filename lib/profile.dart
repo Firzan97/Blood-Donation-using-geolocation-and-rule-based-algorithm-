@@ -106,7 +106,7 @@ class _ProfileState extends State<Profile> {
                                     children: <Widget>[
                                       IconButton(
                                         onPressed: () {
-                                          Navigator.pop(
+                                          Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) => Home()),

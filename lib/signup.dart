@@ -210,6 +210,7 @@ class _SignUpState extends State<SignUp> {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['token']);
       localStorage.setString('user', json.encode(body['user']));
+      localStorage.setBool('statusUpdated',true);
       Navigator.push(
         context,
         MaterialPageRoute(
