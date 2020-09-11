@@ -7,7 +7,6 @@ class Api{
 
   postData(data, apiURL) async{
     var fullURL = apiLink + apiURL;
-    print(data);
     return await http.post(
       fullURL,
       headers: _reqHeader(),

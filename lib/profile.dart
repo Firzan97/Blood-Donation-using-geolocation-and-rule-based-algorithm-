@@ -1083,16 +1083,18 @@ class _ProfileState extends State<Profile> {
 
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString("user"));
-    var res = await Api().getData("user/5f5b4f37df160000f50050e3/request");
+    var res = await Api().getData("request");
     var bodys = json.decode(res.body);
     if (res.statusCode == 200) {
       List<Requestor> requests = [];
       var count = 0;
       for (Map u in bodys) {
         print('dapat12');
-        Requestor event = Requestor.fromJson(u);
+        Requestor req = Requestor.fromJson(u);
         print('dapatsssss');
-        requests.add(event);
+        if(user['_id']==req.user_id){
+          requests.add(req);
+        }
       }
 
       return requests;
