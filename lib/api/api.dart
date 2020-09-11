@@ -22,6 +22,13 @@ class Api{
     );
   }
 
+  deleteData(apiURL) async{
+    var fullURL = apiLink + apiURL;
+    return await http.delete(
+      fullURL,
+      headers: _reqHeader(),
+    );
+  }
    _reqHeader() =>{
      'Content-Type': 'application/json',
      'Accept' : 'application/json',

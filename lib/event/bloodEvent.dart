@@ -647,7 +647,6 @@ borderRadius: BorderRadius.circular(25),
               IconButton(
                 icon: Icon(Icons.close),
                 onPressed: (){
-                  Navigator.of(context).pop();
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

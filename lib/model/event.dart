@@ -1,6 +1,7 @@
 import 'package:easy_blood/model/user.dart';
 
 class Event {
+  final String id;
   final String name;
   final String location;
   final String phoneNum;
@@ -15,11 +16,12 @@ class Event {
 
   Event(
     this.name,
-    this.location, this.phoneNum, this.dateStart, this.dateEnd, this.organizer, this.timeStart, this.timeEnd, this.imageURL, this.user_id, this.user,
+    this.location, this.phoneNum, this.dateStart, this.dateEnd, this.organizer, this.timeStart, this.timeEnd, this.imageURL, this.user_id, this.user, this.id,
   );
 
   Event.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
+      : id = json['_id'],
+        name = json['name'],
         location = json['location'],
         phoneNum = json['phoneNum'],
         dateStart = DateTime.parse(json['dateStart']),

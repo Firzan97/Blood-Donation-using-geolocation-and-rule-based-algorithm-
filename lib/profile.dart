@@ -20,6 +20,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 
 class Profile extends StatefulWidget {
@@ -31,7 +32,7 @@ class _ProfileState extends State<Profile> {
   Future<List<Requestor>> _futureRequest;
   Future<List<Requestor>> _futureDonation;
   Future<List<Event>> _futureEvent;
-
+  var pr;
 
   var user;
 
@@ -59,7 +60,21 @@ class _ProfileState extends State<Profile> {
     DateTime dateTime = DateTime.parse(user['created_at']);
     DateFormat dateFormat = DateFormat('yyyy-MM-dd');
     String time = dateFormat.format(dateTime);
-
+    pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
+    pr.style(
+        message: 'Loading....',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: LoadingScreen(),
+        elevation: 10.0,
+        insetAnimCurve: Curves.easeInOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600)
+    );
     Size size = MediaQuery
         .of(context)
         .size;
@@ -958,7 +973,7 @@ class _ProfileState extends State<Profile> {
                                                                         children: <
                                                                             Widget>[
                                                                           Container(
-                                                                            height: 50,
+                                                                            height: 80,
                                                                             width: 60,
                                                                             decoration: BoxDecoration(
                                                                               shape: BoxShape
@@ -984,43 +999,45 @@ class _ProfileState extends State<Profile> {
                                                                                 .start,
                                                                             children: <
                                                                                 Widget>[
-                                                                              Text(
-                                                                                  "6 hours ago"),
+                                                                            Text(
+                                                                              snapshot.data[index].name),
                                                                               Row(
                                                                                 children: <
                                                                                     Widget>[
                                                                                   Container(
                                                                                     child: Text(
-                                                                                        "Syazwan Asraf"),
+                                                                                        "6 hours ago")
                                                                                   ),
                                                                                   SizedBox(
                                                                                     width: size
                                                                                         .width *
                                                                                         0.05,),
-                                                                                  Container(
-                                                                                    child: Row(
-                                                                                      children: <
-                                                                                          Widget>[
 
-                                                                                        IconButton(
-                                                                                          icon: Icon(Icons.edit,color: Colors.black),
-                                                                                          onPressed: (){
-                                                                                            Navigator.push(
-                                                                                              context,
-                                                                                              MaterialPageRoute(
-                                                                                                  builder: (context) => EditEvent()),
-                                                                                            );
-                                                                                          },
-                                                                                        ),
-                                                                                        IconButton(
-                                                                                          icon: Icon(Icons.delete_forever,color: Colors.black,),
-                                                                                       onPressed: (){
-                                                                                       },
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                  )
                                                                                 ],
+                                                                              ),
+                                                                              Container(
+                                                                                child: Row(
+                                                                                  children: <
+                                                                                      Widget>[
+
+                                                                                    IconButton(
+                                                                                      icon: Icon(Icons.edit,color: Colors.black),
+                                                                                      onPressed: (){
+                                                                                        Navigator.push(
+                                                                                          context,
+                                                                                          MaterialPageRoute(
+                                                                                              builder: (context) => EditEvent()),
+                                                                                        );
+                                                                                      },
+                                                                                    ),
+                                                                                    IconButton(
+                                                                                      icon: Icon(Icons.delete_forever,color: Colors.black,),
+                                                                                      onPressed: (){
+                                                                                        _eventDeleteDialog(snapshot.data[index].id);
+                                                                                      },
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
                                                                               )
                                                                             ],
                                                                           )
@@ -1072,6 +1089,45 @@ class _ProfileState extends State<Profile> {
             )
         )
     );
+  }
+
+  Future<bool> _eventDeleteDialog(eventId) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Center(child: Text('Delete Event')),
+          content: Text('Confirm to delete event?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(false); //Will not exit the App
+              },
+            ),
+            FlatButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                _deleteEvent(eventId);
+              },
+            )
+          ],
+        );
+      },
+    ) ?? false;
+  }
+
+  _deleteEvent(eventId) async{
+    var res = await Api().deleteData("event/${eventId}");
+    if (res.statusCode == 200){
+      pr.show();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Profile()),
+      );
+    }
   }
 
   Future<List<Requestor>> fetchRequest() async {
