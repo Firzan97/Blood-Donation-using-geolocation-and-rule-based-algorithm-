@@ -49,6 +49,7 @@ class _HomeState extends State<Home> {
 
   void getUserData()async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
+    localStorage.setBool('statusUpdated',true);
      setState(() {
        user= jsonDecode(localStorage.getString("user"));
      });
