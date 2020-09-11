@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 import 'package:easy_blood/edit_profile.dart';
+import 'package:easy_blood/event/edit_event.dart';
 import 'package:easy_blood/model/donation.dart';
 import 'package:easy_blood/model/user.dart';
 import 'package:http/http.dart' as http;
@@ -977,7 +978,7 @@ class _ProfileState extends State<Profile> {
                                                                           SizedBox(
                                                                             width: size
                                                                                 .width *
-                                                                                0.09,),
+                                                                                0.04,),
                                                                           Column(
                                                                             crossAxisAlignment: CrossAxisAlignment
                                                                                 .start,
@@ -995,35 +996,27 @@ class _ProfileState extends State<Profile> {
                                                                                   SizedBox(
                                                                                     width: size
                                                                                         .width *
-                                                                                        0.08,),
+                                                                                        0.05,),
                                                                                   Container(
                                                                                     child: Row(
                                                                                       children: <
                                                                                           Widget>[
-                                                                                        Row(
-                                                                                          children: <
-                                                                                              Widget>[
-                                                                                            Icon(
-                                                                                                Icons
-                                                                                                    .thumb_up),
-                                                                                            Text(
-                                                                                                "1")
-                                                                                          ],
+
+                                                                                        IconButton(
+                                                                                          icon: Icon(Icons.edit,color: Colors.black),
+                                                                                          onPressed: (){
+                                                                                            Navigator.push(
+                                                                                              context,
+                                                                                              MaterialPageRoute(
+                                                                                                  builder: (context) => EditEvent()),
+                                                                                            );
+                                                                                          },
                                                                                         ),
-                                                                                        SizedBox(
-                                                                                          width: size
-                                                                                              .width *
-                                                                                              0.05,),
-                                                                                        Row(
-                                                                                          children: <
-                                                                                              Widget>[
-                                                                                            Icon(
-                                                                                                Icons
-                                                                                                    .comment),
-                                                                                            Text(
-                                                                                                "1")
-                                                                                          ],
-                                                                                        )
+                                                                                        IconButton(
+                                                                                          icon: Icon(Icons.delete_forever,color: Colors.black,),
+                                                                                       onPressed: (){
+                                                                                       },
+                                                                                        ),
                                                                                       ],
                                                                                     ),
                                                                                   )
