@@ -36,7 +36,7 @@ class _BloodRequestState extends State<BloodRequest> {
   PageController _pageController;
   Future<List<Requestor>> _futureRequest;
   List<User> a = [];
-  String view="false";
+  String view="detail";
 
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -111,6 +111,7 @@ class _BloodRequestState extends State<BloodRequest> {
 //    ));
   }
 
+  final pi = 3.1415926535897932;
 
   @override
   Widget build(BuildContext context) {
@@ -381,7 +382,7 @@ class _BloodRequestState extends State<BloodRequest> {
                                             itemCount: snapshot.data.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              return Stack(
+                                              return view=="list" ? Stack(
                                                 children: <Widget>[
                                                   Padding(
                                                     padding:
@@ -481,6 +482,153 @@ class _BloodRequestState extends State<BloodRequest> {
 //                                                    ),
 //                                                  ),
                                                 ],
+                                              ) : Container(
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                      const EdgeInsets.only(top: 10.0, left: 11, right: 11),
+                                                      child: Container(
+                                                        width: size.width * 1,
+                                                        decoration:
+                                                        BoxDecoration(color: Colors.white, boxShadow: [
+                                                          BoxShadow(
+                                                              color: Colors.black.withOpacity(0.05),
+                                                              blurRadius: 10,
+                                                              spreadRadius: 3)
+                                                        ]),
+                                                        child: Column(
+                                                          children: <Widget>[
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment.topRight,
+                                                                    end: Alignment.bottomLeft,
+                                                                    colors: [
+//                              Color(0xffff5959),
+                                                                      kGradient1,
+                                                                      kGradient2,
+                                                                    ]),
+                                                              ),
+                                                              child: ListTile(
+                                                                leading: Container(
+                                                                  height: size.height * 0.149,
+                                                                  width: size.width * 0.15,
+                                                                  decoration: BoxDecoration(
+
+                                                                      boxShadow: [
+                                                                        BoxShadow(
+                                                                            color: Colors.black.withOpacity(0.2),
+                                                                            blurRadius: 8,
+                                                                            spreadRadius: 5)
+                                                                      ],
+                                                                      shape: BoxShape.circle,
+                                                                      image: DecorationImage(
+                                                                        fit: BoxFit.cover,
+                                                                        image:
+                                                                        NetworkImage(a[index].imageURL),
+                                                                      )),
+                                                                ),
+                                                                title: Text(a[index].username),
+                                                                isThreeLine: true,
+                                                                subtitle: RichText(
+                                                                  text: TextSpan(
+                                                                    text: 'Looking for ${snapshot.data[index].bloodType} blood donor\n',
+                                                                    style: TextStyle(
+                                                                        color: Colors.black
+                                                                    ),
+                                                                    children: <TextSpan>[
+                                                                      TextSpan(
+                                                                          text: 'Posted 3 hours ago',
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.w300,
+                                                                              fontSize: 10.0)),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(
+                                                                  left: 20.0, top: 10, bottom: 15),
+                                                              child: Text(
+                                                                  snapshot.data[index].reason),
+                                                            ),
+                                                            Container(
+                                                              child: Column(
+                                                                children: <Widget>[
+                                                                  Image.asset("assets/images/lari2.jpg"),
+                                                                  Container(
+                                                                    child: Row(
+                                                                      children: <Widget>[
+                                                                        Stack(children: <Widget>[
+                                                                          Image.asset(
+                                                                            "assets/images/begdarah.png",width: 50,),
+                                                                          Positioned(
+                                                                              top: size.height * 0.028,
+                                                                              left: size.width * 0.04,
+                                                                              child: Transform.rotate(angle: - pi / 5,
+                                                                                child: Text("AB",
+                                                                                    style: TextStyle(
+                                                                                        fontSize: 9,
+                                                                                        color: Colors.white,
+                                                                                        fontWeight:
+                                                                                        FontWeight.w700)),
+                                                                              ))
+                                                                        ]),
+                                                                        Text(snapshot.data[index].location),
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                              top: 8.0, left: 15),
+                                                                          child: FlatButton(
+                                                                            color: kThirdColor,
+                                                                            shape: RoundedRectangleBorder(
+                                                                              borderRadius:
+                                                                              BorderRadius.circular(5),
+                                                                            ),
+                                                                            child: Text("Saves a life",style: TextStyle(color: Colors.white70),),
+                                                                            onPressed: () {},
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment.topRight,
+                                                                    end: Alignment.bottomLeft,
+                                                                    colors: [
+//                              Color(0xffff5959),
+                                                                      kGradient1,
+                                                                      kGradient2,
+                                                                    ]),
+                                                              ),
+                                                              child: Row(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: <Widget>[
+                                                                  Container(
+                                                                    child: FlatButton(
+                                                                      child: Row(
+                                                                        children: <Widget>[
+                                                                          Icon(Icons.share),
+                                                                          Text("Share")
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               );
                                             }),
                                       );

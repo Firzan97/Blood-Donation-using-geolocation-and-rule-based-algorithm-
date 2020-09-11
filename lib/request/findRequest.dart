@@ -20,8 +20,6 @@ class _FindRequestState extends State<FindRequest> {
           home: Scaffold(
             body: SingleChildScrollView(
               child: Container(
-                width: size.width * 1,
-                height: size.height * 1,
                 color: Colors.grey.withOpacity(0.1),
                 child: Column(
                   children: <Widget>[
