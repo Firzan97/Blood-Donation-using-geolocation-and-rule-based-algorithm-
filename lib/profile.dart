@@ -599,43 +599,42 @@ class _ProfileState extends State<Profile> {
                                                             0.03,),
                                                       FutureBuilder(
                                                           future: _futureEvent,
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            if (snapshot.data ==
-                                                                null) {
-                                                              return Container(
-                                                                child: Center(
-                                                                  child: LoadingScreen(),
-                                                                ),
-                                                              );
-                                                            }
-                                                            return Container(
-                                                              height: size
-                                                                  .height * 0.4,
-                                                              child: ListView
-                                                                  .builder(
-                                                                  itemCount: snapshot
-                                                                      .data
-                                                                      .length,
-                                                                  itemBuilder: (
-                                                                      BuildContext context,
-                                                                      int index) {
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .all(
-                                                                          15.0),
-                                                                      child: Row(
-                                                                        children: <
-                                                                            Widget>[
-                                                                          Container(
-                                                                            height: 50,
-                                                                            width: 60,
-                                                                            decoration: BoxDecoration(
-                                                                              shape: BoxShape
-                                                                                  .rectangle,
-                                                                            ),
-                                                                            child: ClipRRect(
-                                                                                borderRadius:
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                if (snapshot
+                                                                        .data ==
+                                                                    null) {
+                                                                  return Container(
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          LoadingScreen(),
+                                                                    ),
+                                                                  );
+                                                                }
+                                                                return Container(
+                                                                  height:
+                                                                      size.height *
+                                                                          0.4,
+                                                                  child: ListView
+                                                                      .builder(
+                                                                          itemCount: snapshot
+                                                                              .data
+                                                                              .length,
+                                                                          itemBuilder:
+                                                                              (BuildContext context, int index) {
+                                                                            return Padding(
+                                                                              padding: const EdgeInsets.all(15.0),
+                                                                              child: Row(
+                                                                                children: <Widget>[
+                                                                                  Container(
+                                                                                    height: 50,
+                                                                                    width: 60,
+                                                                                    decoration: BoxDecoration(
+                                                                                      shape: BoxShape.rectangle,
+                                                                                    ),
+                                                                                    child: ClipRRect(
+                                                                                        borderRadius:
                                                                                 BorderRadius
                                                                                     .circular(
                                                                                     5),

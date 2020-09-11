@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:easy_blood/model/request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:easy_blood/api/api.dart';
@@ -32,6 +33,8 @@ class _BloodRequestState extends State<BloodRequest> {
   Uint8List customHereIcon;
   Set<Marker> markers;
   PageController _pageController;
+  Future<List<Requestor>> _futureRequest;
+
 
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -93,6 +96,8 @@ class _BloodRequestState extends State<BloodRequest> {
     super.initState();
     getUserLocation();
     fetchUser();
+    _futureRequest = fetchRequest();
+
 
 //    allMarkers.add(Marker(
 //      markerId: MarkerId('myMarker'),
@@ -301,82 +306,109 @@ class _BloodRequestState extends State<BloodRequest> {
                                     child: Center(
                                       child: Text("Blood Request List",style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontFamily: "Muli",
-                                        color: Colors.white
-                                      ),),
+                                            fontFamily: "Muli",
+                                            color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: size.height*0.01,),
-                                  Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                              color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10)
-                            ),
-                                      child: ListTile(
-                                        leading: Container(
-                                          height: size.height * 0.149,
-                                          width: size.width * 0.15,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: AssetImage(
-                                                  "assets/images/lari2.jpg"),
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(5)),
-                                      ),
-                                      title: Text("SYAZWAN ASRAF"),
-                                      subtitle: Text("Blood Group O"),
-                                      trailing: Container(
-                                        width: 130,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: <Widget>[
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.call,
-                                                color: kPrimaryColor,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          FindRequest()),
-                                                );
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.call_missed_outgoing,
-                                                color: kPrimaryColor,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          FindRequest()),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      ),
-                                    ),
-                                  ),
+                                SizedBox(
+                                  height: size.height * 0.01,
+                                ),
+                                FutureBuilder(
+                                    future: _futureRequest,
+                                    builder: (context, snapshot) {
+                                      return Container(
+                                        height: 600,
+                                        child: ListView.builder(
+                                            itemCount: snapshot.data.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(3.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  child: ListTile(
+                                                    leading: Container(
+                                                      height:
+                                                          size.height * 0.149,
+                                                      width: size.width * 0.15,
+                                                      decoration: BoxDecoration(
+                                                          image:
+                                                              DecorationImage(
+                                                            fit: BoxFit.cover,
+                                                            image: AssetImage(
+                                                                "assets/images/lari2.jpg"),
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5)),
+                                                    ),
+                                                    title:
+                                                        Text("SYAZWAN ASRAF"),
+                                                    subtitle:
+                                                        Text("Blood Group O"),
+                                                    trailing: Container(
+                                                      width: 130,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: <Widget>[
+                                                          IconButton(
+                                                            icon: Icon(
+                                                              Icons.call,
+                                                              color:
+                                                                  kPrimaryColor,
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            FindRequest()),
+                                                              );
+                                                            },
+                                                          ),
+                                                          IconButton(
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .call_missed_outgoing,
+                                                              color:
+                                                                  kPrimaryColor,
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            FindRequest()),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                      );
+                                    }),
                               ],
                             ),
                           ),
                         ),
                       ),
                     );
-                  }
-              )
+                  })
             ],
           ),
         ),
@@ -384,9 +416,30 @@ class _BloodRequestState extends State<BloodRequest> {
     );
   }
 
+  Future<List<Requestor>> fetchRequest() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString("user"));
+    var res = await Api().getData("request");
+    var bodys = json.decode(res.body);
+    if (res.statusCode == 200) {
+      List<Requestor> requests = [];
+      var count = 0;
+      for (Map u in bodys) {
+        print('dapat12');
+        Requestor req = Requestor.fromJson(u);
+        print('dapatsssss');
+        requests.add(req);
+      }
+
+      return requests;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
   Future<List<User>> fetchUser() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var currentUser= jsonDecode(localStorage.getString("user"));
+    var currentUser = jsonDecode(localStorage.getString("user"));
     var res = await Api().getData("user");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
@@ -403,13 +456,14 @@ class _BloodRequestState extends State<BloodRequest> {
         print(lon);
         allMarkers.add(Marker(
             markerId: MarkerId('myMarker${count}'),
-           icon: user.email==currentUser['email'] ? BitmapDescriptor.fromBytes(customHereIcon) : BitmapDescriptor.fromBytes(customIcon),
+            icon: user.email == currentUser['email']
+                ? BitmapDescriptor.fromBytes(customHereIcon)
+                : BitmapDescriptor.fromBytes(customIcon),
             draggable: false,
             onTap: () {
               print("I m here");
             },
-            position: LatLng(lat,lon)));
-
+            position: LatLng(lat, lon)));
       }
       return users;
     } else {
@@ -419,15 +473,16 @@ class _BloodRequestState extends State<BloodRequest> {
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+        .buffer
+        .asUint8List();
   }
 
   Future<void> _goToUserLocation() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_userLocation));
-
-
   }
 }
