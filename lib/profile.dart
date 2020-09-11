@@ -94,6 +94,7 @@ class _ProfileState extends State<Profile> {
                                   ]),
                             ),
                           ),
+                          Positioned( left:80 ,top: 15, child: Image.asset(("assets/images/bloodPlatelet2.png"))),
                           Opacity(
                             opacity: 0.9,
                             child: Container(
@@ -767,6 +768,8 @@ class _ProfileState extends State<Profile> {
                                                             if (snapshot.data ==
                                                                 null) {
                                                               return Container(
+                                                                height: size
+                                                                    .height * 0.4,
                                                                 child: Center(
                                                                   child: LoadingScreen(),
                                                                 ),
@@ -925,7 +928,7 @@ class _ProfileState extends State<Profile> {
                                                         height: size.height *
                                                             0.03,),
                                                       FutureBuilder(
-                                                          future: _futureRequest,
+                                                          future: _futureEvent,
                                                           builder: (context,
                                                               snapshot) {
                                                             if (snapshot.data ==
@@ -1106,13 +1109,15 @@ class _ProfileState extends State<Profile> {
   Future<List<Event>> fetchEvent() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString("user"));
-    var res = await Api().getData("${user['_id']}/event");
+    var res = await Api().getData("event");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
       List<Event> events = [];
       for (Map u in body) {
         Event event = Event.fromJson(u);
-        events.add(event);
+        if(user['_id']==event.user_id) {
+          events.add(event);
+        }
       }
       return events;
     } else {
