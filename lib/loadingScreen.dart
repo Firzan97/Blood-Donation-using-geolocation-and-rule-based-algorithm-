@@ -13,8 +13,8 @@ class LoadingScreen extends StatelessWidget {
       ),
       child: Center(
        child: TweenAnimationBuilder(
-         duration: Duration(seconds: 5),
-         tween: Tween<double>(begin: 0, end: 2 *3.142),
+         duration: Duration(seconds: 45),
+         tween: Tween<double>(begin: 0, end: 120 *3.142),
          builder: (_ ,double angle, __){
            return Transform.rotate(angle: angle,child: SvgPicture.asset("assets/images/830.svg"),);
          }

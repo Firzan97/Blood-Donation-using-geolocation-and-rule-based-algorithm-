@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
@@ -66,14 +67,14 @@ class _ProfileState extends State<Profile> {
         borderRadius: 10.0,
         backgroundColor: Colors.white,
         progressWidget: LoadingScreen(),
-        elevation: 10.0,
-        insetAnimCurve: Curves.easeInOut,
+        elevation: 20.0,
+        insetAnimCurve: Curves.elasticOut,
         progress: 0.0,
         maxProgress: 100.0,
         progressTextStyle: TextStyle(
-            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400,fontFamily: "Muli"),
         messageTextStyle: TextStyle(
-            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600)
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
     );
     Size size = MediaQuery
         .of(context)
@@ -1122,11 +1123,15 @@ class _ProfileState extends State<Profile> {
     var res = await Api().deleteData("event/${eventId}");
     if (res.statusCode == 200){
       pr.show();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Profile()),
-      );
+      Timer(Duration(seconds: 3), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Profile()),
+        );
+        pr.hide();
+      });
+
     }
   }
 
