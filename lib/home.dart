@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
   Future<List<Event>> _futureEvent;
   Future<List<Requestor>> _futureRequest;
   bool profileUpdate=false;
-  List<User> users = [];
+  List<User> a = [];
   bool statusUpdated;
 
 
@@ -944,7 +944,7 @@ class _HomeState extends State<Home> {
                                                                       image: DecorationImage(
                                                                         fit: BoxFit.cover,
                                                                         image: NetworkImage(
-                                                                          users[index].imageURL,),
+                                                                          a[index].imageURL,),
                                                                       ),
                                                                       borderRadius:
                                                                       BorderRadius.circular(2)),
@@ -954,7 +954,7 @@ class _HomeState extends State<Home> {
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: <Widget>[
                                                                     Text(
-                                                                      users[index].username,
+                                                                      a[index].username,
                                                                       style: TextStyle(
                                                                           color: Colors.black,
                                                                           fontWeight: FontWeight.w700,
@@ -1142,8 +1142,10 @@ class _HomeState extends State<Home> {
         print(u);
         Requestor req = Requestor.fromJson(u);
         User user = req.user;
-        users.add(user);
+        a.add(user);
+        print(a.length);
         requests.add(req);
+        print(requests.length);
       }
 
       return requests;

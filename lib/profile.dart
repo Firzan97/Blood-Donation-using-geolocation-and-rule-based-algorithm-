@@ -16,6 +16,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -26,7 +28,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   Future<List<Requestor>> _futureRequest;
-  Future<List<Donation>> _futureDonation;
+  Future<List<Requestor>> _futureDonation;
   Future<List<Event>> _futureEvent;
 
 
@@ -46,13 +48,17 @@ class _ProfileState extends State<Profile> {
     super.initState();
     getUserData();
     _futureRequest = fetchRequest();
-    _futureDonation = fetchDonation();
+    _futureDonation = fetchRequest();
     _futureEvent = fetchEvent();
 
   }
 
   @override
   Widget build(BuildContext context) {
+    DateTime dateTime = DateTime.parse(user['created_at']);
+    DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+    String time = dateFormat.format(dateTime);
+
     Size size = MediaQuery
         .of(context)
         .size;
@@ -160,37 +166,43 @@ class _ProfileState extends State<Profile> {
                                                 crossAxisAlignment: CrossAxisAlignment
                                                     .start,
                                                 children: <Widget>[
-                                                  Text("Firzan Azrai",
+                                                  Text(user["username"],
                                                       style: TextStyle(
                                                           color: Colors.black,
-                                                          fontSize: 17,
-                                                          fontWeight: FontWeight
-                                                              .bold
-                                                      )),
-                                                  SizedBox(height: size.height *
-                                                      0.01,),
-                                                  Text("Joined 3 days ago",
-                                                    style: TextStyle(
-                                                        color: Colors.black
-                                                            .withOpacity(0.5)
-                                                    ),),
+                                                              fontSize: 17,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold)),
+                                                      SizedBox(
+                                                        height:
+                                                            size.height * 0.01,
+                                                      ),
+                                                      Text(
+                                                        Jiffy(time).fromNow(),
+                                                        // 7 years ago
+
+                                                        style: TextStyle(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.5)),
+                                                      ),
+                                                    ],
+                                                  )
                                                 ],
-                                              )
+                                              ),
                                             ],
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5, bottom: 10),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .spaceBetween,
-                                      children: <Widget>[
-                                        Container(
-                                          child: Row(
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5, bottom: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              child: Row(
                                             children: <Widget>[
                                               Icon(Icons.location_on),
                                               Text("Tumpat, Kelantan")
@@ -348,7 +360,7 @@ class _ProfileState extends State<Profile> {
                                                                   Widget>[
                                                                 Text("Gender"),
                                                                 Text(
-                                                                    user["username"]),
+                                                                    user["gender"]),
                                                               ],
                                                             ),
                                                           ],
@@ -376,7 +388,7 @@ class _ProfileState extends State<Profile> {
                                                     children: <Widget>[
                                                       Text("Email"),
                                                       Text(
-                                                          "FirzanAzrai97@gmail.com"),
+                                                          user["email"]),
                                                       SizedBox(
                                                         height: size.height *
                                                             0.02,),
@@ -404,7 +416,7 @@ class _ProfileState extends State<Profile> {
 
                                                     children: <Widget>[
                                                       Text("Age"),
-                                                      Text("23"),
+                                                      Text(user["age"]),
                                                       SizedBox(
                                                         height: size.height *
                                                             0.02,),
@@ -434,7 +446,7 @@ class _ProfileState extends State<Profile> {
                                                           .start,
                                                       children: <Widget>[
                                                         Text("Mobile Number"),
-                                                        Text("019-2351520"),
+                                                        Text(user["phoneNumber"]),
                                                         SizedBox(
                                                           height: size.height *
                                                               0.02,),
@@ -466,7 +478,7 @@ class _ProfileState extends State<Profile> {
                                                         SizedBox(
                                                           width: size.width *
                                                               0.52,),
-                                                        Text("170 CM")
+                                                        Text("${user["height"]} CM")
 
                                                       ],
                                                     ),
@@ -495,7 +507,7 @@ class _ProfileState extends State<Profile> {
                                                         SizedBox(
                                                           width: size.width *
                                                               0.54,),
-                                                        Text("60 KG"),
+                                                        Text("${user["weight"]} KG"),
                                                       ],
                                                     ),
                                                     SizedBox(
@@ -913,7 +925,7 @@ class _ProfileState extends State<Profile> {
                                                         height: size.height *
                                                             0.03,),
                                                       FutureBuilder(
-                                                          future: _futureDonation,
+                                                          future: _futureRequest,
                                                           builder: (context,
                                                               snapshot) {
                                                             if (snapshot.data ==
@@ -1071,17 +1083,15 @@ class _ProfileState extends State<Profile> {
 
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString("user"));
-    var res = await Api().getData("user/${user['_id']}/request");
+    var res = await Api().getData("user/5f5b4f37df160000f50050e3/request");
     var bodys = json.decode(res.body);
     if (res.statusCode == 200) {
       List<Requestor> requests = [];
       var count = 0;
       for (Map u in bodys) {
-        count++;
-        print(count);
-        print(u);
+        print('dapat12');
         Requestor event = Requestor.fromJson(u);
-        print('dapat');
+        print('dapatsssss');
         requests.add(event);
       }
 
@@ -1102,28 +1112,27 @@ class _ProfileState extends State<Profile> {
         Event event = Event.fromJson(u);
         events.add(event);
       }
-
       return events;
     } else {
       throw Exception('Failed to load album');
     }
   }
 
-  Future<List<Donation>> fetchDonation() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = jsonDecode(localStorage.getString("user"));
-    var res = await Api().getData("${user['_id']}/donation");
-    var body = json.decode(res.body);
-    if (res.statusCode == 200) {
-      List<Donation> donations = [];
-      for (Map u in body) {
-        Donation donation = Donation.fromJson(u);
-        donations.add(donation);
-      }
-
-      return donations;
-    } else {
-      throw Exception('Failed to load album');
-    }
-  }
+//  Future<List<Donation>> fetchDonation() async {
+//    SharedPreferences localStorage = await SharedPreferences.getInstance();
+//    var user = jsonDecode(localStorage.getString("user"));
+//    var res = await Api().getData("${user['_id']}/donation");
+//    var body = json.decode(res.body);
+//    if (res.statusCode == 200) {
+//      List<Donation> donations = [];
+//      for (Map u in body) {
+//        Donation donation = Donation.fromJson(u);
+//        donations.add(donation);
+//      }
+//
+//      return donations;
+//    } else {
+//      throw Exception('Failed to load album');
+//    }
+//  }
 }
