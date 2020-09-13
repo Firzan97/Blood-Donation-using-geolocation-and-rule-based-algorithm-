@@ -615,7 +615,7 @@ class _BloodRequestState extends State<BloodRequest> {
                                                                       child: Row(
                                                                         children: <Widget>[
                                                                           Icon(Icons.share),
-                                                                          Text("Share")
+                                                                          Text("Sharse")
                                                                         ],
                                                                       ),
                                                                     ),
