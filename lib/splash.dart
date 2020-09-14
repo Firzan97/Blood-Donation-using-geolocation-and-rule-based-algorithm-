@@ -25,7 +25,7 @@ class _SplashState extends State<Splash> {
       user = pref.getString("user");
       if (user!=null){
         print("tak nall");
-        Navigator.of(context).pushReplacementNamed('/home');
+        Navigator.of(context).pushReplacementNamed('/dashboard');
       }
       else{
         print("nall");

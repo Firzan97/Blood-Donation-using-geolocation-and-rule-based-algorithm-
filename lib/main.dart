@@ -1,5 +1,6 @@
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/profile/edit_profile.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/admin/dashboard/dashboard.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/onboarding.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/profile/profile.dart';
@@ -32,6 +33,8 @@ final locaterService = GeolocationService();
         '/test': (BuildContext context) => MyApp(),
         '/profile': (BuildContext context) => Profile(),
         '/editprofile': (BuildContext context) => EditProfile(),
+        '/dashboard': (BuildContext context) => Dashboard(),
+
       }
     );
   }
