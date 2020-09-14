@@ -1,7 +1,9 @@
+import 'package:easy_blood/admin/request/requestList.dart';
 import 'package:easy_blood/admin/user/user.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
@@ -185,7 +187,11 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                               onPressed: (){
-
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RequestList()),
+                                );
                               },
                             ),
                           )
