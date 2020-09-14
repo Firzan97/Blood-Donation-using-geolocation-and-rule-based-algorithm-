@@ -201,6 +201,7 @@ class _SignUpState extends State<SignUp> {
       "longitude": "",
       "phoneNumber": "",
       "weight": "",
+      "role": "user",
     };
     print(age.text);
     var res = await Api().postData(data,"user");

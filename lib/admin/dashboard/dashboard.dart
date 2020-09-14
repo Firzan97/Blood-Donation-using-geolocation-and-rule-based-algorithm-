@@ -1,5 +1,7 @@
 import 'package:easy_blood/constant/constant.dart';
+import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -240,7 +242,8 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                               onPressed: (){
-
+                                LogOutDialog(context);
+                                print("babi");
                               },
                             ),
                           )
@@ -255,5 +258,45 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
     );
+  }
+
+  Future<bool> LogOutDialog(context){
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Alert!"),
+            content: Text("Are you sure want to Logout?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("No"),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("Yes"),
+                onPressed: (){
+                  LogOut();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Welcome()),
+                  );
+                },
+              ),
+            ],
+          );
+        }
+    );
+
+  }
+
+  void LogOut() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString("user", null);
+    var email2=pref.getString("userEmail");
+    print(email2);
   }
 }

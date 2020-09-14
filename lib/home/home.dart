@@ -595,7 +595,7 @@ class _HomeState extends State<Home> {
                                           Text("Weight."),
 
                                           Text(
-                                            user["bloodType"]==null ? "None" : user["bloodType"],
+                                            user["weight"]==null ? "None" : user["weight"],
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w700),

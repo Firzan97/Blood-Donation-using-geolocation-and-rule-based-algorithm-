@@ -1,8 +1,7 @@
 import 'dart:async';
-
+import 'dart:convert';
 import 'package:easy_blood/animation/faceAnimation.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/profile/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,7 +12,7 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
 
-  String user = null;
+  var user = null;
   startTime() async {
     var _duration = new Duration( seconds: 3);
     return new Timer(_duration, navigationPage);
@@ -22,10 +21,15 @@ class _SplashState extends State<Splash> {
 
   void navigationPage()async{
       SharedPreferences pref = await SharedPreferences.getInstance();
-      user = pref.getString("user");
+      user= jsonDecode(pref.getString("user"));
       if (user!=null){
-        print("tak nall");
-        Navigator.of(context).pushReplacementNamed('/dashboard');
+        if(user["role"]=="admin"){
+          Navigator.of(context).pushReplacementNamed('/dashboard');
+        }
+        else{
+          Navigator.of(context).pushReplacementNamed('/home');
+        }
+
       }
       else{
         print("nall");

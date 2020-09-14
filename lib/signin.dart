@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easy_blood/admin/dashboard/dashboard.dart';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/already_have_account.dart';
 import 'package:easy_blood/component/button_round.dart';
@@ -142,10 +143,20 @@ class _SignInState extends State<SignIn> {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['token']);
       localStorage.setString('user', json.encode(body['user']));
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Home()),
-      );
+      var a =localStorage.getString('user');
+      if(body["user"]["role"]=="admin"){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Dashboard()),
+        );
+      }
+      else{
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      }
+
     }
     else {
       infoDialog(context);
