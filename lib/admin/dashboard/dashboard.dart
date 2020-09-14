@@ -1,3 +1,4 @@
+import 'package:easy_blood/admin/user/user.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
@@ -118,7 +119,11 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                               onPressed: (){
-
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UserList()),
+                                );
                               },
                             ),
                           )

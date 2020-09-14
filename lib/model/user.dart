@@ -17,7 +17,7 @@ class User {
       : username = json['username'],
         email= json['email'],
         password = json['password'],
-        bloodtype = json['bloodtype'],
+        bloodtype = json['bloodType'],
         phoneNumber = json['phoneNumber'],
         gender = json['gender'],
         latitude= double.parse(json['latitude']),
