@@ -76,11 +76,7 @@ class _BloodEventState extends State<BloodEvent> {
         value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
         ),
-        child: MaterialApp(
-          theme: ThemeData(
-            fontFamily: "Muli"
-          ),
-            home: Scaffold(
+            child: Scaffold(
                 body: Container(
                     width: size.width * 1,
                     height: size.height * 1,
@@ -575,7 +571,7 @@ borderRadius: BorderRadius.circular(25),
                               );
                             })
                       ],
-                    )))));
+                    ))));
   }
 
   Future<List<Event>> fetchEvent() async {

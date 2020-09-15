@@ -1,3 +1,5 @@
+import 'package:easy_blood/admin/donation/donation.dart';
+import 'package:easy_blood/admin/event/event.dart';
 import 'package:easy_blood/admin/request/requestList.dart';
 import 'package:easy_blood/admin/user/user.dart';
 import 'package:easy_blood/constant/constant.dart';
@@ -23,13 +25,7 @@ class _DashboardState extends State<Dashboard> {
         body: Container(
           height: size.height*1,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Color(0xffffbcaf),
-                  kGradient2.withOpacity(0.9)
-                ]),
+            color: kPrimaryColor
           ),
           child: Column(
             children: <Widget>[
@@ -160,7 +156,11 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                               onPressed: (){
-
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>EventList()),
+                                );
                               },
                             ),
                           ),

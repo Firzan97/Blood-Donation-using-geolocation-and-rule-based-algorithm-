@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:easy_blood/animation/faceAnimation.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
+import 'package:easy_blood/constant/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,15 +14,18 @@ class _SplashState extends State<Splash> {
 
   var user = null;
   startTime() async {
-    var _duration = new Duration( seconds: 3);
+    var _duration = new Duration( seconds: 5);
     return new Timer(_duration, navigationPage);
   }
 
 
   void navigationPage()async{
       SharedPreferences pref = await SharedPreferences.getInstance();
-      user= jsonDecode(pref.getString("user"));
+      user= pref.getString("user");
+      print("babii llaaa2222");
+
       if (user!=null){
+        user =jsonDecode(user);
         if(user["role"]=="admin"){
           Navigator.of(context).pushReplacementNamed('/dashboard');
         }
@@ -41,6 +44,7 @@ class _SplashState extends State<Splash> {
   void initState(){
     super.initState();
     startTime();
+
   }
   @override
   Widget build(BuildContext context) {

@@ -5,11 +5,13 @@ import 'package:easy_blood/component/already_have_account.dart';
 import 'package:easy_blood/component/button_round.dart';
 import 'package:easy_blood/component/input_password_round.dart';
 import 'package:easy_blood/component/input_round.dart';
+import 'package:easy_blood/loadingScreen.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
 import 'package:easy_blood/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
@@ -28,7 +30,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController phoneNumber = new TextEditingController();
   TextEditingController age = new TextEditingController();
   TextEditingController gender = new TextEditingController();
-
+   var pr;
   bool _isLoading = false;
   String error = "";
   final _formkey = GlobalKey<FormState>();
@@ -36,6 +38,21 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
+    pr.style(
+        message: 'Loading....',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: LoadingScreen(),
+        elevation: 20.0,
+        insetAnimCurve: Curves.elasticOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400,fontFamily: "Muli"),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
+    );
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -152,6 +169,7 @@ class _SignUpState extends State<SignUp> {
                               press: () async {
                                 if (_formkey.currentState.validate()) {
                                   print("Validate");
+                                  pr.show();
                                   register();
                                 } else {
                                   error = "Could  not sign in. Wrong input ";
@@ -212,6 +230,7 @@ class _SignUpState extends State<SignUp> {
       localStorage.setString('token', body['token']);
       localStorage.setString('user', json.encode(body['user']));
       localStorage.setBool('statusUpdated',true);
+      pr.hide();
       Navigator.push(
         context,
         MaterialPageRoute(

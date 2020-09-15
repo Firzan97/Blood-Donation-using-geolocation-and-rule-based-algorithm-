@@ -5,12 +5,14 @@ import 'package:easy_blood/component/already_have_account.dart';
 import 'package:easy_blood/component/button_round.dart';
 import 'package:easy_blood/component/input_password_round.dart';
 import 'package:easy_blood/component/input_round.dart';
+import 'package:easy_blood/loadingScreen.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
 import 'package:easy_blood/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignIn extends StatefulWidget {
@@ -25,9 +27,26 @@ class _SignInState extends State<SignIn> {
   TextEditingController password = new TextEditingController();
   final _formkey = GlobalKey<FormState>();
   String error = "";
+  var pr;
+
 
   @override
   Widget build(BuildContext context) {
+    pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
+    pr.style(
+        message: 'Loading....',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: LoadingScreen(),
+        elevation: 20.0,
+        insetAnimCurve: Curves.elasticOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400,fontFamily: "Muli"),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
+    );
     Size size = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
@@ -81,6 +100,7 @@ class _SignInState extends State<SignIn> {
                       color: kPrimaryColor,
                       text: "LOGIN",
                       press: (){
+                        pr.show();
                         login();
                       },
                     ),
@@ -140,6 +160,7 @@ class _SignInState extends State<SignIn> {
     var res = await Api().postData(data, "login");
     var body = json.decode(res.body);
     if(body['success']){
+
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['token']);
       localStorage.setString('user', json.encode(body['user']));
@@ -151,6 +172,7 @@ class _SignInState extends State<SignIn> {
         );
       }
       else{
+        pr.hide();
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Home()),
@@ -159,6 +181,7 @@ class _SignInState extends State<SignIn> {
 
     }
     else {
+      pr.hide();
       infoDialog(context);
     }
   }

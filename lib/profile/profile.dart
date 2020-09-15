@@ -83,8 +83,7 @@ class _ProfileState extends State<Profile> {
         value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
         ),
-        child: MaterialApp(theme: ThemeData(fontFamily: "Muli"),
-            home: Scaffold(
+            child: Scaffold(
               body: Container(
                 color: Colors.grey.withOpacity(0.1),
                 child: Column(
@@ -1088,7 +1087,6 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
             )
-        )
     );
   }
 

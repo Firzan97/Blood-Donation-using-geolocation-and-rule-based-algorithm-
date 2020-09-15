@@ -18,11 +18,7 @@ class BloodEventDetail extends StatelessWidget {
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
       ),
-      child: MaterialApp(
-        theme: ThemeData(
-          fontFamily: "Muli"
-        ),
-        home: Scaffold(
+        child: Scaffold(
           body: Container(
             child: Stack(
               children: <Widget>[
@@ -272,7 +268,6 @@ class BloodEventDetail extends StatelessWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }

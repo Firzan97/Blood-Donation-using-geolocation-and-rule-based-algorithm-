@@ -142,11 +142,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: "Muli"
-      ),
-      home: Scaffold(
+      return Scaffold(
         body: SingleChildScrollView(
           child: Container(
             width: size.width*1,
@@ -429,8 +425,7 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ],
           ),
-        ),
-      )),
+        ),),
     );
   }
 

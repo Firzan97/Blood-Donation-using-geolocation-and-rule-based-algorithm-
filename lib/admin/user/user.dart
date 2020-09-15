@@ -233,7 +233,6 @@ class _UserListState extends State<UserList> {
   Future<List<User>> fetchUser() async {
     var res = await Api().getData("user");
     var body = json.decode(res.body);
-    totalUser=body.length;
     if (res.statusCode == 200) {
       var count = 0;
       for (var u in body) {

@@ -174,7 +174,7 @@ class _RequestListState extends State<RequestList> {
                                                                       image: DecorationImage(
                                                                         fit: BoxFit.cover,
                                                                         image: NetworkImage(
-                                                                          snapshot.data[index].imageURL,),
+                                                                          snapshot.data[index].location,),
                                                                       ),
                                                                       borderRadius:
                                                                       BorderRadius.circular(2)),
@@ -184,14 +184,14 @@ class _RequestListState extends State<RequestList> {
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: <Widget>[
                                                                     Text(
-                                                                      snapshot.data[index].username,
+                                                                      snapshot.data[index].bloodType,
                                                                       style: TextStyle(
                                                                           color: Colors.black,
                                                                           fontWeight: FontWeight.w700,
                                                                           fontSize: 14),
                                                                     ),
                                                                     Text(
-                                                                      snapshot.data[index].email,
+                                                                      snapshot.data[index].reason,
                                                                       style: TextStyle(
                                                                           color: Colors.black,
                                                                           fontWeight: FontWeight.w500,
@@ -205,7 +205,7 @@ class _RequestListState extends State<RequestList> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            snapshot.data[index].bloodtype,
+                                                            snapshot.data[index].bloodType,
                                                             style:
                                                             TextStyle(color: kPrimaryColor),
                                                           ),
@@ -228,7 +228,6 @@ class _RequestListState extends State<RequestList> {
   Future<List<Requestor>> fetchUser() async {
     var res = await Api().getData("request");
     var body = json.decode(res.body);
-    totalRequest=body.length;
     if (res.statusCode == 200) {
       var count = 0;
       for (var u in body) {

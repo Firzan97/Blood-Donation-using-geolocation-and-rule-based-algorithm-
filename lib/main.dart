@@ -1,14 +1,14 @@
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/profile/edit_profile.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/admin/dashboard/dashboard.dart';
+import 'package:easy_blood/admin/dashboard/dashboard.dart';
+import 'package:easy_blood/home/home.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/onboarding.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/profile/profile.dart';
+import 'package:easy_blood/profile/edit_profile.dart';
+import 'package:easy_blood/profile/profile.dart';
+import 'package:easy_blood/service/geolocation_service.dart';
 import 'package:easy_blood/splash.dart';
 import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/service/geolocation_service.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
 
