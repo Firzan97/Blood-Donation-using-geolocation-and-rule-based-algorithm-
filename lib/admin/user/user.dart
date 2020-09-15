@@ -4,6 +4,7 @@ import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -160,6 +161,7 @@ class _UserListState extends State<UserList> {
                             itemCount: snapshot.data.length,
                                 itemBuilder: (BuildContext context, int index){
                                  return Column(
+                                   crossAxisAlignment: CrossAxisAlignment.start,
                                    children: <Widget>[
                                      Container(
                                        child: Padding(
@@ -217,6 +219,36 @@ class _UserListState extends State<UserList> {
                                          ),
                                        ),
                                      ),
+                                     Row(
+                                       children: <Widget>[
+                                         FlatButton(
+                                           child: Row(
+                                             children: <Widget>[
+                                               Icon(Icons.delete_forever,color: Colors.black,),
+                                               Text("Delete",style: TextStyle(
+                                                 color: Colors.black
+                                               ),)
+                                             ],
+                                           ),
+                                           onPressed: (){
+
+                                           },
+                                         ),
+                                         FlatButton(
+                                           child: Row(
+                                             children: <Widget>[
+                                                 Icon(Icons.edit,color: Colors.black,),
+                                               Text("Edit",style: TextStyle(
+                                                   color: Colors.black
+                                               ))
+                                             ],
+                                           ),
+                                           onPressed: (){
+
+                                           },
+                                         )
+                                       ],
+                                     )
                                    ],
                                  );
                                 })),

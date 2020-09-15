@@ -166,6 +166,7 @@ class _SignInState extends State<SignIn> {
       localStorage.setString('user', json.encode(body['user']));
       var a =localStorage.getString('user');
       if(body["user"]["role"]=="admin"){
+        pr.hide();
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Dashboard()),
