@@ -20,3 +20,4 @@ colors: [kGradient1, kGradient2]);
 
 const double padding = 16.0;
 const double avatarRadius = 66.0;
+

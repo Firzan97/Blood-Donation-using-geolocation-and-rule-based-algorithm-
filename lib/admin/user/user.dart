@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:easy_blood/api/api.dart';
@@ -6,6 +7,7 @@ import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserList extends StatefulWidget {
@@ -16,7 +18,7 @@ class UserList extends StatefulWidget {
 class _UserListState extends State<UserList> {
   List<User> users = [];
   var totalUser;
-
+  var pr;
   @override
   void init() {
     super.initState();
@@ -28,6 +30,21 @@ class _UserListState extends State<UserList> {
     Size size = MediaQuery
         .of(context)
         .size;
+    pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
+    pr.style(
+        message: 'Loading....',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: LoadingScreen(),
+        elevation: 20.0,
+        insetAnimCurve: Curves.elasticOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400,fontFamily: "Muli"),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
+    );
     return MaterialApp(
       theme: ThemeData(
           fontFamily: "Muli"
@@ -231,7 +248,7 @@ class _UserListState extends State<UserList> {
                                              ],
                                            ),
                                            onPressed: (){
-
+                                             _userDeleteDialog(snapshot.data[index].id);
                                            },
                                          ),
                                          FlatButton(
@@ -278,5 +295,48 @@ class _UserListState extends State<UserList> {
     }
   }
 
+  Future<bool> _userDeleteDialog(userId) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Center(child: Text('Delete User')),
+          content: Text('Confirm to delete this user?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(false); //Will not exit the App
+              },
+            ),
+            FlatButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                _deleteEvent(userId);
+              },
+            )
+          ],
+        );
+      },
+    ) ?? false;
+  }
+
+  _deleteEvent(userId) async{
+    print(userId);
+    var res = await Api().deleteData("user/${userId}");
+    if (res.statusCode == 200){
+      pr.show();
+      Timer(Duration(seconds: 3), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => UserList()),
+        );
+        pr.hide();
+      });
+
+    }
+  }
 
 }
