@@ -1,10 +1,15 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant/constant.dart';
+import 'package:easy_blood/event/bloodEventDetail.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/event.dart';
+import 'package:easy_blood/test.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class EventList extends StatefulWidget {
   @override
@@ -15,12 +20,27 @@ class _EventListState extends State<EventList> {
 
   List<Event> events = [];
   var totalEvent;
-
+  var pr;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
         .of(context)
         .size;
+    pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
+    pr.style(
+        message: 'Loading....',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: LoadingScreen(),
+        elevation: 20.0,
+        insetAnimCurve: Curves.elasticOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400,fontFamily: "Muli"),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
+    );
     return MaterialApp(
         theme: ThemeData(
           fontFamily: "Muli",
@@ -85,7 +105,7 @@ class _EventListState extends State<EventList> {
                                       child: FlatButton(
                                         child: Column(
                                           children: <Widget>[
-                                            Text("New Request Today",
+                                            Text("New Event Today",
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 13
@@ -103,7 +123,7 @@ class _EventListState extends State<EventList> {
                                       child: FlatButton(
                                         child: Column(
                                           children: <Widget>[
-                                            Text("Total Admin", style: TextStyle(
+                                            Text("Total Event", style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 13
 
@@ -155,65 +175,131 @@ class _EventListState extends State<EventList> {
                                         child: ListView.builder(
                                             itemCount: snapshot.data.length,
                                             itemBuilder: (BuildContext context, int index){
-                                              return Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Row(
-                                                        mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                                        children: <Widget>[
-                                                          Padding(
+                                              DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+                                              String dateStart = dateFormat.format(snapshot.data[index].timeStart);
+                                              dynamic currentTime = DateFormat.jm().format(snapshot.data[index].timeStart);
+
+
+                                              return Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+//                                      decoration: BoxDecoration(
+//                                          color: Colors.white,
+//                                          borderRadius:
+//                                              BorderRadius.circular(5.0)),
+                                                  child: Stack(
+                                                    children: <Widget>[
+                                                      Positioned(
+                                                        top:10,
+                                                        right:20,
+                                                        child: Container(
+                                                          width: 280,
+                                                          height: 184,
+                                                          decoration: BoxDecoration(
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    blurRadius: 9,
+                                                                    spreadRadius: 3,
+                                                                    color: Colors.black.withOpacity(0.1)
+                                                                )
+                                                              ],
+                                                              color: Colors.white,
+                                                              borderRadius:
+                                                              BorderRadius.circular(5.0)),
+                                                          child:  Padding(
                                                             padding: const EdgeInsets.all(8.0),
                                                             child: Row(
                                                               children: <Widget>[
-                                                                Container(
-                                                                  height: size.height * 0.08,
-                                                                  width: size.width * 0.18,
-                                                                  decoration: BoxDecoration(
-                                                                      image: DecorationImage(
-                                                                        fit: BoxFit.cover,
-                                                                        image: NetworkImage(
-                                                                          snapshot.data[index].location,),
-                                                                      ),
-                                                                      borderRadius:
-                                                                      BorderRadius.circular(2)),
-                                                                ),
-                                                                SizedBox(width: size.width*0.03,),
+                                                                SizedBox(width: size.width*0.11,),
+
                                                                 Column(
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: <Widget>[
-                                                                    Text(
-                                                                      snapshot.data[index].bloodType,
-                                                                      style: TextStyle(
-                                                                          color: Colors.black,
-                                                                          fontWeight: FontWeight.w700,
-                                                                          fontSize: 14),
-                                                                    ),
-                                                                    Text(
-                                                                      snapshot.data[index].reason,
-                                                                      style: TextStyle(
-                                                                          color: Colors.black,
-                                                                          fontWeight: FontWeight.w500,
-                                                                          fontSize: 13),
-                                                                    ),
+                                                                    Text("Title",style: TextStyle(
+                                                                      fontWeight: FontWeight.w700,
 
+                                                                    ),),
+                                                                    Text(snapshot.data[index].name,style: TextStyle(
+                                                                        fontWeight: FontWeight.w300,
+                                                                        fontSize: 13
+                                                                    ),),
+                                                                    Text("Location",style: TextStyle(
+                                                                        fontWeight: FontWeight.w700
+                                                                    ),),
+                                                                    Text(
+                                                                      snapshot.data[index].location,style: TextStyle(
+                                                                        fontWeight: FontWeight.w300,
+                                                                        fontSize: 13
+                                                                    ),),
+                                                                    Text("Time",style: TextStyle(
+                                                                      fontWeight: FontWeight.w700,
+                                                                    ),),
+                                                                    Text(
+                                                                      currentTime,style: TextStyle(
+                                                                        fontWeight: FontWeight.w300,
+                                                                        fontSize: 13
+                                                                    ),),
+                                                                    Text("Date",style: TextStyle(
+                                                                        fontWeight: FontWeight.w700
+                                                                    ),),
+                                                                    Text(
+                                                                      dateStart,style: TextStyle(
+                                                                        fontWeight: FontWeight.w300,
+                                                                        fontSize: 13
+                                                                    ),),
                                                                   ],
                                                                 ),
-
                                                               ],
                                                             ),
                                                           ),
-                                                          Text(
-                                                            snapshot.data[index].bloodType,
-                                                            style:
-                                                            TextStyle(color: kPrimaryColor),
-                                                          ),
-                                                        ],
+                                                        ),
                                                       ),
-                                                    ),
+                                                      GestureDetector(
+                                                        onTap: (){
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    BloodEventDetail(
+                                                                        event: snapshot
+                                                                            .data[index])),
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    blurRadius: 9,
+                                                                    spreadRadius: 3,
+                                                                    color: Colors.grey.withOpacity(0.2)
+                                                                )
+                                                              ]
+                                                          ),
+                                                          child:  ClipRRect(
+                                                              borderRadius: BorderRadius.circular(25),
+                                                              child: Image.network(
+                                                                snapshot.data[index].imageURL,
+                                                                width: 140,
+                                                                height: 200,
+                                                                fit: BoxFit.fill,
+                                                              )),
+                                                        ),
+                                                      ),
+                                                      Positioned(
+                                                        right: 15,
+                                                        child:    Row(
+                                                          children: <Widget>[
+                                                            IconButton(icon: Icon(Icons.delete_forever,color: Colors.black,),
+                                                              onPressed: (){
+                                                                _eventDeleteDialog(snapshot.data[index].id);
+                                                              },),
+                                                            IconButton(icon: Icon(Icons.edit,color: Colors.black,))
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
-                                                ],
+                                                ),
                                               );
                                             })),
                                   ],
@@ -226,14 +312,57 @@ class _EventListState extends State<EventList> {
         ));
   }
 
+  Future<bool> _eventDeleteDialog(eventId) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Center(child: Text('Delete User')),
+          content: Text('Confirm to delete this user?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(false); //Will not exit the App
+              },
+            ),
+            FlatButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                _deleteEvent(eventId);
+              },
+            )
+          ],
+        );
+      },
+    ) ?? false;
+  }
+
+  _deleteEvent(eventId) async{
+    var res = await Api().deleteData("event/${eventId}");
+    if (res.statusCode == 200){
+      pr.show();
+      Timer(Duration(seconds: 3), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => EventList()),
+        );
+        pr.hide();
+      });
+
+    }
+  }
+
   Future<List<Event>> fetchUser() async {
-    var res = await Api().getData("request");
+    var res = await Api().getData("event");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
       var count = 0;
       for (var u in body) {
-        Event request = Event.fromJson(u);
-        events.add(request);
+        Event event = Event.fromJson(u);
+        events.add(event);
       }
 
       return events;
