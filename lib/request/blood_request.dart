@@ -118,6 +118,9 @@ class _BloodRequestState extends State<BloodRequest> {
     Size size = MediaQuery.of(context).size;
     createMarker(context);
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: "Muli"
+      ),
       home: Scaffold(
         body: Container(
           child: Stack(
@@ -382,6 +385,9 @@ class _BloodRequestState extends State<BloodRequest> {
                                             itemCount: snapshot.data.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
+                                              if(snapshot.data==null){
+                                                return LoadingScreen();
+                                              }
                                               return view=="list" ? Stack(
                                                 children: <Widget>[
                                                   Padding(
@@ -498,17 +504,11 @@ class _BloodRequestState extends State<BloodRequest> {
                                                               spreadRadius: 3)
                                                         ]),
                                                         child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: <Widget>[
                                                             Container(
                                                               decoration: BoxDecoration(
-                                                                gradient: LinearGradient(
-                                                                    begin: Alignment.topRight,
-                                                                    end: Alignment.bottomLeft,
-                                                                    colors: [
-//                              Color(0xffff5959),
-                                                                      kGradient1,
-                                                                      kGradient2,
-                                                                    ]),
+                                                                  color: kPrimaryColor.withOpacity(0.8)
                                                               ),
                                                               child: ListTile(
                                                                 leading: Container(
@@ -518,7 +518,7 @@ class _BloodRequestState extends State<BloodRequest> {
 
                                                                       boxShadow: [
                                                                         BoxShadow(
-                                                                            color: Colors.black.withOpacity(0.2),
+                                                                            color: Colors.grey.withOpacity(0.1),
                                                                             blurRadius: 8,
                                                                             spreadRadius: 5)
                                                                       ],
@@ -598,14 +598,7 @@ class _BloodRequestState extends State<BloodRequest> {
                                                             ),
                                                             Container(
                                                               decoration: BoxDecoration(
-                                                                gradient: LinearGradient(
-                                                                    begin: Alignment.topRight,
-                                                                    end: Alignment.bottomLeft,
-                                                                    colors: [
-//                              Color(0xffff5959),
-                                                                      kGradient1,
-                                                                      kGradient2,
-                                                                    ]),
+                                                               color: Colors.grey.withOpacity(0.1)
                                                               ),
                                                               child: Row(
                                                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -615,7 +608,7 @@ class _BloodRequestState extends State<BloodRequest> {
                                                                       child: Row(
                                                                         children: <Widget>[
                                                                           Icon(Icons.share),
-                                                                          Text("Sharse")
+                                                                          Text("Share")
                                                                         ],
                                                                       ),
                                                                     ),
@@ -652,14 +645,18 @@ class _BloodRequestState extends State<BloodRequest> {
     var user = jsonDecode(localStorage.getString("user"));
     var res = await Api().getData("request");
     var bodys = json.decode(res.body);
+
     if (res.statusCode == 200) {
+
       List<Requestor> requests = [];
       var count = 0;
       for (Map u in bodys) {
+        print("dapattt");
         Requestor req = Requestor.fromJson(u);
         User user = req.user;
         a.add(user);
         requests.add(req);
+        print("bsabsabsbasbabsabsasqa");
       }
 
       return requests;

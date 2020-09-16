@@ -18,6 +18,9 @@ class _NotificationsState extends State<Notifications> {
         statusBarColor: Colors.transparent,
       ),
       child: MaterialApp(
+        theme: ThemeData(
+          fontFamily: "Muli"
+        ),
         home: Scaffold(
             body: SingleChildScrollView(
               child: Container(

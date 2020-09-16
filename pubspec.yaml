@@ -56,6 +56,7 @@ dependencies:
   geocoder: ^0.2.1
   flutter_bloc: ^6.0.5
   progress_dialog: ^1.2.4
+  firebase_messaging: ^7.0.0
 
 
 

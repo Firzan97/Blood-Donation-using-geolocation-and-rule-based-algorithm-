@@ -317,8 +317,8 @@ class _EventListState extends State<EventList> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Center(child: Text('Delete User')),
-          content: Text('Confirm to delete this user?'),
+          title: Center(child: Text('Delete Event')),
+          content: Text('Confirm to delete this event?'),
           actions: <Widget>[
             FlatButton(
               child: Text('No'),
