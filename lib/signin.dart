@@ -79,7 +79,7 @@ class _SignInState extends State<SignIn> {
           color: Colors.white,
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 60.0),
+          padding: const EdgeInsets.only(top: 60.0),
           child: Column(
             children: <Widget>[
               Center(
@@ -91,7 +91,7 @@ class _SignInState extends State<SignIn> {
 
                 ),),
               ),
-              SizedBox(height: 20.0,),
+              SizedBox(height: size.height*0.02,),
               Image.asset("assets/images/blood2.png", width: size.height*0.3,),
               Form(
                 key: _formkey,
@@ -165,22 +165,12 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  Future getQue() async {
-
-    if(token1!=null){
-      //call php file
-      var data={
-        "token": token1,
-      };print(token1);
-      var res = await Api().postData(data,"notification");
-//        return json.decode(res.body);
+  Future<void> updateNotificationToken($userid)async{
+    var data={
+      "notificationToken": token1,
+    };
+    var res = await Api().updateData(data, "user/${$userid}/notification");
     }
-    else{
-      print("Token is null");
-    }
-  }
-
-
 
   Future<void> login() async {
     if (_formkey.currentState.validate()) {
@@ -197,9 +187,9 @@ class _SignInState extends State<SignIn> {
     var body = json.decode(res.body);
     if(body['success']){
       SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.setString("tokenNotification", token1);
       localStorage.setString('token', body['token']);
       localStorage.setString('user', json.encode(body['user']));
+      updateNotificationToken(body["user"]["_id"]);
       var a =localStorage.getString('user');
       if(body["user"]["role"]=="admin"){
         pr.hide();

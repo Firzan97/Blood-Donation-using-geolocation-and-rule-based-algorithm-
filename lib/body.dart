@@ -35,7 +35,7 @@ class _BodyState extends State<Body> {
       child: SizedBox(
         width: double.infinity,
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.symmetric(vertical: 15.0),
           child: Column(
             children: <Widget>[
               SizedBox(height: 80,),

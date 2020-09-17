@@ -14,6 +14,15 @@ class Api{
     );
   }
 
+  updateData(data, apiURL) async{
+    var fullURL = apiLink + apiURL;
+    return await http.put(
+      fullURL,
+      headers: _reqHeader(),
+      body: jsonEncode(data),
+    );
+  }
+
   getData(apiURL) async {
     var fullURL = apiLink + apiURL;
     return await http.get(

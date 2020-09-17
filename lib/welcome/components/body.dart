@@ -22,6 +22,7 @@ class Body extends StatelessWidget {
                 "WELCOME TO EASY BLOOD",
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
+                  fontFamily: "Muli"
                 ),
               ),
             ),
@@ -31,7 +32,7 @@ class Body extends StatelessWidget {
             FadeAnimation(
               1.4,
               Image.asset(
-                "assets/images/welcome.png",
+                "assets/images/welcome2.png",
                 height: size.height * 0.5,
               ),
             ),
