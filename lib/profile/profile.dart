@@ -43,13 +43,13 @@ class _ProfileState extends State<Profile> {
       user = jsonDecode(localStorage.getString("user"));
 
     });
-    print(user['_id']);
+    print(user['created_at']);
   }
 
   @override
   void initState() {
-    super.initState();
     getUserData();
+    super.initState();
     _futureRequest = fetchRequest();
     _futureDonation = fetchRequest();
     _futureEvent = fetchEvent();

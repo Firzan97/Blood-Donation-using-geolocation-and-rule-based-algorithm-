@@ -37,6 +37,9 @@ class _BloodEventState extends State<BloodEvent> {
   String status = "";
   String errMessage = "error Upload Image";
   String uploadEndPoint = "";
+  String token1;
+
+
 
   Future getImageGallery() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -593,6 +596,22 @@ borderRadius: BorderRadius.circular(25),
     }
   }
 
+  Future getQue() async {
+    SharedPreferences localstorage = await SharedPreferences.getInstance();
+    token1 = localstorage.getString("tokenNotification");
+    if(token1!=null){
+      //call php file
+      var data={
+        "token": token1,
+      };print(token1);
+      var res = await Api().postData(data,"notification");
+//        return json.decode(res.body);
+    }
+    else{
+      print("Token is null");
+    }
+  }
+
   Future<void> addEvent() async {
     if (_formKey.currentState.validate()) {
     } else {
@@ -618,6 +637,7 @@ borderRadius: BorderRadius.circular(25),
     var res = await Api().postData(data, "event");
     print(res.statusCode);
     if(res.statusCode==200){
+      getQue();
       eventInfoDialog(context);
     }
 

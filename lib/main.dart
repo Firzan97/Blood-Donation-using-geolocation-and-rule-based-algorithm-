@@ -34,6 +34,8 @@ final locaterService = GeolocationService();
         '/profile': (BuildContext context) => Profile(),
         '/editprofile': (BuildContext context) => EditProfile(),
         '/dashboard': (BuildContext context) => Dashboard(),
+        '/secondScreen': (BuildContext context) => SecondScreen(),
+
 
       }
     );

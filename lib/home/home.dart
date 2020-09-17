@@ -13,6 +13,7 @@ import 'package:easy_blood/model/event.dart';
 import 'package:easy_blood/model/request.dart';
 import 'package:easy_blood/model/user.dart';
 import 'package:easy_blood/notification.dart';
+import 'package:easy_blood/profile/edit_profile.dart';
 import 'package:easy_blood/profile/profile.dart';
 import 'package:easy_blood/request/blood_request.dart';
 import 'package:easy_blood/requestBlood.dart';
@@ -45,16 +46,19 @@ class _HomeState extends State<Home> {
   bool profileUpdate=false;
   List<User> a = [];
   bool statusUpdated;
-
+   var token;
 
   void getUserData()async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
      setState(() {
        user= jsonDecode(localStorage.getString("user"));
        statusUpdated=localStorage.getBool('statusUpdated');
+       token = localStorage.getString('tokenNotification');
      });
      print(statusUpdated);
-    print(user);}
+    print(user);
+    print(token);
+  }
 
 
   @override
@@ -672,7 +676,7 @@ class _HomeState extends State<Home> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Profile()),
+                                    builder: (context) => EditProfile()),
                               );
                             },
                             child: Padding(

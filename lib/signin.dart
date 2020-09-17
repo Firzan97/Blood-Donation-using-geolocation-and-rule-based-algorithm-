@@ -9,9 +9,11 @@ import 'package:easy_blood/loadingScreen.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
 import 'package:easy_blood/signup.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,7 +30,25 @@ class _SignInState extends State<SignIn> {
   final _formkey = GlobalKey<FormState>();
   String error = "";
   var pr;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String token1;
 
+  void firebaseCloudMessaging_Listeners() {
+    //get token of mobile device
+    _firebaseMessaging.getToken().then((token) {print("Token is" + token);
+    token1= token;
+    print(token1);
+    setState(() {
+
+    });} );
+  }
+
+
+  @override
+  void initState(){
+    super.initState();
+    firebaseCloudMessaging_Listeners();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +165,22 @@ class _SignInState extends State<SignIn> {
     );
   }
 
+  Future getQue() async {
+
+    if(token1!=null){
+      //call php file
+      var data={
+        "token": token1,
+      };print(token1);
+      var res = await Api().postData(data,"notification");
+//        return json.decode(res.body);
+    }
+    else{
+      print("Token is null");
+    }
+  }
+
+
 
   Future<void> login() async {
     if (_formkey.currentState.validate()) {
@@ -160,8 +196,8 @@ class _SignInState extends State<SignIn> {
     var res = await Api().postData(data, "login");
     var body = json.decode(res.body);
     if(body['success']){
-
       SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.setString("tokenNotification", token1);
       localStorage.setString('token', body['token']);
       localStorage.setString('user', json.encode(body['user']));
       var a =localStorage.getString('user');

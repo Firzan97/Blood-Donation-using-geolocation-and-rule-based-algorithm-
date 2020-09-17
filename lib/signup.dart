@@ -9,6 +9,7 @@ import 'package:easy_blood/loadingScreen.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
 import 'package:easy_blood/signin.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -34,6 +35,24 @@ class _SignUpState extends State<SignUp> {
   bool _isLoading = false;
   String error = "";
   final _formkey = GlobalKey<FormState>();
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String token1;
+
+  void firebaseCloudMessaging_Listeners() {
+    //get token of mobile device
+    _firebaseMessaging.getToken().then((token) {print("Token is" + token);
+    token1= token;
+    print(token1);
+    setState(() {
+
+    });} );
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    firebaseCloudMessaging_Listeners();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +230,7 @@ class _SignUpState extends State<SignUp> {
       "username" : username.text,
       "password" : password.text,
       "age" : age.text,
+      "notificationToken": token1,
       "bloodType": "",
       "gender": "",
       "height": "",
@@ -222,6 +242,7 @@ class _SignUpState extends State<SignUp> {
       "role": "user",
     };
     print(age.text);
+    print(token1);
     var res = await Api().postData(data,"user");
     var body = json.decode(res.body);
     print(res.statusCode);
