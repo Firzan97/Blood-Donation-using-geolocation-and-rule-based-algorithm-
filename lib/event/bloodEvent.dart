@@ -5,6 +5,7 @@ import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/event/bloodEventDetail.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/event.dart';
+import 'package:easy_blood/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -597,13 +598,24 @@ borderRadius: BorderRadius.circular(25),
   }
 
   Future getQue() async {
-    SharedPreferences localstorage = await SharedPreferences.getInstance();
-    token1 = localstorage.getString("tokenNotification");
-    if(token1!=null){
+    List<String> token=[];
+    var res = await Api().getData("user");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+      var count = 0;
+      for (var u in body) {
+        User user = User.fromJson(u);
+        print(user.bloodtype);
+        token.add(user.notificationToken);
+        print(user.notificationToken);
+      };
+    }
+
+    if(token!=null){
       //call php file
       var data={
-        "token": token1,
-      };print(token1);
+        "token": token,
+      };print(token);
       var res = await Api().postData(data,"notification");
 //        return json.decode(res.body);
     }

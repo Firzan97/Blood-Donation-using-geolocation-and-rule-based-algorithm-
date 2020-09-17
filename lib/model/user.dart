@@ -10,6 +10,7 @@ class User {
   double longitude;
   String imageURL;
   String role;
+  String notificationToken;
 
   User(this.username, this.email, this.password, this.bloodtype, this.phoneNumber,
       this.gender, this.latitude, this.longitude, this.imageURL, this.role);
@@ -25,7 +26,8 @@ class User {
         latitude= double.parse(json['latitude']),
         longitude = double.parse(json['longitude']),
         imageURL = json['imageURL'],
-        role = json['role'];
+        role = json['role'],
+        notificationToken = json['notificationToken'];
 
   Map<String, dynamic> toJson() =>
       {
@@ -40,5 +42,6 @@ class User {
         'longitude': longitude,
         'imageURL': imageURL,
         'role': role,
+        'notificationToken': notificationToken,
       };
 }

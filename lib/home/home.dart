@@ -1222,7 +1222,6 @@ class _HomeState extends State<Home> {
       for (Map u in body) {
         Event event = Event.fromJson(u);
         events.add(event);
-
       }
 
       return events;
@@ -1231,7 +1230,6 @@ class _HomeState extends State<Home> {
     }
   }
   Future<List<Requestor>> fetchBlood() async {
-
     var res = await Api().getData("request");
     var bodys = json.decode(res.body);
     if (res.statusCode == 200) {
