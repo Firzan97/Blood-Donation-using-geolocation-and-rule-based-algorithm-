@@ -127,15 +127,15 @@ class _NotificationsState extends State<Notifications> {
                                             text: TextSpan(
                                               text: 'Firzan, ',
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
+                                                  fontWeight: FontWeight.w600,
                                                   fontSize: 18.0,
-                                                  color: kThirdColor),
+                                              color: Colors.black),
                                               children: <TextSpan>[
                                                 TextSpan(
                                                     text: 'has request blood from you',
                                                     style: TextStyle(
                                                         fontWeight: FontWeight.w300,
-                                                        color: kThirdColor)),
+                                                        color: Colors.black)),
                                               ],
                                             ),
                                           ),
@@ -149,7 +149,8 @@ class _NotificationsState extends State<Notifications> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     fit: BoxFit.cover,
-                                                    image: AssetImage("assets/images/lari2.jpg"))),
+                                                    image:
+                                                    AssetImage("assets/images/lari2.jpg"))),
                                           ),
                                           title: RichText(
                                             text: TextSpan(
@@ -157,13 +158,13 @@ class _NotificationsState extends State<Notifications> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 18.0,
-                                                  color: kThirdColor),
+                                                  color: Colors.black),
                                               children: <TextSpan>[
                                                 TextSpan(
                                                     text: 'has request blood from you',
                                                     style: TextStyle(
                                                         fontWeight: FontWeight.w300,
-                                                        color: kThirdColor)),
+                                                        color: Colors.black)),
                                               ],
                                             ),
                                           ),
@@ -177,7 +178,8 @@ class _NotificationsState extends State<Notifications> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     fit: BoxFit.cover,
-                                                    image: AssetImage("assets/images/lari2.jpg"))),
+                                                    image:
+                                                    AssetImage("assets/images/lari2.jpg"))),
                                           ),
                                           title: RichText(
                                             text: TextSpan(
@@ -185,13 +187,13 @@ class _NotificationsState extends State<Notifications> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 18.0,
-                                                  color: kThirdColor),
+                                                  color: Colors.black),
                                               children: <TextSpan>[
                                                 TextSpan(
                                                     text: 'has request blood from you',
                                                     style: TextStyle(
                                                         fontWeight: FontWeight.w300,
-                                                        color: kThirdColor)),
+                                                        color: Colors.black)),
                                               ],
                                             ),
                                           ),
@@ -205,7 +207,8 @@ class _NotificationsState extends State<Notifications> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     fit: BoxFit.cover,
-                                                    image: AssetImage("assets/images/lari2.jpg"))),
+                                                    image:
+                                                    AssetImage("assets/images/lari2.jpg"))),
                                           ),
                                           title: RichText(
                                             text: TextSpan(
@@ -213,13 +216,13 @@ class _NotificationsState extends State<Notifications> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 18.0,
-                                                  color: kThirdColor),
+                                                  color: Colors.black),
                                               children: <TextSpan>[
                                                 TextSpan(
                                                     text: 'has request blood from you',
                                                     style: TextStyle(
                                                         fontWeight: FontWeight.w300,
-                                                        color: kThirdColor)),
+                                                        color: Colors.black)),
                                               ],
                                             ),
                                           ),
@@ -233,7 +236,8 @@ class _NotificationsState extends State<Notifications> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     fit: BoxFit.cover,
-                                                    image: AssetImage("assets/images/lari2.jpg"))),
+                                                    image:
+                                                    AssetImage("assets/images/lari2.jpg"))),
                                           ),
                                           title: RichText(
                                             text: TextSpan(
@@ -241,13 +245,13 @@ class _NotificationsState extends State<Notifications> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 18.0,
-                                                  color: kThirdColor),
+                                                  color: Colors.black),
                                               children: <TextSpan>[
                                                 TextSpan(
                                                     text: 'has request blood from you',
                                                     style: TextStyle(
                                                         fontWeight: FontWeight.w300,
-                                                        color: kThirdColor)),
+                                                        color: Colors.black)),
                                               ],
                                             ),
                                           ),
@@ -261,7 +265,8 @@ class _NotificationsState extends State<Notifications> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     fit: BoxFit.cover,
-                                                    image: AssetImage("assets/images/lari2.jpg"))),
+                                                    image:
+                                                    AssetImage("assets/images/lari2.jpg"))),
                                           ),
                                           title: RichText(
                                             text: TextSpan(
@@ -269,13 +274,13 @@ class _NotificationsState extends State<Notifications> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 18.0,
-                                                  color: kThirdColor),
+                                                  color: Colors.black),
                                               children: <TextSpan>[
                                                 TextSpan(
                                                     text: 'has request blood from you',
                                                     style: TextStyle(
                                                         fontWeight: FontWeight.w300,
-                                                        color: kThirdColor)),
+                                                        color: Colors.black)),
                                               ],
                                             ),
                                           ),
@@ -289,7 +294,8 @@ class _NotificationsState extends State<Notifications> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     fit: BoxFit.cover,
-                                                    image: AssetImage("assets/images/lari2.jpg"))),
+                                                    image:
+                                                    AssetImage("assets/images/lari2.jpg"))),
                                           ),
                                           title: RichText(
                                             text: TextSpan(
@@ -297,13 +303,13 @@ class _NotificationsState extends State<Notifications> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 18.0,
-                                                  color: kThirdColor),
+                                                  color: Colors.black),
                                               children: <TextSpan>[
                                                 TextSpan(
                                                     text: 'has request blood from you',
                                                     style: TextStyle(
                                                         fontWeight: FontWeight.w300,
-                                                        color: kThirdColor)),
+                                                        color: Colors.black)),
                                               ],
                                             ),
                                           ),
@@ -317,7 +323,8 @@ class _NotificationsState extends State<Notifications> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     fit: BoxFit.cover,
-                                                    image: AssetImage("assets/images/lari2.jpg"))),
+                                                    image:
+                                                    AssetImage("assets/images/lari2.jpg"))),
                                           ),
                                           title: RichText(
                                             text: TextSpan(
@@ -325,13 +332,13 @@ class _NotificationsState extends State<Notifications> {
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 18.0,
-                                                  color: kThirdColor),
+                                                  color: Colors.black),
                                               children: <TextSpan>[
                                                 TextSpan(
                                                     text: 'has request blood from you',
                                                     style: TextStyle(
                                                         fontWeight: FontWeight.w300,
-                                                        color: kThirdColor)),
+                                                        color: Colors.black)),
                                               ],
                                             ),
                                           ),
