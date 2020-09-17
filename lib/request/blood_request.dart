@@ -379,6 +379,10 @@ class _BloodRequestState extends State<BloodRequest> {
                                 FutureBuilder(
                                     future: _futureRequest,
                                     builder: (context, snapshot) {
+                                      if(snapshot.data==null){
+                                        return LoadingScreen();
+                                      }
+                                      else{
                                       return Container(
                                         height: 600,
                                         child: ListView.builder(
@@ -624,7 +628,7 @@ class _BloodRequestState extends State<BloodRequest> {
                                                 ),
                                               );
                                             }),
-                                      );
+                                      );}
                                     }),
                               ],
                             ),

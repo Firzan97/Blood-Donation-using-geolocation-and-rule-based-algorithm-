@@ -34,8 +34,11 @@ class _ProfileState extends State<Profile> {
   Future<List<Requestor>> _futureDonation;
   Future<List<Event>> _futureEvent;
   var pr;
-
   var user;
+  String time ;
+
+
+
 
   void getUserData() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -58,9 +61,11 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime dateTime = DateTime.parse(user['created_at']);
-    DateFormat dateFormat = DateFormat('yyyy-MM-dd');
-    String time = dateFormat.format(dateTime);
+    if(user!=null) {
+      DateTime dateTime = DateTime.parse(user['created_at']);
+      DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+      time = dateFormat.format(dateTime);
+    }
     pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
     pr.style(
         message: 'Loading....',
@@ -83,387 +88,450 @@ class _ProfileState extends State<Profile> {
         value: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
         ),
-            child: Scaffold(
-              body: Container(
-                color: Colors.grey.withOpacity(0.1),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: size.height * 1,
-                      child: Stack(
-                        children: <Widget>[
-                          ClipPath(
-                            clipper: MyClipper2(),
-                            child: Container(
-                              height: size.height * 0.42,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.bottomLeft,
-                                      end: Alignment.topRight,
-                                      colors: [kGradient2, kGradient1]),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        blurRadius: 12,
-                                        spreadRadius: 3,
-                                        color: Colors.black.withOpacity(0.9)
-                                    )
-                                  ]),
-                            ),
-                          ),
-                          Positioned( left:80 ,top: 15, child: Image.asset(("assets/images/bloodPlatelet2.png"))),
-                          Opacity(
-                            opacity: 0.9,
-                            child: Container(
-                              height: size.height * 1,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topRight,
-                                    end: Alignment.bottomLeft,
-                                    colors: [kGradient1, kGradient2]),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
-                                    children: <Widget>[
-                                      IconButton(
-                                        onPressed: () {
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Home()),
-                                          );
-                                        },
-                                        icon: Icon(Icons.arrow_back,
-                                          color: Colors.black,),
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.settings, color: Colors.black,),
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EditProfile()),
-                                          );
-                                        },
+            child: MaterialApp(
+              theme: ThemeData(
+                fontFamily: "Muli"
+              ),
+              home: Scaffold(
+                body: Container(
+                  color: Colors.grey.withOpacity(0.1),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: size.height * 1,
+                        child: Stack(
+                          children: <Widget>[
+                            ClipPath(
+                              clipper: MyClipper2(),
+                              child: Container(
+                                height: size.height * 0.42,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.bottomLeft,
+                                        end: Alignment.topRight,
+                                        colors: [kGradient2, kGradient1]),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          blurRadius: 12,
+                                          spreadRadius: 3,
+                                          color: Colors.black.withOpacity(0.9)
                                       )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8.0),
-                                    child: Container(
-                                      height: 100,
-                                      child: Stack(
+                                    ]),
+                              ),
+                            ),
+                            Positioned( left:80 ,top: 15, child: Image.asset(("assets/images/bloodPlatelet2.png"))),
+                            Opacity(
+                              opacity: 0.9,
+                              child: Container(
+                                height: size.height * 1,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topRight,
+                                      end: Alignment.bottomLeft,
+                                      colors: [kGradient1, kGradient2]),
+                                ),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .spaceBetween,
                                         children: <Widget>[
-                                          Row(
+                                          IconButton(
+                                            onPressed: () {
+                                              Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => Home()),
+                                              );
+                                            },
+                                            icon: Icon(Icons.arrow_back,
+                                              color: Colors.black,),
+                                          ),
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.settings, color: Colors.black,),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditProfile()),
+                                              );
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0, right: 8.0),
+                                        child: Container(
+                                          height: 80,
+                                          child: Stack(
                                             children: <Widget>[
-                                              Container(
-                                                width: 80,
-                                                height: 80,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                        fit: BoxFit.cover,
-                                                        image: user['imageURL'] ==
-                                                            null
-                                                            ? NetworkImage(
-                                                            'https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.jpg')
-                                                            : NetworkImage(
-                                                            user['imageURL'])
-                                                    )
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: size.width * 0.05,),
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment
-                                                    .start,
+                                              Row(
                                                 children: <Widget>[
-                                                  Text(user["username"],
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                              fontSize: 17,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold)),
-                                                      SizedBox(
-                                                        height:
-                                                            size.height * 0.01,
-                                                      ),
-                                                      Text(
-                                                        Jiffy(time).fromNow(),
-                                                        // 7 years ago
-
-                                                        style: TextStyle(
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    0.5)),
-                                                      ),
+                                                  Container(
+                                                    width: 80,
+                                                    height: 80,
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.cover,
+                                                            image: user ==
+                                                                null
+                                                                ? NetworkImage(
+                                                                'https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.png')
+                                                                : NetworkImage(
+                                                                user['imageURL'])
+                                                        )
+                                                    ),
+                                                  ),
                                                     ],
-                                                  )
+                                                  ),
                                                 ],
                                               ),
-                                            ],
+                                            ),
                                           ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment
+                                              .start,
+                                          children: <Widget>[
+                                            Text("Joined ${Jiffy(time).fromNow()}",
+                                              // 7 years ago
+
+                                              style: TextStyle(
+                                                  color: Colors.black
+                                                      .withOpacity(
+                                                      0.5)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 5, bottom: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                Container(
+                                                  child: Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.location_on),
+                                                  Text("Tumpat, Kelantan")
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius
+                                                        .circular(20),
+                                                    color: kPrimaryColor,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors.black
+                                                              .withOpacity(0.3),
+                                                          spreadRadius: 1,
+                                                          blurRadius: 12
+                                                      )
+                                                    ]
+                                                ),
+                                                child: FlatButton(
+                                                  onPressed: () {
+
+                                                  },
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius
+                                                          .circular(20)
+                                                  ),
+                                                  child: Text("AB+"),
+                                                )),
+
+                                          ],
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 5, bottom: 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Container(
-                                              child: Row(
-                                            children: <Widget>[
-                                              Icon(Icons.location_on),
-                                              Text("Tumpat, Kelantan")
-                                            ],
+                                            left: 8.0, right: 8.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [BoxShadow(
+                                                  blurRadius: 9,
+                                                  spreadRadius: 3,
+                                                  color: Colors.black.withOpacity(
+                                                      0.1)
+                                              )
+                                              ],
+                                              borderRadius: BorderRadius.circular(
+                                                  10)
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(15.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: <Widget>[
+                                                Container(
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      Text("4"),
+                                                      Text("Blood donated")
+                                                    ],
+                                                  ),
+                                                ),
+                                                Column(
+                                                  children: <Widget>[
+                                                    Text("4"),
+                                                    Text("Blood Requested")
+                                                  ],
+                                                ),
+                                                Column(
+                                                  children: <Widget>[
+                                                    Text("Status"),
+                                                    Text("Eligible to donate")
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                        Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius
-                                                    .circular(20),
-                                                color: kPrimaryColor,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      color: Colors.black
-                                                          .withOpacity(0.3),
-                                                      spreadRadius: 1,
-                                                      blurRadius: 12
-                                                  )
-                                                ]
-                                            ),
-                                            child: FlatButton(
-                                              onPressed: () {
-
-                                              },
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius
-                                                      .circular(20)
-                                              ),
-                                              child: Text("AB+"),
-                                            )),
-
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          boxShadow: [BoxShadow(
-                                              blurRadius: 9,
-                                              spreadRadius: 3,
-                                              color: Colors.black.withOpacity(
-                                                  0.1)
-                                          )
-                                          ],
-                                          borderRadius: BorderRadius.circular(
-                                              10)
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(15.0),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .spaceBetween,
-                                          children: <Widget>[
-                                            Container(
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Text("4"),
-                                                  Text("Blood donated")
-                                                ],
-                                              ),
-                                            ),
-                                            Column(
-                                              children: <Widget>[
-                                                Text("4"),
-                                                Text("Blood Requested")
+                                      SizedBox(height: size.height * 0.045,),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          width: size.width * 1,
+
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black.withOpacity(
+                                                        0.2),
+                                                    blurRadius: 9,
+                                                    spreadRadius: 3
+                                                )
                                               ],
-                                            ),
-                                            Column(
+                                              borderRadius: BorderRadius.circular(
+                                                  20)
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                Text("Status"),
-                                                Text("Eligible to donate")
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: size.height * 0.045,),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: size.width * 1,
+                                                Padding(
+                                                  padding: const EdgeInsets.all(5.0),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: Colors.grey
+                                                                    .withOpacity(0.1),
+                                                                width: 1.0))
+                                                    ),
+                                                    child: Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
 
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black.withOpacity(
-                                                    0.2),
-                                                blurRadius: 9,
-                                                spreadRadius: 3
-                                            )
-                                          ],
-                                          borderRadius: BorderRadius.circular(
-                                              20)
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                    children: <Widget>[
-                                                      Container(
-                                                        width: size.width * 0.4,
-                                                        decoration: BoxDecoration(
-                                                            border: Border(
-                                                                right: BorderSide(
-                                                                    color: Colors
-                                                                        .grey
-                                                                        .withOpacity(
-                                                                        0.1),
-                                                                    width: 1.0))
-                                                        ),
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Icon(Icons
-                                                                .verified_user),
-                                                            Column(
-                                                              children: <
-                                                                  Widget>[
-                                                                Text(
-                                                                    "Username"),
-                                                                Text(
-                                                                    user["username"]),
-                                                                SizedBox(
-                                                                  height: size
-                                                                      .height *
-                                                                      0.02,),
-
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Icon(Icons
-                                                                .supervised_user_circle),
-                                                            Column(
-                                                              children: <
-                                                                  Widget>[
-                                                                Text("Gender"),
-                                                                Text(
-                                                                    user["gender"]),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ), Container(
-                                              width: size.width * 1,
-                                              decoration: BoxDecoration(
-                                                  border: Border.symmetric(
-                                                      vertical: BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          width: 1.0))
-                                              ),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Icon(Icons.email),
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment
-                                                        .start,
-                                                    children: <Widget>[
-                                                      Text("Email"),
-                                                      Text(
-                                                          user["email"]),
-                                                      SizedBox(
-                                                        height: size.height *
-                                                            0.02,),
-
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              width: size.width * 1,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          width: 1.0))
-                                              ),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Icon(Icons.person),
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment
-                                                        .start,
-
-                                                    children: <Widget>[
-                                                      Text("Age"),
-                                                      Text(user["age"]),
-                                                      SizedBox(
-                                                        height: size.height *
-                                                            0.02,),
-
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              width: size.width * 1,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          width: 1.0))
-                                              ),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Icon(Icons.phone),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .all(8.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment
-                                                          .start,
                                                       children: <Widget>[
-                                                        Text("Mobile Number"),
-                                                        Text(user["phoneNumber"]),
+                                                        Padding(
+                                                          padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                          child: Icon(Icons
+                                                              .verified_user, size: 35),
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: <
+                                                              Widget>[
+                                                            Text(
+                                                                "Username"),
+                                                            Text(
+                                                                user["username"],style: TextStyle(
+                                                              fontWeight: FontWeight.w500
+                                                            ),),
+                                                            SizedBox(
+                                                              height: size
+                                                                  .height *
+                                                                  0.02,),
+
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    child: Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                          child: Icon(Icons
+                                                              .supervised_user_circle, size: 35),
+                                                        ),
+                                                        Column(
+                                                          children: <
+                                                              Widget>[
+                                                            Text("Gender"),
+                                                            Text(
+                                                                user["gender"]),
+                                                            SizedBox(
+                                                              height: size
+                                                                  .height *
+                                                                  0.02,),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(5.0),
+                                                  child: Container(
+                                                    width: size.width * 1,
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: Colors.grey
+                                                                    .withOpacity(0.1),
+                                                                width: 1.0))
+                                                    ),
+                                                    child: Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                          child: Icon(Icons.email, size: 35),
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment
+                                                              .start,
+                                                          children: <Widget>[
+                                                            Text("Email"),
+                                                            Text(
+                                                                user["email"]),
+                                                            SizedBox(
+                                                              height: size.height *
+                                                                  0.02,),
+
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(5.0),
+                                                  child: Container(
+                                                    width: size.width * 1,
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: Colors.grey
+                                                                    .withOpacity(0.1),
+                                                                width: 1.0))
+                                                    ),
+                                                    child: Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                          child: Icon(Icons.person, size: 35),
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment
+                                                              .start,
+
+                                                          children: <Widget>[
+                                                            Text("Age"),
+                                                            Text(user["age"]),
+                                                            SizedBox(
+                                                              height: size.height *
+                                                                  0.02,),
+
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(5.0),
+                                                  child: Container(
+                                                    width: size.width * 1,
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: Colors.grey
+                                                                    .withOpacity(0.1),
+                                                                width: 1.0))
+                                                    ),
+                                                    child: Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                          child: Icon(Icons.phone, size: 35,),
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment
+                                                              .start,
+                                                          children: <Widget>[
+                                                            Text("Mobile Number"),
+                                                            Text(user["phoneNumber"]),
+                                                            SizedBox(
+                                                              height: size.height *
+                                                                  0.02,),
+
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(5.0),
+                                                  child: Container(
+                                                    width: size.width * 1,
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: Colors.grey
+                                                                    .withOpacity(0.1),
+                                                                width: 1.0))
+                                                    ),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: <Widget>[
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                                  child: Icon(Icons.brush, size: 35),
+                                                                ),
+                                                                Text("Height"),
+                                                              ],
+                                                            ),
+
+                                                            Text("${user["height"]} CM")
+
+                                                          ],
+                                                        ),
                                                         SizedBox(
                                                           height: size.height *
                                                               0.02,),
@@ -471,619 +539,591 @@ class _ProfileState extends State<Profile> {
                                                       ],
                                                     ),
                                                   ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(5.0),
+                                                  child: Container(
+                                                    width: size.width * 1,
+                                                    decoration: BoxDecoration(
+
+                                                    ),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: <Widget>[
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                                  child: Icon(Icons.line_weight, size: 35),
+                                                                ),
+                                                                Text("Weight"),
+                                                              ],
+                                                            ),
+
+                                                            Text("${user["weight"]} KG"),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.02,),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            DraggableScrollableSheet(
+                                initialChildSize: 0.05,
+                                minChildSize: 0.05,
+                                maxChildSize: 0.8,
+                                builder: (BuildContext c, s) {
+                                  return Container(
+                                    height: size.height * 0.2,
+                                    width: size.width * 1,
+                                    decoration: BoxDecoration(
+                                        color: kGradient1.withOpacity(0.3),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black.withOpacity(
+                                                  0.1),
+                                              blurRadius: 7,
+                                              spreadRadius: 4
+                                          )
+                                        ]),
+                                    child: SingleChildScrollView(
+                                      controller: s,
+                                      child: Column(
+                                        children: <Widget>[
+                                          SizedBox(height: size.height * 0.007),
+                                          Container(
+                                            height: 30,
+                                            width: 150,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius
+                                                    .circular(20),
+                                                color: Colors.black
+                                            ),
+                                            child: Center(
+                                              child: Text("Your Activities",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontFamily: "Muli",
+                                                    color: Colors.white
+                                                ),),
+                                            ),
+                                          ),
+
+                                          Padding(
+                                            padding: const EdgeInsets.all(19.0),
+                                            child: Container(
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  Container(
+                                                    width: size.width * 1,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius
+                                                            .circular(20),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color: Colors.black
+                                                                  .withOpacity(
+                                                                  0.1),
+                                                              spreadRadius: 3,
+                                                              blurRadius: 12
+                                                          )
+                                                        ]
+                                                    ),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.03,),
+                                                        FutureBuilder(
+                                                            future: _futureEvent,
+                                                                builder: (context,
+                                                                    snapshot) {
+                                                                  if (snapshot
+                                                                          .data ==
+                                                                      null) {
+                                                                    return Container(
+                                                                      child:
+                                                                          Center(
+                                                                        child:
+                                                                            LoadingScreen(),
+                                                                      ),
+                                                                    );
+                                                                  }
+                                                                  return Container(
+                                                                    height:
+                                                                        size.height *
+                                                                            0.4,
+                                                                    child: ListView
+                                                                        .builder(
+                                                                            itemCount: snapshot
+                                                                                .data
+                                                                                .length,
+                                                                            itemBuilder:
+                                                                                (BuildContext context, int index) {
+                                                                              return Padding(
+                                                                                padding: const EdgeInsets.all(15.0),
+                                                                                child: Row(
+                                                                                  children: <Widget>[
+                                                                                    Container(
+                                                                                      height: 50,
+                                                                                      width: 60,
+                                                                                      decoration: BoxDecoration(
+                                                                                        shape: BoxShape.rectangle,
+                                                                                      ),
+                                                                                      child: ClipRRect(
+                                                                                          borderRadius:
+                                                                                  BorderRadius
+                                                                                      .circular(
+                                                                                      5),
+                                                                                  child: Image
+                                                                                      .asset(
+                                                                                    "assets/images/lari2.jpg",
+                                                                                    fit: BoxFit
+                                                                                        .cover,)),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: size
+                                                                                  .width *
+                                                                                  0.09,),
+                                                                            Column(
+                                                                              crossAxisAlignment: CrossAxisAlignment
+                                                                                  .start,
+                                                                              children: <
+                                                                                  Widget>[
+                                                                                Text(
+                                                                                    "6 hours ago"),
+                                                                                Row(
+                                                                                  children: <
+                                                                                      Widget>[
+                                                                                    Container(
+                                                                                      child: Text(
+                                                                                          "Syazwan Asraf"),
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      width: size
+                                                                                          .width *
+                                                                                          0.08,),
+                                                                                    Container(
+                                                                                      child: Row(
+                                                                                        children: <
+                                                                                            Widget>[
+                                                                                          Row(
+                                                                                            children: <
+                                                                                                Widget>[
+                                                                                              Icon(
+                                                                                                  Icons
+                                                                                                      .thumb_up),
+                                                                                              Text(
+                                                                                                  "1")
+                                                                                            ],
+                                                                                          ),
+                                                                                          SizedBox(
+                                                                                            width: size
+                                                                                                .width *
+                                                                                                0.05,),
+                                                                                          Row(
+                                                                                            children: <
+                                                                                                Widget>[
+                                                                                              Icon(
+                                                                                                  Icons
+                                                                                                      .comment),
+                                                                                              Text(
+                                                                                                  "1")
+                                                                                            ],
+                                                                                          )
+                                                                                        ],
+                                                                                      ),
+                                                                                    )
+                                                                                  ],
+                                                                                )
+                                                                              ],
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      );
+                                                                    }
+                                                                ),
+                                                              );
+                                                            }
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    height: 30,
+                                                    width: 150,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius
+                                                            .circular(20),
+                                                        color: kGradient2
+                                                    ),
+                                                    child: Center(
+                                                      child: Text("Life Saved",
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight
+                                                                .w700,
+                                                            fontFamily: "Muli",
+                                                            color: Colors.white
+                                                        ),),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
-                                            Container(
-                                              width: size.width * 1,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(0.1),
-                                                          width: 1.0))
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(
-                                                    8.0),
-                                                child: Column(
-                                                  children: <Widget>[
-                                                    Row(
-                                                      children: <Widget>[
-                                                        Icon(Icons.brush),
-                                                        Text("Height"),
-                                                        SizedBox(
-                                                          width: size.width *
-                                                              0.52,),
-                                                        Text("${user["height"]} CM")
-
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: size.height *
-                                                          0.02,),
-
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: size.width * 1,
-                                              decoration: BoxDecoration(
-
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(
-                                                    8.0),
-                                                child: Column(
-                                                  children: <Widget>[
-                                                    Row(
-                                                      children: <Widget>[
-                                                        Icon(Icons.line_weight),
-                                                        Text("Weight"),
-                                                        SizedBox(
-                                                          width: size.width *
-                                                              0.54,),
-                                                        Text("${user["weight"]} KG"),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: size.height *
-                                                          0.02,),
-                                                  ],
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          DraggableScrollableSheet(
-                              initialChildSize: 0.05,
-                              minChildSize: 0.05,
-                              maxChildSize: 0.8,
-                              builder: (BuildContext c, s) {
-                                return Container(
-                                  height: size.height * 0.2,
-                                  width: size.width * 1,
-                                  decoration: BoxDecoration(
-                                      color: kGradient1.withOpacity(0.3),
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black.withOpacity(
-                                                0.1),
-                                            blurRadius: 7,
-                                            spreadRadius: 4
-                                        )
-                                      ]),
-                                  child: SingleChildScrollView(
-                                    controller: s,
-                                    child: Column(
-                                      children: <Widget>[
-                                        SizedBox(height: size.height * 0.007),
-                                        Container(
-                                          height: 30,
-                                          width: 150,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius
-                                                  .circular(20),
-                                              color: Colors.black
                                           ),
-                                          child: Center(
-                                            child: Text("Your Activities",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontFamily: "Muli",
-                                                  color: Colors.white
-                                              ),),
-                                          ),
-                                        ),
-
-                                        Padding(
-                                          padding: const EdgeInsets.all(19.0),
-                                          child: Container(
-                                            child: Stack(
-                                              children: <Widget>[
-                                                Container(
-                                                  width: size.width * 1,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius: BorderRadius
-                                                          .circular(20),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                0.1),
-                                                            spreadRadius: 3,
-                                                            blurRadius: 12
-                                                        )
-                                                      ]
-                                                  ),
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      SizedBox(
-                                                        height: size.height *
-                                                            0.03,),
-                                                      FutureBuilder(
-                                                          future: _futureEvent,
-                                                              builder: (context,
-                                                                  snapshot) {
-                                                                if (snapshot
-                                                                        .data ==
-                                                                    null) {
-                                                                  return Container(
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          LoadingScreen(),
-                                                                    ),
-                                                                  );
-                                                                }
+                                          Padding(
+                                            padding: const EdgeInsets.all(19.0),
+                                            child: Container(
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  Container(
+                                                    width: size.width * 1,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius
+                                                            .circular(20),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color: Colors.black
+                                                                  .withOpacity(
+                                                                  0.1),
+                                                              spreadRadius: 3,
+                                                              blurRadius: 12
+                                                          )
+                                                        ]
+                                                    ),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.03,),
+                                                        FutureBuilder(
+                                                            future: _futureRequest,
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              if (snapshot.data ==
+                                                                  null) {
                                                                 return Container(
-                                                                  height:
-                                                                      size.height *
-                                                                          0.4,
-                                                                  child: ListView
-                                                                      .builder(
-                                                                          itemCount: snapshot
-                                                                              .data
-                                                                              .length,
-                                                                          itemBuilder:
-                                                                              (BuildContext context, int index) {
-                                                                            return Padding(
-                                                                              padding: const EdgeInsets.all(15.0),
-                                                                              child: Row(
-                                                                                children: <Widget>[
-                                                                                  Container(
-                                                                                    height: 50,
-                                                                                    width: 60,
-                                                                                    decoration: BoxDecoration(
-                                                                                      shape: BoxShape.rectangle,
-                                                                                    ),
-                                                                                    child: ClipRRect(
-                                                                                        borderRadius:
-                                                                                BorderRadius
-                                                                                    .circular(
-                                                                                    5),
-                                                                                child: Image
-                                                                                    .asset(
-                                                                                  "assets/images/lari2.jpg",
-                                                                                  fit: BoxFit
-                                                                                      .cover,)),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width: size
-                                                                                .width *
-                                                                                0.09,),
-                                                                          Column(
-                                                                            crossAxisAlignment: CrossAxisAlignment
-                                                                                .start,
-                                                                            children: <
-                                                                                Widget>[
-                                                                              Text(
-                                                                                  "6 hours ago"),
-                                                                              Row(
-                                                                                children: <
-                                                                                    Widget>[
-                                                                                  Container(
-                                                                                    child: Text(
-                                                                                        "Syazwan Asraf"),
-                                                                                  ),
-                                                                                  SizedBox(
-                                                                                    width: size
-                                                                                        .width *
-                                                                                        0.08,),
-                                                                                  Container(
-                                                                                    child: Row(
-                                                                                      children: <
-                                                                                          Widget>[
-                                                                                        Row(
-                                                                                          children: <
-                                                                                              Widget>[
-                                                                                            Icon(
-                                                                                                Icons
-                                                                                                    .thumb_up),
-                                                                                            Text(
-                                                                                                "1")
-                                                                                          ],
-                                                                                        ),
-                                                                                        SizedBox(
-                                                                                          width: size
-                                                                                              .width *
-                                                                                              0.05,),
-                                                                                        Row(
-                                                                                          children: <
-                                                                                              Widget>[
-                                                                                            Icon(
-                                                                                                Icons
-                                                                                                    .comment),
-                                                                                            Text(
-                                                                                                "1")
-                                                                                          ],
-                                                                                        )
-                                                                                      ],
-                                                                                    ),
-                                                                                  )
-                                                                                ],
-                                                                              )
-                                                                            ],
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    );
-                                                                  }
-                                                              ),
-                                                            );
-                                                          }
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Container(
-                                                  height: 30,
-                                                  width: 150,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius
-                                                          .circular(20),
-                                                      color: kGradient2
-                                                  ),
-                                                  child: Center(
-                                                    child: Text("Life Saved",
-                                                      style: TextStyle(
-                                                          fontWeight: FontWeight
-                                                              .w700,
-                                                          fontFamily: "Muli",
-                                                          color: Colors.white
-                                                      ),),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(19.0),
-                                          child: Container(
-                                            child: Stack(
-                                              children: <Widget>[
-                                                Container(
-                                                  width: size.width * 1,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius: BorderRadius
-                                                          .circular(20),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                0.1),
-                                                            spreadRadius: 3,
-                                                            blurRadius: 12
-                                                        )
-                                                      ]
-                                                  ),
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      SizedBox(
-                                                        height: size.height *
-                                                            0.03,),
-                                                      FutureBuilder(
-                                                          future: _futureRequest,
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            if (snapshot.data ==
-                                                                null) {
+                                                                  height: size
+                                                                      .height * 0.4,
+                                                                  child: Center(
+                                                                    child: LoadingScreen(),
+                                                                  ),
+                                                                );
+                                                              }
                                                               return Container(
                                                                 height: size
                                                                     .height * 0.4,
-                                                                child: Center(
-                                                                  child: LoadingScreen(),
-                                                                ),
-                                                              );
-                                                            }
-                                                            return Container(
-                                                              height: size
-                                                                  .height * 0.4,
-                                                              child: ListView
-                                                                  .builder(
-                                                                  itemCount: snapshot
-                                                                      .data
-                                                                      .length,
-                                                                  itemBuilder: (
-                                                                      BuildContext context,
-                                                                      int index) {
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .all(
-                                                                          15.0),
-                                                                      child: Row(
-                                                                        children: <
-                                                                            Widget>[
-                                                                          Container(
-                                                                            height: 50,
-                                                                            width: 60,
-                                                                            decoration: BoxDecoration(
-                                                                              shape: BoxShape
-                                                                                  .rectangle,
-                                                                            ),
-                                                                            child: ClipRRect(
-                                                                                borderRadius:
-                                                                                BorderRadius
-                                                                                    .circular(
-                                                                                    5),
-                                                                                child: Image
-                                                                                    .asset(
-                                                                                  "assets/images/lari2.jpg",
-                                                                                  fit: BoxFit
-                                                                                      .cover,)),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width: size
-                                                                                .width *
-                                                                                0.09,),
-                                                                          Column(
-                                                                            crossAxisAlignment: CrossAxisAlignment
-                                                                                .start,
-                                                                            children: <
-                                                                                Widget>[
-                                                                              Text(
-                                                                                  "6 hours ago"),
-                                                                              Row(
-                                                                                children: <
-                                                                                    Widget>[
-                                                                                  Container(
-                                                                                    child: Text(
-                                                                                        "Syazwan Asraf"),
-                                                                                  ),
-                                                                                  SizedBox(
-                                                                                    width: size
-                                                                                        .width *
-                                                                                        0.08,),
-                                                                                  Container(
-                                                                                    child: Row(
-                                                                                      children: <
-                                                                                          Widget>[
-                                                                                        Row(
-                                                                                          children: <
-                                                                                              Widget>[
-                                                                                            Icon(
-                                                                                                Icons
-                                                                                                    .thumb_up),
-                                                                                            Text(
-                                                                                                "1")
-                                                                                          ],
-                                                                                        ),
-                                                                                        SizedBox(
-                                                                                          width: size
-                                                                                              .width *
-                                                                                              0.05,),
-                                                                                        Row(
-                                                                                          children: <
-                                                                                              Widget>[
-                                                                                            Icon(
-                                                                                                Icons
-                                                                                                    .comment),
-                                                                                            Text(
-                                                                                                "1")
-                                                                                          ],
-                                                                                        )
-                                                                                      ],
-                                                                                    ),
-                                                                                  )
-                                                                                ],
-                                                                              )
-                                                                            ],
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    );
-                                                                  }
-                                                              ),
-                                                            );
-                                                          }
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Container(
-                                                  height: 30,
-                                                  width: 150,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius
-                                                          .circular(20),
-                                                      color: kGradient2
-                                                  ),
-                                                  child: Center(
-                                                    child: Text("Your Requests",
-                                                      style: TextStyle(
-                                                          fontWeight: FontWeight
-                                                              .w700,
-                                                          fontFamily: "Muli",
-                                                          color: Colors.white
-                                                      ),),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(19.0),
-                                          child: Container(
-                                            child: Stack(
-                                              children: <Widget>[
-                                                Container(
-                                                  width: size.width * 1,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius: BorderRadius
-                                                          .circular(20),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                0.1),
-                                                            spreadRadius: 3,
-                                                            blurRadius: 12
-                                                        )
-                                                      ]
-                                                  ),
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      SizedBox(
-                                                        height: size.height *
-                                                            0.03,),
-                                                      FutureBuilder(
-                                                          future: _futureEvent,
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            if (snapshot.data ==
-                                                                null) {
-                                                              return Container(
-                                                                child: Center(
-                                                                  child: LoadingScreen(),
-                                                                ),
-                                                              );
-                                                            }
-                                                            return Container(
-                                                              height: size
-                                                                  .height * 0.4,
-                                                              child: ListView
-                                                                  .builder(
-                                                                  itemCount: snapshot
-                                                                      .data
-                                                                      .length,
-                                                                  itemBuilder: (
-                                                                      BuildContext context,
-                                                                      int index) {
-                                                                    return Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .all(
-                                                                          15.0),
-                                                                      child: Row(
-                                                                        children: <
-                                                                            Widget>[
-                                                                          Container(
-                                                                            height: 80,
-                                                                            width: 60,
-                                                                            decoration: BoxDecoration(
-                                                                              shape: BoxShape
-                                                                                  .rectangle,
-                                                                            ),
-                                                                            child: ClipRRect(
-                                                                                borderRadius:
-                                                                                BorderRadius
-                                                                                    .circular(
-                                                                                    5),
-                                                                                child: Image
-                                                                                    .asset(
-                                                                                  "assets/images/lari2.jpg",
-                                                                                  fit: BoxFit
-                                                                                      .cover,)),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width: size
-                                                                                .width *
-                                                                                0.04,),
-                                                                          Column(
-                                                                            crossAxisAlignment: CrossAxisAlignment
-                                                                                .start,
-                                                                            children: <
-                                                                                Widget>[
-                                                                            Text(
-                                                                              snapshot.data[index].name),
-                                                                              Row(
-                                                                                children: <
-                                                                                    Widget>[
-                                                                                  Container(
-                                                                                    child: Text(
-                                                                                        "6 hours ago")
-                                                                                  ),
-                                                                                  SizedBox(
-                                                                                    width: size
-                                                                                        .width *
-                                                                                        0.05,),
-
-                                                                                ],
+                                                                child: ListView
+                                                                    .builder(
+                                                                    itemCount: snapshot
+                                                                        .data
+                                                                        .length,
+                                                                    itemBuilder: (
+                                                                        BuildContext context,
+                                                                        int index) {
+                                                                      return Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            15.0),
+                                                                        child: Row(
+                                                                          children: <
+                                                                              Widget>[
+                                                                            Container(
+                                                                              height: 50,
+                                                                              width: 60,
+                                                                              decoration: BoxDecoration(
+                                                                                shape: BoxShape
+                                                                                    .rectangle,
                                                                               ),
-                                                                              Container(
-                                                                                child: Row(
+                                                                              child: ClipRRect(
+                                                                                  borderRadius:
+                                                                                  BorderRadius
+                                                                                      .circular(
+                                                                                      5),
+                                                                                  child: Image
+                                                                                      .asset(
+                                                                                    "assets/images/lari2.jpg",
+                                                                                    fit: BoxFit
+                                                                                        .cover,)),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: size
+                                                                                  .width *
+                                                                                  0.09,),
+                                                                            Column(
+                                                                              crossAxisAlignment: CrossAxisAlignment
+                                                                                  .start,
+                                                                              children: <
+                                                                                  Widget>[
+                                                                                Text(
+                                                                                    "6 hours ago"),
+                                                                                Row(
                                                                                   children: <
                                                                                       Widget>[
-
-                                                                                    IconButton(
-                                                                                      icon: Icon(Icons.edit,color: Colors.black),
-                                                                                      onPressed: (){
-                                                                                        Navigator.push(
-                                                                                          context,
-                                                                                          MaterialPageRoute(
-                                                                                              builder: (context) => EditEvent()),
-                                                                                        );
-                                                                                      },
+                                                                                    Container(
+                                                                                      child: Text(
+                                                                                          "Syazwan Asraf"),
                                                                                     ),
-                                                                                    IconButton(
-                                                                                      icon: Icon(Icons.delete_forever,color: Colors.black,),
-                                                                                      onPressed: (){
-                                                                                        _eventDeleteDialog(snapshot.data[index].id);
-                                                                                      },
-                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      width: size
+                                                                                          .width *
+                                                                                          0.08,),
+                                                                                    Container(
+                                                                                      child: Row(
+                                                                                        children: <
+                                                                                            Widget>[
+                                                                                          Row(
+                                                                                            children: <
+                                                                                                Widget>[
+                                                                                              Icon(
+                                                                                                  Icons
+                                                                                                      .thumb_up),
+                                                                                              Text(
+                                                                                                  "1")
+                                                                                            ],
+                                                                                          ),
+                                                                                          SizedBox(
+                                                                                            width: size
+                                                                                                .width *
+                                                                                                0.05,),
+                                                                                          Row(
+                                                                                            children: <
+                                                                                                Widget>[
+                                                                                              Icon(
+                                                                                                  Icons
+                                                                                                      .comment),
+                                                                                              Text(
+                                                                                                  "1")
+                                                                                            ],
+                                                                                          )
+                                                                                        ],
+                                                                                      ),
+                                                                                    )
                                                                                   ],
-                                                                                ),
-                                                                              )
-                                                                            ],
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    );
-                                                                  }
-                                                              ),
-                                                            );
-                                                          }
-                                                      ),
-                                                    ],
+                                                                                )
+                                                                              ],
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      );
+                                                                    }
+                                                                ),
+                                                              );
+                                                            }
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                                Container(
-                                                  height: 30,
-                                                  width: 150,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius
-                                                          .circular(20),
-                                                      color: kGradient2
+                                                  Container(
+                                                    height: 30,
+                                                    width: 150,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius
+                                                            .circular(20),
+                                                        color: kGradient2
+                                                    ),
+                                                    child: Center(
+                                                      child: Text("Your Requests",
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight
+                                                                .w700,
+                                                            fontFamily: "Muli",
+                                                            color: Colors.white
+                                                        ),),
+                                                    ),
                                                   ),
-                                                  child: Center(
-                                                    child: Text("Event Added",
-                                                      style: TextStyle(
-                                                          fontWeight: FontWeight
-                                                              .w700,
-                                                          fontFamily: "Muli",
-                                                          color: Colors.white
-                                                      ),),
-                                                  ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.all(19.0),
+                                            child: Container(
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  Container(
+                                                    width: size.width * 1,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius: BorderRadius
+                                                            .circular(20),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color: Colors.black
+                                                                  .withOpacity(
+                                                                  0.1),
+                                                              spreadRadius: 3,
+                                                              blurRadius: 12
+                                                          )
+                                                        ]
+                                                    ),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.03,),
+                                                        FutureBuilder(
+                                                            future: _futureEvent,
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              if (snapshot.data ==
+                                                                  null) {
+                                                                return Container(
+                                                                  child: Center(
+                                                                    child: LoadingScreen(),
+                                                                  ),
+                                                                );
+                                                              }
+                                                              return Container(
+                                                                height: size
+                                                                    .height * 0.4,
+                                                                child: ListView
+                                                                    .builder(
+                                                                    itemCount: snapshot
+                                                                        .data
+                                                                        .length,
+                                                                    itemBuilder: (
+                                                                        BuildContext context,
+                                                                        int index) {
+                                                                      return Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            15.0),
+                                                                        child: Row(
+                                                                          children: <
+                                                                              Widget>[
+                                                                            Container(
+                                                                              height: 80,
+                                                                              width: 60,
+                                                                              decoration: BoxDecoration(
+                                                                                shape: BoxShape
+                                                                                    .rectangle,
+                                                                              ),
+                                                                              child: ClipRRect(
+                                                                                  borderRadius:
+                                                                                  BorderRadius
+                                                                                      .circular(
+                                                                                      5),
+                                                                                  child: Image
+                                                                                      .asset(
+                                                                                    "assets/images/lari2.jpg",
+                                                                                    fit: BoxFit
+                                                                                        .cover,)),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: size
+                                                                                  .width *
+                                                                                  0.04,),
+                                                                            Column(
+                                                                              crossAxisAlignment: CrossAxisAlignment
+                                                                                  .start,
+                                                                              children: <
+                                                                                  Widget>[
+                                                                              Text(
+                                                                                snapshot.data[index].name),
+                                                                                Row(
+                                                                                  children: <
+                                                                                      Widget>[
+                                                                                    Container(
+                                                                                      child: Text(
+                                                                                          "6 hours ago")
+                                                                                    ),
+                                                                                    SizedBox(
+                                                                                      width: size
+                                                                                          .width *
+                                                                                          0.05,),
+
+                                                                                  ],
+                                                                                ),
+                                                                                Container(
+                                                                                  child: Row(
+                                                                                    children: <
+                                                                                        Widget>[
+
+                                                                                      IconButton(
+                                                                                        icon: Icon(Icons.edit,color: Colors.black),
+                                                                                        onPressed: (){
+                                                                                          Navigator.push(
+                                                                                            context,
+                                                                                            MaterialPageRoute(
+                                                                                                builder: (context) => EditEvent()),
+                                                                                          );
+                                                                                        },
+                                                                                      ),
+                                                                                      IconButton(
+                                                                                        icon: Icon(Icons.delete_forever,color: Colors.black,),
+                                                                                        onPressed: (){
+                                                                                          _eventDeleteDialog(snapshot.data[index].id);
+                                                                                        },
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                )
+                                                                              ],
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      );
+                                                                    }
+                                                                ),
+                                                              );
+                                                            }
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    height: 30,
+                                                    width: 150,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius
+                                                            .circular(20),
+                                                        color: kGradient2
+                                                    ),
+                                                    child: Center(
+                                                      child: Text("Event Added",
+                                                        style: TextStyle(
+                                                            fontWeight: FontWeight
+                                                                .w700,
+                                                            fontFamily: "Muli",
+                                                            color: Colors.white
+                                                        ),),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }
-                          ),
-                        ],
+                                  );
+                                }
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             )

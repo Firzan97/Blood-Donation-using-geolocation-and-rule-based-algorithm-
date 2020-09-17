@@ -39,7 +39,13 @@ class BloodEventDetail extends StatelessWidget {
                       return Container(
                         width: size.width,
                         decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.9),
+                            gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  Color(0xffffbcaf),
+                                  kGradient2.withOpacity(0.4)
+                                ]),
                             boxShadow: [
                               BoxShadow(
                                   color: Colors.grey.withOpacity(0.2),
@@ -104,7 +110,19 @@ class BloodEventDetail extends StatelessWidget {
                                                 child: Container(
                                                   height: 40,
                                                   decoration: BoxDecoration(
-                                                      color: kPrimaryColor,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment.topRight,
+                                                          end: Alignment.bottomLeft,
+                                                          colors: [
+                                                            Color(0xffffbcaf),
+                                                            kGradient2.withOpacity(0.4)
+                                                          ]),boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.3),
+                                                        blurRadius: 12,
+                                                        spreadRadius: 3)
+                                                  ],
                                                       borderRadius: BorderRadius.circular(20)
                                                   ),
                                                   child: Padding(
@@ -136,8 +154,20 @@ class BloodEventDetail extends StatelessWidget {
                                                 child: Container(
                                                   height: 40,
                                                   decoration: BoxDecoration(
-                                                      color: kPrimaryColor,
-                                                      borderRadius: BorderRadius.circular(20)
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment.topRight,
+                                                          end: Alignment.bottomLeft,
+                                                          colors: [
+                                                            Color(0xffffbcaf),
+                                                            kGradient2.withOpacity(0.4)
+                                                          ]),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors.grey
+                                                                .withOpacity(0.3),
+                                                            blurRadius: 12,
+                                                            spreadRadius: 3)
+                                                      ],borderRadius: BorderRadius.circular(20)
                                                   ),
                                                   child: Padding(
                                                     padding: const EdgeInsets.all(8.0),
@@ -168,7 +198,19 @@ class BloodEventDetail extends StatelessWidget {
                                                 child: Container(
                                                   height: 40,
                                                   decoration: BoxDecoration(
-                                                      color: kPrimaryColor,
+                                                      gradient: LinearGradient(
+                                                          begin: Alignment.topRight,
+                                                          end: Alignment.bottomLeft,
+                                                          colors: [
+                                                            Color(0xffffbcaf),
+                                                            kGradient2.withOpacity(0.4)
+                                                          ]),   boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.3),
+                                                        blurRadius: 12,
+                                                        spreadRadius: 3)
+                                                  ],
                                                       borderRadius: BorderRadius.circular(20)
                                                   ),
                                                   child: Padding(
@@ -203,13 +245,18 @@ class BloodEventDetail extends StatelessWidget {
                                         padding: const EdgeInsets.only(left:15.0,right: 15.0,bottom: 15.0),
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              color: kPrimaryColor,
-                                              borderRadius:
+                                              gradient: LinearGradient(
+                                                  begin: Alignment.topRight,
+                                                  end: Alignment.bottomLeft,
+                                                  colors: [
+                                                    Color(0xffffbcaf),
+                                                    kGradient2.withOpacity(0.4)
+                                                  ]),                                              borderRadius:
                                                   BorderRadius.circular(10),
                                               boxShadow: [
                                                 BoxShadow(
-                                                    color: Colors.black
-                                                        .withOpacity(0.1),
+                                                    color: Colors.grey
+                                                        .withOpacity(0.3),
                                                     blurRadius: 12,
                                                     spreadRadius: 3)
                                               ]),
@@ -240,7 +287,7 @@ class BloodEventDetail extends StatelessWidget {
                                       Container(
                                         height: 40,
                                         decoration: BoxDecoration(
-                                            color: kGradient1,
+                                            color: kPrimaryColor,
                                             borderRadius:
                                                 BorderRadius.circular(20)),
                                         child: FlatButton(

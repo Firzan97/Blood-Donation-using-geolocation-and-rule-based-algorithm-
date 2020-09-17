@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant/constant.dart';
+import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/profile/profile.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +10,7 @@ import 'package:easy_blood/welcome/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geocoder/geocoder.dart';
 
@@ -37,7 +39,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _mobileController = new TextEditingController();
   TextEditingController _weightController = new TextEditingController();
   TextEditingController _heightController = new TextEditingController();
-
+  var pr;
 
   getUserAddress()async{
     final coordinates = new Coordinates(latitude, longitude);
@@ -109,6 +111,7 @@ class _EditProfileState extends State<EditProfile> {
       "weight": _weightController.text!="" ? _weightController.text : user['weight'].toString()
     }).then((result) {
       setStatus(result.statusCode == 200 ? result.body : errMessage);
+      pr.hide();
     }).catchError((error) {
       setStatus(error);
     });
@@ -135,12 +138,27 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
     getUserData();
     getUserLocation();
-    getUserAddress();
+//    getUserAddress();
 
   }
 
   @override
   Widget build(BuildContext context) {
+    pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
+    pr.style(
+        message: 'Loading....',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: LoadingScreen(),
+        elevation: 20.0,
+        insetAnimCurve: Curves.elasticOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400,fontFamily: "Muli"),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
+    );
     Size size = MediaQuery.of(context).size;
       return Scaffold(
         body: SingleChildScrollView(
@@ -184,7 +202,7 @@ class _EditProfileState extends State<EditProfile> {
                               ],
                               image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: user['imageURL']==null ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.jpg') : NetworkImage(user['imageURL'])
+                                  image: user==null ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.png') : NetworkImage(user['imageURL'])
                               )
                           ),
                         ),
@@ -408,11 +426,9 @@ class _EditProfileState extends State<EditProfile> {
                                     borderRadius: BorderRadius.circular(20)),
                                 child: Text("CONFIRM"),
                                 onPressed: () {
+                                  pr.show();
                                   upload();
                                   fetchUser();
-                                  setState(() {
-
-                                  });
                                 },
                               ),
                             ),

@@ -574,7 +574,7 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             width: size.width * 0.03,
                                           ),
-                                          Text("Blood Type."),
+                                          Text("Blood Type:"),
                                           user["bloodType"]==null ? Text("None", style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w700),) : Text(
@@ -586,7 +586,7 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             width: size.width * 0.1,
                                           ),
-                                          Text("Age."),
+                                          Text("Age:"),
                                           Text(
                                             '${user["age"]}',
                                             style: TextStyle(
@@ -596,10 +596,10 @@ class _HomeState extends State<Home> {
                                           SizedBox(
                                             width: size.width * 0.1,
                                           ),
-                                          Text("Weight."),
+                                          Text("Weight:"),
 
                                           Text(
-                                            user["weight"]==null ? "None" : user["weight"],
+                                            user["weight"]==null ? "None" : "${user["weight"]} KG",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w700),
@@ -989,8 +989,17 @@ class _HomeState extends State<Home> {
                                           children: <Widget>[
                                             Text("Recent Requests",style: TextStyle(
                                                 fontWeight: FontWeight.w700),),
-                                            Text("See All",style: TextStyle(
-                                                fontWeight: FontWeight.w700),)
+                                            GestureDetector(
+                                              onTap: (){
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => BloodRequest()),
+                                                );
+                                              },
+                                              child: Text("See All",style: TextStyle(
+                                                  fontWeight: FontWeight.w700),),
+                                            )
                                           ],
                                         ),
                                       ),
