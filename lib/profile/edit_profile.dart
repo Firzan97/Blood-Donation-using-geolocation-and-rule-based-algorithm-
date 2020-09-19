@@ -135,8 +135,8 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState(){
-    super.initState();
     getUserData();
+    super.initState();
     getUserLocation();
 //    getUserAddress();
 
@@ -202,7 +202,7 @@ class _EditProfileState extends State<EditProfile> {
                               ],
                               image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: user==null ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.png') : NetworkImage(user['imageURL'])
+                                  image: user!=null ? user['imageURL']==null  ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadProfileImage.png') : NetworkImage(user['imageURL']) : NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadProfileImage.png')
                               )
                           ),
                         ),

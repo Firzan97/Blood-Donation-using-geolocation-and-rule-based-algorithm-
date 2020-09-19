@@ -9,7 +9,7 @@ import 'package:easy_blood/splash.dart';
 import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
-
+import 'package:easy_blood/socketIoChat/main.dart';
 void main() => runApp(MaterialApp(home: MyApp()));
 
 class MyApp extends StatefulWidget {
@@ -34,9 +34,7 @@ final locaterService = GeolocationService();
         '/profile': (BuildContext context) => Profile(),
         '/editprofile': (BuildContext context) => EditProfile(),
         '/dashboard': (BuildContext context) => Dashboard(),
-        '/secondScreen': (BuildContext context) => SecondScreen(),
-
-
+        '/secondScreen': (BuildContext context) => HomeApp(),
       }
     );
   }
