@@ -48,28 +48,20 @@ class _EditProfileState extends State<EditProfile> {
     print("${first.featureName} : ${first.addressLine}");
   }
 
-  Future getImageCamera() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-
+  Future getImage(image) async {
+    var pickedFile;
+    if(image=="gallery"){
+      pickedFile = await picker.getImage(source: ImageSource.gallery);
+    }
+    else{
+      pickedFile = await picker.getImage(source: ImageSource.camera);
+    }
     setState(() {
       _image = File(pickedFile.path);
       tmpFile = _image;
       base64Image = base64Encode(tmpFile.readAsBytesSync());
-      uploadEndPoint = "http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/api/user/${user['_id']}";
+      uploadEndPoint = apiURL+"user/${user['_id']}";
     });
-    print(base64Image);
-  }
-
-  Future getImageGallery() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = File(pickedFile.path);
-      tmpFile = _image;
-      base64Image = base64Encode(tmpFile.readAsBytesSync());
-      uploadEndPoint = "http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/api/user/${user['_id']}";
-    });
-    print(base64Image);
   }
 
   setStatus(String message){
@@ -221,7 +213,8 @@ class _EditProfileState extends State<EditProfile> {
                                     splashColor: Colors.black, // inkwell color
                                     child: SizedBox(width: 36, height: 36, child: Icon(Icons.photo_library)),
                                     onTap: () {
-                                      getImageGallery();
+                                      const image="gallery";
+                                      getImage(image);
 
 
                                     },
@@ -236,7 +229,8 @@ class _EditProfileState extends State<EditProfile> {
                                     splashColor: Colors.black, // inkwell color
                                     child: SizedBox(width: 36, height: 36, child: Icon(Icons.camera_alt)),
                                     onTap: () {
-                                      getImageCamera();
+                                      const image="camera";
+                                      getImage(image);
 
                                     },
                                   ),

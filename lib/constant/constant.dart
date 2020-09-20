@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 const kPrimaryColor = Color(0xffd72323);
@@ -16,7 +14,7 @@ begin: Alignment.topRight,
 end: Alignment.bottomLeft,
 colors: [kGradient1, kGradient2]);
 
-
+const apiURL="http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/api/";
 
 const double padding = 16.0;
 const double avatarRadius = 66.0;
