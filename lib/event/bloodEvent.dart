@@ -13,6 +13,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../component/button_round.dart';
 import '../component/input_round.dart';
@@ -71,10 +72,24 @@ class _BloodEventState extends State<BloodEvent> {
   final _formKey = GlobalKey<FormState>();
   static final Keys1 = GlobalKey();
   static final Keys2 = GlobalKey();
-
+  var pr;
   @override
   Widget build(BuildContext context) {
-
+    pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
+    pr.style(
+        message: 'Loading....',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: LoadingScreen(),
+        elevation: 20.0,
+        insetAnimCurve: Curves.elasticOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400,fontFamily: "Muli"),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
+    );
     Size size = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
@@ -554,6 +569,7 @@ borderRadius: BorderRadius.circular(25),
                                                     press: () async {
                                                       if (_formKey.currentState
                                                           .validate()) {
+                                                        pr.show();
                                                         print("Validate");
                                                         addEvent();
 
@@ -650,6 +666,7 @@ borderRadius: BorderRadius.circular(25),
     print(res.statusCode);
     if(res.statusCode==200){
       getQue();
+      pr.hide();
       eventInfoDialog(context);
     }
 

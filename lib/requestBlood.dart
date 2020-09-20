@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/request/blood_request.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/service/geolocation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RequestBlood extends StatefulWidget {
@@ -25,7 +28,7 @@ class _RequestBloodState extends State<RequestBlood> {
   GoogleMapController _controller;
   GoogleMapController _controller2;
   bool isMapCreated = false;
-
+  var pr;
   changeMapMode() {
     getJsonFile("assets/light.json").then(setMapStyle);
   }
@@ -52,12 +55,25 @@ class _RequestBloodState extends State<RequestBlood> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
+    pr.style(
+        message: 'Loading....',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: LoadingScreen(),
+        elevation: 20.0,
+        insetAnimCurve: Curves.elasticOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400,fontFamily: "Muli"),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
+    );
     if (isMapCreated) {
       changeMapMode();
     }
-    return MaterialApp(
-        home: Scaffold(
+    return  Scaffold(
             body: (currentPosition != null)
                 ? Container(
                     child: Column(
@@ -308,6 +324,7 @@ class _RequestBloodState extends State<RequestBlood> {
                                                 ]),
                                             child: FlatButton(
                                               onPressed: () {
+                                                pr.show();
                                                 addEvent();
                                               },
                                               shape: RoundedRectangleBorder(
@@ -332,7 +349,7 @@ class _RequestBloodState extends State<RequestBlood> {
                   )
                 : Container(
                     child: Center(child: Text("We dont have your location")),
-                  )));
+                  ));
   }
 
   Future<void> addEvent() async {
@@ -353,6 +370,7 @@ class _RequestBloodState extends State<RequestBlood> {
     var res = await Api().postData(data, "request");
     print(res.statusCode);
     if (res.statusCode == 200) {
+      pr.hide();
       eventInfoDialog(context);
     }
   }
@@ -371,10 +389,10 @@ class _RequestBloodState extends State<RequestBlood> {
                 icon: Icon(Icons.close),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => super.widget));
+                          builder: (BuildContext context) => BloodRequest()));
                 },
               )
             ],

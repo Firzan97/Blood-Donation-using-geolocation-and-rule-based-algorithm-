@@ -891,30 +891,22 @@ class _ProfileState extends State<Profile> {
                                                                                       child: Row(
                                                                                         children: <
                                                                                             Widget>[
-                                                                                          Row(
-                                                                                            children: <
-                                                                                                Widget>[
-                                                                                              Icon(
-                                                                                                  Icons
-                                                                                                      .thumb_up),
-                                                                                              Text(
-                                                                                                  "1")
-                                                                                            ],
+                                                                                          IconButton(
+                                                                                            onPressed: () {
+                                                                                              _DeleteDialog(snapshot.data[index].id,'event');
+
+                                                                                            },
+                                                                                            icon: Icon(
+                                                                                              Icons.edit,
+                                                                                            ),
                                                                                           ),
-                                                                                          SizedBox(
-                                                                                            width: size
-                                                                                                .width *
-                                                                                                0.05,),
-                                                                                          Row(
-                                                                                            children: <
-                                                                                                Widget>[
-                                                                                              Icon(
-                                                                                                  Icons
-                                                                                                      .comment),
-                                                                                              Text(
-                                                                                                  "1")
-                                                                                            ],
-                                                                                          )
+                                                                                          IconButton(
+                                                                                              icon: Icon(Icons
+                                                                                                  .delete_forever),
+                                                                                            onPressed: () {
+                                                                                              _DeleteDialog(snapshot.data[index].id,'request');
+
+                                                                                            },)
                                                                                         ],
                                                                                       ),
                                                                                     )
@@ -1072,7 +1064,7 @@ class _ProfileState extends State<Profile> {
                                                                                       IconButton(
                                                                                         icon: Icon(Icons.delete_forever,color: Colors.black,),
                                                                                         onPressed: (){
-                                                                                          _eventDeleteDialog(snapshot.data[index].id);
+                                                                                          _DeleteDialog(snapshot.data[index].id,'event');
                                                                                         },
                                                                                       ),
                                                                                     ],
@@ -1130,13 +1122,13 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Future<bool> _eventDeleteDialog(eventId) {
+  Future<bool> _DeleteDialog(Id, activity) {
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Center(child: Text('Delete Event')),
-          content: Text('Confirm to delete event?'),
+          title: Center(child: Text('Delete ${activity}')),
+          content: Text('Confirm to delete ${activity}?'),
           actions: <Widget>[
             FlatButton(
               child: Text('No'),
@@ -1148,7 +1140,7 @@ class _ProfileState extends State<Profile> {
               child: Text('Yes'),
               onPressed: () {
                 Navigator.of(context).pop(true);
-                _deleteEvent(eventId);
+                _deleteEvent(Id);
               },
             )
           ],
