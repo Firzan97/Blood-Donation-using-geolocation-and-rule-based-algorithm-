@@ -68,8 +68,8 @@ class _HomeState extends State<Home> {
     super.initState();
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-        addUserNotification;
+        print("haiyyaaa");
+        addUserNotification();
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
