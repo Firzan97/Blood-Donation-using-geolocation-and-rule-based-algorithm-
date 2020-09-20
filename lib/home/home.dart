@@ -69,6 +69,7 @@ class _HomeState extends State<Home> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
+        addUserNotification;
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
@@ -1279,6 +1280,19 @@ class _HomeState extends State<Home> {
   }
 
 
+  Future<void> addUserNotification() async{
+
+    var data = {
+      "notification_id": "5f67900cac3b0000960069b2",
+      "user_id": user['_id'],
+      "is_read": false,
+    };
+    var res = await Api().postData(data, "userNotification");
+    print(res.statusCode);
+    if (res.statusCode == 200) {
+      print("notification berjaya");
+    }
+  }
 
 }
 

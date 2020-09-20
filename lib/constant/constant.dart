@@ -14,7 +14,7 @@ begin: Alignment.topRight,
 end: Alignment.bottomLeft,
 colors: [kGradient1, kGradient2]);
 
-const apiURL="http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/api/";
+const apiURL="http://192.168.1.10:8000/";
 
 const double padding = 16.0;
 const double avatarRadius = 66.0;
