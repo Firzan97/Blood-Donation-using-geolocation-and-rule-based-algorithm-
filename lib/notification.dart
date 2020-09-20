@@ -3,9 +3,14 @@ import 'dart:convert';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
 import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/model/notification.dart';
+import 'package:easy_blood/model/user_notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'loadingScreen.dart';
 
 class Notifications extends StatefulWidget {
   @override
@@ -13,6 +18,16 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+
+  List<NotificationData> notimessage=[];
+
+
+  @override
+  void initState(){
+    super.initState();
+    fetchUserNotification();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -109,245 +124,59 @@ class _NotificationsState extends State<Notifications> {
                                           borderRadius:
                                               BorderRadius.only(topLeft: Radius.circular(30),bottomLeft: Radius.circular(30))),
                                       child: FutureBuilder(
-                                        future: addUserNotifiction(),
-                                        child: SingleChildScrollView(
-                                          child: Column(
-                                            children: <Widget>[
-                                              ListTile(
-                                                leading: Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image:
-                                                              AssetImage("assets/images/lari2.jpg"))),
-                                                ),
-                                                title: RichText(
-                                                  text: TextSpan(
-                                                    text: 'Firzan, ',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.w600,
-                                                        fontSize: 18.0,
-                                                    color: Colors.black),
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                          text: 'has request blood from you',
-                                                          style: TextStyle(
-                                                              fontWeight: FontWeight.w300,
-                                                              color: Colors.black)),
+                                        future: fetchUserNotification(),
+                                        builder: (context,snapshot){
+                                          if (snapshot.data == null) {
+
+                                            return Container(
+                                              height: 170,
+                                              width: size.width*0.9,
+                                              child: Center(
+                                                child: LoadingScreen(),
+                                              ),
+                                            );
+                                          }
+                                          return ListView.builder(
+                                            itemCount: snapshot.data.length,
+                                              itemBuilder: (context,index){
+                                                return SingleChildScrollView(
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        leading: Container(
+                                                          width: 50,
+                                                          height: 50,
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape.circle,
+                                                              image: DecorationImage(
+                                                                  fit: BoxFit.cover,
+                                                                  image:
+                                                                  AssetImage("assets/images/lari2.jpg"))),
+                                                        ),
+                                                        title: RichText(
+                                                          text: TextSpan(
+                                                            text: 'Firzan, ',
+                                                            style: TextStyle(
+                                                                fontWeight: FontWeight.w600,
+                                                                fontSize: 18.0,
+                                                                color: Colors.black),
+                                                            children: <TextSpan>[
+                                                              TextSpan(
+                                                                  text: notimessage[index].message,
+                                                                  style: TextStyle(
+                                                                      fontWeight: FontWeight.w300,
+                                                                      color: Colors.black)),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        subtitle: Text("7 minutes ago.."),
+                                                      ),
                                                     ],
                                                   ),
-                                                ),
-                                                subtitle: Text("7 minutes ago.."),
-                                              ),
-                                              ListTile(
-                                                leading: Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image:
-                                                          AssetImage("assets/images/lari2.jpg"))),
-                                                ),
-                                                title: RichText(
-                                                  text: TextSpan(
-                                                    text: 'Firzan, ',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 18.0,
-                                                        color: Colors.black),
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                          text: 'has request blood from you',
-                                                          style: TextStyle(
-                                                              fontWeight: FontWeight.w300,
-                                                              color: Colors.black)),
-                                                    ],
-                                                  ),
-                                                ),
-                                                subtitle: Text("7 minutes ago.."),
-                                              ),
-                                              ListTile(
-                                                leading: Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image:
-                                                          AssetImage("assets/images/lari2.jpg"))),
-                                                ),
-                                                title: RichText(
-                                                  text: TextSpan(
-                                                    text: 'Firzan, ',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 18.0,
-                                                        color: Colors.black),
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                          text: 'has request blood from you',
-                                                          style: TextStyle(
-                                                              fontWeight: FontWeight.w300,
-                                                              color: Colors.black)),
-                                                    ],
-                                                  ),
-                                                ),
-                                                subtitle: Text("7 minutes ago.."),
-                                              ),
-                                              ListTile(
-                                                leading: Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image:
-                                                          AssetImage("assets/images/lari2.jpg"))),
-                                                ),
-                                                title: RichText(
-                                                  text: TextSpan(
-                                                    text: 'Firzan, ',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 18.0,
-                                                        color: Colors.black),
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                          text: 'has request blood from you',
-                                                          style: TextStyle(
-                                                              fontWeight: FontWeight.w300,
-                                                              color: Colors.black)),
-                                                    ],
-                                                  ),
-                                                ),
-                                                subtitle: Text("7 minutes ago.."),
-                                              ),
-                                              ListTile(
-                                                leading: Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image:
-                                                          AssetImage("assets/images/lari2.jpg"))),
-                                                ),
-                                                title: RichText(
-                                                  text: TextSpan(
-                                                    text: 'Firzan, ',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 18.0,
-                                                        color: Colors.black),
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                          text: 'has request blood from you',
-                                                          style: TextStyle(
-                                                              fontWeight: FontWeight.w300,
-                                                              color: Colors.black)),
-                                                    ],
-                                                  ),
-                                                ),
-                                                subtitle: Text("7 minutes ago.."),
-                                              ),
-                                              ListTile(
-                                                leading: Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image:
-                                                          AssetImage("assets/images/lari2.jpg"))),
-                                                ),
-                                                title: RichText(
-                                                  text: TextSpan(
-                                                    text: 'Firzan, ',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 18.0,
-                                                        color: Colors.black),
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                          text: 'has request blood from you',
-                                                          style: TextStyle(
-                                                              fontWeight: FontWeight.w300,
-                                                              color: Colors.black)),
-                                                    ],
-                                                  ),
-                                                ),
-                                                subtitle: Text("7 minutes ago.."),
-                                              ),
-                                              ListTile(
-                                                leading: Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image:
-                                                          AssetImage("assets/images/lari2.jpg"))),
-                                                ),
-                                                title: RichText(
-                                                  text: TextSpan(
-                                                    text: 'Firzan, ',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 18.0,
-                                                        color: Colors.black),
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                          text: 'has request blood from you',
-                                                          style: TextStyle(
-                                                              fontWeight: FontWeight.w300,
-                                                              color: Colors.black)),
-                                                    ],
-                                                  ),
-                                                ),
-                                                subtitle: Text("7 minutes ago.."),
-                                              ),
-                                              ListTile(
-                                                leading: Container(
-                                                  width: 50,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          fit: BoxFit.cover,
-                                                          image:
-                                                          AssetImage("assets/images/lari2.jpg"))),
-                                                ),
-                                                title: RichText(
-                                                  text: TextSpan(
-                                                    text: 'Firzan, ',
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.w700,
-                                                        fontSize: 18.0,
-                                                        color: Colors.black),
-                                                    children: <TextSpan>[
-                                                      TextSpan(
-                                                          text: 'has request blood from you',
-                                                          style: TextStyle(
-                                                              fontWeight: FontWeight.w300,
-                                                              color: Colors.black)),
-                                                    ],
-                                                  ),
-                                                ),
-                                                subtitle: Text("7 minutes ago.."),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                                );
+                                              });
+                                        }
+
                                       ),
                                     ),
                                   ),
@@ -366,17 +195,24 @@ class _NotificationsState extends State<Notifications> {
     );
   }
 
-  Future<List<UserNotification>> fetchEvent() async {
-
-    var res = await Api().getData("userNotification");
+  Future<List<UserNotification>> fetchUserNotification() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user= jsonDecode(localStorage.getString("user"));
+   print(user['_id']);
+    var res = await Api().getData("user/${user['_id']}/notification");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
       List<UserNotification> userNotifications = [];
       var count=0;
       for (var u in body) {
         count++;
-        userNotification userNotification = userNotification.fromJson(u);
+        UserNotification userNotification = UserNotification.fromJson(u);
         userNotifications.add(userNotification);
+
+        NotificationData a = userNotification.notification;
+        notimessage.add(a);
+        print("masukkk");
+
       }
 
       return userNotifications;

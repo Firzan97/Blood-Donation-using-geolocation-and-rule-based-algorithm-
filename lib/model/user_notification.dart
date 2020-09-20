@@ -5,7 +5,7 @@ class UserNotification {
   final String id;
   final String user_id;
   final String notification_id;
-  final Notification notification;
+  final NotificationData notification;
 
   UserNotification(this.id, this.user_id, this.notification_id, this.notification);
 
@@ -13,13 +13,12 @@ class UserNotification {
       : id = json['_id'],
         user_id = json['user_id'],
         notification_id = json['notification_id'],
-        notification = Notification.fromJson(json['notification']);
+        notification = NotificationData.fromJson(json['notification']);
 
 
   Map<String, dynamic> toJson() =>
       {
         '_id': id,
         'user_id': user_id,
-        'notification_id': notification_id,
       };
 }

@@ -8,6 +8,7 @@ import 'package:easy_blood/home/home.dart';
 import 'package:easy_blood/model/donation.dart';
 import 'package:easy_blood/model/user.dart';
 import 'package:easy_blood/profile/edit_profile.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/curvedBackground.dart';
@@ -330,6 +331,7 @@ class _ProfileState extends State<Profile> {
                                                 Padding(
                                                   padding: const EdgeInsets.all(5.0),
                                                   child: Container(
+                                                    width: size.width * 1,
                                                     decoration: BoxDecoration(
                                                         border: Border(
                                                             bottom: BorderSide(
@@ -337,61 +339,27 @@ class _ProfileState extends State<Profile> {
                                                                     .withOpacity(0.1),
                                                                 width: 1.0))
                                                     ),
-                                                    child: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-
+                                                    child: Column(
                                                       children: <Widget>[
-                                                        Padding(
-                                                          padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
-                                                          child: Icon(Icons
-                                                              .verified_user, size: 35),
-                                                        ),
-                                                        Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: <
-                                                              Widget>[
-                                                            Text(
-                                                                "Username"),
-                                                            Text(
-                                                                user["username"],style: TextStyle(
-                                                              fontWeight: FontWeight.w500
-                                                            ),),
-                                                            SizedBox(
-                                                              height: size
-                                                                  .height *
-                                                                  0.02,),
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: <Widget>[
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                                  child: FaIcon(FontAwesomeIcons.passport, size: 35,),
+                                                                ),
+                                                                Text("Username"),
+                                                              ],
+                                                            ),
+                                                            Text(user["username"]),
 
                                                           ],
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Container(
-                                                    child: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-
-                                                      children: <Widget>[
-                                                        Padding(
-                                                          padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
-                                                          child: Icon(Icons
-                                                              .supervised_user_circle, size: 35),
-                                                        ),
-                                                        Column(
-                                                          children: <
-                                                              Widget>[
-                                                            Text("Gender"),
-                                                            Text(
-                                                                user["gender"]),
-                                                            SizedBox(
-                                                              height: size
-                                                                  .height *
-                                                                  0.02,),
-                                                          ],
-                                                        ),
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.02,),
                                                       ],
                                                     ),
                                                   ),
@@ -407,27 +375,27 @@ class _ProfileState extends State<Profile> {
                                                                     .withOpacity(0.1),
                                                                 width: 1.0))
                                                     ),
-                                                    child: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-
+                                                    child: Column(
                                                       children: <Widget>[
-                                                        Padding(
-                                                          padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
-                                                          child: Icon(Icons.email, size: 35),
-                                                        ),
-                                                        Column(
-                                                          crossAxisAlignment: CrossAxisAlignment
-                                                              .start,
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: <Widget>[
-                                                            Text("Email"),
-                                                            Text(
-                                                                user["email"]),
-                                                            SizedBox(
-                                                              height: size.height *
-                                                                  0.02,),
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                                  child: FaIcon(FontAwesomeIcons.genderless, size: 35,),
+                                                                ),
+                                                                Text("Gender"),
+                                                              ],
+                                                            ),
+                                                            Text(user["gender"]),
 
                                                           ],
                                                         ),
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.02,),
                                                       ],
                                                     ),
                                                   ),
@@ -443,27 +411,63 @@ class _ProfileState extends State<Profile> {
                                                                     .withOpacity(0.1),
                                                                 width: 1.0))
                                                     ),
-                                                    child: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-
+                                                    child: Column(
                                                       children: <Widget>[
-                                                        Padding(
-                                                          padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
-                                                          child: Icon(Icons.person, size: 35),
-                                                        ),
-                                                        Column(
-                                                          crossAxisAlignment: CrossAxisAlignment
-                                                              .start,
-
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: <Widget>[
-                                                            Text("Age"),
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                                  child: Icon(Icons.email, size: 35,),
+                                                                ),
+                                                                Text("Email"),
+                                                              ],
+                                                            ),
+                                                            Text(user["email"]),
+
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.02,),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(5.0),
+                                                  child: Container(
+                                                    width: size.width * 1,
+                                                    decoration: BoxDecoration(
+                                                        border: Border(
+                                                            bottom: BorderSide(
+                                                                color: Colors.grey
+                                                                    .withOpacity(0.1),
+                                                                width: 1.0))
+                                                    ),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: <Widget>[
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                                  child: Icon(Icons.person, size: 35,),
+                                                                ),
+                                                                Text("Age"),
+                                                              ],
+                                                            ),
                                                             Text(user["age"]),
-                                                            SizedBox(
-                                                              height: size.height *
-                                                                  0.02,),
 
                                                           ],
                                                         ),
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.02,),
                                                       ],
                                                     ),
                                                   ),
@@ -479,25 +483,27 @@ class _ProfileState extends State<Profile> {
                                                                     .withOpacity(0.1),
                                                                 width: 1.0))
                                                     ),
-                                                    child: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                    child: Column(
                                                       children: <Widget>[
-                                                        Padding(
-                                                          padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
-                                                          child: Icon(Icons.phone, size: 35,),
-                                                        ),
-                                                        Column(
-                                                          crossAxisAlignment: CrossAxisAlignment
-                                                              .start,
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                           children: <Widget>[
-                                                            Text("Mobile Number"),
+                                                            Row(
+                                                              children: <Widget>[
+                                                                Padding(
+                                                                  padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
+                                                                  child: Icon(Icons.phone, size: 35,),
+                                                                ),
+                                                                Text("Mobile Number"),
+                                                              ],
+                                                            ),
                                                             Text(user["phoneNumber"]),
-                                                            SizedBox(
-                                                              height: size.height *
-                                                                  0.02,),
 
                                                           ],
                                                         ),
+                                                        SizedBox(
+                                                          height: size.height *
+                                                              0.02,),
                                                       ],
                                                     ),
                                                   ),
