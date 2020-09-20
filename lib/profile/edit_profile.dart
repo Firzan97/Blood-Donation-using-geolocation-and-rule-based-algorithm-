@@ -55,7 +55,7 @@ class _EditProfileState extends State<EditProfile> {
       _image = File(pickedFile.path);
       tmpFile = _image;
       base64Image = base64Encode(tmpFile.readAsBytesSync());
-      uploadEndPoint = "http://192.168.1.10:8000/api/user/${user['_id']}";
+      uploadEndPoint = "http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/api/user/${user['_id']}";
     });
     print(base64Image);
   }
@@ -67,7 +67,7 @@ class _EditProfileState extends State<EditProfile> {
       _image = File(pickedFile.path);
       tmpFile = _image;
       base64Image = base64Encode(tmpFile.readAsBytesSync());
-      uploadEndPoint = "http://192.168.1.10:8000/api/user/${user['_id']}";
+      uploadEndPoint = "http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/api/user/${user['_id']}";
     });
     print(base64Image);
   }
@@ -121,7 +121,7 @@ class _EditProfileState extends State<EditProfile> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
-      uploadEndPoint = "http://192.168.1.10:8000/api/user/${user['_id']}";
+      uploadEndPoint = "http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/api/user/${user['_id']}";
     });
   }
 

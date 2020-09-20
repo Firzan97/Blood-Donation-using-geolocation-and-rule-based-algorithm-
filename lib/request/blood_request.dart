@@ -690,6 +690,9 @@ class _BloodRequestState extends State<BloodRequest> {
             draggable: false,
             onTap: () {
               print("I m here");
+              print(user.email);
+              print(currentUser['email']);
+
             },
             position: LatLng(lat, lon)));
       }

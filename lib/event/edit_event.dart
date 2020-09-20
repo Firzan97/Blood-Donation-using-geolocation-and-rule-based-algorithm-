@@ -22,6 +22,13 @@ class _EditEventState extends State<EditEvent> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [kGradient1.withOpacity(0.7), kGradient2.withOpacity(0.7)]),
+
+          ),
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(15.0),
