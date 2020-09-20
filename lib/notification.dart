@@ -142,34 +142,48 @@ class _NotificationsState extends State<Notifications> {
                                                 return SingleChildScrollView(
                                                   child: Column(
                                                     children: <Widget>[
-                                                      ListTile(
-                                                        leading: Container(
-                                                          width: 50,
-                                                          height: 50,
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape.circle,
-                                                              image: DecorationImage(
-                                                                  fit: BoxFit.cover,
-                                                                  image:
-                                                                  AssetImage("assets/images/lari2.jpg"))),
-                                                        ),
-                                                        title: RichText(
-                                                          text: TextSpan(
-                                                            text: 'Firzan, ',
-                                                            style: TextStyle(
-                                                                fontWeight: FontWeight.w600,
-                                                                fontSize: 18.0,
-                                                                color: Colors.black),
-                                                            children: <TextSpan>[
-                                                              TextSpan(
-                                                                  text: notimessage[index].message,
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: GestureDetector(
+                                                          onTap: (){
+                                                            updateIsRead();
+                                                          },
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                              color: snapshot.data[index].is_read!=true ? Colors.grey : Colors.white,
+                                                              borderRadius: BorderRadius.circular(20)
+                                                            ),
+                                                            child: ListTile(
+                                                              leading: Container(
+                                                                width: 50,
+                                                                height: 50,
+                                                                decoration: BoxDecoration(
+                                                                    shape: BoxShape.circle,
+                                                                    image: DecorationImage(
+                                                                        fit: BoxFit.cover,
+                                                                        image:
+                                                                        AssetImage("assets/images/lari2.jpg"))),
+                                                              ),
+                                                              title: RichText(
+                                                                text: TextSpan(
+                                                                  text: 'Firzan, ',
                                                                   style: TextStyle(
-                                                                      fontWeight: FontWeight.w300,
-                                                                      color: Colors.black)),
-                                                            ],
+                                                                      fontWeight: FontWeight.w600,
+                                                                      fontSize: 15.0,
+                                                                      color: Colors.black),
+                                                                  children: <TextSpan>[
+                                                                    TextSpan(
+                                                                        text: notimessage[index].message,
+                                                                        style: TextStyle(
+                                                                            fontWeight: FontWeight.w300,
+                                                                            color: Colors.black)),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              subtitle: Text("7 minutes ago.."),
+                                                            ),
                                                           ),
                                                         ),
-                                                        subtitle: Text("7 minutes ago.."),
                                                       ),
                                                     ],
                                                   ),
@@ -193,6 +207,16 @@ class _NotificationsState extends State<Notifications> {
             )),
       ),
     );
+  }
+
+  Future<void> updateIsRead()async{
+
+    var data={
+      "is_read": true
+    };
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user= jsonDecode(localStorage.getString("user"));
+    var res = await Api().updateData(data,"user/${user['_id']}/userNotification");
   }
 
   Future<List<UserNotification>> fetchUserNotification() async {
