@@ -22,6 +22,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
@@ -50,6 +51,22 @@ class _HomeState extends State<Home> {
    var token;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
+  Future<void> initializeLocalNotifications() async {
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+    // app_icon needs to be a added as a drawable resource to the
+    // Android head project
+    var initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
+    var onDidReceiveLocalNotification;
+    var selectNotification;
+    var initializationSettingsIOS = IOSInitializationSettings(
+        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    var initializationSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: selectNotification);
+  }
+
   void getUserData()async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
      setState(() {
@@ -67,15 +84,17 @@ class _HomeState extends State<Home> {
   void initState(){
     super.initState();
     _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("haiyyaaa");
-        addUserNotification();
-      },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
+        addUserNotification();
       },
+      onMessage: (Map<String, dynamic> message) async {
+        addUserNotification();
+      },
+
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
+        addUserNotification();
       },
     );
     getUserData();

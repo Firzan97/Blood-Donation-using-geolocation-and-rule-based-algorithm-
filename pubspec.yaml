@@ -58,6 +58,8 @@ dependencies:
   progress_dialog: ^1.2.4
   firebase_messaging: ^7.0.0
   adhara_socket_io: ^0.4.2+1
+  flutter_local_notifications: ^1.4.4+4
+  timeago: ^2.0.27
 
 
 

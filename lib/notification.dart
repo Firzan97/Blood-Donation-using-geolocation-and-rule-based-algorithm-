@@ -3,12 +3,17 @@ import 'dart:convert';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
 import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/component/custom_dialog.dart';
+import 'package:easy_blood/component/custom_dialog_notification.dart';
 import 'package:easy_blood/model/notification.dart';
 import 'package:easy_blood/model/user_notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import 'loadingScreen.dart';
 
@@ -20,7 +25,7 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
 
   List<NotificationData> notimessage=[];
-
+  var color = Colors.white;
 
   @override
   void initState(){
@@ -139,20 +144,25 @@ class _NotificationsState extends State<Notifications> {
                                           return ListView.builder(
                                             itemCount: snapshot.data.length,
                                               itemBuilder: (context,index){
+                                                var time;
+                                                DateTime dateTime = DateTime.parse(snapshot.data[index].created_at);
+                                                DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+                                                time = dateFormat.format(dateTime);
                                                 return SingleChildScrollView(
                                                   child: Column(
                                                     children: <Widget>[
                                                       Padding(
                                                         padding: const EdgeInsets.all(8.0),
-                                                        child: GestureDetector(
-                                                          onTap: (){
-                                                            updateIsRead();
-                                                          },
-                                                          child: Container(
-                                                            decoration: BoxDecoration(
-                                                              color: snapshot.data[index].is_read!=true ? Colors.grey : Colors.white,
-                                                              borderRadius: BorderRadius.circular(20)
-                                                            ),
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                            color: snapshot.data[index].is_read!=true ? Colors.grey : Colors.white,
+                                                            borderRadius: BorderRadius.circular(20)
+                                                          ),
+                                                          child: FlatButton(
+                                                            onPressed: (){
+                                                              updateIsRead(snapshot.data[index].id);
+                                                              notificationDialog(context);
+                                                            },
                                                             child: ListTile(
                                                               leading: Container(
                                                                 width: 50,
@@ -180,7 +190,7 @@ class _NotificationsState extends State<Notifications> {
                                                                   ],
                                                                 ),
                                                               ),
-                                                              subtitle: Text("7 minutes ago.."),
+                                                              subtitle: Text("${timeago.format(dateTime)} ..."),
                                                             ),
                                                           ),
                                                         ),
@@ -209,20 +219,23 @@ class _NotificationsState extends State<Notifications> {
     );
   }
 
-  Future<void> updateIsRead()async{
+  Future<void> updateIsRead(usernotification_id)async{
 
     var data={
       "is_read": true
     };
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user= jsonDecode(localStorage.getString("user"));
-    var res = await Api().updateData(data,"user/${user['_id']}/userNotification");
+   print(usernotification_id);
+    var res = await Api().updateData(data,"notification/${usernotification_id}");
+    if (res.statusCode == 200) {
+      setState(() {
+        fetchUserNotification();
+      });
+    }
   }
 
   Future<List<UserNotification>> fetchUserNotification() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user= jsonDecode(localStorage.getString("user"));
-   print(user['_id']);
     var res = await Api().getData("user/${user['_id']}/notification");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
@@ -235,7 +248,7 @@ class _NotificationsState extends State<Notifications> {
 
         NotificationData a = userNotification.notification;
         notimessage.add(a);
-        print("masukkk");
+
 
       }
 
@@ -243,6 +256,18 @@ class _NotificationsState extends State<Notifications> {
     } else {
       throw Exception('Failed to load album');
     }
+  }
+  Future<bool> notificationDialog(context){
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => CustomDialogNotification(
+          title: "New Event Has been Added",
+          description:
+          "Someone has added new event. Lets join!",
+          buttonText: "Okay",
+          image: "assets/images/eligible.png"
+      ),
+    );
   }
 
 }
