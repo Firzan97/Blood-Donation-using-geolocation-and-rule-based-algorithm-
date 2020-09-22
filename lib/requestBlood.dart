@@ -12,6 +12,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:direct_select_flutter/direct_select_container.dart';
+import 'package:direct_select_flutter/direct_select_item.dart';
+import 'package:direct_select_flutter/direct_select_list.dart';
 
 class RequestBlood extends StatefulWidget {
   @override
@@ -23,9 +26,16 @@ class _RequestBloodState extends State<RequestBlood> {
   TextEditingController bloodGroup = new TextEditingController();
   TextEditingController reason = new TextEditingController();
 
+  List<String> _bloodGroup = [
+    "A",
+    "AB",
+    "B",
+    "O",
+  ];
   List<Marker> allMarkers = [];
   final locaterService = GeolocationService();
   var currentPosition;
+  String dropdownValue ;
 
   GoogleMapController _controller;
   GoogleMapController _controller2;
@@ -159,10 +169,10 @@ class _RequestBloodState extends State<RequestBlood> {
                         ,
                         Positioned(
                           top:
-                              size.height*0.55,
+                              size.height*0.45,
                           child: Container(
                             width: size.width*1,
-                            height: size.height * 0.5,
+                            height: size.height * 0.6,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
                               gradient: LinearGradient(
@@ -248,45 +258,53 @@ class _RequestBloodState extends State<RequestBlood> {
                                             ],
                                           ),
                                         ),
-                                        DropdownSearch<String>(
-                                          mode: Mode.BOTTOM_SHEET,
-                                          maxHeight: 260,
-                                          items: ["A", "AB", "B", 'O'],
-                                          hint: "Blood Group",
-                                          autoFocusSearchBox: true,
-                                          showClearButton: true,
-                                          onChanged: print,
-                                          selectedItem: "A",
-                                          showSearchBox: false,
-                                          searchBoxDecoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            contentPadding: EdgeInsets.fromLTRB(12, 12, 8, 0),
-                                            labelText: "Search a country",
-                                          ),
-                                          popupTitle: Container(
-                                            width: size.width*0.3,
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                              color: kPrimaryColor,
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                'BLOOD GROUP',
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          popupShape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(24),
-                                              topRight: Radius.circular(24),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(30))
+                                  ),
+                                  height: size.height * 0.07,
+                                  width: size.width,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 8.0,right:8.0),
+                                    child: Row(
+                                      children: <Widget>[
+                                        FaIcon(FontAwesomeIcons.tint,color: Colors.redAccent,),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: DropdownButton<String>(
+                                              underline: SizedBox(),
+                                              value: dropdownValue,
+                                              icon: Icon(Icons.unfold_more,
+                                              color: Colors.black,),
+                                              isExpanded: true,
+                                              hint: Text("Blood group"),
+                                              iconSize: 24,
+                                              style: TextStyle(color: Colors.black.withOpacity(0.5)),
+                                              onChanged: (String newValue) {
+                                                setState(() {
+                                                  dropdownValue = newValue;
+                                                });
+                                              },
+                                              items: <String>['A', 'B', 'AB', 'O']
+                                                  .map<DropdownMenuItem<String>>((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value),
+                                                );
+                                              }).toList(),
                                             ),
                                           ),
                                         ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
