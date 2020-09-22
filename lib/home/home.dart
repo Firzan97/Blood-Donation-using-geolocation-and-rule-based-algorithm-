@@ -513,8 +513,8 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Positioned(
-                          right:40,
-                          top:20,
+                          right:size.width*0.1,
+                          top: size.height*0.02,
                           child: Image.asset("assets/images/bloodcell.png",scale: 3,)),
                       Positioned(
                         right:225,
@@ -623,11 +623,9 @@ class _HomeState extends State<Home> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
-                                          Icon(Icons.library_books),
-                                          SizedBox(
-                                            width: size.width * 0.03,
-                                          ),
+
                                           Text("Blood Type:"),
                                           user["bloodType"]==null ? Text("None", style: TextStyle(
                                               color: Colors.white,
@@ -1167,11 +1165,11 @@ class _HomeState extends State<Home> {
                                     ]
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.only(top: 15.0),
                                     child: Column(
                                       children: <Widget>[
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: <Widget>[
                                             ClipOval(
                                               child: Material(
@@ -1184,16 +1182,19 @@ class _HomeState extends State<Home> {
                                                 ),
                                               ),
                                             ),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text("Invite Your Friends",style: TextStyle(
-                                                    fontWeight: FontWeight.w700
-                                                ),),
-                                                Text("Inviting more people to become the life savior, \nit could be someone that you know.",style: TextStyle(
-                                                  fontWeight: FontWeight.w500
-                                                ),)
-                                              ],
+                                            Container(
+                                              width: size.width*0.7,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text("Invite Your Friends",style: TextStyle(
+                                                      fontWeight: FontWeight.w700
+                                                  ),),
+                                                  Text("Inviting more people to become the life savior, it could be someone that you know.",style: TextStyle(
+                                                    fontWeight: FontWeight.w500
+                                                  ),)
+                                                ],
+                                              ),
                                             )
                                           ],
                                         ),

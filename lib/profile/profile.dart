@@ -26,6 +26,9 @@ import 'package:progress_dialog/progress_dialog.dart';
 
 
 class Profile extends StatefulWidget {
+  Profile({Key key}) : super(key: key);
+
+
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -348,7 +351,7 @@ class _ProfileState extends State<Profile> {
                                                               children: <Widget>[
                                                                 Padding(
                                                                   padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
-                                                                  child: FaIcon(FontAwesomeIcons.passport, size: 35,),
+                                                                  child: Icon(FontAwesomeIcons.passport, size: 35,),
                                                                 ),
                                                                 Text("Username"),
                                                               ],
@@ -384,7 +387,7 @@ class _ProfileState extends State<Profile> {
                                                               children: <Widget>[
                                                                 Padding(
                                                                   padding: const EdgeInsets.symmetric(vertical:4.0,horizontal: 8),
-                                                                  child: FaIcon(FontAwesomeIcons.genderless, size: 35,),
+                                                                  child: Icon(FontAwesomeIcons.genderless, size: 35,),
                                                                 ),
                                                                 Text("Gender"),
                                                               ],
@@ -1063,7 +1066,8 @@ class _ProfileState extends State<Profile> {
                                                                                           Navigator.push(
                                                                                             context,
                                                                                             MaterialPageRoute(
-                                                                                                builder: (context) => EditEvent()),
+                                                                                                builder: (context) => EditEvent(edit: snapshot
+                                                                                                    .data[index])),
                                                                                           );
                                                                                         },
                                                                                       ),

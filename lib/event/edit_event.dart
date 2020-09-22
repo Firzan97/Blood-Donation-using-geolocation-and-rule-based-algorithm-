@@ -1,9 +1,14 @@
 import 'package:easy_blood/constant/constant.dart';
+import 'package:easy_blood/model/event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class EditEvent extends StatefulWidget {
+  final Event edit;
+
+  EditEvent({Key key, @required this.edit}) : super(key: key);
+
   @override
   _EditEventState createState() => _EditEventState();
 }
@@ -16,6 +21,7 @@ class _EditEventState extends State<EditEvent> {
   TextEditingController eventOrganizer = new TextEditingController();
   TextEditingController eventPhoneNumber = new TextEditingController();
   var dateStart,dateEnd,timeStart,timeEnd;
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +57,8 @@ class _EditEventState extends State<EditEvent> {
                                 .circular(
                                 5),
                             child: Image
-                                .asset(
-                              "assets/images/lari2.jpg",
+                                .network(
+                              widget.edit.imageURL,
                               fit: BoxFit
                                   .cover,)),
                       ),
@@ -89,8 +95,14 @@ class _EditEventState extends State<EditEvent> {
                       child: TextField(
 //                      controller: _mobileController,
                         decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Enter Name'),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: widget.edit.name),
                       ),
                     ),
                   ),
@@ -106,8 +118,14 @@ class _EditEventState extends State<EditEvent> {
                       child: TextField(
 //                      controller: _mobileController,
                         decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Enter Location'),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: widget.edit.location),
                       ),
                     ),
                   ),
@@ -123,8 +141,14 @@ class _EditEventState extends State<EditEvent> {
                       child: TextField(
 //                      controller: _mobileController,
                         decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Enter Organizer'),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: widget.edit.organizer),
                       ),
                     ),
                   ),
@@ -140,8 +164,14 @@ class _EditEventState extends State<EditEvent> {
                       child: TextField(
 //                      controller: _mobileController,
                         decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Enter phone number'),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: widget.edit.phoneNum),
                       ),
                     ),
                   ),
@@ -156,7 +186,7 @@ class _EditEventState extends State<EditEvent> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Container(
-                                  width: 150,
+                                  width: size.width*0.4,
                                   height: 40,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -197,7 +227,48 @@ class _EditEventState extends State<EditEvent> {
                                         ],
                                       )),
                                 ),
-                                Text("Date End"),
+                                Container(
+                                  width: size.width*0.4,
+                                  height: size.,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20)
+                                  ),
+                                  child: FlatButton(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(20)
+                                      ),
+                                      onPressed: () {
+                                        DatePicker.showDatePicker(context,
+                                            showTitleActions: true,
+                                            minTime: DateTime(2020, 3, 5),
+                                            maxTime: DateTime(2029, 6, 7),
+                                            theme: DatePickerTheme(
+                                                headerColor: kPrimaryColor,
+                                                backgroundColor: kThirdColor,
+                                                itemStyle: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18),
+                                                doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
+                                            onChanged: (date) {
+                                              print('change $date in time zone ' +
+                                                  date.timeZoneOffset.inHours.toString());
+                                            }, onConfirm: (date) {
+                                              dateStart = date;
+                                              print('confirm ${date}');
+                                            }, currentTime: DateTime.now(), locale: LocaleType.en);
+                                      },
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(Icons.date_range),
+                                          Text(
+                                            'Date End',
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      )),
+                                ),
                               ],
                             ),
                           ),
@@ -206,8 +277,80 @@ class _EditEventState extends State<EditEvent> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                Text("Time Start"),
-                                Text("Time End"),
+                                Container(
+                                  width: 150,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: FlatButton(
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                      onPressed: () {
+
+                                        DatePicker.showTime12hPicker(context,
+                                            theme: DatePickerTheme(
+                                                headerColor: kGradient1,
+                                                backgroundColor: Colors.white,
+                                                itemStyle: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18),
+                                                doneStyle: TextStyle(color: Colors.black, fontSize: 16)),
+                                            showTitleActions: true, onChanged: (time) {
+                                              print('change $time in time zone ' +
+                                                  time.timeZoneOffset.inHours.toString());
+                                            }, onConfirm: (time) {
+                                              timeStart=time;
+                                              print('confirm $time');
+                                            }, currentTime: DateTime.now());
+                                      },
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(Icons.timer),
+                                          Text(
+                                            "Time Start",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      )),
+                                ),
+                                Container(
+                                  width: 150,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: FlatButton(
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                      onPressed: () {
+
+                                        DatePicker.showTime12hPicker(context,
+                                            theme: DatePickerTheme(
+                                                headerColor: kGradient1,
+                                                backgroundColor: Colors.white,
+                                                itemStyle: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18),
+                                                doneStyle: TextStyle(color: Colors.black, fontSize: 16)),
+                                            showTitleActions: true, onChanged: (time) {
+                                              print('change $time in time zone ' +
+                                                  time.timeZoneOffset.inHours.toString());
+                                            }, onConfirm: (time) {
+                                              timeStart=time;
+                                              print('confirm $time');
+                                            }, currentTime: DateTime.now());
+                                      },
+                                      child: Row(
+                                        children: <Widget>[
+                                          Icon(Icons.timer),
+                                          Text(
+                                            "Time End",
+                                            style: TextStyle(color: Colors.black),
+                                          ),
+                                        ],
+                                      )),
+                                ),
                               ],
                             ),
                           ),
