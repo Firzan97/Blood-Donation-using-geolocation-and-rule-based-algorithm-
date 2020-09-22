@@ -115,7 +115,7 @@ class _HomeState extends State<Home> {
             debugShowCheckedModeBanner: false,
             home:  user==null ? LoadingScreen() : Scaffold(
               drawer: Container(
-                width: 340,
+                width: size.width*0.75,
                 child: Drawer(
                   child: Container(
                     color: Colors.white24,
