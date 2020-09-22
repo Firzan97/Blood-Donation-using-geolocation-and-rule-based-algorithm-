@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/request/blood_request.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
+import 'package:flutter/cupertino.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/service/geolocation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 class RequestBlood extends StatefulWidget {
   @override
@@ -76,10 +78,10 @@ class _RequestBloodState extends State<RequestBlood> {
     return  Scaffold(
             body: (currentPosition != null)
                 ? Container(
-                    child: Column(
+                    child:Stack(
                       children: <Widget>[
                         Container(
-                          height: size.height * 0.5,
+                          height: size.height * 1,
                           child: GoogleMap(
                               myLocationEnabled: true,
                               myLocationButtonEnabled: true,
@@ -99,248 +101,341 @@ class _RequestBloodState extends State<RequestBlood> {
 ////                                changeMapMode();
                               }),
                         ),
-                        Container(
-                          height: size.height * 0.5,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topRight,
-                                end: Alignment.bottomLeft,
-                                colors: [kGradient1, kGradient2]),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 15.0, right: 15.0, top: 35.0),
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "I need blood .. ",
-                                      style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white),
-                                    ),
-                                    FaIcon(FontAwesomeIcons.sadCry)
+                        Positioned(
+                          right: 0,
+                          top: size.height*0.45,
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(15))
+                            ),
+                            child: Container(
+                              height: size.height*0.05,
+                              width: size.width*0.1,
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.white.withOpacity(0.1),
+                                        spreadRadius: 3,
+                                        blurRadius: 9
+                                    )
                                   ],
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.03,
-                                ),
-                                Form(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Container(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Container(
-                                                height: size.height * 0.07,
-                                                width: size.width,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white
-                                                        .withOpacity(0.5),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            32),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Colors.black
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 3,
-                                                          blurRadius: 9)
-                                                    ]),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: TextFormField(
-                                                    cursorColor: Colors.black,
-                                                    decoration: InputDecoration(
-                                                      icon: Icon(
-                                                        Icons.location_on,
-                                                        color: Colors.white,
-                                                      ),
-                                                      border: InputBorder.none,
-                                                      focusedBorder:
-                                                          InputBorder.none,
-                                                      enabledBorder:
-                                                          InputBorder.none,
-                                                      errorBorder:
-                                                          InputBorder.none,
-                                                      disabledBorder:
-                                                          InputBorder.none,
-                                                      contentPadding:
-                                                          EdgeInsets.only(
-                                                              left: 15,
-                                                              bottom: 11,
-                                                              top: 11,
-                                                              right: 15),
-                                                      hintText: 'Location',
-                                                    ),
-                                                    controller: location,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all((Radius.circular(10)))
+                              ),
+                              child: Icon(
+                                FontAwesomeIcons.mapMarker,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: size.height*0.45,
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(15))
+                            ),
+                            child: Container(
+                              height: size.height*0.05,
+                              width: size.width*0.1,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.white.withOpacity(0.1),
+                                    spreadRadius: 3,
+                                    blurRadius: 9
+                                  )
+                                ],
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all((Radius.circular(10)))
+                              ),
+                              child: Icon(
+                                FontAwesomeIcons.locationArrow,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                          ),
+                        )
+                        ,
+                        Positioned(
+                          top:
+                              size.height*0.55,
+                          child: Container(
+                            width: size.width*1,
+                            height: size.height * 0.5,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
+                              gradient: LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    Color(0xffffbcaf),
+                                    kGradient2.withOpacity(0.7)
+                                  ]),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0, top: 10.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    "Request Blood",
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black,
+                                    fontFamily: "Muli"),
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.03,
+                                  ),
+                                  Form(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Container(
                                           child: Column(
                                             children: <Widget>[
-                                              Container(
-                                                height: size.height * 0.07,
-                                                width: size.width,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white
-                                                        .withOpacity(0.5),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            32),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Colors.black
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 3,
-                                                          blurRadius: 9)
-                                                    ]),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: TextFormField(
-                                                    cursorColor: Colors.black,
-                                                    decoration: InputDecoration(
-                                                      icon: Icon(
-                                                        Icons.location_on,
-                                                        color: Colors.white,
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  height: size.height * 0.07,
+                                                  width: size.width,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              32),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors.black
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 3,
+                                                            blurRadius: 9)
+                                                      ]),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(8.0),
+                                                    child: TextFormField(
+                                                      cursorColor: Colors.black,
+                                                      decoration: InputDecoration(
+                                                        icon: Icon(
+                                                          Icons.location_on,
+                                                          color: Colors.redAccent,
+                                                        ),
+                                                        border: InputBorder.none,
+                                                        focusedBorder:
+                                                            InputBorder.none,
+                                                        enabledBorder:
+                                                            InputBorder.none,
+                                                        errorBorder:
+                                                            InputBorder.none,
+                                                        disabledBorder:
+                                                            InputBorder.none,
+                                                        contentPadding:
+                                                            EdgeInsets.only(
+                                                                left: 15,
+                                                                bottom: 11,
+                                                                top: 11,
+                                                                right: 15),
+                                                        hintText: 'Location',
                                                       ),
-                                                      border: InputBorder.none,
-                                                      focusedBorder:
-                                                          InputBorder.none,
-                                                      enabledBorder:
-                                                          InputBorder.none,
-                                                      errorBorder:
-                                                          InputBorder.none,
-                                                      disabledBorder:
-                                                          InputBorder.none,
-                                                      contentPadding:
-                                                          EdgeInsets.only(
-                                                              left: 15,
-                                                              bottom: 11,
-                                                              top: 11,
-                                                              right: 15),
-                                                      hintText: 'Blood Group',
+                                                      controller: location,
                                                     ),
-                                                    controller: bloodGroup,
                                                   ),
                                                 ),
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          child: Column(
-                                            children: <Widget>[
-                                              Container(
-                                                height: size.height * 0.07,
-                                                width: size.width,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white
-                                                        .withOpacity(0.5),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            32),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Colors.black
-                                                              .withOpacity(0.1),
-                                                          spreadRadius: 3,
-                                                          blurRadius: 9)
-                                                    ]),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: TextFormField(
-                                                    cursorColor: Colors.black,
-                                                    decoration: InputDecoration(
-                                                      icon: Icon(
-                                                        Icons.location_on,
-                                                        color: Colors.white,
-                                                      ),
-                                                      border: InputBorder.none,
-                                                      focusedBorder:
-                                                          InputBorder.none,
-                                                      enabledBorder:
-                                                          InputBorder.none,
-                                                      errorBorder:
-                                                          InputBorder.none,
-                                                      disabledBorder:
-                                                          InputBorder.none,
-                                                      contentPadding:
-                                                          EdgeInsets.only(
-                                                              left: 15,
-                                                              bottom: 11,
-                                                              top: 11,
-                                                              right: 15),
-                                                      hintText: 'Reason',
-                                                    ),
-                                                    controller: reason,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                        DropdownSearch<String>(
+                                          mode: Mode.BOTTOM_SHEET,
+                                          maxHeight: 260,
+                                          items: ["A", "AB", "B", 'O'],
+                                          hint: "Blood Group",
+                                          autoFocusSearchBox: true,
+                                          showClearButton: true,
+                                          onChanged: print,
+                                          selectedItem: "A",
+                                          showSearchBox: false,
+                                          searchBoxDecoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            contentPadding: EdgeInsets.fromLTRB(12, 12, 8, 0),
+                                            labelText: "Search a country",
                                           ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.02,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Container(
+                                          popupTitle: Container(
+                                            width: size.width*0.3,
                                             height: 40,
                                             decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: kPrimaryColor,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      blurRadius: 7,
-                                                      spreadRadius: 3,
-                                                      color: Colors.black
-                                                          .withOpacity(0.25))
-                                                ]),
-                                            child: FlatButton(
-                                              onPressed: () {
-                                                pr.show();
-                                                addEvent();
-                                              },
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              child: FaIcon(
-                                                  FontAwesomeIcons.search),
+                                              color: kPrimaryColor,
                                             ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
+                                            child: Center(
+                                              child: Text(
+                                                'BLOOD GROUP',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          popupShape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(24),
+                                              topRight: Radius.circular(24),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            child: Column(
+                                              children: <Widget>[
+                                                Container(
+                                                  height: size.height * 0.07,
+                                                  width: size.width,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              32),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors.black
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 3,
+                                                            blurRadius: 9)
+                                                      ]),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(8.0),
+                                                    child: TextFormField(
+                                                      cursorColor: Colors.black,
+                                                      decoration: InputDecoration(
+                                                        icon: FaIcon(
+                                                        FontAwesomeIcons.tint,
+                                                          color: Colors.redAccent,                                                      ),
+                                                        border: InputBorder.none,
+                                                        focusedBorder:
+                                                            InputBorder.none,
+                                                        enabledBorder:
+                                                            InputBorder.none,
+                                                        errorBorder:
+                                                            InputBorder.none,
+                                                        disabledBorder:
+                                                            InputBorder.none,
+                                                        contentPadding:
+                                                            EdgeInsets.only(
+                                                                left: 15,
+                                                                bottom: 11,
+                                                                top: 11,
+                                                                right: 15),
+                                                        hintText: 'Blood Group',
+                                                      ),
+                                                      controller: bloodGroup,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            child: Column(
+                                              children: <Widget>[
+                                                Container(
+                                                  height: size.height * 0.07,
+                                                  width: size.width,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              32),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors.black
+                                                                .withOpacity(0.1),
+                                                            spreadRadius: 3,
+                                                            blurRadius: 9)
+                                                      ]),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(8.0),
+                                                    child: TextFormField(
+                                                      cursorColor: Colors.black,
+                                                      decoration: InputDecoration(
+                                                        icon: Icon(
+                                                          Icons.description,
+                                                          color: Colors.redAccent,
+                                                        ),
+                                                        border: InputBorder.none,
+                                                        focusedBorder:
+                                                            InputBorder.none,
+                                                        enabledBorder:
+                                                            InputBorder.none,
+                                                        errorBorder:
+                                                            InputBorder.none,
+                                                        disabledBorder:
+                                                            InputBorder.none,
+                                                        contentPadding:
+                                                            EdgeInsets.only(
+                                                                left: 15,
+                                                                bottom: 11,
+                                                                top: 11,
+                                                                right: 15),
+                                                        hintText: 'Reason',
+                                                      ),
+                                                      controller: reason,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: size.height * 0.02,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  color: kPrimaryColor,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        blurRadius: 7,
+                                                        spreadRadius: 3,
+                                                        color: Colors.black
+                                                            .withOpacity(0.25))
+                                                  ]),
+                                              child: FlatButton(
+                                                onPressed: () {
+                                                  pr.show();
+                                                  addEvent();
+                                                },
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+                                                child: FaIcon(
+                                                    FontAwesomeIcons.search),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
