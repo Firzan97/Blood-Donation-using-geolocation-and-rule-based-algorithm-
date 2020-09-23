@@ -110,11 +110,7 @@ class _HomeState extends State<Home> {
           value: SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
           ),
-          child: MaterialApp(
-            theme: ThemeData(primaryColor: kPrimaryColor,
-            fontFamily: "Muli"),
-            debugShowCheckedModeBanner: false,
-            home:  user==null ? LoadingScreen() : Scaffold(
+          child:  user==null ? LoadingScreen() : Scaffold(
               drawer: Container(
                 width: size.width*0.75,
                 child: Drawer(
@@ -1234,7 +1230,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-          )),
+          ),
     );
 
   }
@@ -1256,6 +1252,7 @@ class _HomeState extends State<Home> {
             FlatButton(
               child: Text('Yes'),
               onPressed: () {
+
                 Navigator.of(context).pop(true); //Will exit the App
               },
             )

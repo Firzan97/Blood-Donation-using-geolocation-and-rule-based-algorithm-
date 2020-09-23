@@ -51,10 +51,10 @@ class _RequestBloodState extends State<RequestBlood> {
   var first;
 
   getUserAddress()async{
-    final query = "Hospital Kelaboran, Tumpat";
-    var addresses = await Geocoder.local.findAddressesFromQuery(query);
-    var first = addresses.first;
-    print("${first.featureName} : ${first.coordinates}");
+//    final query = "Hospital Kelaboran, Tumpat";
+//    var addresses = await Geocoder.local.findAddressesFromQuery(query);
+//    var first = addresses.first;
+//    print("${first.featureName} : ${first.coordinates}");
     final coordinates = new Coordinates(latitude, longitude);
     addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     setState(() {
@@ -178,67 +178,82 @@ class _RequestBloodState extends State<RequestBlood> {
                               },
                             ),
                           ),
-                          Positioned(
-                            right: 0,
-                            top: size.height*0.45,
-                            child: FlatButton(
-                                onPressed: (){
-                                  getUserAddress();
-                                  _goToUserLocation();
-                                },
+                          Padding(
+                            padding: const EdgeInsets.only(top:58.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FlatButton(
+                                  onPressed: (){
+                                    getUserAddress();
+                                    _goToUserLocation();
+                                  },
 
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(15))
-                              ),
-                              child: Container(
-                                height: size.height*0.05,
-                                width: size.width*0.1,
-                                decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.white.withOpacity(0.1),
-                                          spreadRadius: 3,
-                                          blurRadius: 9
-                                      )
-                                    ],
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(15))
+                                  ),
+                                  child: Container(
+                                    height: size.height*0.07,
+                                    width: size.width*0.13,
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.white.withOpacity(0.1),
+                                              spreadRadius: 3,
+                                              blurRadius: 9
+                                          )
+                                        ],
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all((Radius.circular(10)))
+                                    ),
+                                    child: Icon(
+                                      FontAwesomeIcons.searchLocation,
+                                      color: Colors.redAccent,
+                                    ),
+                                  ),
+                                )
+                                ,
+                                Container(
+                                  width: size.width*0.7,
+                                  height: size.height*0.07,
+                                  decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.all((Radius.circular(10)))
+                                    borderRadius: BorderRadius.circular(10.0)
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      cursorColor: Colors
+                                          .black,
+                                      decoration: InputDecoration(
+                                        icon: Icon(
+                                          Icons
+                                              .location_on,
+                                          color: Colors
+                                              .redAccent,
+                                          size: 40,
+                                        ),
+                                        border: InputBorder
+                                            .none,
+                                        focusedBorder:
+                                        InputBorder.none,
+                                        enabledBorder:
+                                        InputBorder.none,
+                                        errorBorder:
+                                        InputBorder.none,
+                                        disabledBorder:
+                                        InputBorder.none,
+                                        hintText: first==null ? "location" :    first.addressLine.toString()
+                                        ,
+                                      ),
+                                      controller: location,
+                                    ),
+                                  ),
                                 ),
-                                child: Icon(
-                                  FontAwesomeIcons.searchLocation,
-                                  color: Colors.redAccent,
-                                ),
-                              ),
+                              ],
                             ),
                           ),
-                          Positioned(
-                            top: size.height*0.45,
-                            child: FlatButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(15))
-                              ),
-                              child: Container(
-                                height: size.height*0.05,
-                                width: size.width*0.1,
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.white.withOpacity(0.1),
-                                      spreadRadius: 3,
-                                      blurRadius: 9
-                                    )
-                                  ],
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all((Radius.circular(10)))
-                                ),
-                                child: Icon(
-                                  Icons.pin_drop,
-                                  color: Colors.redAccent,
-                                ),
-                              ),
-                            ),
-                          )
-                          ,
+
                             DraggableScrollableSheet(
                                 initialChildSize: 0.05,
                                 minChildSize: 0.05,
