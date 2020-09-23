@@ -21,7 +21,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-final locaterService = GeolocationService();
 
   @override
   Widget build(BuildContext context) {

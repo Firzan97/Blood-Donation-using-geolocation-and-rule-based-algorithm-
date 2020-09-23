@@ -4,9 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/model/request.dart';
-import 'package:easy_blood/request/findRequest.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/user.dart';
@@ -94,6 +92,7 @@ class _BloodRequestState extends State<BloodRequest> {
 
   }
 
+  @override
   void initState(){
     super.initState();
     getUserLocation();

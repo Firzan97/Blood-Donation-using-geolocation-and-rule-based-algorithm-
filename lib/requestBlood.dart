@@ -1,20 +1,22 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/model/user.dart';
 import 'package:easy_blood/request/blood_request.dart';
 import 'package:flutter/cupertino.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/service/geolocation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:direct_select_flutter/direct_select_container.dart';
-import 'package:direct_select_flutter/direct_select_item.dart';
-import 'package:direct_select_flutter/direct_select_list.dart';
+
+
 
 class RequestBlood extends StatefulWidget {
   @override
@@ -33,39 +35,94 @@ class _RequestBloodState extends State<RequestBlood> {
     "O",
   ];
   List<Marker> allMarkers = [];
-  final locaterService = GeolocationService();
-  var currentPosition;
   String dropdownValue ;
 
-  GoogleMapController _controller;
+  Completer<GoogleMapController> _controller = Completer();
   GoogleMapController _controller2;
   bool isMapCreated = false;
   var pr;
-  changeMapMode() {
+  Uint8List customIcon;
+  Uint8List customHereIcon;
+  Set<Marker> markers;
+  static double latitude;
+  static double longitude;
+
+  void getUserLocation()async{
+    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      latitude = position.latitude;
+      longitude = position.longitude;
+    });
+  }
+
+  //maps customization
+  changeMapMode(){
     getJsonFile("assets/light.json").then(setMapStyle);
   }
 
-  Future<String> getJsonFile(String path) async {
+  Future<String> getJsonFile(String path) async{
     return await rootBundle.loadString(path);
   }
 
-  void setMapStyle(String mapStyle) {
+  void setMapStyle(String mapStyle){
     _controller2.setMapStyle(mapStyle);
   }
+
+  CameraPosition _initialLocation = CameraPosition(
+    target: LatLng(37.43296265331129, -122.08832357078792),
+    zoom: 14.4746,
+  );
+
+  static final CameraPosition _userLocation = CameraPosition(
+      bearing: 192.8334901395799,
+      target: LatLng(latitude, longitude),
+      tilt: 59.440717697143555,
+      zoom: 19.151926040649414);
+
+  createMarker(context) async{
+    if(customIcon==null){
+      ImageConfiguration configuration = createLocalImageConfiguration(context);
+      await getBytesFromAsset('assets/images/bloodMarker.png', 100)
+          .then((icon) {
+        setState(() {
+          customIcon =icon;
+        });
+      });
+    }
+    if(customHereIcon==null){
+      ImageConfiguration configuration = createLocalImageConfiguration(context);
+      await getBytesFromAsset('assets/images/imhere.png', 100)
+          .then((icon) {
+        setState(() {
+          customHereIcon =icon;
+        });
+      });
+    }
+
+  }
+
+//  CameraPosition _initialLocation = CameraPosition(
+//    target: LatLng(37.43296265331129, -122.08832357078792),
+//    zoom: 14.4746,
+//  );
+//
+//  static final CameraPosition _userLocation = CameraPosition(
+//      bearing: 192.8334901395799,
+//      target: LatLng(6.1756691, 102.2070327),
+//      tilt: 59.440717697143555,
+//      zoom: 19.151926040649414);
 
   @override
   void initState() {
     super.initState();
-    locaterService.getPosition().then((value) => {
-          setState(() {
-            currentPosition = value;
-          })
-        });
-    currentPosition = locaterService.getPosition();
+    getUserLocation();
+    fetchUser();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    createMarker(context);
     Size size = MediaQuery.of(context).size;
     pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
     pr.style(
@@ -86,35 +143,31 @@ class _RequestBloodState extends State<RequestBlood> {
       changeMapMode();
     }
     return  Scaffold(
-            body: (currentPosition != null)
-                ? Container(
+            body: Container(
                     child:Stack(
                       children: <Widget>[
                         Container(
                           height: size.height * 1,
                           child: GoogleMap(
-                              myLocationEnabled: true,
-                              myLocationButtonEnabled: true,
-                              initialCameraPosition: CameraPosition(
-                                target: LatLng(40, -74),
-                                zoom: 14.4746,
-                              ),
-                              zoomControlsEnabled: true,
-                              markers: Set.from(
-                                (allMarkers),
-                              ),
-                              onMapCreated: (GoogleMapController controller) {
-                                _controller = controller;
-                                _controller2 = controller;
-                                changeMapMode();
-//                                isMapCreated = true;
-////                                changeMapMode();
-                              }),
+                            initialCameraPosition: _initialLocation,
+                            zoomControlsEnabled: true,
+                            markers: Set.from(allMarkers),
+                            onMapCreated: (GoogleMapController controller) {
+                              _controller.complete(controller);
+                              _controller2=controller;
+                              isMapCreated = true;
+                              changeMapMode();
+                            },
+                          ),
                         ),
                         Positioned(
                           right: 0,
                           top: size.height*0.45,
                           child: FlatButton(
+                              onPressed: (){
+                                _goToUserLocation();
+                              },
+
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(15))
                             ),
@@ -134,7 +187,7 @@ class _RequestBloodState extends State<RequestBlood> {
                               ),
                               child: Icon(
                                 FontAwesomeIcons.mapMarker,
-                                color: Colors.redAccent,
+                                color: Colors.blue,
                               ),
                             ),
                           ),
@@ -365,7 +418,7 @@ class _RequestBloodState extends State<RequestBlood> {
                                                               borderRadius:
                                                               BorderRadius
                                                                   .circular(
-                                                                  32),
+                                                                  15),
                                                               boxShadow: [
                                                                 BoxShadow(
                                                                     color: Colors
@@ -377,7 +430,7 @@ class _RequestBloodState extends State<RequestBlood> {
                                                               ]),
                                                           child: Padding(
                                                             padding:
-                                                            const EdgeInsets.all(
+                                                            const EdgeInsets.only(left:
                                                                 8.0),
                                                             child: TextFormField(
                                                               cursorColor: Colors
@@ -461,10 +514,9 @@ class _RequestBloodState extends State<RequestBlood> {
                           ),
                       ],
                     ),
-                  )
-                : Container(
-                    child: Center(child: Text("We dont have your location")),
-                  ));
+                  ),
+                );
+
   }
 
   Future<void> addEvent() async {
@@ -488,6 +540,51 @@ class _RequestBloodState extends State<RequestBlood> {
       pr.hide();
       eventInfoDialog(context);
     }
+  }
+
+  Future<List<User>> fetchUser() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var currentUser = jsonDecode(localStorage.getString("user"));
+    var res = await Api().getData("user");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+      List<User> users = [];
+      var count = 2;
+      for (var u in body) {
+        count++;
+        User user = User.fromJson(u);
+        double lat = user.latitude.toDouble();
+        double lon = user.longitude.toDouble();
+        allMarkers.add(Marker(
+            markerId: MarkerId('myMarker${count}'),
+            icon: user.email == currentUser['email']
+                ? BitmapDescriptor.fromBytes(customHereIcon)
+                : BitmapDescriptor.fromBytes(customIcon),
+            draggable: false,
+            onTap: () {
+              print("I m here");
+              print(user.email);
+              print(currentUser['email']);
+
+            },
+            position: LatLng(lat, lon)));
+      }
+      return users;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
+  static Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+  }
+
+  Future<void> _goToUserLocation() async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(_userLocation));
   }
 
   Future<bool> eventInfoDialog(context) {
@@ -514,4 +611,5 @@ class _RequestBloodState extends State<RequestBlood> {
           );
         });
   }
+
 }

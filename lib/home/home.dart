@@ -40,6 +40,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _page = 0;
+  List<Color> colorList = [Colors.black,Colors.black,Colors.black,Colors.black,Colors.black];
   GlobalKey _bottomNavigationKey = GlobalKey();
   String name;
   var user ;
@@ -481,13 +482,13 @@ class _HomeState extends State<Home> {
                 index: 0,
                 height: 50.0,
                 items: <Widget>[
-                  Icon(Icons.add, size: 30,color: Colors.black,),
-                  Icon(Icons.list, size: 30,color: Colors.black),
-                  Icon(Icons.compare_arrows, size: 30,color: Colors.black),
-                  Icon(Icons.call_split, size: 30,color: Colors.black),
-                  Icon(Icons.perm_identity, size: 30,color: Colors.black),
+                  Icon(Icons.add, size: 30,color: colorList[0]),
+                  Icon(Icons.list, size: 30,color: colorList[1]),
+                  Icon(Icons.compare_arrows, size: 30,color: colorList[2]),
+                  Icon(Icons.call_split, size: 30,color: colorList[3]),
+                  Icon(Icons.perm_identity, size: 30,color: colorList[4]),
                 ],
-                color: Colors.white,
+                color:kGradient2.withOpacity(0.75),
                 buttonBackgroundColor: kPrimaryColor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ,
                 backgroundColor: Colors.white,
                 animationCurve: Curves.easeInOut,
