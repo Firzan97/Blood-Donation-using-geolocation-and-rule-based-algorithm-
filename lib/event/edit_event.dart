@@ -1,8 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:easy_blood/event/bloodEventDetail.dart';
+import 'package:easy_blood/loadingScreen.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/model/event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditEvent extends StatefulWidget {
   final Event edit;
@@ -21,10 +30,95 @@ class _EditEventState extends State<EditEvent> {
   TextEditingController eventOrganizer = new TextEditingController();
   TextEditingController eventPhoneNumber = new TextEditingController();
   var dateStart,dateEnd,timeStart,timeEnd;
+  final picker = ImagePicker();
+  String base64Image;
+  File _image;
+  File tmpFile;
+  String uploadEndPoint = "";
+  var user;
+  var status ;
+  String errMessage = "error Upload Image";
+  var pr;
 
+
+  void getUserData() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    setState(() {
+      user = jsonDecode(localStorage.getString("user"));
+      uploadEndPoint = "http://192.168.1.10:8000/api/user/${user['_id']}/event/${widget.edit.id}";
+    });
+  }
+
+  Future getImage() async {
+    var pickedFile;
+      pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      _image = File(pickedFile.path);
+      tmpFile = _image;
+      base64Image = base64Encode(tmpFile.readAsBytesSync());
+    });
+  }
+
+  setStatus(var message){
+    setState(() {
+      status = message;
+    });
+
+    print(status);
+  }
+
+  upload() async{
+//    SharedPreferences pref = await SharedPreferences.getInstance();
+//    pref.setString("user", null);
+//    var email2=pref.getString("_id");
+    var gender;
+    http.put(uploadEndPoint, body: {
+      "imageURL": base64Image!=null ? base64Image : "" ,
+      "name": eventName.text!="" ? eventName.text : widget.edit.name,
+      "location":  eventLocation.text!="" ? eventLocation.text : widget.edit.location,
+      "organizer":  eventOrganizer.text!="" ?  eventOrganizer.text : widget.edit.organizer,
+      "phoneNumber":  eventPhoneNumber.text!="" ? eventPhoneNumber.text : widget.edit.phoneNum,
+      "dateStart":  dateStart!=null ? dateStart.toString() : widget.edit.dateStart.toString(),
+      "dateEnd":  dateEnd!=null ? dateEnd.toString() : widget.edit.dateEnd.toString(),
+      "timeStart":  timeStart!=null ? timeStart.toString() : widget.edit.timeStart.toString(),
+      "timeEnd":  timeEnd!=null ? timeEnd.toString() : widget.edit.timeEnd.toString(),
+
+    }).then((result) {
+      setStatus(result.statusCode == 200 ? result.statusCode : errMessage);
+      pr.hide();
+    Navigator.of(context).pop();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => BloodEventDetail(event: widget.edit)));
+    }).catchError((error) {
+      setStatus(error);
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    getUserData();
+  }
 
   @override
   Widget build(BuildContext context) {
+    pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
+    pr.style(
+        message: 'Loading....',
+        borderRadius: 10.0,
+        backgroundColor: Colors.white,
+        progressWidget: LoadingScreen(),
+        elevation: 20.0,
+        insetAnimCurve: Curves.elasticOut,
+        progress: 0.0,
+        maxProgress: 100.0,
+        progressTextStyle: TextStyle(
+            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400,fontFamily: "Muli"),
+        messageTextStyle: TextStyle(
+            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
+    );
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: Container(
@@ -72,28 +166,34 @@ class _EditEventState extends State<EditEvent> {
 
                           color: kGradient2
                       ),
-                      child: Center(
-                        child: Text("Change Picture",
-                          style: TextStyle(
-                              fontWeight: FontWeight
-                                  .w700,
-                              fontFamily: "Muli",
-                              color: Colors.white
-                          ),),
+                      child: FlatButton(
+                        onPressed: (){
+                          getImage();
+                        },
+                        child: Center(
+                          child: Text("Change Picture",
+                            style: TextStyle(
+                                fontWeight: FontWeight
+                                    .w700,
+                                fontFamily: "Muli",
+                                color: Colors.white
+                            ),),
+                        ),
                       ),
                     ),
                   ),
                   Text("Name"),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Colors.grey.withOpacity(0.1))
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.grey.withOpacity(0.1))
+                        ),
 
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
                       child: TextField(
-//                      controller: _mobileController,
+                      controller: eventName,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -107,16 +207,17 @@ class _EditEventState extends State<EditEvent> {
                     ),
                   ),
                   Text("Location"),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.grey.withOpacity(0.1))
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.grey.withOpacity(0.1))
+                      ),
 
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
                       child: TextField(
-//                      controller: _mobileController,
+                      controller: eventLocation,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -130,16 +231,17 @@ class _EditEventState extends State<EditEvent> {
                     ),
                   ),
                   Text("Organizer"),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.grey.withOpacity(0.1))
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.grey.withOpacity(0.1))
+                      ),
 
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
                       child: TextField(
-//                      controller: _mobileController,
+                      controller: eventOrganizer,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -153,16 +255,17 @@ class _EditEventState extends State<EditEvent> {
                     ),
                   ),
                   Text("PhoneNumber"),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.grey.withOpacity(0.1))
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.grey.withOpacity(0.1))
+                      ),
 
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
                       child: TextField(
-//                      controller: _mobileController,
+                      controller: eventPhoneNumber,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -186,7 +289,7 @@ class _EditEventState extends State<EditEvent> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Container(
-                                  width: size.width*0.4,
+                                  width: size.width*0.31,
                                   height: 40,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -228,8 +331,8 @@ class _EditEventState extends State<EditEvent> {
                                       )),
                                 ),
                                 Container(
-                                  width: size.width*0.4,
-                                  height: size.,
+                                  width: size.width*0.31,
+                                  height: 40,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(20)
@@ -255,7 +358,7 @@ class _EditEventState extends State<EditEvent> {
                                               print('change $date in time zone ' +
                                                   date.timeZoneOffset.inHours.toString());
                                             }, onConfirm: (date) {
-                                              dateStart = date;
+                                              dateEnd = date;
                                               print('confirm ${date}');
                                             }, currentTime: DateTime.now(), locale: LocaleType.en);
                                       },
@@ -278,7 +381,7 @@ class _EditEventState extends State<EditEvent> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Container(
-                                  width: 150,
+                                  width: size.width*0.31,
                                   height: 40,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -315,7 +418,7 @@ class _EditEventState extends State<EditEvent> {
                                       )),
                                 ),
                                 Container(
-                                  width: 150,
+                                  width: size.width*0.31,
                                   height: 40,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -337,7 +440,7 @@ class _EditEventState extends State<EditEvent> {
                                               print('change $time in time zone ' +
                                                   time.timeZoneOffset.inHours.toString());
                                             }, onConfirm: (time) {
-                                              timeStart=time;
+                                              timeEnd=time;
                                               print('confirm $time');
                                             }, currentTime: DateTime.now());
                                       },
@@ -359,29 +462,39 @@ class _EditEventState extends State<EditEvent> {
                     ),
                   ),
 
-                  Center(
-                    child: Container(
-                      height: 50,
-                      width: size.width*0.6,
-                      decoration: BoxDecoration(
-                         borderRadius: BorderRadius.circular(5),
-                          color: kGradient2,
-                        boxShadow: [
-                          BoxShadow(
-                            spreadRadius: 3,
-                            color: kPrimaryColor.withOpacity(0.3),
-                            blurRadius: 6
-                          )
-                        ]
-                      ),
-                      child: Center(
-                        child: Text("Save Changed",
-                          style: TextStyle(
-                              fontWeight: FontWeight
-                                  .w700,
-                              fontFamily: "Muli",
-                              color: Colors.white
-                          ),),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Container(
+                        height: 50,
+                        width: size.width*0.6,
+                        decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(5),
+                            color: kGradient2,
+                          boxShadow: [
+                            BoxShadow(
+                              spreadRadius: 3,
+                              color: kPrimaryColor.withOpacity(0.3),
+                              blurRadius: 6
+                            )
+                          ]
+                        ),
+                        child: FlatButton(
+                          onPressed: (){
+                            pr.show();
+                            upload();
+                    
+                          },
+                          child: Center(
+                            child: Text("Save Changed",
+                              style: TextStyle(
+                                  fontWeight: FontWeight
+                                      .w700,
+                                  fontFamily: "Muli",
+                                  color: Colors.white
+                              ),),
+                          ),
+                        ),
                       ),
                     ),
                   ),

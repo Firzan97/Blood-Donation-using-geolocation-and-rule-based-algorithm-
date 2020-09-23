@@ -10,9 +10,8 @@ import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_blood/socketIoChat/main.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  ScreenUtil.init(designSize: Size(720, 1280), allowFontScaling: true);
 
   runApp(MaterialApp(home: MyApp()));}
 

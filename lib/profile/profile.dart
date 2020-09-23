@@ -1025,8 +1025,8 @@ class _ProfileState extends State<Profile> {
                                                                                       .circular(
                                                                                       5),
                                                                                   child: Image
-                                                                                      .asset(
-                                                                                    "assets/images/lari2.jpg",
+                                                                                      .network(
+                                                                                    snapshot.data[index].imageURL,
                                                                                     fit: BoxFit
                                                                                         .cover,)),
                                                                             ),
