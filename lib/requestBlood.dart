@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -46,6 +47,18 @@ class _RequestBloodState extends State<RequestBlood> {
   Set<Marker> markers;
   static double latitude;
   static double longitude;
+  var addresses;
+  var first;
+
+  getUserAddress()async{
+    final coordinates = new Coordinates(latitude, longitude);
+    addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    setState(() {
+      first = addresses.first;
+
+    });
+    print("${first.featureName} : ${first.addressLine}");
+  }
 
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -165,6 +178,7 @@ class _RequestBloodState extends State<RequestBlood> {
                           top: size.height*0.45,
                           child: FlatButton(
                               onPressed: (){
+                                getUserAddress();
                                 _goToUserLocation();
                               },
 
@@ -186,8 +200,8 @@ class _RequestBloodState extends State<RequestBlood> {
                                   borderRadius: BorderRadius.all((Radius.circular(10)))
                               ),
                               child: Icon(
-                                FontAwesomeIcons.mapMarker,
-                                color: Colors.blue,
+                                FontAwesomeIcons.searchLocation,
+                                color: Colors.redAccent,
                               ),
                             ),
                           ),
@@ -213,7 +227,7 @@ class _RequestBloodState extends State<RequestBlood> {
                                   borderRadius: BorderRadius.all((Radius.circular(10)))
                               ),
                               child: Icon(
-                                FontAwesomeIcons.locationArrow,
+                                Icons.pin_drop,
                                 color: Colors.redAccent,
                               ),
                             ),
@@ -310,7 +324,8 @@ class _RequestBloodState extends State<RequestBlood> {
                                                                 InputBorder.none,
                                                                 disabledBorder:
                                                                 InputBorder.none,
-                                                                hintText: 'Location',
+                                                                hintText: first==null ? "location" :    first.addressLine.toString()
+                                                                ,
                                                               ),
                                                               controller: location,
                                                             ),
@@ -529,7 +544,7 @@ class _RequestBloodState extends State<RequestBlood> {
     var user = jsonDecode(userjson);
     var data = {
       "location": location.text,
-      "bloodType": bloodGroup.text,
+      "bloodType": dropdownValue,
       "reason": reason.text,
       "user_id": user["_id"],
     };
