@@ -28,6 +28,8 @@ class _RequestBloodState extends State<RequestBlood> {
   TextEditingController location = new TextEditingController();
   TextEditingController bloodGroup = new TextEditingController();
   TextEditingController reason = new TextEditingController();
+  TextEditingController locationSearch = new TextEditingController();
+
 
   List<String> _bloodGroup = [
     "A",
@@ -49,26 +51,41 @@ class _RequestBloodState extends State<RequestBlood> {
   static double longitude;
   var addresses;
   var first;
-
+  static CameraPosition _userLocation;
   getUserAddress()async{
-//    final query = "Hospital Kelaboran, Tumpat";
-//    var addresses = await Geocoder.local.findAddressesFromQuery(query);
-//    var first = addresses.first;
-//    print("${first.featureName} : ${first.coordinates}");
     final coordinates = new Coordinates(latitude, longitude);
     addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     setState(() {
       first = addresses.first;
-
+      locationSearch.text=first.addressLine.toString();
     });
     print("${first.featureName} : ${first.addressLine}");
   }
 
+ void addressToLocation()async{
+     String query = locationSearch.text;
+    var addresses = await Geocoder.local.findAddressesFromQuery(query);
+    var first = addresses.first;
+    setState(() {
+//      latitude = first.coordinates.latitude;
+//      longitude = first.coordinates.longitude;
+      _userLocation = CameraPosition(
+          bearing: 192.8334901395799,
+          target: LatLng(first.coordinates.latitude,  first.coordinates.longitude),
+          tilt: 59.440717697143555,
+          zoom: 19.151926040649414);
+    });
+  }
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     setState(() {
       latitude = position.latitude;
       longitude = position.longitude;
+      _userLocation = CameraPosition(
+          bearing: 192.8334901395799,
+          target: LatLng(position.latitude,  position.longitude),
+          tilt: 59.440717697143555,
+          zoom: 19.151926040649414);
     });
   }
 
@@ -90,11 +107,11 @@ class _RequestBloodState extends State<RequestBlood> {
     zoom: 14.4746,
   );
 
-  static final CameraPosition _userLocation = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(latitude, longitude),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+//  static final CameraPosition _userLocation = CameraPosition(
+//      bearing: 192.8334901395799,
+//      target: LatLng(latitude, longitude),
+//      tilt: 59.440717697143555,
+//      zoom: 19.151926040649414);
 
   createMarker(context) async{
     if(customIcon==null){
@@ -118,21 +135,12 @@ class _RequestBloodState extends State<RequestBlood> {
 
   }
 
-//  CameraPosition _initialLocation = CameraPosition(
-//    target: LatLng(37.43296265331129, -122.08832357078792),
-//    zoom: 14.4746,
-//  );
-//
-//  static final CameraPosition _userLocation = CameraPosition(
-//      bearing: 192.8334901395799,
-//      target: LatLng(6.1756691, 102.2070327),
-//      tilt: 59.440717697143555,
-//      zoom: 19.151926040649414);
+
 
   @override
   void initState() {
     super.initState();
-    getUserLocation();
+//    getUserLocation();
     fetchUser();
 
   }
@@ -185,7 +193,7 @@ class _RequestBloodState extends State<RequestBlood> {
                               children: [
                                 FlatButton(
                                   onPressed: (){
-                                    getUserAddress();
+                                    addressToLocation();
                                     _goToUserLocation();
                                   },
 
@@ -221,7 +229,7 @@ class _RequestBloodState extends State<RequestBlood> {
                                     borderRadius: BorderRadius.circular(10.0)
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.only(left: 3.0),
                                     child: TextFormField(
                                       cursorColor: Colors
                                           .black,
@@ -231,7 +239,7 @@ class _RequestBloodState extends State<RequestBlood> {
                                               .location_on,
                                           color: Colors
                                               .redAccent,
-                                          size: 40,
+                                          size: 30,
                                         ),
                                         border: InputBorder
                                             .none,
@@ -243,17 +251,46 @@ class _RequestBloodState extends State<RequestBlood> {
                                         InputBorder.none,
                                         disabledBorder:
                                         InputBorder.none,
-                                        hintText: first==null ? "location" :    first.addressLine.toString()
+                                        hintText: "Search Location..."
                                         ,
                                       ),
-                                      controller: location,
+                                      controller: locationSearch,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-
+                      Positioned(
+                        right:0,
+                        bottom:200,
+                        child:   FlatButton(
+                          onPressed: (){
+                            getUserLocation();
+                            getUserAddress();
+                            _goToUserLocation();
+                          },
+                          child: Container(
+                            height: size.height*0.06,
+                            width: size.width*0.11,
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.white.withOpacity(0.1),
+                                      spreadRadius: 3,
+                                      blurRadius: 9
+                                  )
+                                ],
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all((Radius.circular(40)))
+                            ),
+                            child: Icon(
+                              FontAwesomeIcons.locationArrow,
+                              color: Colors.redAccent,
+                            ),
+                          ),
+                        ),
+                      ),
                             DraggableScrollableSheet(
                                 initialChildSize: 0.05,
                                 minChildSize: 0.05,
