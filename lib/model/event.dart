@@ -12,11 +12,12 @@ class Event {
   final DateTime timeEnd;
   final String imageURL;
   final String user_id;
+  final String created_at;
 //  final User user;
 
   Event(
     this.name,
-    this.location, this.phoneNum, this.dateStart, this.dateEnd, this.organizer, this.timeStart, this.timeEnd, this.imageURL, this.user_id, this.id,
+    this.location, this.phoneNum, this.dateStart, this.dateEnd, this.organizer, this.timeStart, this.timeEnd, this.imageURL, this.user_id, this.id, this.created_at,
   );
 
   Event.fromJson(Map<String, dynamic> json)
@@ -30,7 +31,8 @@ class Event {
         timeStart= DateTime.parse(json['timeStart']),
         timeEnd = DateTime.parse(json['timeEnd']),
         imageURL = json['imageURL'],
-        user_id = json['user_id'];
+        user_id = json['user_id'],
+        created_at = json['created_at'];
 //        user = User.fromJson(json['user']);
 
   Map<String, dynamic> toJson() =>

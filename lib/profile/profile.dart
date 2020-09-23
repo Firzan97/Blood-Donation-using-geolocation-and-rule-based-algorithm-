@@ -23,6 +23,7 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 
 class Profile extends StatefulWidget {
@@ -1005,6 +1006,7 @@ class _ProfileState extends State<Profile> {
                                                                     itemBuilder: (
                                                                         BuildContext context,
                                                                         int index) {
+                                                                      var datetime = DateTime.parse(snapshot.data[index].created_at);
                                                                       return Padding(
                                                                         padding: const EdgeInsets
                                                                             .all(
@@ -1046,7 +1048,7 @@ class _ProfileState extends State<Profile> {
                                                                                       Widget>[
                                                                                     Container(
                                                                                       child: Text(
-                                                                                          "6 hours ago")
+                                                                                          "${timeago.format(datetime)}")
                                                                                     ),
                                                                                     SizedBox(
                                                                                       width: size
