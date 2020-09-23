@@ -6,14 +6,8 @@ class Onboarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return MaterialApp(
-        theme: ThemeData(
-          fontFamily: "Muli",
-          scaffoldBackgroundColor: Colors.white,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: Scaffold(body: SplashScreen()
+    return  Scaffold(body: SplashScreen()
 
-        ));
+        );
   }
 }
