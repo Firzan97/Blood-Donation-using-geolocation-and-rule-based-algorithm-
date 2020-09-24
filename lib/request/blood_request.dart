@@ -270,7 +270,7 @@ class _BloodRequestState extends State<BloodRequest> {
                               ),
                               child: FlatButton(
                                 onPressed: (){
-                                  fetchUser();
+                                  _navigateToRequestorLocation(requestDetail.location);
                                 },
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
@@ -288,6 +288,9 @@ class _BloodRequestState extends State<BloodRequest> {
                                 color: kPrimaryColor,
                               ),
                               child: FlatButton(
+                                onPressed: (){
+                                    launch(('tel://${userDetail.phoneNumber}'));       //launch(('tel://99999xxxxx'));
+                                },
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -801,5 +804,21 @@ class _BloodRequestState extends State<BloodRequest> {
   Future<void> _goToUserLocation() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_userLocation));
+  }
+
+
+  Future<void> _navigateToRequestorLocation(location)async{
+    final query = location;
+    var addresses = await Geocoder.local.findAddressesFromQuery(query);
+    var first = addresses.first;
+    print("${first.featureName} : ${first.coordinates}");
+
+    final CameraPosition _requestLocation = CameraPosition(
+        bearing: 192.8334901395799,
+        target: LatLng(first.coordinates.latitude, first.coordinates.longitude),
+        tilt: 59.440717697143555,
+        zoom: 19.151926040649414);
+   final GoogleMapController controller = await _controller.future;
+   controller.animateCamera(CameraUpdate.newCameraPosition(_requestLocation));
   }
 }
