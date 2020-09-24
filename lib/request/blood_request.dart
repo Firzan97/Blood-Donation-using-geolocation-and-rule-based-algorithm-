@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'package:dio/dio.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/model/request.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_blood/api/api.dart';
@@ -46,6 +47,15 @@ class _BloodRequestState extends State<BloodRequest> {
   var nearestRequestor;
   var nearestUserRequestor;
   var temp=1000.0;
+
+
+  double _originLatitude = 6.1756691, _originLongitude = 102.2070327;
+  double _destLatitude = 3.1390, _destLongitude = 101.6869;
+  Map<PolylineId, Polyline> polylines = {};
+  List<LatLng> polylineCoordinates = [];
+  PolylinePoints polylinePoints = PolylinePoints();
+  String googleAPiKey = "AIzaSyCgwPP3csDm7SxVkQ730epwEWsZe6bSZ4Y";
+
 
   Future getDistance(originLat,OriginLon,destinationLat,destinationLon)async{
   var distanceInMeters = await Geolocator().distanceBetween(originLat,OriginLon,destinationLat,destinationLon);
@@ -116,7 +126,7 @@ class _BloodRequestState extends State<BloodRequest> {
     getUserLocation();
     fetchUser();
     _futureRequest = fetchRequest();
-
+    _getPolyline();
 
 //    allMarkers.add(Marker(
 //      markerId: MarkerId('myMarker'),
@@ -148,12 +158,15 @@ class _BloodRequestState extends State<BloodRequest> {
                   child: GoogleMap(
                     initialCameraPosition: _initialLocation,
                     zoomControlsEnabled: true,
+                    polylines: Set<Polyline>.of(polylines.values),
                     markers: Set.from(allMarkers),
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);
                       _controller2=controller;
                       isMapCreated = true;
                       changeMapMode();
+                      polylines: Set<Polyline>.of(polylines.values);
+
                     },
                   ),
                 ),
@@ -821,4 +834,28 @@ class _BloodRequestState extends State<BloodRequest> {
    final GoogleMapController controller = await _controller.future;
    controller.animateCamera(CameraUpdate.newCameraPosition(_requestLocation));
   }
+
+  _addPolyLine() {
+    PolylineId id = PolylineId("poly");
+    Polyline polyline = Polyline(
+        polylineId: id, color: Colors.red, points: polylineCoordinates);
+    polylines[id] = polyline;
+    setState(() {});
+  }
+
+  _getPolyline() async {
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        googleAPiKey,
+        PointLatLng(_originLatitude, _originLongitude),
+        PointLatLng(_destLatitude, _destLongitude),
+        travelMode: TravelMode.driving,
+    );
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+    _addPolyLine();
+  }
+
 }
