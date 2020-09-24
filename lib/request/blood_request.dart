@@ -86,14 +86,12 @@ class _BloodRequestState extends State<BloodRequest> {
   }
 
   CameraPosition _initialLocation = CameraPosition(
-    target: LatLng(37.43296265331129, -122.08832357078792),
-    zoom: 14.4746,
+    target: LatLng(2.9105, 101.1068),
+    zoom: 5.4746,
   );
 
   static final CameraPosition _userLocation = CameraPosition(
-      bearing: 192.8334901395799,
       target: LatLng(latitude, longitude),
-      tilt: 59.440717697143555,
       zoom: 19.151926040649414);
 
   List<Marker> allMarkers= [];
