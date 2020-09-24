@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/model/request.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/loadingScreen.dart';
@@ -35,6 +36,9 @@ class _BloodRequestState extends State<BloodRequest> {
   Future<List<Requestor>> _futureRequest;
   List<User> a = [];
   String view="detail";
+  var userDetail;
+  List<User> requestedUserList = [];
+
 
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -213,7 +217,7 @@ class _BloodRequestState extends State<BloodRequest> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Text("FIRZAN AZRAI",style: TextStyle(
+                        child: Text(userDetail.username,style: TextStyle(
                             fontFamily: "Muli",
                           fontWeight: FontWeight.w700
                         ),),
@@ -661,41 +665,76 @@ class _BloodRequestState extends State<BloodRequest> {
         requests.add(req);
         print("bsabsabsbasbabsabsasqa");
       }
-
+      setState(() {
+        userDetail=a[0];
+      });
       return requests;
     } else {
       throw Exception('Failed to load album');
     }
   }
 
-  Future<List<User>> fetchUser() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var currentUser = jsonDecode(localStorage.getString("user"));
+  _fetchLocation(address)async{
+    final query = address;
+    var addresses = await Geocoder.local.findAddressesFromQuery(query);
+    var first = addresses.first;
+    print(first.coordinates.latitude);
+    return first.coordinates;
+  }
+
+
+  Future<User> fetchUserDetail(id) async {
     var res = await Api().getData("user");
     var body = json.decode(res.body);
+    User user;
     if (res.statusCode == 200) {
-      List<User> users = [];
-      var count = 2;
+      var count = 0;
       for (var u in body) {
-        count++;
-        User user = User.fromJson(u);
-        double lat = user.latitude.toDouble();
-        double lon = user.longitude.toDouble();
+        user = User.fromJson(u);
+        if(id==user.id){
+          return user;
+        }
+      }
+
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
+  Future<List<Requestor>> fetchUser() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var currentUser = jsonDecode(localStorage.getString("user"));
+    var res = await Api().getData("request");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+      List<Requestor> requestors = [];
+      var count = 0;
+      for (var u in body) {
+        Requestor requestor = Requestor.fromJson(u);
+        User requestedUser = requestor.user;
+        requestedUserList.add(requestedUser);
+        var addresses = await Geocoder.local.findAddressesFromQuery(requestor.location);
+        var first = addresses.first;
         allMarkers.add(Marker(
             markerId: MarkerId('myMarker${count}'),
-            icon: user.email == currentUser['email']
+            icon: requestor.user_id == currentUser['_id']
                 ? BitmapDescriptor.fromBytes(customHereIcon)
                 : BitmapDescriptor.fromBytes(customIcon),
             draggable: false,
             onTap: () {
-              print("I m here");
-              print(user.email);
-              print(currentUser['email']);
+              setState(() {
+                userDetail =requestor.user;
+              });
+              print("I m here ${count}");
+              print(requestor.user_id);
+              print(currentUser['_id']);
 
             },
-            position: LatLng(lat, lon)));
+            position: LatLng(first.coordinates.latitude, first.coordinates.longitude)));
+        count++;
+
       }
-      return users;
+      return requestors;
     } else {
       throw Exception('Failed to load album');
     }

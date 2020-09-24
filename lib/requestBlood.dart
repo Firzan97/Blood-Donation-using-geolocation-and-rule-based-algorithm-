@@ -67,6 +67,7 @@ class _RequestBloodState extends State<RequestBlood> {
     var addresses = await Geocoder.local.findAddressesFromQuery(query);
     var first = addresses.first;
     setState(() {
+      location.text=query;
 //      latitude = first.coordinates.latitude;
 //      longitude = first.coordinates.longitude;
       _userLocation = CameraPosition(
@@ -229,7 +230,7 @@ class _RequestBloodState extends State<RequestBlood> {
                                     borderRadius: BorderRadius.circular(10.0)
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 3.0),
+                                    padding: const EdgeInsets.only(left: 3.0,top:2.0),
                                     child: TextFormField(
                                       cursorColor: Colors
                                           .black,
