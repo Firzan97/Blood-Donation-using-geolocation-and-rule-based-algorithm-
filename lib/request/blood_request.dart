@@ -197,7 +197,7 @@ class _BloodRequestState extends State<BloodRequest> {
                           color: Colors.yellowAccent,
                           borderRadius: BorderRadius.circular(20)
                       ),
-                      child: Row(
+                      child: requestDetail!= null ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(FontAwesomeIcons.tint,color: Colors.red,),
@@ -206,7 +206,7 @@ class _BloodRequestState extends State<BloodRequest> {
                             child: Text(requestDetail.bloodType,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 17),),
                           )
                         ],
-                      ),
+                      ) : LoadingScreen()
                     ),
                   ),
                 ),
@@ -221,7 +221,7 @@ class _BloodRequestState extends State<BloodRequest> {
                       color: Colors.white,
                     borderRadius: BorderRadius.circular(7)
                   ),
-                  child: Column(
+                  child: requestDetail!= null ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Padding(
@@ -296,7 +296,7 @@ class _BloodRequestState extends State<BloodRequest> {
                       )
 
                     ],
-                  ),
+                  ) : LoadingScreen()
                 ),
               ),
               DraggableScrollableSheet(
