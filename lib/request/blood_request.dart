@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:dio/dio.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/model/request.dart';
 import 'package:geocoder/geocoder.dart';
@@ -16,6 +17,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 
 class BloodRequest extends StatefulWidget {
   @override
@@ -38,8 +40,14 @@ class _BloodRequestState extends State<BloodRequest> {
   String view="detail";
   var userDetail,requestDetail;
   List<User> requestedUserList = [];
+  var distance;
 
-
+  Future getDistance(originLat,OriginLon,destinationLat,destinationLon)async{
+  var distanceInMeters = await Geolocator().distanceBetween(originLat,OriginLon,destinationLat,destinationLon);
+  setState(() {
+    distance=distanceInMeters/1000;
+  });
+  }
 
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -173,20 +181,32 @@ class _BloodRequestState extends State<BloodRequest> {
                 bottom: 250,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 163),
-                  child: Container(
-                    height: size.height*0.05,
-                    width: size.width*0.20,
-                    decoration: BoxDecoration(
-                        color: Colors.yellow,
-                        borderRadius: BorderRadius.circular(20)
-                    ),
-                    child: Row(
-
-                      children: <Widget>[
-                        IconButton(icon: FaIcon(FontAwesomeIcons.handsHelping,color: Colors.black,),
-                        ),
-                        Text(requestDetail.bloodType,style: TextStyle(fontWeight: FontWeight.w700),)
-                      ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: size.height*0.05,
+                      width: size.width*0.18,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.3),
+                            blurRadius: 9,
+                            spreadRadius: 3
+                          )
+                        ],
+                          color: Colors.yellowAccent,
+                          borderRadius: BorderRadius.circular(20)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(FontAwesomeIcons.tint,color: Colors.red,),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Text(requestDetail.bloodType,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 17),),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -210,7 +230,7 @@ class _BloodRequestState extends State<BloodRequest> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Text("Nearest Request is 10.0  KM",style: TextStyle(
+                        child: Text(distance==null ?"Nearest Request is 10.0  KM" : "${distance.toString()} KM",style: TextStyle(
                           fontFamily: "Muli",
                           color: Colors.black.withOpacity(0.4),
                           fontWeight: FontWeight.w700
@@ -727,6 +747,7 @@ class _BloodRequestState extends State<BloodRequest> {
               setState(() {
                 userDetail =requestor.user;
                 requestDetail = requestor;
+                getDistance(requestedUser.latitude,requestedUser.longitude,first.coordinates.latitude, first.coordinates.longitude);
               });
               print("I m here ${count}");
               print(requestor.user_id);
