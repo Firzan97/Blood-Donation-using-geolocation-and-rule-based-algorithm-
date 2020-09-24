@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:dio/dio.dart';
@@ -41,6 +42,10 @@ class _BloodRequestState extends State<BloodRequest> {
   var userDetail,requestDetail;
   List<User> requestedUserList = [];
   var distance;
+  List<double> distancesList=[];
+  var nearestRequestor;
+  var nearestUserRequestor;
+  var temp=1000.0;
 
   Future getDistance(originLat,OriginLon,destinationLat,destinationLon)async{
   var distanceInMeters = await Geolocator().distanceBetween(originLat,OriginLon,destinationLat,destinationLon);
@@ -221,7 +226,7 @@ class _BloodRequestState extends State<BloodRequest> {
                       color: Colors.white,
                     borderRadius: BorderRadius.circular(7)
                   ),
-                  child: requestDetail!= null ? Column(
+                  child: userDetail!= null ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Padding(
@@ -230,7 +235,7 @@ class _BloodRequestState extends State<BloodRequest> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Text(distance==null ?"Nearest Request is 10.0  KM" : "${distance.toString()} KM",style: TextStyle(
+                        child: Text(distance==null ? "The nearest request: ${temp}KM" : "Distance: ${distance.toString()}KM",style: TextStyle(
                           fontFamily: "Muli",
                           color: Colors.black.withOpacity(0.4),
                           fontWeight: FontWeight.w700
@@ -728,15 +733,28 @@ class _BloodRequestState extends State<BloodRequest> {
     var currentUser = jsonDecode(localStorage.getString("user"));
     var res = await Api().getData("request");
     var body = json.decode(res.body);
+    var requestList =[];
     if (res.statusCode == 200) {
       List<Requestor> requestors = [];
       var count = 0;
+      var nearestCount;
       for (var u in body) {
         Requestor requestor = Requestor.fromJson(u);
         User requestedUser = requestor.user;
         requestedUserList.add(requestedUser);
+        requestList.add(requestor);
         var addresses = await Geocoder.local.findAddressesFromQuery(requestor.location);
         var first = addresses.first;
+        var distanceInMeters = await Geolocator().distanceBetween(requestedUser.latitude,requestedUser.longitude,first.coordinates.latitude, first.coordinates.longitude);
+        distancesList.add(distanceInMeters/1000);
+        if(temp>distancesList.reduce(min)){
+          setState(() {
+            temp=distancesList.reduce(min);
+
+          });
+          nearestCount=count;
+        }
+
         allMarkers.add(Marker(
             markerId: MarkerId('myMarker${count}'),
             icon: requestor.user_id == currentUser['_id']
@@ -758,6 +776,12 @@ class _BloodRequestState extends State<BloodRequest> {
         count++;
 
       }
+
+      setState(() {
+        userDetail  = requestedUserList[nearestCount];
+        requestDetail= requestList[nearestCount];
+        print("paling dekatt ${nearestRequestor}");
+      });
       return requestors;
     } else {
       throw Exception('Failed to load album');
