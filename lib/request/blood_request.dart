@@ -36,8 +36,9 @@ class _BloodRequestState extends State<BloodRequest> {
   Future<List<Requestor>> _futureRequest;
   List<User> a = [];
   String view="detail";
-  var userDetail;
+  var userDetail,requestDetail;
   List<User> requestedUserList = [];
+
 
 
   void getUserLocation()async{
@@ -184,7 +185,7 @@ class _BloodRequestState extends State<BloodRequest> {
                       children: <Widget>[
                         IconButton(icon: FaIcon(FontAwesomeIcons.handsHelping,color: Colors.black,),
                         ),
-                        Text("AB+",style: TextStyle(fontWeight: FontWeight.w700),)
+                        Text(requestDetail.bloodType,style: TextStyle(fontWeight: FontWeight.w700),)
                       ],
                     ),
                   ),
@@ -224,7 +225,7 @@ class _BloodRequestState extends State<BloodRequest> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: Text("Lot 702, Kampung Kok Keli",style: TextStyle(
+                        child: Text(requestDetail.location,style: TextStyle(
                             fontFamily: "Muli",
                             fontWeight: FontWeight.w500
                         ),),
@@ -667,6 +668,7 @@ class _BloodRequestState extends State<BloodRequest> {
       }
       setState(() {
         userDetail=a[0];
+        requestDetail=requests[0];
       });
       return requests;
     } else {
@@ -724,6 +726,7 @@ class _BloodRequestState extends State<BloodRequest> {
             onTap: () {
               setState(() {
                 userDetail =requestor.user;
+                requestDetail = requestor;
               });
               print("I m here ${count}");
               print(requestor.user_id);
