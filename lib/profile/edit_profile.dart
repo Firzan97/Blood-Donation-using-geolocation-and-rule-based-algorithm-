@@ -36,6 +36,8 @@ class _EditProfileState extends State<EditProfile> {
   static double longitude=0.0;
   var addresses;
   var first;
+  TextEditingController _emailController = new TextEditingController();
+  TextEditingController _usernameController = new TextEditingController();
   TextEditingController _mobileController = new TextEditingController();
   TextEditingController _weightController = new TextEditingController();
   TextEditingController _heightController = new TextEditingController();
@@ -94,6 +96,8 @@ class _EditProfileState extends State<EditProfile> {
   }
     http.put(uploadEndPoint, body: {
       "image": base64Image!=null ? base64Image : "" ,
+      "username": _usernameController.text!="" ? _usernameController.text : user['username'].toString(),
+      "email": _emailController.text!="" ? _emailController.text : user['email'].toString(),
       "latitude": latitude!=null ? latitude.toString() : user['latitude'].toString(),
       "longitude": longitude!=null ? longitude.toString() : user['longitude'].toString() ,
       "bloodType": dropdownValue!=null ? dropdownValue : user['bloodType'].toString(),
@@ -114,6 +118,18 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
       uploadEndPoint = "http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/api/user/${user['_id']}";
+      _usernameController.text = user['username'];
+      _emailController.text = user['email'];
+      _weightController.text = user['weight'];
+      _heightController.text = user['height'];
+      _mobileController.text = user['phoneNumber'];
+      dropdownValue = user['bloodType'];
+      if(user['gender']=='Male'){
+        checkedValueMale=true;
+      }
+      else{
+        checkedValueFemale=false;
+      }
     });
   }
 
@@ -300,12 +316,14 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                         Text("Username"),
                         TextField(
+                          controller: _usernameController,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Enter username'),
                         ),
                         Text("Email"),
                         TextField(
+                          controller: _emailController,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Enter email'),
