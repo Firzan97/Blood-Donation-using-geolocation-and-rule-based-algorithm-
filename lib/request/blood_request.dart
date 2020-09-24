@@ -126,7 +126,6 @@ class _BloodRequestState extends State<BloodRequest> {
     getUserLocation();
     fetchUser();
     _futureRequest = fetchRequest();
-    _getPolyline();
 
 //    allMarkers.add(Marker(
 //      markerId: MarkerId('myMarker'),
@@ -700,12 +699,10 @@ class _BloodRequestState extends State<BloodRequest> {
       List<Requestor> requests = [];
       var count = 0;
       for (Map u in bodys) {
-        print("dapattt");
         Requestor req = Requestor.fromJson(u);
         User user = req.user;
         a.add(user);
         requests.add(req);
-        print("bsabsabsbasbabsabsasqa");
       }
       setState(() {
         userDetail=a[0];
@@ -761,12 +758,11 @@ class _BloodRequestState extends State<BloodRequest> {
         requestList.add(requestor);
         var addresses = await Geocoder.local.findAddressesFromQuery(requestor.location);
         var first = addresses.first;
-        var distanceInMeters = await Geolocator().distanceBetween(requestedUser.latitude,requestedUser.longitude,first.coordinates.latitude, first.coordinates.longitude);
+        var distanceInMeters = await Geolocator().distanceBetween(double.parse(currentUser['latitude']),double.parse(currentUser['longitude']),first.coordinates.latitude, first.coordinates.longitude);
         distancesList.add(distanceInMeters/1000);
         if(temp>distancesList.reduce(min)){
           setState(() {
             temp=distancesList.reduce(min);
-
           });
           nearestCount=count;
         }
@@ -781,12 +777,8 @@ class _BloodRequestState extends State<BloodRequest> {
               setState(() {
                 userDetail =requestor.user;
                 requestDetail = requestor;
-                getDistance(requestedUser.latitude,requestedUser.longitude,first.coordinates.latitude, first.coordinates.longitude);
+                getDistance(double.parse(currentUser['latitude']),double.parse(currentUser['longitude']),first.coordinates.latitude, first.coordinates.longitude);
               });
-              print("I m here ${count}");
-              print(requestor.user_id);
-              print(currentUser['_id']);
-
             },
             position: LatLng(first.coordinates.latitude, first.coordinates.longitude)));
         count++;
@@ -796,7 +788,6 @@ class _BloodRequestState extends State<BloodRequest> {
       setState(() {
         userDetail  = requestedUserList[nearestCount];
         requestDetail= requestList[nearestCount];
-        print("paling dekatt ${nearestRequestor}");
       });
       return requestors;
     } else {
@@ -821,11 +812,13 @@ class _BloodRequestState extends State<BloodRequest> {
 
 
   Future<void> _navigateToRequestorLocation(location)async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var currentUser = jsonDecode(localStorage.getString("user"));
     final query = location;
     var addresses = await Geocoder.local.findAddressesFromQuery(query);
     var first = addresses.first;
     print("${first.featureName} : ${first.coordinates}");
-
+    _getPolyline(double.parse(currentUser['latitude']),double.parse(currentUser['longitude']),first.coordinates.latitude, first.coordinates.longitude);
     final CameraPosition _requestLocation = CameraPosition(
         bearing: 192.8334901395799,
         target: LatLng(first.coordinates.latitude, first.coordinates.longitude),
@@ -838,16 +831,18 @@ class _BloodRequestState extends State<BloodRequest> {
   _addPolyLine() {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
+      width: 1,
         polylineId: id, color: Colors.red, points: polylineCoordinates);
     polylines[id] = polyline;
     setState(() {});
   }
 
-  _getPolyline() async {
+  _getPolyline(a,b,c,d) async {
+    polylineCoordinates.clear();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleAPiKey,
-        PointLatLng(_originLatitude, _originLongitude),
-        PointLatLng(_destLatitude, _destLongitude),
+        PointLatLng(a, b),
+        PointLatLng(c, d),
         travelMode: TravelMode.driving,
     );
     if (result.points.isNotEmpty) {
