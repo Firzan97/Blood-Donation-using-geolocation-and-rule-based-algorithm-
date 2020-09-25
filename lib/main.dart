@@ -1,7 +1,9 @@
 import 'package:easy_blood/admin/dashboard/dashboard.dart';
 import 'package:easy_blood/home/home.dart';
 import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/message_screen.dart';
 import 'package:easy_blood/onboarding.dart';
+import 'package:easy_blood/pages/home_page.dart';
 import 'package:easy_blood/profile/edit_profile.dart';
 import 'package:easy_blood/profile/profile.dart';
 import 'package:easy_blood/service/geolocation_service.dart';
@@ -11,6 +13,7 @@ import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_blood/socketIoChat/main.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 Future main()async {
@@ -39,6 +42,8 @@ class _MyAppState extends State<MyApp> {
         '/editprofile': (BuildContext context) => EditProfile(),
         '/dashboard': (BuildContext context) => Dashboard(),
         '/secondScreen': (BuildContext context) => HomeApp(),
+        '/messageScreen': (BuildContext context) => MessageScreen(),
+        '/homepage': (BuildContext context) => HomePage(),
       }
     );
   }

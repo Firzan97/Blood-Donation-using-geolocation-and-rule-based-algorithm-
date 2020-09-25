@@ -65,6 +65,8 @@ dependencies:
   flutter_screenutil: ^3.0.2
   flutter_polyline_points: ^0.2.3
   flutter_dotenv: ^2.1.0
+  pusher_websocket_flutter: ^0.2.0
+  line_icons: ^0.2.0
 
 
 
