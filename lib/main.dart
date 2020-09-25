@@ -10,9 +10,11 @@ import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_blood/socketIoChat/main.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-void main() {
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+Future main()async {
+  await DotEnv().load('.env');
   runApp(MaterialApp(home: MyApp()));}
 
 class MyApp extends StatefulWidget {
