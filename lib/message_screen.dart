@@ -6,8 +6,17 @@ import 'package:easy_blood/event/bloodEvent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MessageScreen extends StatefulWidget {
+  final String receivedID;
+
+  const MessageScreen({Key key, this.receivedID}) : super(key: key);
+
+
+
+
+
   @override
   _MessageScreenState createState() => _MessageScreenState();
 }
@@ -103,7 +112,8 @@ class _MessageScreenState extends State<MessageScreen> {
                       child: Icon(Icons.pin_drop),
                     ),
                     onPressed: (){
-                      _sendMessage(k.text);
+//                      _sendMessage(k.text);
+                      _setConversation();
                     },
                   )
                 ],
@@ -114,14 +124,31 @@ class _MessageScreenState extends State<MessageScreen> {
     );
   }
 
+  _setConversation() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var userjson = localStorage.getString("user");
+    var user= jsonDecode(userjson);
+
+    var data = {
+      "userSendId": user["_id"],
+      "userReceiveId": widget.receivedID,
+      "message": k.text
+    };
+    print("takkkk jadiiiiiiiiiii");
+
+    var res = await Api().postData(data,"conversation");
+    if(res.statusCode==200){
+      print("menjadiii gila babsaisiasasasasasa");
+    }
+  }
+
   Future _sendMessage(message) async{
     var data = {
       'message': message
     };
+
     var res = await Api().postData(data,"message");
-    if (res.statusCode == 200) {
-            print("menjadi babh999asasasasasasaad") ;
-    }
+
   }
 
   Future<void> initPusher() async {
