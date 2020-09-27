@@ -6,6 +6,7 @@ import 'package:easy_blood/event/bloodEvent.dart';
 import 'package:easy_blood/model/message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,14 +29,16 @@ class _MessageScreenState extends State<MessageScreen> {
   StreamController<String> _eventData = StreamController<String>();
   Sink get _inEventData => _eventData.sink;
   Stream get eventStream => _eventData.stream;
-
+ var _controller;
   Channel channel;
-
+  ScrollController _scrollController = new ScrollController();
   String channelName = 'easy-blood';
   String eventName = "message";
   var userjson;
   var user;
+  var _futureMessage;
   List<String> messages = new List<String>();
+  var bottomList=0;
 
   @override
   void dispose()
@@ -56,13 +59,16 @@ class _MessageScreenState extends State<MessageScreen> {
   void initState()
   {
     super.initState();
-
     initPusher();
     _getUserData();
+
+
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     return MaterialApp(
       title: 'Flutter + Laravel + Pusher',
       home: Scaffold(
@@ -86,11 +92,13 @@ class _MessageScreenState extends State<MessageScreen> {
                 child: FutureBuilder(
                   future: fetchMessage(),
                     builder: (context, snapshot) {
-                      return
+                      return snapshot.data!=null ?
                       ListView.builder(
+                          controller: _scrollController,
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Container(
+                            return snapshot.data!=null ?
+                             Container(
                               margin: EdgeInsets.all(15),
                               child: Column(
                                  crossAxisAlignment: snapshot.data[index].userSendId== user['_id'] ? CrossAxisAlignment.end : CrossAxisAlignment.start ,
@@ -112,9 +120,9 @@ class _MessageScreenState extends State<MessageScreen> {
 
                                 ],
                               ),
-                            );
+                            ) : Container();
                           }
-                      );
+                      ) : Container();
                     }
                 ),
               ),
@@ -133,7 +141,12 @@ class _MessageScreenState extends State<MessageScreen> {
                     ),
                     onPressed: (){
 //                      _sendMessage(k.text);
-                      _setConversation();
+                      setState(() {
+                        _sendMessage(k.text);
+                        _setConversation();
+                        fetchMessage();
+
+                      });
                     },
                   )
                 ],
@@ -155,8 +168,15 @@ class _MessageScreenState extends State<MessageScreen> {
         count++;
         Message message = Message.fromJson(u);
         messages.add(message);
-        print("halliiiiiiiuuuu");
       }
+
+      WidgetsBinding.instance
+          .addPostFrameCallback((_){
+        if (_scrollController.hasClients) {
+          print("bodo");
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+        }
+      });
 
       return messages;
     } else {
@@ -208,10 +228,14 @@ class _MessageScreenState extends State<MessageScreen> {
     });
 
     eventStream.listen((data) async {
-      Map<String, dynamic> message = jsonDecode(data);
-
       setState(() {
-        messages.add(message['message']);
+        WidgetsBinding.instance
+            .addPostFrameCallback((_){
+          if (_scrollController.hasClients) {
+            print("bodo");
+            _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+          }
+        });
       });
     });
   }

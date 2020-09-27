@@ -48,7 +48,7 @@ class _BloodRequestState extends State<BloodRequest> {
   var nearestRequestor;
   var nearestUserRequestor;
   var temp=1000.0;
-
+  var currentUser;
 
   double _originLatitude = 6.1756691, _originLongitude = 102.2070327;
   double _destLatitude = 3.1390, _destLongitude = 101.6869;
@@ -57,7 +57,10 @@ class _BloodRequestState extends State<BloodRequest> {
   PolylinePoints polylinePoints = PolylinePoints();
   String googleAPiKey = "AIzaSyCgwPP3csDm7SxVkQ730epwEWsZe6bSZ4Y";
 
-
+_getUserData()async{
+  SharedPreferences localStorage = await SharedPreferences.getInstance();
+  currentUser = jsonDecode(localStorage.getString("user"));
+}
   Future getDistance(originLat,OriginLon,destinationLat,destinationLon)async{
   var distanceInMeters = await Geolocator().distanceBetween(originLat,OriginLon,destinationLat,destinationLon);
   setState(() {
@@ -122,6 +125,7 @@ class _BloodRequestState extends State<BloodRequest> {
   @override
   void initState(){
     super.initState();
+    _getUserData();
     getUserLocation();
     fetchUser();
     _futureRequest = fetchRequest();
@@ -475,6 +479,22 @@ class _BloodRequestState extends State<BloodRequest> {
                                                                 MainAxisAlignment
                                                                     .spaceEvenly,
                                                             children: <Widget>[
+                                                              a[index].id!=currentUser['_id'] ?
+                                                              IconButton(
+                                                                icon: Icon(
+                                                                  Icons
+                                                                      .message,
+                                                                  color:
+                                                                  kPrimaryColor,
+                                                                ),
+                                                                onPressed: () {
+                                                                  Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => MessageScreen(receivedID: a[index].id)),
+                                                                  );
+                                                                },
+                                                              ) : Container(),
                                                               IconButton(
                                                                 icon: Icon(
                                                                   Icons.call,
@@ -487,21 +507,7 @@ class _BloodRequestState extends State<BloodRequest> {
 
                                                                 },
                                                               ),
-                                                              IconButton(
-                                                                icon: Icon(
-                                                                  Icons
-                                                                      .message,
-                                                                  color:
-                                                                      kPrimaryColor,
-                                                                ),
-                                                                onPressed: () {
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) => MessageScreen(receivedID: a[index].id)),
-                                                                  );
-                                                                },
-                                                              ),
+
                                                             ],
                                                           ),
                                                         ),
@@ -745,8 +751,7 @@ class _BloodRequestState extends State<BloodRequest> {
   }
 
   Future<List<Requestor>> fetchUser() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var currentUser = jsonDecode(localStorage.getString("user"));
+
     var res = await Api().getData("request");
     var body = json.decode(res.body);
     var requestList =[];
