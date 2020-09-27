@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/event/bloodEvent.dart';
+import 'package:easy_blood/model/message.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
@@ -31,7 +33,8 @@ class _MessageScreenState extends State<MessageScreen> {
 
   String channelName = 'easy-blood';
   String eventName = "message";
-
+  var userjson;
+  var user;
   List<String> messages = new List<String>();
 
   @override
@@ -44,12 +47,18 @@ class _MessageScreenState extends State<MessageScreen> {
     super.dispose();
   }
 
+  _getUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+     userjson = localStorage.getString("user");
+     user= jsonDecode(userjson);
+  }
   @override
   void initState()
   {
     super.initState();
 
     initPusher();
+    _getUserData();
   }
 
   @override
@@ -74,26 +83,37 @@ class _MessageScreenState extends State<MessageScreen> {
             children: [
               Container(
                 height: 600,
-                child: ListView.builder(
-                    itemCount: messages.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        margin: EdgeInsets.all(15),
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Text(
-                                messages[index],
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                child: FutureBuilder(
+                  future: fetchMessage(),
+                    builder: (context, snapshot) {
+                      return
+                      ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              margin: EdgeInsets.all(15),
+                              child: Column(
+                                 crossAxisAlignment: snapshot.data[index].userSendId== user['_id'] ? CrossAxisAlignment.end : CrossAxisAlignment.start ,
+                                children: [
+//                                    Text(
+//                                      messages[index],
+//                                      style: TextStyle(
+//                                        fontSize: 20,
+//                                        fontWeight: FontWeight.bold,
+//                                      ),
+//                                    ),
+                                  Text(
+                                    snapshot.data[index].message,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+
+                                ],
                               ),
-
-
-                            ],
-                          ),
-                        ),
+                            );
+                          }
                       );
                     }
                 ),
@@ -122,6 +142,26 @@ class _MessageScreenState extends State<MessageScreen> {
           )
       ),
     );
+  }
+
+  Future<List<Message>> fetchMessage() async {
+
+    var res = await Api().getData("message");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+      List<Message> messages = [];
+      var count=0;
+      for (var u in body) {
+        count++;
+        Message message = Message.fromJson(u);
+        messages.add(message);
+        print("halliiiiiiiuuuu");
+      }
+
+      return messages;
+    } else {
+      throw Exception('Failed to load album');
+    }
   }
 
   _setConversation() async{
