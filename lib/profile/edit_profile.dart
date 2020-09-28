@@ -117,7 +117,7 @@ class _EditProfileState extends State<EditProfile> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
-      uploadEndPoint = "http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/api/user/${user['_id']}";
+      uploadEndPoint = "http://192.168.1.6:8000/api/user/${user['_id']}";
       _usernameController.text = user['username'];
       _emailController.text = user['email'];
       _weightController.text = user['weight'];

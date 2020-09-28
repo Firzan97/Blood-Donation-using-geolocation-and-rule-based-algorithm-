@@ -4,6 +4,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:easy_blood/about/about.dart';
 import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/chat/chat_home.dart';
 import 'package:easy_blood/component/curvedBackground.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/event/bloodEvent.dart';
@@ -13,10 +14,12 @@ import 'package:easy_blood/model/event.dart';
 import 'package:easy_blood/model/request.dart';
 import 'package:easy_blood/model/user.dart';
 import 'package:easy_blood/notification.dart';
+import 'package:easy_blood/pages/home_page.dart';
 import 'package:easy_blood/profile/edit_profile.dart';
 import 'package:easy_blood/profile/profile.dart';
 import 'package:easy_blood/request/blood_request.dart';
 import 'package:easy_blood/requestBlood.dart';
+import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -382,6 +385,49 @@ class _HomeState extends State<Home> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => Notifications()),
+                                    );
+                                  },
+                                ),
+                              ),
+                            )),
+                        FadeAnimation(
+                            0.5,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 13, right: 8, left: 8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.1),
+                                          spreadRadius: 1,
+                                          blurRadius: 7
+                                      )
+                                    ]
+                                ),
+                                height: 50,
+                                child: FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  disabledColor: Colors.white,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text("Message"),
+                                      FaIcon(
+                                        FontAwesomeIcons.info,
+                                        color: kPrimaryColor,
+                                      ),
+                                    ],
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ChatHome()),
                                     );
                                   },
                                 ),

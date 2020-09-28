@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:easy_blood/constant/data.dart';
 import 'package:easy_blood/pages/chat_detail_page.dart';
 import 'package:easy_blood/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,7 +13,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   TextEditingController _searchController = new TextEditingController();
+  var currentUser;
+
+  _getUserData()async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    setState(() {
+      currentUser = jsonDecode(localStorage.getString("user"));
+    });
+  }
+
+
+  @override
+  void initState(){
+    super.initState();
+    _getUserData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                           image: NetworkImage(
-                              "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"),
+                              currentUser['imageURL']),
                           fit: BoxFit.cover)),
                 ),
                 Text(
@@ -278,5 +298,4 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ));
-  }
-}
+  }}
