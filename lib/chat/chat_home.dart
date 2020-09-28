@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/chat/chat_detail.dart';
 import 'package:easy_blood/constant/data.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/conversation.dart';
 import 'package:easy_blood/model/message.dart';
 import 'package:easy_blood/model/user.dart';
-import 'package:easy_blood/pages/chat_detail_page.dart';
 import 'package:easy_blood/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -129,7 +129,7 @@ class _ChatHomeState extends State<ChatHome> {
                                       (BuildContext context, int index) {
                                     return InkWell(
                                       onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (_) => ChatDetailPage()));
+                                        Navigator.push(context, MaterialPageRoute(builder: (_) => ChatDetail(user: users[index])));
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.only(bottom: 20),
@@ -167,7 +167,7 @@ class _ChatHomeState extends State<ChatHome> {
                                                         shape: BoxShape.circle,
                                                         image: DecorationImage(
                                                             image:
-                                                            NetworkImage(userMessages[index]['img']),
+                                                            NetworkImage(users[index].imageURL),
                                                             fit: BoxFit.cover)),
                                                   ),
                                                   userMessages[index]['online']

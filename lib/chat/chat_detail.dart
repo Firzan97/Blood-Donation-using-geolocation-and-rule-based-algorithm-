@@ -1,15 +1,52 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/constant/data.dart';
+import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/model/message.dart';
+import 'package:easy_blood/model/user.dart';
 import 'package:easy_blood/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:pusher_websocket_flutter/pusher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ChatDetailPage extends StatefulWidget {
+class ChatDetail extends StatefulWidget {
+  final User user;
+
+  const ChatDetail({Key key, this.user}) : super(key: key);
   @override
-  _ChatDetailPageState createState() => _ChatDetailPageState();
+  _ChatDetailState createState() => _ChatDetailState();
 }
 
-class _ChatDetailPageState extends State<ChatDetailPage> {
+class _ChatDetailState extends State<ChatDetail> {
   TextEditingController _sendMessageController = new TextEditingController();
+  var currentUser;
+  StreamController<String> _eventData = StreamController<String>();
+  Sink get _inEventData => _eventData.sink;
+  Stream get eventStream => _eventData.stream;
+  Channel channel;
+  ScrollController _scrollController = new ScrollController();
+  String channelName = 'easy-blood';
+  String eventName = "message";
+  _getUserData()async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    setState(() {
+      currentUser = jsonDecode(localStorage.getString("user"));
+    });
+  }
+
+
+  @override
+  void initState(){
+    super.initState();
+    _getUserData();
+    fetchMessage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +70,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                       image: NetworkImage(
-                          "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"),
+                          widget.user.imageURL),
                       fit: BoxFit.cover)),
             ),
             SizedBox(
@@ -43,7 +80,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Tyler Nix",
+                  widget.user.username,
                   style: TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold, color: black),
                 ),
@@ -91,7 +128,92 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       body: getBody(),
       bottomSheet: getBottom(),
     );
+
+
   }
+
+  Future<List<Message>> fetchMessage() async {
+
+    var res = await Api().getData("conversationMessage/${widget.user.id}");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+      List<Message> messages = [];
+      var count=0;
+      for (var u in body) {
+        count++;
+        Message event = Message.fromJson(u);
+        messages.add(event);
+      }
+
+      WidgetsBinding.instance
+          .addPostFrameCallback((_){
+        if (_scrollController.hasClients) {
+          print("bodo");
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+        }
+      });
+      return messages;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
+  _setConversation() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var userjson = localStorage.getString("user");
+    var user= jsonDecode(userjson);
+
+    var data = {
+      "userSendId": user["_id"],
+      "userReceiveId": widget.user.id,
+      "message": _sendMessageController.text
+    };
+    print("takkkk jadiiiiiiiiiii");
+
+    var res = await Api().postData(data,"conversation");
+    if(res.statusCode==200){
+      print("menjadiii gila babsaisiasasasasasa");
+    }
+  }
+
+  Future _sendMessage(message) async{
+    var data = {
+      'message': message
+    };
+
+    var res = await Api().postData(data,"message");
+
+  }
+
+  Future<void> initPusher() async {
+    await Pusher.init(
+        DotEnv().env['PUSHER_APP_KEY'],
+        PusherOptions(cluster: DotEnv().env['PUSHER_APP_CLUSTER']),
+        enableLogging: true
+    );
+
+    Pusher.connect();
+
+    channel = await Pusher.subscribe(channelName);
+
+    channel.bind(eventName, (last) {
+      final String data = last.data;
+      _inEventData.add(data);
+    });
+
+    eventStream.listen((data) async {
+      setState(() {
+        WidgetsBinding.instance
+            .addPostFrameCallback((_){
+          if (_scrollController.hasClients) {
+            print("bodo");
+            _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+          }
+        });
+      });
+    });
+  }
+
   Widget getBottom(){
     return Container(
       height: 80,
@@ -142,8 +264,12 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 15,),
-                  Icon(Icons.thumb_up,size: 35,color: primary,),
+                  SizedBox(width: 1,),
+                  IconButton(icon: Icon(Icons.send,size: 35,color: primary),onPressed: (){
+                    _sendMessage(_sendMessageController.text);
+                    _setConversation();
+                    fetchMessage();
+                  },),
                 ],
               ),
             ),
@@ -158,11 +284,20 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
   Widget getBody() {
 
-    return ListView(
-      padding: EdgeInsets.only(right: 20,left: 20,top: 20,bottom: 80),
-      children: List.generate(messages.length, (index){
-        return ChatBubble(isMe: messages[index]['isMe'],messageType: messages[index]['messageType'],message: messages[index]['message'],profileImg: messages[index]['profileImg']);
-      }),
+    return FutureBuilder(
+      future: fetchMessage(),
+      builder: (context,snapshot){
+        return snapshot.data==null ? LoadingScreen() :
+        ListView.builder(
+            controller: _scrollController,
+            padding: EdgeInsets.only(right: 20,left: 20,top: 20,bottom: 80),
+            itemCount: snapshot.data.length,
+            itemBuilder: (BuildContext c, index){
+            return ChatBubble(isMe: snapshot.data[index].userSendId== currentUser['_id'] ? true : false,messageType: messages[index]['messageType'],message: snapshot.data[index].message,profileImg: widget.user.imageURL);
+          }
+        );
+      },
+
     );
   }
 }
@@ -186,9 +321,11 @@ class ChatBubble extends StatelessWidget {
           children: <Widget>[
             Flexible(
               child: Container(
+                margin: EdgeInsets.only(top: 15.0),
+
                 decoration: BoxDecoration(
-                    color: primary,
-                    borderRadius: getMessageType(messageType)
+                    color: kPrimaryColor,
+                    borderRadius: BorderRadius.circular(20)
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
@@ -226,9 +363,10 @@ class ChatBubble extends StatelessWidget {
             ),
             Flexible(
               child: Container(
+                margin: EdgeInsets.only(top: 15.0),
                 decoration: BoxDecoration(
-                    color: grey,
-                    borderRadius: getMessageType(messageType)
+                    color: kGradient1,
+                  borderRadius: BorderRadius.circular(20)
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
@@ -246,77 +384,5 @@ class ChatBubble extends StatelessWidget {
         ),
       );
     }
-
-  }
-  getMessageType(messageType){
-    if(isMe){
-      // start message
-      if(messageType == 1){
-        return BorderRadius.only(
-            topRight: Radius.circular(30),
-            bottomRight: Radius.circular(5),
-            topLeft: Radius.circular(30),
-            bottomLeft: Radius.circular(30)
-        );
-      }
-      // middle message
-      else if(messageType == 2){
-        return BorderRadius.only(
-            topRight: Radius.circular(5),
-            bottomRight: Radius.circular(5),
-            topLeft: Radius.circular(30),
-            bottomLeft: Radius.circular(30)
-        );
-      }
-      // end message
-      else if(messageType == 3){
-        return BorderRadius.only(
-            topRight: Radius.circular(5),
-            bottomRight: Radius.circular(30),
-            topLeft: Radius.circular(30),
-            bottomLeft: Radius.circular(30)
-        );
-      }
-      // standalone message
-      else{
-        return BorderRadius.all(Radius.circular(30));
-      }
-    }
-    // for sender bubble
-    else{
-      // start message
-      if(messageType == 1){
-        return BorderRadius.only(
-            topLeft: Radius.circular(30),
-            bottomLeft: Radius.circular(5),
-            topRight: Radius.circular(30),
-            bottomRight: Radius.circular(30)
-        );
-      }
-      // middle message
-      else if(messageType == 2){
-        return BorderRadius.only(
-            topLeft: Radius.circular(5),
-            bottomLeft: Radius.circular(5),
-            topRight: Radius.circular(30),
-            bottomRight: Radius.circular(30)
-        );
-      }
-      // end message
-      else if(messageType == 3){
-        return BorderRadius.only(
-            topLeft: Radius.circular(5),
-            bottomLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-            bottomRight: Radius.circular(30)
-        );
-      }
-      // standalone message
-      else{
-        return BorderRadius.all(Radius.circular(30));
-      }
-    }
-
-
   }
 }

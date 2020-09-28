@@ -29,7 +29,6 @@ class _MessageScreenState extends State<MessageScreen> {
   StreamController<String> _eventData = StreamController<String>();
   Sink get _inEventData => _eventData.sink;
   Stream get eventStream => _eventData.stream;
- var _controller;
   Channel channel;
   ScrollController _scrollController = new ScrollController();
   String channelName = 'easy-blood';

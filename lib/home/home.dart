@@ -14,7 +14,6 @@ import 'package:easy_blood/model/event.dart';
 import 'package:easy_blood/model/request.dart';
 import 'package:easy_blood/model/user.dart';
 import 'package:easy_blood/notification.dart';
-import 'package:easy_blood/pages/home_page.dart';
 import 'package:easy_blood/profile/edit_profile.dart';
 import 'package:easy_blood/profile/profile.dart';
 import 'package:easy_blood/request/blood_request.dart';
