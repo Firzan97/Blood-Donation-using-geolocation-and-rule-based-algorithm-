@@ -32,6 +32,10 @@ class _ChatDetailState extends State<ChatDetail> {
   ScrollController _scrollController = new ScrollController();
   String channelName = 'easy-blood';
   String eventName = "message";
+  var futureMessage;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
   _getUserData()async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
@@ -39,17 +43,28 @@ class _ChatDetailState extends State<ChatDetail> {
     });
   }
 
+  @override
+  void dispose()
+  {
+    Pusher.unsubscribe(channelName);
+    channel.unbind(eventName);
+    _eventData.close();
+
+    super.dispose();
+  }
+
 
   @override
   void initState(){
     super.initState();
     _getUserData();
-    fetchMessage();
+    futureMessage=fetchMessage();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: grey.withOpacity(0.2),
         elevation: 0,
@@ -268,7 +283,10 @@ class _ChatDetailState extends State<ChatDetail> {
                   IconButton(icon: Icon(Icons.send,size: 35,color: primary),onPressed: (){
                     _sendMessage(_sendMessageController.text);
                     _setConversation();
-                    fetchMessage();
+                    setState(() {
+                      futureMessage =  fetchMessage();
+
+                    });
                   },),
                 ],
               ),
@@ -285,7 +303,7 @@ class _ChatDetailState extends State<ChatDetail> {
   Widget getBody() {
 
     return FutureBuilder(
-      future: fetchMessage(),
+      future: futureMessage,
       builder: (context,snapshot){
         return snapshot.data==null ? LoadingScreen() :
         ListView.builder(
@@ -297,12 +315,11 @@ class _ChatDetailState extends State<ChatDetail> {
           }
         );
       },
-
     );
   }
 }
 
-class ChatBubble extends StatelessWidget {
+class ChatBubble extends StatefulWidget {
   final bool isMe;
   final String profileImg;
   final String message;
@@ -312,8 +329,13 @@ class ChatBubble extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _ChatBubbleState createState() => _ChatBubbleState();
+}
+
+class _ChatBubbleState extends State<ChatBubble> {
+  @override
   Widget build(BuildContext context) {
-    if(isMe){
+    if(widget.isMe){
       return Padding(
         padding: const EdgeInsets.all(1.0),
         child: Row(
@@ -330,7 +352,7 @@ class ChatBubble extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: Text(
-                    message,
+                    widget.message,
                     style: TextStyle(
                         color: white,
                         fontSize: 17
@@ -355,7 +377,7 @@ class ChatBubble extends StatelessWidget {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                       image: NetworkImage(
-                          profileImg),
+                          widget.profileImg),
                       fit: BoxFit.cover)),
             ),
             SizedBox(
@@ -371,7 +393,7 @@ class ChatBubble extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: Text(
-                    message,
+                    widget.message,
                     style: TextStyle(
                         color: black,
                         fontSize: 17

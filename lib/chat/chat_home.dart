@@ -4,6 +4,7 @@ import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/chat/chat_detail.dart';
 import 'package:easy_blood/constant/data.dart';
 import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/message_screen.dart';
 import 'package:easy_blood/model/conversation.dart';
 import 'package:easy_blood/model/message.dart';
 import 'package:easy_blood/model/user.dart';
@@ -38,7 +39,6 @@ class _ChatHomeState extends State<ChatHome> {
   void initState(){
     super.initState();
     _getUserData();
-    _futureConversation =  fetchConversation();
   }
 
   @override
@@ -101,7 +101,7 @@ class _ChatHomeState extends State<ChatHome> {
                   child: Column(
                     children: [
                       FutureBuilder(
-                          future: _futureConversation,
+                          future: fetchConversation(),
                           builder: (context,
                               snapshot) {
                             if (snapshot
@@ -129,7 +129,7 @@ class _ChatHomeState extends State<ChatHome> {
                                       (BuildContext context, int index) {
                                     return InkWell(
                                       onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (_) => ChatDetail(user: users[index])));
+                                        Navigator.push(context, MaterialPageRoute(builder: (_) => MessageScreen(user: users[index])));
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.only(bottom: 20),
@@ -206,7 +206,7 @@ class _ChatHomeState extends State<ChatHome> {
                                                   width: MediaQuery.of(context).size.width - 135,
                                                   child: Text(
 
-                                                    "${latestMessages[index].message}  - ${userMessages[index]['created_at']}",
+                                                    "${latestMessages.length!=0 ? latestMessages[index].message: ""}",
                                                     style: TextStyle(
                                                         fontSize: 15, color: black.withOpacity(0.8)
                                                     ),
@@ -235,32 +235,45 @@ class _ChatHomeState extends State<ChatHome> {
   }
 
   Future<List<Conversation>> fetchConversation() async {
-    var res = await Api().getData("conversation");
+    var res = await Api().getData("conversation/${currentUser['_id']}");
     var body = json.decode(res.body);
     List<Conversation> convers = [];
     List<Message> messages = [];
     Conversation conver;
-    print("fuyckk111111111111111");
+    User temp;
     if (res.statusCode == 200) {
-      var count = 0;
-      print("fuyckk22222222222");
-      for (var u in body) {
-        print("fuyckk33333333333333333333");
-        print("fuyckk4444444444444444444");
 
+      var count = 0;
+      for (var u in body) {
         conver = Conversation.fromJson(u);
-        print("fuyckk4444444444444444444");
-        User temp = conver.userReceive;
+
+        if(conver.userReceive.id==currentUser['_id']){
+          temp = conver.userSend;
+        }
+        else{
+          temp = conver.userReceive;
+        }
         users.add(temp);
         convers.add(conver);
-        print("fuyckk55555555555555${conver.id} ");
+
         var temp2 = await Api().getData("latestMessage/${conver.id}");
-        var temp3= json.decode(temp2.body);
+        var temp3;
+
+
         if (temp2.statusCode == 200) {
-          print("fuck ${temp3}");
+          if(temp2.body.length!=0) {
+            temp3 = json.decode(temp2.body);
             Message temp = Message.fromJson(temp3);
+            print(temp.message);
             latestMessages.add(temp);
-            print("fuck uuuuuu");
+          }
+          else{
+           Message temp = new Message("","","");
+           latestMessages.add(temp);
+          }
+
+          print("latestMessage/${conver.id}");
+
         }
       }
       return convers;

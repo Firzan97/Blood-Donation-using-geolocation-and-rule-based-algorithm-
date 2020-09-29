@@ -491,7 +491,7 @@ _getUserData()async{
                                                                   Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                        builder: (context) => MessageScreen(receivedID: a[index].id)),
+                                                                        builder: (context) => MessageScreen(user: a[index])),
                                                                   );
                                                                 },
                                                               ) : Container(),
