@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/model/conversation.dart';
 import 'package:easy_blood/model/message.dart';
 import 'package:easy_blood/model/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,8 +18,9 @@ import 'package:line_icons/line_icons.dart';
 
 class MessageScreen extends StatefulWidget {
   final User user;
+  final Conversation conversation;
 
-  const MessageScreen({Key key, this.user}) : super(key: key);
+  const MessageScreen({Key key, this.user, this.conversation}) : super(key: key);
 
 
 
@@ -66,6 +68,7 @@ class _MessageScreenState extends State<MessageScreen> {
   {
     super.initState();
     initPusher();
+    _readMessage();
     _getUserData();
       _futureMessage = fetchMessage();
 
@@ -278,6 +281,7 @@ class _MessageScreenState extends State<MessageScreen> {
     var data = {
       "userSendId": user["_id"],
       "userReceiveId": widget.user.id,
+      "isRead": false,
       "message": k.text
     };
 
@@ -287,6 +291,24 @@ class _MessageScreenState extends State<MessageScreen> {
       print("menjadi babi");
     }
   }
+
+  _readMessage() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var userjson = localStorage.getString("user");
+    var user= jsonDecode(userjson);
+
+    var data = {
+      "userId": widget.user.id,
+      "isRead": true,
+    };
+
+    var res = await Api().updateData(data,"message/${widget.conversation.id}");
+
+    if(res.statusCode==200){
+      print("menjadi babi update isread ${widget.user.id} message/${widget.conversation.id}");
+    }
+  }
+
 
 //  Future _sendMessage(message) async{
 //    var data = {
