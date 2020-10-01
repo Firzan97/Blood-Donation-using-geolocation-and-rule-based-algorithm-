@@ -239,6 +239,7 @@ class _NotificationsState extends State<Notifications> {
     var res = await Api().getData("user/${user['_id']}/notification");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
+      print("user/${user['_id']}/notification");
       List<UserNotification> userNotifications = [];
       var count=0;
       for (var u in body) {

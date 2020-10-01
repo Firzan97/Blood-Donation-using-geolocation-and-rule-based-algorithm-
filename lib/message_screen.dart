@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/chat/chat_home.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/conversation.dart';
@@ -79,165 +80,174 @@ class _MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
 
 
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: grey.withOpacity(0.2),
-          elevation: 0,
-          leading: FlatButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.arrow_back_ios,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ChatHome()),
+        );
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: grey.withOpacity(0.2),
+            elevation: 0,
+            leading: FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: primary,
+                )),
+            title: Row(
+              children: <Widget>[
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: NetworkImage(
+                              widget.user.imageURL),
+                          fit: BoxFit.cover)),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      widget.user.username,
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold, color: black),
+                    ),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Text(
+                      "Active now",
+                      style: TextStyle(color: black.withOpacity(0.4), fontSize: 14),
+                    )
+                  ],
+                )
+              ],
+            ),
+            actions: <Widget>[
+              Icon(
+                LineIcons.phone,
                 color: primary,
-              )),
-          title: Row(
-            children: <Widget>[
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            widget.user.imageURL),
-                        fit: BoxFit.cover)),
+                size: 32,
               ),
               SizedBox(
                 width: 15,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    widget.user.username,
-                    style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold, color: black),
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    "Active now",
-                    style: TextStyle(color: black.withOpacity(0.4), fontSize: 14),
-                  )
-                ],
-              )
-            ],
-          ),
-          actions: <Widget>[
-            Icon(
-              LineIcons.phone,
-              color: primary,
-              size: 32,
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Icon(
-              LineIcons.video_camera,
-              color: primary,
-              size: 35,
-            ),
-            SizedBox(
-              width: 8,
-            ),
-            Container(
-              width: 13,
-              height: 13,
-              decoration: BoxDecoration(
-                  color: online,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white38)),
-            ),
-            SizedBox(
-              width: 15,
-            ),
-          ],
-        ),
-          body: Column(
-            children: [
+              Icon(
+                LineIcons.video_camera,
+                color: primary,
+                size: 35,
+              ),
+              SizedBox(
+                width: 8,
+              ),
               Container(
-                height: 600,
-                child: FutureBuilder(
-                  future: fetchMessage(),
-                  builder: (context,snapshot){
-                    return snapshot.data==null ? LoadingScreen()  :
-                    ListView.builder(
-                        controller: _scrollController,
-                        padding: EdgeInsets.only(right: 20,left: 20,top: 20,bottom: 80),
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext c, index){
-                          return snapshot.data.length!=0 ? ChatBubble(isMe: snapshot.data[index].userSendId== user['_id'] ? true : false,message: snapshot.data[index].message,profileImg: widget.user.imageURL) : Container();
-                        }
-                    );
-                  },
-                ),
+                width: 13,
+                height: 13,
+                decoration: BoxDecoration(
+                    color: online,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white38)),
+              ),
+              SizedBox(
+                width: 15,
               ),
             ],
           ),
-      bottomSheet: Container(
-        height: 80,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            color: grey.withOpacity(0.2)
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20,right: 20,bottom: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                width: (MediaQuery.of(context).size.width - 40)/2,
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.add_circle,size: 35,color: primary,),
-                    SizedBox(width: 15,),
-                    Icon(Icons.camera_alt,size: 35,color: primary,),
-                    SizedBox(width: 15,),
-                    Icon(Icons.photo,size: 35,color: primary,),
-                    SizedBox(width: 15,),
-                    Icon(Icons.keyboard_voice,size: 35,color: primary,),
-                  ],
+            body: Column(
+              children: [
+                Container(
+                  height: 600,
+                  child: FutureBuilder(
+                    future: fetchMessage(),
+                    builder: (context,snapshot){
+                      return snapshot.data==null ? LoadingScreen()  :
+                      ListView.builder(
+                          controller: _scrollController,
+                          padding: EdgeInsets.only(right: 20,left: 20,top: 20,bottom: 80),
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext c, index){
+                            return snapshot.data.length!=0 ? ChatBubble(isMe: snapshot.data[index].userSendId== user['_id'] ? true : false,message: snapshot.data[index].message,profileImg: widget.user.imageURL) : Container();
+                          }
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Container(
-                width: (MediaQuery.of(context).size.width- 40)/2,
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: (MediaQuery.of(context).size.width-140)/2,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: grey,
-                          borderRadius: BorderRadius.circular(20)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12),
-                        child: TextField(
-                          cursorColor: black,
-                          controller: k,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Aa",
-                              suffixIcon: Icon(Icons.face,color: primary,size: 35,)
+              ],
+            ),
+        bottomSheet: Container(
+          height: 80,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: grey.withOpacity(0.2)
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20,right: 20,bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  width: (MediaQuery.of(context).size.width - 40)/2,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.add_circle,size: 35,color: primary,),
+                      SizedBox(width: 15,),
+                      Icon(Icons.camera_alt,size: 35,color: primary,),
+                      SizedBox(width: 15,),
+                      Icon(Icons.photo,size: 35,color: primary,),
+                      SizedBox(width: 15,),
+                      Icon(Icons.keyboard_voice,size: 35,color: primary,),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: (MediaQuery.of(context).size.width- 40)/2,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: (MediaQuery.of(context).size.width-140)/2,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: grey,
+                            borderRadius: BorderRadius.circular(20)
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: TextField(
+                            cursorColor: black,
+                            controller: k,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Aa",
+                                suffixIcon: Icon(Icons.face,color: primary,size: 35,)
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    SizedBox(width: 1,),
-                    IconButton(icon: Icon(Icons.send,size: 35,color: primary),onPressed: (){
+                      SizedBox(width: 1,),
+                      IconButton(icon: Icon(Icons.send,size: 35,color: primary),onPressed: (){
 //                      _sendMessage(k.text);
-                      _setConversation();
-                    },),
-                  ],
+                        _setConversation();
+                      },),
+                    ],
+                  ),
                 ),
-              ),
 
 
 
-            ],
+              ],
+            ),
           ),
         ),
       ),

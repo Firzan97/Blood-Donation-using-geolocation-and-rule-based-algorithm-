@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:easy_blood/api/api.dart';
@@ -12,7 +13,9 @@ import 'package:easy_blood/model/user.dart';
 import 'package:easy_blood/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatHome extends StatefulWidget {
@@ -26,7 +29,13 @@ class _ChatHomeState extends State<ChatHome> {
   List<User> users=[];
   List<Message> latestMessages=[];
   List<String> unread=[];
-  var _futureConversation;
+  var futureConversation;
+  StreamController<String> _eventData = StreamController<String>();
+  Sink get _inEventData => _eventData.sink;
+  Stream get eventStream => _eventData.stream;
+  Channel channel;
+  String channelName = 'easy-blood';
+  String eventName = "message";
   List<Conversation> convers = [];
   _getUserData()async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -35,11 +44,33 @@ class _ChatHomeState extends State<ChatHome> {
     });
   }
 
+  @override
+  void dispose()
+  {
+    Pusher.unsubscribe(channelName);
+    channel.unbind(eventName);
+    _eventData.close();
+
+    super.dispose();
+  }
 
   @override
   void initState(){
     super.initState();
+
     _getUserData();
+    Future.delayed(const Duration(milliseconds: 500), () {
+
+// Here you can write your code
+
+      setState(() {
+        futureConversation= fetchConversation();
+
+      });
+
+    });
+
+    initPusher();
   }
 
   @override
@@ -102,7 +133,7 @@ class _ChatHomeState extends State<ChatHome> {
                   child: Column(
                     children: [
                       FutureBuilder(
-                          future: fetchConversation(),
+                          future: futureConversation,
                           builder: (context,
                               snapshot) {
                             if (snapshot
@@ -252,25 +283,33 @@ class _ChatHomeState extends State<ChatHome> {
           ),
       ),
     ),);
+
   }
 
-  Future<List<Conversation>> fetchUnread() async {
-    var res = await Api().getData("message/unread/${currentUser['_id']}");
-    var body = json.decode(res.body);
-    List<Conversation> convers = [];
-    List<Message> messages = [];
-    Conversation conver;
-    User temp;
-    if (res.statusCode == 200) {
+  Future<void> initPusher() async {
 
-      var count = 0;
-      for (var u in body) {
-      }
-      return convers;
-    } else {
-      throw Exception('Failed to load album');
-    }
+    await Pusher.init(
+        DotEnv().env['PUSHER_APP_KEY'],
+        PusherOptions(cluster: DotEnv().env['PUSHER_APP_CLUSTER']),
+        enableLogging: true
+    );
+
+    Pusher.connect();
+
+    channel = await Pusher.subscribe(channelName);
+
+    channel.bind(eventName, (last) {
+      final String data = last.data;
+      _inEventData.add(data);
+    });
+
+    eventStream.listen((data) async {
+      setState(() {
+
+      });
+    });
   }
+
 
   Future<List<Conversation>> fetchConversation() async {
     var res = await Api().getData("conversation/${currentUser['_id']}");
@@ -293,7 +332,6 @@ class _ChatHomeState extends State<ChatHome> {
         users.add(temp);
         convers.add(conver);
         var count = await Api().getData("message/${temp.id}/unread/${conver.id}");
-        print("ini dia message/${temp.id}/unread/${conver.id}");
         unread.add(count.body.toString());
         var temp2 = await Api().getData("latestMessage/${conver.id}");
         var temp3;
@@ -302,7 +340,6 @@ class _ChatHomeState extends State<ChatHome> {
           if(temp2.body.length!=0) {
             temp3 = json.decode(temp2.body);
             Message temp = Message.fromJson(temp3);
-            print(temp.message);
             latestMessages.add(temp);
           }
           else{

@@ -862,7 +862,7 @@ class _HomeState extends State<Home> {
                                                   child: Row(
                                                     children: <Widget>[
                                                       Container(
-                                                        height: 200,
+                                                        height: size.height*0.28,
                                                         width: size.width*0.985,
                                              child:  ListView.builder(
                                                    shrinkWrap: true,
@@ -902,7 +902,7 @@ class _HomeState extends State<Home> {
                                                                             decoration: BoxDecoration(
                                                                                 borderRadius:
                                                                                 BorderRadius.circular(10.0),
-                                                                                color: kPrimaryColor,
+                                                                                color: kPrimaryColor.withOpacity(0.7),
                                                                                 boxShadow: [
                                                                                   BoxShadow(
                                                                                       color: Colors.grey.withOpacity(0.15),
@@ -932,7 +932,7 @@ class _HomeState extends State<Home> {
                                                                      color: Colors.white,
                                                                      boxShadow: [
                                                                        BoxShadow(
-                                                                           color: Colors.grey.withOpacity(0.15),
+                                                                           color: Colors.grey.withOpacity(0.7),
                                                                            blurRadius: 5,
                                                                            spreadRadius: 3,
                                                                            offset: Offset(0.1, 0.2)
@@ -1006,17 +1006,18 @@ class _HomeState extends State<Home> {
 //                                                                      ),
 //                                                                    ),
                                                            Padding(
-                                                             padding: const EdgeInsets.all(16.0),
+                                                             padding: const EdgeInsets.all(5.0),
                                                              child: Container(
-                                                               height: size.height*0.20,
+                                                               height: size.height*0.21,
+                                                               width: size.width*0.25,
                                                                decoration: BoxDecoration(
                                                                    borderRadius:
                                                                    BorderRadius.circular(20.0),
                                                                    boxShadow: [
                                                                      BoxShadow(
                                                                          spreadRadius: 4,
-                                                                         color: Colors.black
-                                                                             .withOpacity(0.1),
+                                                                         color: Colors.grey
+                                                                             .withOpacity(0.8),
                                                                          blurRadius: 5)
                                                                    ]),
                                                                child: ClipRRect(
