@@ -30,6 +30,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: "Muli",
+      ),
       debugShowCheckedModeBanner: false,
       home: Splash(),
       routes: <String, WidgetBuilder>{

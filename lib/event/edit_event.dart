@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:easy_blood/api/api.dart';
+import 'package:easy_blood/event/bloodEvent.dart';
 import 'package:easy_blood/event/bloodEventDetail.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:http/http.dart' as http;
@@ -23,12 +25,14 @@ class EditEvent extends StatefulWidget {
 }
 
 class _EditEventState extends State<EditEvent> {
+
   TextEditingController eventName = new TextEditingController();
   TextEditingController eventLocation = new TextEditingController();
   TextEditingController eventTime = new TextEditingController();
   TextEditingController eventDate = new TextEditingController();
   TextEditingController eventOrganizer = new TextEditingController();
   TextEditingController eventPhoneNumber = new TextEditingController();
+
   var dateStart,dateEnd,timeStart,timeEnd;
   final picker = ImagePicker();
   String base64Image;
@@ -40,12 +44,11 @@ class _EditEventState extends State<EditEvent> {
   String errMessage = "error Upload Image";
   var pr;
 
-
   void getUserData() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
-      uploadEndPoint = "http://192.168.1.10:8000/api/user/${user['_id']}/event/${widget.edit.id}";
+      uploadEndPoint = "http://192.168.49.133:8000/api/user/${user['_id']}/event/${widget.edit.id}";
     });
   }
 
@@ -87,10 +90,11 @@ class _EditEventState extends State<EditEvent> {
       setStatus(result.statusCode == 200 ? result.statusCode : errMessage);
       pr.hide();
     Navigator.of(context).pop();
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => BloodEventDetail(event: widget.edit)));
+      MaterialPageRoute(
+      builder: (BuildContext context) =>
+      BloodEvent()));
     }).catchError((error) {
       setStatus(error);
     });
@@ -505,4 +509,5 @@ class _EditEventState extends State<EditEvent> {
         ),
     );
   }
+
 }

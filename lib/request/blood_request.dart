@@ -192,53 +192,60 @@ _getUserData()async{
                         borderRadius: BorderRadius.circular(20)),
                     onPressed: _goToUserLocation,
                     child: Text("Locate your location",style: TextStyle(
-                      color: Colors.white
+                      color: Colors.white,
+                        fontSize: size.width*0.031
                     ),),
                   ),
                 ),
               ),
               Positioned(
-                bottom: 250,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 163),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: size.height*0.05,
-                      width: size.width*0.18,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.white.withOpacity(0.3),
-                            blurRadius: 9,
-                            spreadRadius: 3
-                          )
-                        ],
-                          color: Colors.yellowAccent,
-                          borderRadius: BorderRadius.circular(20)
+                bottom: size.height*0.35,
+                child: Container(
+                  width: size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: size.height*0.04,
+                          width: size.width*0.14,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white.withOpacity(0.3),
+                                blurRadius: 9,
+                                spreadRadius: 3
+                              )
+                            ],
+                              color: Colors.yellowAccent,
+                              borderRadius: BorderRadius.circular(20)
+                          ),
+                          child: requestDetail!= null ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(FontAwesomeIcons.tint,color: Colors.red,size: size.width*0.05,),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Text(requestDetail.bloodType,style: TextStyle(fontWeight: FontWeight.w500,                                              fontSize: size.width*0.031
+                                ),),
+                              )
+                            ],
+                          ) : LoadingScreen()
+                        ),
                       ),
-                      child: requestDetail!= null ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(FontAwesomeIcons.tint,color: Colors.red,),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Text(requestDetail.bloodType,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 17),),
-                          )
-                        ],
-                      ) : LoadingScreen()
-                    ),
+                    ],
                   ),
                 ),
               ),
               Positioned(
-                bottom: 55,
+                bottom: size.height*0.1,
                 left: 15,
                 child: Container(
-                  height: size.height*0.26,
+                  height: size.height*0.25,
                   width: size.width*0.92,
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.white.withOpacity(0.9),
                     borderRadius: BorderRadius.circular(7)
                   ),
                   child: userDetail!= null ? Column(
@@ -253,21 +260,26 @@ _getUserData()async{
                         child: Text(distance==null ? "The nearest request: ${temp}KM" : "Distance: ${distance.toString()}KM",style: TextStyle(
                           fontFamily: "Muli",
                           color: Colors.black.withOpacity(0.4),
-                          fontWeight: FontWeight.w700
+                          fontWeight: FontWeight.w700,
+                            fontSize: size.width*0.031
+
                         ),),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Text(userDetail.username,style: TextStyle(
                             fontFamily: "Muli",
-                          fontWeight: FontWeight.w700
+                          fontWeight: FontWeight.w700,
+                            fontSize: size.width*0.031
+
                         ),),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Text(requestDetail.location,style: TextStyle(
                             fontFamily: "Muli",
-                            fontWeight: FontWeight.w500
+                            fontSize: size.width*0.031,
+                            fontWeight: FontWeight.w500,
                         ),),
                       ),
 
@@ -291,7 +303,8 @@ _getUserData()async{
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Center(child: Text("NAVIGATE",style: TextStyle(
-                                  fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: 15
+                                  fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: size.width*0.035
+
                                 ),)),
                               ),
                             ),
@@ -310,7 +323,7 @@ _getUserData()async{
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Center(child: Text("CALL",style: TextStyle(
-                                    fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: 15
+                                    fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: size.width*0.035
                                 ),)),
                               ),
                             ),

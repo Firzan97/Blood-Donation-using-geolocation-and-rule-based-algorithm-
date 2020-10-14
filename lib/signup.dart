@@ -234,7 +234,7 @@ class _SignUpState extends State<SignUp> {
       "bloodType": "",
       "gender": "",
       "height": "",
-      "imageURL": "",
+      "imageURL": "https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadProfileImage.png",
       "latitude": "",
       "longitude": "",
       "phoneNumber": "",

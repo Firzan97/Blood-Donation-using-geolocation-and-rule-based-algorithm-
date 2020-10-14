@@ -17,6 +17,7 @@ import 'package:easy_blood/notification.dart';
 import 'package:easy_blood/profile/edit_profile.dart';
 import 'package:easy_blood/profile/profile.dart';
 import 'package:easy_blood/request/blood_request.dart';
+import 'package:easy_blood/request/findRequest.dart';
 import 'package:easy_blood/requestBlood.dart';
 import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/welcome.dart';
@@ -25,8 +26,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiffy/jiffy.dart';
@@ -50,6 +54,13 @@ class _HomeState extends State<Home> {
   Future<List<Requestor>> _futureRequest;
   bool profileUpdate=false;
   List<User> a = [];
+  static double latitude;
+  static double longitude;
+  static CameraPosition _userLocation;
+ var address;
+  var addresses;
+  var first;
+
   bool statusUpdated;
    var token;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -74,7 +85,10 @@ class _HomeState extends State<Home> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
      setState(() {
        user= jsonDecode(localStorage.getString("user"));
+       localStorage.setBool('statusUpdated',checkIfAnyIsNull());
+
        statusUpdated=localStorage.getBool('statusUpdated');
+       print("ada la babi ${statusUpdated}");
        token = localStorage.getString('tokenNotification');
      });
      print(statusUpdated);
@@ -253,11 +267,16 @@ class _HomeState extends State<Home> {
                                   ),
                                   onPressed: () {
                                     getUserData();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => RequestBlood()),
-                                    );
+                                    if(!checkIfAnyIsNull()){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => RequestBlood()),
+                                      );
+                                    }else{
+                                      updateProfileDialog(context);
+                                    }
+
                                   },
                                 ),
                               ),
@@ -295,11 +314,18 @@ class _HomeState extends State<Home> {
                                     ],
                                   ),
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => BloodRequest()),
-                                    );
+                                    if(!checkIfAnyIsNull()){
+
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => BloodRequest()),
+                                      );
+                                    }
+                                    else{
+                                      updateProfileDialog(context);
+                                    }
+
                                   },
                                 ),
                               ),
@@ -518,29 +544,35 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              bottomNavigationBar: CurvedNavigationBar(
-                key: _bottomNavigationKey,
-                index: 0,
-                height: 50.0,
-                items: <Widget>[
-                  Icon(Icons.add, size: 30,color: colorList[0]),
-                  Icon(Icons.list, size: 30,color: colorList[1]),
-                  Icon(Icons.compare_arrows, size: 30,color: colorList[2]),
-                  Icon(Icons.call_split, size: 30,color: colorList[3]),
-                  Icon(Icons.perm_identity, size: 30,color: colorList[4]),
-                ],
-                color:kGradient2.withOpacity(0.75),
-                buttonBackgroundColor: kPrimaryColor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ,
-                backgroundColor: Colors.white,
-                animationCurve: Curves.easeInOut,
-                animationDuration: Duration(milliseconds: 400),
-                onTap: (index) {
-                  setState(() {
-                    _page = index;
-
-                  });
-                },
-              ),
+//              bottomNavigationBar: CurvedNavigationBar(
+//                key: _bottomNavigationKey,
+//                index: 0,
+//                height: 50.0,
+//                items: <Widget>[
+//                  Icon(Icons.add, size: 30,color: colorList[0]),
+//                  Icon(Icons.list, size: 30,color: colorList[1]),
+//                  Icon(Icons.compare_arrows, size: 30,color: colorList[2]),
+//                  Icon(Icons.call_split, size: 30,color: colorList[3]),
+//                  Icon(Icons.perm_identity, size: 30,color: colorList[4]),
+//                ],
+//                color:kGradient2.withOpacity(0.75),
+//                buttonBackgroundColor: kPrimaryColor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ,
+//                backgroundColor: Colors.white,
+//                animationCurve: Curves.easeInOut,
+//                animationDuration: Duration(milliseconds: 400),
+//                onTap: (index) {
+//                  setState(() {
+//                    _page = index;
+//                    if(_page==4){
+//                      Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                            builder: (context) => Profile()),
+//                      );
+//                    }
+//                  });
+//                },
+//              ),
               body: Container(
                 color: Colors.white,
                 child: Column(
@@ -559,8 +591,8 @@ class _HomeState extends State<Home> {
                           top: size.height*0.02,
                           child: Image.asset("assets/images/bloodcell.png",scale: 3,)),
                       Positioned(
-                        right:225,
-                        top:130,
+                        right: size.width*0.7,
+                        top:size.height*0.19,
                         child: Image.asset("assets/images/bloodcell.png",scale: 5,),
                       ),
                       ClipPath(
@@ -584,7 +616,7 @@ class _HomeState extends State<Home> {
                                             text: 'Hai, ',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w100,
-                                                fontSize: 18.0),
+                                                fontSize: size.width*0.051),
                                             children: <TextSpan>[
                                               TextSpan(
                                                   text: user['username'],
@@ -602,7 +634,8 @@ class _HomeState extends State<Home> {
                                               color: Colors.white,
                                               fontWeight: FontWeight.w300,
                                               letterSpacing: 1,
-                                              wordSpacing: 2),
+                                              wordSpacing: 2,
+                                              fontSize: size.width*0.031),
                                         )
                                       ],
                                     ),
@@ -621,121 +654,365 @@ class _HomeState extends State<Home> {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: size.height * 0.02),
+                              SizedBox(height: size.height * 0.01),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      height: size.height * 0.07,
-                                      width: size.width * 0.7,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(11.00)),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Icon(
-                                              Icons.location_on,
-                                              color: Colors.black87,
+                                padding: const EdgeInsets.only(left: 8.0, right:8.0, top:5.0 ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                          height: size.height * 0.05,
+                                          width: size.width * 0.45,
+                                          decoration: BoxDecoration(
+                                              color: kPrimaryColor,
+                                              borderRadius:
+                                                    BorderRadius.circular(
+                                                        11.00),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      spreadRadius: 2,
+                                                      blurRadius: 5,
+                                                      color: Colors.black
+                                                          .withOpacity(0.3))
+                                                ]),
+                                            child: FlatButton(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.location_on,
+                                                    color: Colors.white,
+                                                    size: size.width*0.05,
+                                                  ),
+                                                  Text(
+                                                    "Locate your location",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                    fontSize: size.width*0.031),
+                                                  )
+                                                ],
+                                              ),
+                                              onPressed: () {
+                                                getUserLocation();
+                                              },
                                             ),
                                           ),
-                                          Text("Locate your location")
+                                        Container(
+                                          width: size.width*0.27,
+                                          height: size.height*0.05,
+                                          decoration: BoxDecoration(
+                                            color: Colors.yellowAccent,
+                                            borderRadius: BorderRadius.circular(20)
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: <Widget>[
+
+                                              Text(
+                                                "Not Eligible",
+                                                style: TextStyle(
+                                                    color: Colors.black,fontSize: size.width*0.031),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                         ],
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        color: Colors.lightBlue,
-                                        child: Icon(
-                                          Icons.search,
-                                          color: Colors.white,
+                                      Container(
+                                        height: size.height*0.05,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(right: 8.0,left: 8.0,top:3.0),
+                                          child: Text(
+                                              address == null ? "" : address,style: TextStyle(fontSize: size.width*0.026),),
                                         ),
-                                      ),
-                                    )
-                                  ],
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
+//                                Container(
+//                                  child: Row(
+//                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                                    children: [
+//                                      Padding(
+//                                        padding: const EdgeInsets.all(8.0),
+//                                        child: Container(
+//                                            height: size.height * 0.05,
+//                                            width: size.width * 0.13,
+//                                            decoration: BoxDecoration(
+//                                                boxShadow: [
+//                                                  BoxShadow(
+//                                                      color: Colors.black
+//                                                          .withOpacity(0.2),
+//                                                      blurRadius: 9,
+//                                                      spreadRadius: 3)
+//                                                ],
+//                                                color: Colors.white,
+//                                                borderRadius:
+//                                                BorderRadius.circular(5)),
+//                                            child: Row(
+//                                              mainAxisAlignment:
+//                                              MainAxisAlignment.center,
+//                                              children: <Widget>[
+//                                                Icon(
+//                                                  FontAwesomeIcons.tint,
+//                                                  color: Colors.red,
+//                                                  size: 17,
+//                                                ),
+//                                                Padding(
+//                                                  padding:
+//                                                  const EdgeInsets.only(
+//                                                      right: 8.0),
+//                                                  child: Text(
+//                                                    "A",
+//                                                    style: TextStyle(
+//                                                        fontWeight:
+//                                                        FontWeight.w500,
+//                                                        fontSize: 17),
+//                                                  ),
+//                                                )
+//                                              ],
+//                                            )),
+//                                      ),
+//                                      Padding(
+//                                        padding: const EdgeInsets.all(8.0),
+//                                        child: Container(
+//                                            height: size.height * 0.07,
+//                                            width: size.width * 0.28,
+//                                            decoration: BoxDecoration(
+//                                                boxShadow: [
+//                                                  BoxShadow(
+//                                                      color: Colors.black
+//                                                          .withOpacity(0.2),
+//                                                      blurRadius: 9,
+//                                                      spreadRadius: 3)
+//                                                ],
+//                                                color: Colors.white,
+//                                                borderRadius:
+//                                                BorderRadius.circular(5)),
+//                                            child: Row(
+//                                              mainAxisAlignment:
+//                                              MainAxisAlignment.center,
+//                                              children: <Widget>[
+//                                                Icon(
+//                                                  FontAwesomeIcons.clock,
+//                                                  color: Colors.red,
+//                                                ),
+//                                                Padding(
+//                                                  padding:
+//                                                  const EdgeInsets.only(
+//                                                      left: 8.0),
+//                                                  child: Container(
+//                                                    child: Text(
+//                                                      "90 Days left",
+//                                                      style: TextStyle(
+//                                                          fontWeight:
+//                                                          FontWeight.w500,
+//                                                          fontSize: 12),
+//                                                    ),
+//                                                  ),
+//                                                )
+//                                              ],
+//                                            )),
+//                                      ),
+//                                      Padding(
+//                                        padding: const EdgeInsets.all(8.0),
+//                                        child: Container(
+//                                            height: size.height * 0.05,
+//                                            width: size.width * 0.13,
+//                                            decoration: BoxDecoration(
+//                                                boxShadow: [
+//                                                  BoxShadow(
+//                                                      color: Colors.black
+//                                                          .withOpacity(0.2),
+//                                                      blurRadius: 9,
+//                                                      spreadRadius: 3)
+//                                                ],
+//                                                color: Colors.white,
+//                                                borderRadius:
+//                                                BorderRadius.circular(5)),
+//                                            child: Row(
+//                                              mainAxisAlignment:
+//                                              MainAxisAlignment.center,
+//                                              children: <Widget>[
+//                                                Icon(
+//                                                  FontAwesomeIcons.child,
+//                                                  color: Colors.red,
+//                                                  size: 17,
+//                                                ),
+//                                                Padding(
+//                                                  padding:
+//                                                  const EdgeInsets.only(
+//                                                      right: 8.0),
+//                                                  child: Text(
+//                                                    "29",
+//                                                    style: TextStyle(
+//                                                        fontWeight:
+//                                                        FontWeight.w500,
+//                                                        fontSize: 17),
+//                                                  ),
+//                                                )
+//                                              ],
+//                                            )),
+//                                      ),
+//                                    ],
+//                                  ),
+//                                ),
                               Container(
                                 child: Column(
                                   children: <Widget>[
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.only(left: 8.0,right: 8.0),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
-
-                                          Text("Blood Type:"),
+                                          Text("Blood Type:",style: TextStyle(
+                                              fontSize: size.width*0.031
+                                          ),),
                                           user["bloodType"]==null ? Text("None", style: TextStyle(
                                               color: Colors.white,
-                                              fontWeight: FontWeight.w700),) : Text(
+                                              fontWeight: FontWeight.w700,
+
+                                          fontSize: size.width*0.031
+                                          ),) : Text(
                                             user["bloodType"],
                                             style: TextStyle(
                                                 color: Colors.white,
-                                                fontWeight: FontWeight.w700),
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: size.width*0.031
+                                            ),
                                           ),
                                           SizedBox(
                                             width: size.width * 0.1,
                                           ),
-                                          Text("Age:"),
+                                          Text("Age:",style: TextStyle(
+                                              fontSize: size.width*0.031
+                                          ),),
                                           Text(
                                             '${user["age"]}',
                                             style: TextStyle(
+                                                fontSize: size.width*0.031,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w700),
                                           ),
                                           SizedBox(
                                             width: size.width * 0.1,
                                           ),
-                                          Text("Weight:"),
+                                          Text("Weight:",style: TextStyle(
+                                              fontSize: size.width*0.031
+                                          ),),
 
-                                          Text(
-                                            user["weight"]==null ? "None" : "${user["weight"]} KG",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700),
+                                          Container(
+                                            decoration: BoxDecoration(
+
+                                            ),
+                                            child: Text(
+                                              user["weight"]==null ? "None" : "${user["weight"]} KG",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: size.width*0.031
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 2.0),
+                                          vertical: 10.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
-                                          Container(
-                                            height: 40.0,
-                                            width: 40.0,
-                                            child: Icon(Icons.search),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.white,
+                                            Container(
+                                              height: size.height*0.06,
+                                              width: size.width*0.15,
+                                              child: FlatButton(
+                                                child: Image.asset(
+                                                  "assets/images/requestblood2.png",
+                                                ),
+                                                shape: CircleBorder(),
+                                                onPressed: (){
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => RequestBlood()),
+                                                  );
+                                                },
+                                              ),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.black.withOpacity(0.2),
+                                                        blurRadius: 9,
+                                                        spreadRadius: 3
+                                                    )
+                                                  ]
+                                              ),
                                             ),
-                                          ),
-                                          Container(
-                                            height: 40.0,
-                                            width: 40.0,
-                                            child: Icon(Icons.search),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.white,
+                                            Container(
+                                              height: size.height*0.06,
+                                              width: size.width*0.15,
+                                              child: FlatButton(
+                                                child: Image.asset(
+                                                  "assets/images/donor.png",
+                                                ),
+                                                  shape: CircleBorder(
+                                                  ),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>  BloodRequest()),
+                                                  );
+                                                },
+                                              ),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white,
+
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.black.withOpacity(0.2),
+                                                        blurRadius: 9,
+                                                        spreadRadius: 3
+                                                    )
+                                                  ]
+                                              ),
                                             ),
-                                          ),
-                                          Container(
-                                            height: 40.0,
-                                            width: 40.0,
-                                            child: Icon(Icons.event),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.white,
+                                            Container(
+                                              height: size.height*0.06,
+                                              width: size.width*0.15,
+                                              child: FlatButton(
+                                                child: Image.asset(
+                                                  "assets/images/icons-event.png",
+                                                ),
+                                                shape: CircleBorder(),
+                                                onPressed: (){
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => BloodEvent()),
+                                                  );
+                                                },
+                                              ),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black.withOpacity(0.2),
+                                                    blurRadius: 9,
+                                                    spreadRadius: 3
+                                                  )
+                                                ]
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
                                       ),
                                     )
                                   ],
@@ -1280,6 +1557,38 @@ class _HomeState extends State<Home> {
     );
 
   }
+  void getUserLocation()async{
+    var coordinates;
+    await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    .then((position){
+      setState(() {
+        latitude = position.latitude;
+        longitude = position.longitude;
+        coordinates = new Coordinates(position.latitude,position.longitude);
+      });
+    });
+    addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    setState(() {
+      first = addresses.first;
+      address=first.addressLine.toString();
+    });
+  }
+
+
+  bool checkIfAnyIsNull() {
+    return [user['imageURL'],
+      user['email'],
+      user['username'],
+      user['age'],
+      user['gender'],
+      user['bloodType'],
+      user['height'],
+      user['imageURL'],
+      user['latitude'],
+      user['longitude'],
+      user['phoneNumber'],
+      user['weight']].contains(null);
+  }
 
   Future<bool> _onBackPressed() {
     return showDialog(
@@ -1387,19 +1696,64 @@ Future<bool> LogOutDialog(context){
           content: Text("Are you sure want to Logout?"),
           actions: <Widget>[
             FlatButton(
-              child: Text("No"),
+              child: Text("No",style: TextStyle(
+                  color: Colors.red
+              ),),
               onPressed: (){
                 Navigator.of(context).pop();
               },
             ),
             FlatButton(
-              child: Text("Yes"),
+              child: Text("Yes",style: TextStyle(
+                  color: Colors.red
+              ),),
               onPressed: (){
                 LogOut();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => Welcome()),
+                );
+              },
+            ),
+          ],
+        );
+      }
+  );
+}
+
+
+
+
+Future<bool> updateProfileDialog(context){
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context){
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))
+          ),
+          title: Text("Profile not updated!"),
+          content: Text("Please update your profile to use this service!"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Back",style: TextStyle(
+                color: Colors.red
+              ),),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Update Profile",style: TextStyle(
+                  color: Colors.red
+              ),),
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditProfile()),
                 );
               },
             ),

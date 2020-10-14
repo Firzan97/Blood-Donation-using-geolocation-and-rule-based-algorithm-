@@ -42,6 +42,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _weightController = new TextEditingController();
   TextEditingController _heightController = new TextEditingController();
   var pr;
+  var statusUpdated;
 
   getUserAddress()async{
     final coordinates = new Coordinates(latitude, longitude);
@@ -115,6 +116,8 @@ class _EditProfileState extends State<EditProfile> {
 
   void getUserData() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
+    statusUpdated=localStorage.getBool('statusUpdated');
+
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
       uploadEndPoint = "http://192.168.1.2:8000/api/user/${user['_id']}";
@@ -187,7 +190,7 @@ class _EditProfileState extends State<EditProfile> {
                       MaterialPageRoute(
                           builder: (context) => Profile()),
                     );},),
-                    SizedBox(width: size.width*0.27,),
+                    SizedBox(width: size.width*0.31,),
                     Text("Edit Profile"),
                   ],
                 ),
