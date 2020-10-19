@@ -74,7 +74,7 @@ class CustomDialogNotification extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 24.0,
+                    fontSize: size.width*0.05,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -100,11 +100,11 @@ class CustomDialogNotification extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 80,
+            left: size.width*0.10,
             top: 369,
             child: Container(
-              height: 170,
-              width: 170,
+              height: size.height*0.3,
+              width: size.width*0.6,
               decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(10),
@@ -131,8 +131,8 @@ class CustomDialogNotification extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: size.height*0.35,
-            left: size.width*0.23,
+            top: size.width*0.75,
+            left: size.width*0.19,
             child: Container(
               height: 30,
               width: 150,

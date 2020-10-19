@@ -40,8 +40,7 @@ class _MessageScreenState extends State<MessageScreen> {
   ScrollController _scrollController = new ScrollController();
   String channelName = 'easy-blood';
   String eventName = "message";
-  var userjson;
-  var user;
+  var userId;
   var _futureMessage;
   List<String> messages = new List<String>();
   var bottomList=0;
@@ -58,19 +57,18 @@ class _MessageScreenState extends State<MessageScreen> {
 
   _getUserData() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
-     userjson = localStorage.getString("user");
      setState(() {
-       user= jsonDecode(userjson);
-
+       userId= jsonDecode(localStorage.getString("user"));
      });
   }
   @override
   void initState()
   {
     super.initState();
-    initPusher();
-    _readMessage();
     _getUserData();
+
+    initPusher();
+//    _readMessage();
       _futureMessage = fetchMessage();
 
 
@@ -78,6 +76,7 @@ class _MessageScreenState extends State<MessageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
 
 
     return WillPopScope(
@@ -98,7 +97,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 },
                 child: Icon(
                   Icons.arrow_back_ios,
-                  color: primary,
+                  color: kPrimaryColor,
                 )),
             title: Row(
               children: <Widget>[
@@ -177,7 +176,7 @@ class _MessageScreenState extends State<MessageScreen> {
                           padding: EdgeInsets.only(right: 20,left: 20,top: 20,bottom: 80),
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext c, index){
-                            return snapshot.data.length!=0 ? ChatBubble(isMe: snapshot.data[index].userSendId== user['_id'] ? true : false,message: snapshot.data[index].message,profileImg: widget.user.imageURL) : Container();
+                            return snapshot.data.length!=0 ? ChatBubble(isMe: snapshot.data[index].userSendId== userId['_id'] ? true : false,message: snapshot.data[index].message,profileImg: widget.user.imageURL) : Container();
                           }
                       );
                     },
@@ -197,26 +196,11 @@ class _MessageScreenState extends State<MessageScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
-                  width: (MediaQuery.of(context).size.width - 40)/2,
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.add_circle,size: 35,color: primary,),
-                      SizedBox(width: 15,),
-                      Icon(Icons.camera_alt,size: 35,color: primary,),
-                      SizedBox(width: 15,),
-                      Icon(Icons.photo,size: 35,color: primary,),
-                      SizedBox(width: 15,),
-                      Icon(Icons.keyboard_voice,size: 35,color: primary,),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: (MediaQuery.of(context).size.width- 40)/2,
                   child: Row(
                     children: <Widget>[
                       Container(
-                        width: (MediaQuery.of(context).size.width-140)/2,
-                        height: 40,
+                        width: size.width*0.75,
+                        height: size.height*0.05,
                         decoration: BoxDecoration(
                             color: grey,
                             borderRadius: BorderRadius.circular(20)
@@ -255,21 +239,22 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 
   Future<List<Message>> fetchMessage() async {
-  print("conversationMessage/${user['_id']}/${widget.user.id}");
-    var res = await Api().getData("conversationMessage/${user['_id']}/${widget.user.id}");
+    print(userId);
+  print("conversationMessage/5f8c6f31863e0000700044f2/5f84c0c8bb3f0000c9005525");
+    var res = await Api().getData("conversationMessage/5f8c6f31863e0000700044f2/5f84c0c8bb3f0000c9005525");
 
-    var body = json.decode(res.body);
     if (res.statusCode == 200) {
       List<Message> messages = [];
       var count=0;
       if(res.body.length!=0){
+        print("message manoa ado bodo");
+        var body = json.decode(res.body);
         for (var u in body) {
           count++;
           Message event = Message.fromJson(u);
           messages.add(event);
+          print("message manoa ado bodo2222222222222");
         }
-      }
-
 
       WidgetsBinding.instance
           .addPostFrameCallback((_){
@@ -277,6 +262,10 @@ class _MessageScreenState extends State<MessageScreen> {
           _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
         }
       });
+      }
+
+
+
       return messages;
     } else {
       throw Exception('Failed to load album');
@@ -387,7 +376,7 @@ class _ChatBubbleState extends State<ChatBubble> {
 
                 decoration: BoxDecoration(
                     color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(20)
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(5),topLeft: Radius.circular(20),bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20))
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),

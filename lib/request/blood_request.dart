@@ -270,7 +270,7 @@ _getUserData()async{
                         child: Text(userDetail.username,style: TextStyle(
                             fontFamily: "Muli",
                           fontWeight: FontWeight.w700,
-                            fontSize: size.width*0.031
+                            fontSize: size.width*0.043
 
                         ),),
                       ),
@@ -420,7 +420,9 @@ _getUserData()async{
                                             child: Text("Detail",style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 fontFamily: "Muli",
-                                                color: Colors.black),
+                                                color: Colors.black,
+
+                                            ),
                                             ),
                                           ),
                                         ),
@@ -480,10 +482,15 @@ _getUserData()async{
                                                                       .circular(5)),
                                                         ),
                                                         title:
-                                                            Text(a[index].username),
+                                                            Text(a[index].username, style: TextStyle(
+                                                              fontSize: size.width*0.038,
+
+                                                            ),),
                                                         subtitle:
                                                             Text("${snapshot.data[index].bloodType}",style: TextStyle(
-                                                              color: Colors.red
+                                                              color: Colors.red,
+                                                              fontSize: size.width*0.033,
+
                                                             ),),
                                                         trailing: Container(
                                                           width: 130,
@@ -599,20 +606,26 @@ _getUserData()async{
                                                                         NetworkImage(a[index].imageURL),
                                                                       )),
                                                                 ),
-                                                                title: Text(a[index].username),
+                                                                title: Text(a[index].username,style: TextStyle(
+                                                                  fontSize: size.width*0.042,
+
+                                                                ),),
                                                                 isThreeLine: true,
                                                                 subtitle: RichText(
                                                                   text: TextSpan(
                                                                     text: 'Looking for ${snapshot.data[index].bloodType} blood donor\n',
                                                                     style: TextStyle(
-                                                                        color: Colors.black
+                                                                        color: Colors.black,
+                                                                      fontSize: size.width*0.035,
+
                                                                     ),
                                                                     children: <TextSpan>[
                                                                       TextSpan(
                                                                           text: 'Posted 3 hours ago',
                                                                           style: TextStyle(
                                                                               fontWeight: FontWeight.w300,
-                                                                              fontSize: 10.0)),
+                                                                            fontSize: size.width*0.033,
+                                                                          )),
                                                                     ],
                                                                   ),
                                                                 ),
@@ -629,38 +642,41 @@ _getUserData()async{
                                                                 children: <Widget>[
                                                                   Image.asset("assets/images/lari2.jpg"),
                                                                   Container(
-                                                                    child: Row(
-                                                                      children: <Widget>[
-                                                                        Stack(children: <Widget>[
-                                                                          Image.asset(
-                                                                            "assets/images/begdarah.png",width: 50,),
-                                                                          Positioned(
-                                                                              top: size.height * 0.028,
-                                                                              left: size.width * 0.04,
-                                                                              child: Transform.rotate(angle: - pi / 5,
-                                                                                child: Text("AB",
-                                                                                    style: TextStyle(
-                                                                                        fontSize: 9,
-                                                                                        color: Colors.white,
-                                                                                        fontWeight:
-                                                                                        FontWeight.w700)),
-                                                                              ))
-                                                                        ]),
-                                                                        Text(snapshot.data[index].location),
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(
-                                                                              top: 8.0, left: 15),
-                                                                          child: FlatButton(
-                                                                            color: kThirdColor,
-                                                                            shape: RoundedRectangleBorder(
-                                                                              borderRadius:
-                                                                              BorderRadius.circular(5),
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.only(left:8.0,right: 8.0),
+                                                                      child: Row(
+                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                        children: <Widget>[
+                                                                          Stack(children: <Widget>[
+                                                                            Image.asset(
+                                                                              "assets/images/begdarah.png",width: 50,),
+                                                                            Positioned(
+                                                                                top: size.height * 0.028,
+                                                                                left: size.width * 0.04,
+                                                                                child: Transform.rotate(angle: - pi / 5,
+                                                                                  child: Text("AB",
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 9,
+                                                                                          color: Colors.white,
+                                                                                          fontWeight:
+                                                                                          FontWeight.w700)),
+                                                                                ))
+                                                                          ]),
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(
+                                                                                bottom:4.0,top: 2.0, left: 15),
+                                                                            child: FlatButton(
+                                                                              color: kThirdColor,
+                                                                              shape: RoundedRectangleBorder(
+                                                                                borderRadius:
+                                                                                BorderRadius.circular(5),
+                                                                              ),
+                                                                              child: Text("Saves a life",style: TextStyle(color: Colors.white70),),
+                                                                              onPressed: () {},
                                                                             ),
-                                                                            child: Text("Saves a life",style: TextStyle(color: Colors.white70),),
-                                                                            onPressed: () {},
-                                                                          ),
-                                                                        )
-                                                                      ],
+                                                                          )
+                                                                        ],
+                                                                      ),
                                                                     ),
                                                                   )
                                                                 ],
@@ -668,7 +684,7 @@ _getUserData()async{
                                                             ),
                                                             Container(
                                                               decoration: BoxDecoration(
-                                                               color: Colors.grey.withOpacity(0.1)
+                                                               color: Colors.grey.withOpacity(0.5)
                                                               ),
                                                               child: Row(
                                                                 mainAxisAlignment: MainAxisAlignment.center,

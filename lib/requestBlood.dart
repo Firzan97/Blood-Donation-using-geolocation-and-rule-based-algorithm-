@@ -192,46 +192,48 @@ class _RequestBloodState extends State<RequestBlood> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                FlatButton(
-                                  onPressed: (){
-                                    addressToLocation();
-                                    _goToUserLocation();
-                                  },
+                                Container(
+                            height: size.height*0.06,
+                              width: size.width*0.11,
+                              decoration: BoxDecoration(
 
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(15))
-                                  ),
-                                  child: Container(
-                                    height: size.height*0.07,
-                                    width: size.width*0.13,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.white.withOpacity(0.1),
-                                              spreadRadius: 3,
-                                              blurRadius: 9
-                                          )
-                                        ],
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all((Radius.circular(10)))
-                                    ),
+                                  color: Colors.white.withOpacity(0.4),
+                                  borderRadius: BorderRadius.all(Radius.circular(10))),
+                                  child: FlatButton(
+                                    padding: EdgeInsets.all(10.0),
+
                                     child: Icon(
-                                      FontAwesomeIcons.searchLocation,
+                                      FontAwesomeIcons.fly,
                                       color: Colors.redAccent,
+                                      size: 20,
+                                    ),
+                                    onPressed: (){
+                                      addressToLocation();
+                                      _goToUserLocation();
+                                    },
+
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(10))
+                                    ),
                                     ),
                                   ),
-                                )
-                                ,
+                                SizedBox(width: size.width*0.04,),
+
                                 Container(
                                   width: size.width*0.7,
-                                  height: size.height*0.07,
+                                  height: size.height*0.06,
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Colors.white.withOpacity(0.4),
                                     borderRadius: BorderRadius.circular(10.0)
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 3.0,top:2.0),
+                                    padding: const EdgeInsets.only(left: 4.0,top:2.0),
                                     child: TextFormField(
+                                      style: TextStyle(
+                                          fontSize: size.width*0.037,
+                                          color: Colors.black
+                                      ),
+                                      textAlign: TextAlign.left,
                                       cursorColor: Colors
                                           .black,
                                       decoration: InputDecoration(
@@ -240,7 +242,7 @@ class _RequestBloodState extends State<RequestBlood> {
                                               .location_on,
                                           color: Colors
                                               .redAccent,
-                                          size: 30,
+                                          size: 25,
                                         ),
                                         border: InputBorder
                                             .none,
@@ -252,8 +254,10 @@ class _RequestBloodState extends State<RequestBlood> {
                                         InputBorder.none,
                                         disabledBorder:
                                         InputBorder.none,
-                                        hintText: "Search Location..."
-                                        ,
+                                        hintText: "Search Location...",
+                                        contentPadding: EdgeInsets.only(bottom: 15.0,left: -14.0),
+                                        hintStyle: TextStyle(fontSize: size.width*0.035),
+
                                       ),
                                       controller: locationSearch,
                                     ),
@@ -263,31 +267,30 @@ class _RequestBloodState extends State<RequestBlood> {
                             ),
                           ),
                       Positioned(
-                        right:0,
+                        right:size.width*0.08,
                         bottom:200,
-                        child:   FlatButton(
-                          onPressed: (){
-                            getUserLocation();
-                            getUserAddress();
-                            _goToUserLocation();
-                          },
-                          child: Container(
-                            height: size.height*0.06,
-                            width: size.width*0.11,
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.white.withOpacity(0.1),
-                                      spreadRadius: 3,
-                                      blurRadius: 9
-                                  )
-                                ],
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all((Radius.circular(40)))
+                        child:   Container(
+                          height: size.height*0.06,
+                          width: size.width*0.11,
+                          decoration: BoxDecoration(
+
+                              color: Colors.white.withOpacity(0.4),
+                              borderRadius: BorderRadius.all((Radius.circular(40)))
+                          ),
+                          child: FlatButton(
+                            padding: EdgeInsets.all(10.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(40))
                             ),
+                            onPressed: (){
+                              getUserLocation();
+                              getUserAddress();
+                              _goToUserLocation();
+                            },
                             child: Icon(
-                              FontAwesomeIcons.locationArrow,
+                              FontAwesomeIcons.flag,
                               color: Colors.redAccent,
+                              size: 20,
                             ),
                           ),
                         ),
@@ -322,7 +325,7 @@ class _RequestBloodState extends State<RequestBlood> {
                                             Text(
                                               "Request Blood",
                                               style: TextStyle(
-                                                  fontSize: 22,
+                                                  fontSize: size.width*0.05,
                                                   fontWeight: FontWeight.w700,
                                                   color: Colors.black,
                                                   fontFamily: "Muli"),
@@ -360,9 +363,13 @@ class _RequestBloodState extends State<RequestBlood> {
                                                                 ]),
                                                             child: Padding(
                                                               padding:
-                                                              const EdgeInsets.all(
+                                                              const EdgeInsets.only(left:
                                                                   8.0),
                                                               child: TextFormField(
+                                                                style: TextStyle(
+                                                                    fontSize: size.width*0.042,
+                                                                    color: Colors.black
+                                                                ),
                                                                 cursorColor: Colors
                                                                     .black,
                                                                 decoration: InputDecoration(
@@ -384,6 +391,8 @@ class _RequestBloodState extends State<RequestBlood> {
                                                                   InputBorder.none,
                                                                   hintText: first==null ? "location" :    first.addressLine.toString()
                                                                   ,
+                                                                  hintStyle: TextStyle(fontSize: size.width*0.035),
+                                                                    contentPadding: const EdgeInsets.only(bottom:8.0)
                                                                 ),
                                                                 controller: location,
                                                               ),
@@ -434,14 +443,12 @@ class _RequestBloodState extends State<RequestBlood> {
                                                                   hint: Text(
                                                                     "Blood group",
                                                                     style: TextStyle(
-                                                                        fontSize: 15
+                                                                        fontSize: size.width*0.035
                                                                     ),),
                                                                   iconSize: 24,
                                                                   style: TextStyle(
                                                                       color: Colors
-                                                                          .black
-                                                                          .withOpacity(
-                                                                          0.5)),
+                                                                          .black),
                                                                   onChanged: (
                                                                       String newValue) {
                                                                     setState(() {
@@ -506,6 +513,10 @@ class _RequestBloodState extends State<RequestBlood> {
                                                               const EdgeInsets.only(left:
                                                                   8.0),
                                                               child: TextFormField(
+                                                                style: TextStyle(
+                                                                    fontSize: size.width*0.042,
+                                                                    color: Colors.black
+                                                                ),
                                                                 cursorColor: Colors
                                                                     .black,
                                                                 decoration: InputDecoration(
@@ -526,6 +537,8 @@ class _RequestBloodState extends State<RequestBlood> {
                                                                   disabledBorder:
                                                                   InputBorder.none,
                                                                   hintText: 'Reason',
+                                                                  hintStyle: TextStyle(fontSize: size.width*0.035),
+
                                                                 ),
                                                                 controller: reason,
                                                               ),
@@ -543,7 +556,8 @@ class _RequestBloodState extends State<RequestBlood> {
                                                     MainAxisAlignment.center,
                                                     children: <Widget>[
                                                       Container(
-                                                        height: 40,
+                                                        height: size.height*0.05,
+                                                        width: size.width*0.2,
                                                         decoration: BoxDecoration(
                                                             borderRadius:
                                                             BorderRadius.circular(
@@ -570,7 +584,7 @@ class _RequestBloodState extends State<RequestBlood> {
                                                           ),
                                                           child: FaIcon(
                                                               FontAwesomeIcons
-                                                                  .search),
+                                                                  .search,size: size.width*0.05,),
                                                         ),
                                                       )
                                                     ],

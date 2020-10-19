@@ -134,8 +134,8 @@ class _BloodEventState extends State<BloodEvent> {
                                     child: Stack(
                                       children: <Widget>[
                                         Positioned(
-                                          top:10,
-                                          right:20,
+                                          top:size.height*0.02,
+                                          right:size.width*0.05,
                                           child: Container(
                                             width: 280,
                                           height: 184,
@@ -154,7 +154,7 @@ class _BloodEventState extends State<BloodEvent> {
                                               padding: const EdgeInsets.all(8.0),
                                               child: Row(
                                                 children: <Widget>[
-                                                  SizedBox(width: size.width*0.11,),
+                                                  SizedBox(width: size.width*0.26,),
 
                                                   Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,6 +329,7 @@ borderRadius: BorderRadius.circular(25),
                                                     controller: eventName,
                                                     deco: InputDecoration(
                                                       hintText: "Event Name",
+                                                      hintStyle: TextStyle(fontSize: size.width*0.035),
                                                       border: InputBorder.none,
                                                       icon: Icon(
                                                         Icons.event_available,
@@ -344,6 +345,7 @@ borderRadius: BorderRadius.circular(25),
                                                     controller: eventLocation,
                                                     deco: InputDecoration(
                                                       hintText: "Location",
+                                                      hintStyle: TextStyle(fontSize: size.width*0.035),
                                                       border: InputBorder.none,
                                                       icon: Icon(
                                                         Icons.location_on,
@@ -359,6 +361,7 @@ borderRadius: BorderRadius.circular(25),
                                                     controller: eventOrganizer,
                                                     deco: InputDecoration(
                                                       hintText: "Organizer",
+                                                      hintStyle: TextStyle(fontSize: size.width*0.035),
                                                       border: InputBorder.none,
                                                       icon: Icon(
                                                         Icons.event_available,
@@ -374,6 +377,7 @@ borderRadius: BorderRadius.circular(25),
                                                     controller: eventPhoneNumber,
                                                     deco: InputDecoration(
                                                       hintText: "Phone Number",
+                                                      hintStyle: TextStyle(fontSize: size.width*0.035),
                                                       border: InputBorder.none,
                                                       icon: Icon(
                                                         Icons.event_available,
@@ -553,7 +557,8 @@ borderRadius: BorderRadius.circular(25),
                                                       Icon(Icons.timer),
                                                       Text(
                                                         "Time End",
-                                                        style: TextStyle(color: Colors.black),
+                                                        style: TextStyle(color: Colors.black,
+                                                        ),
                                                       ),
                                                     ],
                                                   )),
@@ -621,9 +626,7 @@ borderRadius: BorderRadius.circular(25),
       var count = 0;
       for (var u in body) {
         User user = User.fromJson(u);
-        print(user.bloodtype);
         token.add(user.notificationToken);
-        print(user.notificationToken);
       };
     }
 

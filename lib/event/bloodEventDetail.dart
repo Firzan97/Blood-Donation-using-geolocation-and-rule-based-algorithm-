@@ -230,57 +230,57 @@ class BloodEventDetail extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              Text(
-                                                "Description",
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                    FontWeight.w700),
-                                              ),
+//                                              Text(
+//                                                "Description",
+//                                                style: TextStyle(
+//                                                    fontWeight:
+//                                                    FontWeight.w700),
+//                                              ),
                                             ],
                                           ),
                                         ),
                                       ),
-
-                                      Padding(
-                                        padding: const EdgeInsets.only(left:15.0,right: 15.0,bottom: 15.0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                  begin: Alignment.topRight,
-                                                  end: Alignment.bottomLeft,
-                                                  colors: [
-                                                    Color(0xffffbcaf),
-                                                    kGradient2.withOpacity(0.4)
-                                                  ]),                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.3),
-                                                    blurRadius: 12,
-                                                    spreadRadius: 3)
-                                              ]),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left:15.0,right: 15.0,bottom: 15.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-
-                                                SizedBox(
-                                                  height: size.height * 0.01,
-                                                ),
-                                                Text(
-                                                  "Sebuah kempen dermah darah yang akan diadakan di perak"
-                                                  "hasil kerjasam hospital kedah dan organisai2 lain. Semua dialu- alukan",
-                                                  style:
-                                                      TextStyle(wordSpacing: 1, color: Colors.white),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+//
+//                                      Padding(
+//                                        padding: const EdgeInsets.only(left:15.0,right: 15.0,bottom: 15.0),
+//                                        child: Container(
+//                                          decoration: BoxDecoration(
+//                                              gradient: LinearGradient(
+//                                                  begin: Alignment.topRight,
+//                                                  end: Alignment.bottomLeft,
+//                                                  colors: [
+//                                                    Color(0xffffbcaf),
+//                                                    kGradient2.withOpacity(0.4)
+//                                                  ]),                                              borderRadius:
+//                                                  BorderRadius.circular(10),
+//                                              boxShadow: [
+//                                                BoxShadow(
+//                                                    color: Colors.grey
+//                                                        .withOpacity(0.3),
+//                                                    blurRadius: 12,
+//                                                    spreadRadius: 3)
+//                                              ]),
+//                                          child: Padding(
+//                                            padding: const EdgeInsets.only(left:15.0,right: 15.0,bottom: 15.0),
+//                                            child: Column(
+//                                              crossAxisAlignment:
+//                                                  CrossAxisAlignment.start,
+//                                              children: <Widget>[
+//
+//                                                SizedBox(
+//                                                  height: size.height * 0.01,
+//                                                ),
+//                                                Text(
+//                                                  "Sebuah kempen dermah darah yang akan diadakan di perak"
+//                                                  "hasil kerjasam hospital kedah dan organisai2 lain. Semua dialu- alukan",
+//                                                  style:
+//                                                      TextStyle(wordSpacing: 1, color: Colors.white),
+//                                                )
+//                                              ],
+//                                            ),
+//                                          ),
+//                                        ),
+//                                      ),
                                       SizedBox(
                                         height: size.height * 0.01,
                                       ),

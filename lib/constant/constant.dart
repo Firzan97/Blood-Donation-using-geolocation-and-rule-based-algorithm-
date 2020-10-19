@@ -14,7 +14,12 @@ begin: Alignment.topRight,
 end: Alignment.bottomLeft,
 colors: [kGradient1, kGradient2]);
 
-const apiURL="http://192.168.49.133:8000/api/";
+const colorgradient2 = LinearGradient(
+    begin: Alignment.topRight,
+    end: Alignment.bottomLeft,
+    colors: [kGradient2, kGradient1]);
+
+const apiURL="http://192.168.49.122:8000/api/";
 
 const double padding = 16.0;
 const double avatarRadius = 66.0;

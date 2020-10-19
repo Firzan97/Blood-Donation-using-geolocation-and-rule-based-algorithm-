@@ -87,9 +87,6 @@ class _NotificationsState extends State<Notifications> {
                                 )
                               ],
                             ),
-                            SizedBox(
-                              height: size.height * 0.05,
-                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -98,7 +95,7 @@ class _NotificationsState extends State<Notifications> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black,
-                                      fontSize: 30),
+                                      fontSize: size.width*0.06),
                                 ),
                               ],
                             ),
@@ -109,7 +106,7 @@ class _NotificationsState extends State<Notifications> {
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.only(left: 17),
-                            child: Container(height: size.height*0.75,
+                            child: Container(height: size.height*0.78,
                               decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.6),
                                   borderRadius: BorderRadius.only(topLeft: Radius.circular(30),bottomLeft: Radius.circular(30))
@@ -134,71 +131,74 @@ class _NotificationsState extends State<Notifications> {
                                           if (snapshot.data == null) {
 
                                             return Container(
-                                              height: 170,
+                                              height: size.height*0.3,
                                               width: size.width*0.9,
                                               child: Center(
                                                 child: LoadingScreen(),
                                               ),
                                             );
                                           }
-                                          return ListView.builder(
-                                            itemCount: snapshot.data.length,
-                                              itemBuilder: (context,index){
-                                                var time;
-                                                DateTime dateTime = DateTime.parse(snapshot.data[index].created_at);
-                                                DateFormat dateFormat = DateFormat('yyyy-MM-dd');
-                                                time = dateFormat.format(dateTime);
-                                                return SingleChildScrollView(
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                            color: snapshot.data[index].is_read!=true ? Colors.grey : Colors.white,
-                                                            borderRadius: BorderRadius.circular(20)
-                                                          ),
-                                                          child: FlatButton(
-                                                            onPressed: (){
-                                                              updateIsRead(snapshot.data[index].id);
-                                                              notificationDialog(context);
-                                                            },
-                                                            child: ListTile(
-                                                              leading: Container(
-                                                                width: 50,
-                                                                height: 50,
-                                                                decoration: BoxDecoration(
-                                                                    shape: BoxShape.circle,
-                                                                    image: DecorationImage(
-                                                                        fit: BoxFit.cover,
-                                                                        image:
-                                                                        AssetImage("assets/images/lari2.jpg"))),
-                                                              ),
-                                                              title: RichText(
-                                                                text: TextSpan(
-                                                                  text: 'Firzan, ',
-                                                                  style: TextStyle(
-                                                                      fontWeight: FontWeight.w600,
-                                                                      fontSize: 15.0,
-                                                                      color: Colors.black),
-                                                                  children: <TextSpan>[
-                                                                    TextSpan(
-                                                                        text: notimessage[index].message,
-                                                                        style: TextStyle(
-                                                                            fontWeight: FontWeight.w300,
-                                                                            color: Colors.black)),
-                                                                  ],
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ListView.builder(
+                                              itemCount: snapshot.data.length,
+                                                itemBuilder: (context,index){
+                                                  var time;
+                                                  DateTime dateTime = DateTime.parse(snapshot.data[index].created_at);
+                                                  DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+                                                  time = dateFormat.format(dateTime);
+                                                  return SingleChildScrollView(
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                              color: snapshot.data[index].is_read!=true ? Colors.grey : Colors.white,
+                                                              borderRadius: BorderRadius.circular(20)
+                                                            ),
+                                                            child: FlatButton(
+                                                              onPressed: (){
+                                                                updateIsRead(snapshot.data[index].id);
+                                                                notificationDialog(context);
+                                                              },
+                                                              child: ListTile(
+                                                                leading: Container(
+                                                                  width: 50,
+                                                                  height: 50,
+                                                                  decoration: BoxDecoration(
+                                                                      shape: BoxShape.circle,
+                                                                      image: DecorationImage(
+                                                                          fit: BoxFit.cover,
+                                                                          image:
+                                                                          AssetImage("assets/images/lari2.jpg"))),
                                                                 ),
+                                                                title: RichText(
+                                                                  text: TextSpan(
+                                                                    text: 'Firzan, ',
+                                                                    style: TextStyle(
+                                                                        fontWeight: FontWeight.w600,
+                                                                        fontSize: 15.0,
+                                                                        color: Colors.black),
+                                                                    children: <TextSpan>[
+                                                                      TextSpan(
+                                                                          text: notimessage[index].message,
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.w300,
+                                                                              color: Colors.black)),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                subtitle: Text("${timeago.format(dateTime)} ..."),
                                                               ),
-                                                              subtitle: Text("${timeago.format(dateTime)} ..."),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              });
+                                                      ],
+                                                    ),
+                                                  );
+                                                }),
+                                          );
                                         }
 
                                       ),

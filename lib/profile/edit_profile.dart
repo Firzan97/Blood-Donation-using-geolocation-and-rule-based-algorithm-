@@ -120,7 +120,7 @@ class _EditProfileState extends State<EditProfile> {
 
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
-      uploadEndPoint = "http://192.168.1.2:8000/api/user/${user['_id']}";
+      uploadEndPoint = apiURL +"user/${user['_id']}";
       _usernameController.text = user['username'];
       _emailController.text = user['email'];
       _weightController.text = user['weight'];
@@ -281,10 +281,17 @@ class _EditProfileState extends State<EditProfile> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("Current Location"),
+                        Text("Current Location",style: TextStyle(
+                          fontSize: size.width*0.036,
+                          fontWeight: FontWeight.w700,
+
+                        ),),
+                        SizedBox(
+                          height: size.height * 0.01,
+                        ),
                         Container(
-                          height: 30,
-                          width: 150,
+                          height: size.height*0.05,
+                          width: size.width*0.3,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               color: Colors.white,
@@ -303,7 +310,9 @@ class _EditProfileState extends State<EditProfile> {
                             child: Text("Locate",style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontFamily: "Muli",
-                                color: Colors.black
+                                color: Colors.black,
+                                fontSize: size.width*0.036
+
                             ),),onPressed: (){
                             getUserLocation();
                             getUserAddress();
@@ -317,23 +326,51 @@ class _EditProfileState extends State<EditProfile> {
                         SizedBox(
                           height: size.height * 0.02,
                         ),
-                        Text("Username"),
+                        Text("Username",style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "Muli",
+                          color: Colors.black,
+                          fontSize: size.width*0.036),),
                         TextField(
                           controller: _usernameController,
+                          style: TextStyle(
+                              fontFamily: "Muli",
+                              fontSize: size.width*0.033
+
+                          ),
                           decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Enter username'),
+                              hintText: 'Enter username',
+                            hintStyle: TextStyle(fontSize: size.width*0.035),),
                         ),
-                        Text("Email"),
+                        Text("Email",style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Muli",
+                            color: Colors.black,
+                            fontSize: size.width*0.036)),
                         TextField(
                           controller: _emailController,
+                          style: TextStyle(
+                              fontFamily: "Muli",
+                              fontSize: size.width*0.033
+
+                          ),
                           decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Enter email'),
+                              hintText: 'Enter email',
+                            hintStyle: TextStyle(fontSize: size.width*0.035),),
                         ),
-                        Text("Gender"),
+                        Text("Gender",style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Muli",
+                            color: Colors.black,
+                            fontSize: size.width*0.036)),
                         CheckboxListTile(
-                          title: Text("Male"),
+                          title: Text("Male",style: TextStyle(
+                              fontFamily: "Muli",
+                              fontSize: size.width*0.040
+
+                          ),),
                           secondary: FaIcon(FontAwesomeIcons.male),
                           value: checkedValueMale,
                           onChanged: (newValue) {
@@ -344,7 +381,11 @@ class _EditProfileState extends State<EditProfile> {
                           controlAffinity: ListTileControlAffinity.leading, //
                         ),
                         CheckboxListTile(
-                          title: Text("Female"),
+                          title: Text("Female",style: TextStyle(
+                              fontFamily: "Muli",
+                              fontSize: size.width*0.040
+
+                          )),
                           secondary: FaIcon(FontAwesomeIcons.female),
                           value: checkedValueFemale,
                           onChanged: (newValue) {
@@ -354,7 +395,11 @@ class _EditProfileState extends State<EditProfile> {
                           },
                           controlAffinity: ListTileControlAffinity.leading, //
                         ),
-                        Text("Blood Group"),
+                        Text("Blood Group",style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Muli",
+                            color: Colors.black,
+                            fontSize: size.width*0.036)),
                         DropdownButton<String>(
                           value: dropdownValue,
                           icon: Icon(Icons.arrow_downward),
@@ -378,26 +423,56 @@ class _EditProfileState extends State<EditProfile> {
                             );
                           }).toList(),
                         ),
-                        Text("Mobile Number"),
+                        Text("Mobile Number",style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Muli",
+                            color: Colors.black,
+                            fontSize: size.width*0.036)),
                         TextField(
                           controller: _mobileController,
+                          style: TextStyle(
+                              fontFamily: "Muli",
+                              fontSize: size.width*0.033
+
+                          ),
                           decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Enter mobile number'),
+                              hintText: 'Enter mobile number',
+                            hintStyle: TextStyle(fontSize: size.width*0.035),),
                         ),
-                        Text("Height"),
+                        Text("Height",style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Muli",
+                            color: Colors.black,
+                            fontSize: size.width*0.036)),
                         TextField(
                           controller: _heightController,
+                          style: TextStyle(
+                              fontFamily: "Muli",
+                              fontSize: size.width*0.033
+
+                          ),
                           decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Enter height'),
+                              hintText: 'Enter height',
+                            hintStyle: TextStyle(fontSize: size.width*0.020),),
                         ),
-                        Text("Weight"),
+                        Text("Weight",style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Muli",
+                            color: Colors.black,
+                            fontSize: size.width*0.036)),
                         TextField(
                           controller: _weightController,
+                          style: TextStyle(
+                              fontFamily: "Muli",
+                              fontSize: size.width*0.033
+
+                          ),
                           decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Enter weight'),
+                              hintText: 'Enter weight',
+                            hintStyle: TextStyle(fontSize: size.width*0.035),),
                         ),
                         SizedBox(
                           height: size.height * 0.02,
@@ -406,15 +481,15 @@ class _EditProfileState extends State<EditProfile> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Container(
-                              height: 40,
-                              width: 160,
+                              height: size.height*0.05,
+                              width: size.width*0.3,
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
                                         spreadRadius: 3,
-                                        color: Colors.grey.withOpacity(0.1),
+                                        color: Colors.grey.withOpacity(0.3),
                                         blurRadius: 9)
                                   ]),
                               child: FlatButton(
@@ -425,15 +500,15 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                             ),
                             Container(
-                              height: 40,
-                              width: 160,
+                              height: size.height*0.05,
+                              width: size.width*0.3,
                               decoration: BoxDecoration(
                                   color: kPrimaryColor,
                                   borderRadius: BorderRadius.circular(20),
                                   boxShadow: [
                                     BoxShadow(
                                         spreadRadius: 4,
-                                        color: Colors.grey.withOpacity(0.2),
+                                        color: Colors.grey.withOpacity(0.3),
                                         blurRadius: 9)
                                   ]),
                               child: FlatButton(

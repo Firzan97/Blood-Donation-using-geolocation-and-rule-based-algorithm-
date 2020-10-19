@@ -18,7 +18,7 @@ class ButtonRound extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 15),
-      width: size.width * 0.8,
+      width: size.width * 0.5,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(29),
 
@@ -26,7 +26,7 @@ class ButtonRound extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(29.0),
         child: FlatButton(
-          padding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 4.0),
+          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 2.0),
           color: color,
           onPressed: press,
           child: Text(text,
