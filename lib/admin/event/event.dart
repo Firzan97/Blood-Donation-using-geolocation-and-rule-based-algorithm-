@@ -17,9 +17,8 @@ class EventList extends StatefulWidget {
 }
 
 class _EventListState extends State<EventList> {
-
   List<Event> events = [];
-  var totalEvent;
+  int incomingEvent,eventToday;
   var pr;
   @override
   Widget build(BuildContext context) {
@@ -56,20 +55,22 @@ class _EventListState extends State<EventList> {
                 child: Column(
                     children: <Widget>[
                       Container(
+                        width: size.width*1,
                         height: size.height * 0.3,
                         decoration: BoxDecoration(color: kPrimaryColor),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                height: size.height * 0.18,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(6)
-                                ),
-                                child: Image.asset("assets/images/doctor.png"),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: size.height * 0.18,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6)
                               ),
-                              Container(
+                              child: Image.asset("assets/images/doctor.png"),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2.0),
+                              child: Container(
+                                width: size.width*0.96,
                                 height: size.height * 0.07,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -88,11 +89,14 @@ class _EventListState extends State<EventList> {
                                     child: FlatButton(
                                       child: Column(
                                         children: <Widget>[
-                                          Text("Total Request", style: TextStyle(
+                                          Text("Incoming Event", style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: 13
+                                              fontSize: size.width*0.033
                                           ),),
-                                          Text(totalEvent.toString())
+                                          Text(events.length.toString(),style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: size.width*0.033
+                                          ))
                                         ],
                                       ),
                                       onPressed: () {
@@ -105,13 +109,15 @@ class _EventListState extends State<EventList> {
                                       child: FlatButton(
                                         child: Column(
                                           children: <Widget>[
-                                            Text("New Event Today",
+                                            Text("Event Today",
                                               style: TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 13
-
+                                                  fontSize: size.width*0.033
                                               ),),
-                                            Text("2")
+                                            Text("2",style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: size.width*0.033
+                                            ))
                                           ],
                                         ),
                                         onPressed: () {
@@ -123,12 +129,14 @@ class _EventListState extends State<EventList> {
                                       child: FlatButton(
                                         child: Column(
                                           children: <Widget>[
-                                            Text("Total Event", style: TextStyle(
+                                            Text("Total Event",style: TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 13
-
+                                                fontSize: size.width*0.033
                                             ),),
-                                            Text("1")
+                                            Text(events.length.toString(),style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: size.width*0.033
+                                            ))
                                           ],
                                         ),
                                         onPressed: () {
@@ -138,15 +146,15 @@ class _EventListState extends State<EventList> {
                                     )
                                   ],
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       Container(
                         height: size.height*0.7,
                         child: FutureBuilder(
-                            future: fetchUser(),
+                            future: fetchTotalEvent(),
                             builder: (context, snapshot) {
                               if (snapshot.data == null) {
                                 return Container(
@@ -355,14 +363,56 @@ class _EventListState extends State<EventList> {
     }
   }
 
-  Future<List<Event>> fetchUser() async {
+  Future<List<Event>> fetchTotalEvent() async {
+    events=[];
+    DateTime now = new DateTime.now();
+
     var res = await Api().getData("event");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
       var count = 0;
       for (var u in body) {
         Event event = Event.fromJson(u);
-        events.add(event);
+        print(event.dateStart);
+        setState(() {
+          events.add(event);
+        });
+      }
+
+      return events;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+  Future<List<Event>> fetchIncomingEvent() async {
+    events=[];
+    var res = await Api().getData("IncomingEvent");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+      var count = 0;
+      for (var u in body) {
+        Event event = Event.fromJson(u);
+        setState(() {
+          events.add(event);
+        });
+      }
+
+      return events;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+  Future<List<Event>> fetchNewEvent() async {
+    events=[];
+    var res = await Api().getData("Todayevent");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+      var count = 0;
+      for (var u in body) {
+        Event event = Event.fromJson(u);
+        setState(() {
+          events.add(event);
+        });
       }
 
       return events;

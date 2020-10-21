@@ -27,7 +27,7 @@ class _SplashState extends State<Splash> {
       if (user!=null){
         user =jsonDecode(user);
         if(user["role"]=="admin"){
-          Navigator.of(context).pushReplacementNamed('/dasboard');
+          Navigator.of(context).pushReplacementNamed('/dashboard');
         }
         else{
           Navigator.of(context).pushReplacementNamed('/home');

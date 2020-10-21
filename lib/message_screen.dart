@@ -68,7 +68,7 @@ class _MessageScreenState extends State<MessageScreen> {
     _getUserData();
 
     initPusher();
-//    _readMessage();
+    _readMessage();
       _futureMessage = fetchMessage();
 
 
@@ -89,7 +89,7 @@ class _MessageScreenState extends State<MessageScreen> {
       },
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: grey.withOpacity(0.2),
+            backgroundColor: kPrimaryColor.withOpacity(0.6),
             elevation: 0,
             leading: FlatButton(
                 onPressed: () {
@@ -97,7 +97,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 },
                 child: Icon(
                   Icons.arrow_back_ios,
-                  color: kPrimaryColor,
+                  color: Colors.black,
                 )),
             title: Row(
               children: <Widget>[
@@ -120,36 +120,21 @@ class _MessageScreenState extends State<MessageScreen> {
                     Text(
                       widget.user.username,
                       style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold, color: black),
+                          fontSize: size.width*0.040, fontWeight: FontWeight.bold, color: black),
                     ),
                     SizedBox(
                       height: 3,
                     ),
                     Text(
                       "Active now",
-                      style: TextStyle(color: black.withOpacity(0.4), fontSize: 14),
+                      style: TextStyle(color: Colors.white, fontSize: size.width*0.026),
                     )
                   ],
                 )
               ],
             ),
             actions: <Widget>[
-              Icon(
-                LineIcons.phone,
-                color: primary,
-                size: 32,
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Icon(
-                LineIcons.video_camera,
-                color: primary,
-                size: 35,
-              ),
-              SizedBox(
-                width: 8,
-              ),
+
               Container(
                 width: 13,
                 height: 13,
@@ -166,7 +151,7 @@ class _MessageScreenState extends State<MessageScreen> {
             body: Column(
               children: [
                 Container(
-                  height: 600,
+                  height: size.height*0.84,
                   child: FutureBuilder(
                     future: fetchMessage(),
                     builder: (context,snapshot){
@@ -185,44 +170,54 @@ class _MessageScreenState extends State<MessageScreen> {
               ],
             ),
         bottomSheet: Container(
-          height: 80,
+          height: size.height*0.1,
           width: double.infinity,
           decoration: BoxDecoration(
-              color: grey.withOpacity(0.2)
+            gradient: colorgradient,
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40))
           ),
           child: Padding(
-            padding: const EdgeInsets.only(left: 20,right: 20,bottom: 10),
+            padding: const EdgeInsets.only(left: 12,right: 12),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Container(
                   child: Row(
+
                     children: <Widget>[
                       Container(
                         width: size.width*0.75,
-                        height: size.height*0.05,
+                        height: size.height*0.07,
                         decoration: BoxDecoration(
-                            color: grey,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 9,
+                              spreadRadius: 4
+                            )
+                          ],
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(20)
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: TextField(
-                            cursorColor: black,
-                            controller: k,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Aa",
-                                suffixIcon: Icon(Icons.face,color: primary,size: 35,)
-                            ),
+                        child: TextField(
+                          cursorColor: black,
+                          controller: k,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 13,horizontal: 12),
+
+                            border: InputBorder.none,
+                              hintText: "Write a reply ....",
+                            hintStyle: TextStyle(
+                              fontSize: size.width*0.042
+                            )
                           ),
                         ),
                       ),
 
-                      SizedBox(width: 1,),
-                      IconButton(icon: Icon(Icons.send,size: 35,color: primary),onPressed: (){
+                      IconButton(icon: Icon(Icons.send,size: size.width*0.08,color: Colors.black),onPressed: (){
 //                      _sendMessage(k.text);
                         _setConversation();
+
                       },),
                     ],
                   ),
@@ -239,21 +234,18 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 
   Future<List<Message>> fetchMessage() async {
-    print(userId);
-  print("conversationMessage/5f8c6f31863e0000700044f2/5f84c0c8bb3f0000c9005525");
-    var res = await Api().getData("conversationMessage/5f8c6f31863e0000700044f2/5f84c0c8bb3f0000c9005525");
+    print("babiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii ${userId}");
+    var res = await Api().getData("conversationMessage/${widget.user.id}/${userId['_id']}");
 
     if (res.statusCode == 200) {
       List<Message> messages = [];
       var count=0;
       if(res.body.length!=0){
-        print("message manoa ado bodo");
         var body = json.decode(res.body);
         for (var u in body) {
           count++;
           Message event = Message.fromJson(u);
           messages.add(event);
-          print("message manoa ado bodo2222222222222");
         }
 
       WidgetsBinding.instance
@@ -288,6 +280,9 @@ class _MessageScreenState extends State<MessageScreen> {
 
     if(res.statusCode==200){
       print("menjadi babi");
+      setState(() {
+        k.text="";
+      });
     }
   }
 
@@ -364,6 +359,7 @@ class ChatBubble extends StatefulWidget {
 class _ChatBubbleState extends State<ChatBubble> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     if(widget.isMe){
       return Padding(
         padding: const EdgeInsets.all(1.0),
@@ -376,6 +372,7 @@ class _ChatBubbleState extends State<ChatBubble> {
 
                 decoration: BoxDecoration(
                     color: kPrimaryColor,
+                    gradient: colorgradient,
                     borderRadius: BorderRadius.only(topRight: Radius.circular(5),topLeft: Radius.circular(20),bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20))
                 ),
                 child: Padding(
@@ -384,7 +381,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                     widget.message,
                     style: TextStyle(
                         color: white,
-                        fontSize: 17
+                        fontSize: size.width*0.033
                     ),
                   ),
                 ),
@@ -416,16 +413,16 @@ class _ChatBubbleState extends State<ChatBubble> {
               child: Container(
                 margin: EdgeInsets.only(top: 15.0),
                 decoration: BoxDecoration(
-                    color: kGradient1,
-                    borderRadius: BorderRadius.circular(20)
+                    gradient: colorgradient3,
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(5),bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20))
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(13.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Text(
                     widget.message,
                     style: TextStyle(
                         color: black,
-                        fontSize: 17
+                        fontSize: size.width*0.033
                     ),
                   ),
                 ),

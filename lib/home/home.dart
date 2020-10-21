@@ -1228,7 +1228,7 @@ class _HomeState extends State<Home> {
                                                                    ]
                                                                ),
                                                                child: Padding(
-                                                                 padding: const EdgeInsets.only(left: 48.0,top:25.0),
+                                                                 padding: const EdgeInsets.only(left: 55.0,top:25.0),
                                                                  child: Column(
                                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                                    children: <Widget>[
@@ -1334,7 +1334,7 @@ class _HomeState extends State<Home> {
                               SizedBox(height: size.height*0.03,),
 
                               Padding(
-                                padding: const EdgeInsets.all(4.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 4.0),
                                 child: Container(
                                         height: size.height*0.33,
                                         decoration: BoxDecoration(
@@ -1404,7 +1404,7 @@ class _HomeState extends State<Home> {
                                             );
                                           }
                                         return  Container(
-                                          height:size.height*0.295,
+                                          height:size.height*0.291,
                                             child: ListView.builder(
                                               shrinkWrap: true,
                                              itemCount: snapshot.data.length,
@@ -1701,7 +1701,7 @@ class _HomeState extends State<Home> {
 
 
     var data = {
-      "notification_id": "5f8c072ee3bf9ecc7ac6a83a",
+      "notification_id": "5f8f8ee0301e39d3e9a28d07",
       "user_id": user['_id'],
       "is_read": false,
     };

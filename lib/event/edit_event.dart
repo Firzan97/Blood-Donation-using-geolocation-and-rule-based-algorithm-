@@ -48,7 +48,7 @@ class _EditEventState extends State<EditEvent> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
-      uploadEndPoint = "http://192.168.49.133:8000/api/user/${user['_id']}/event/${widget.edit.id}";
+      uploadEndPoint = "http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/api/user/${user['_id']}/event/${widget.edit.id}";
     });
   }
 

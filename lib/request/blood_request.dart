@@ -239,10 +239,10 @@ _getUserData()async{
                 ),
               ),
               Positioned(
-                bottom: size.height*0.1,
+                bottom: size.height*0.08,
                 left: 15,
                 child: Container(
-                  height: size.height*0.25,
+                  height: size.height*0.27,
                   width: size.width*0.92,
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.9),
@@ -290,7 +290,7 @@ _getUserData()async{
                           children: <Widget>[
                             Container(
                               height: size.height*0.06,
-                              width: size.width*0.3,
+                              width: size.width*0.28,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: kPrimaryColor,
@@ -303,14 +303,14 @@ _getUserData()async{
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Center(child: Text("NAVIGATE",style: TextStyle(
-                                  fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: size.width*0.035
+                                  fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: size.width*0.033
 
                                 ),)),
                               ),
                             ),
                             Container(
                               height: size.height*0.06,
-                              width: size.width*0.3,
+                              width: size.width*0.28,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: kPrimaryColor,
@@ -323,7 +323,7 @@ _getUserData()async{
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Center(child: Text("CALL",style: TextStyle(
-                                    fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: size.width*0.035
+                                    fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: size.width*0.033
                                 ),)),
                               ),
                             ),
