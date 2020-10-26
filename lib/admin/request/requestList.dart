@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant/constant.dart';
+import 'package:easy_blood/event/edit_event.dart';
 import 'package:easy_blood/model/request.dart';
+import 'package:easy_blood/model/user.dart';
 import 'package:flutter/material.dart';
 
 import '../../loadingScreen.dart';
@@ -15,6 +17,7 @@ class RequestList extends StatefulWidget {
 class _RequestListState extends State<RequestList> {
 
   List<Requestor> requestors = [];
+  List<User> users=[];
   var totalRequest;
   @override
   Widget build(BuildContext context) {
@@ -49,74 +52,85 @@ class _RequestListState extends State<RequestList> {
                                 ),
                                 child: Image.asset("assets/images/doctor.png"),
                               ),
-                              Container(
-                                height: size.height * 0.07,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius: 9,
-                                          spreadRadius: 7
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                                child: Container(
+                                  width: size.width*0.98,
+                                  height: size.height * 0.07,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black.withOpacity(0.1),
+                                            blurRadius: 9,
+                                            spreadRadius: 7
+                                        )
+                                      ],
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceAround,
+                                    children: <Widget>[Container(
+                                      child: FlatButton(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text("Request Accepted", style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: size.width*0.030
+                                            ),),
+                                            Text(requestors.length.toString(),style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: size.width*0.033
+                                            ))
+                                          ],
+                                        ),
+                                        onPressed: () {
+
+                                        },
+                                      ),
+
+                                    ),
+                                      Container(
+                                        child: FlatButton(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Text("Today Request",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: size.width*0.030
+                                                ),),
+                                              Text(requestors.length.toString(),style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: size.width*0.033
+                                              ))
+                                            ],
+                                          ),
+                                          onPressed: () {
+
+                                          },
+                                        ),
+                                      ),
+                                      Container(
+                                        child: FlatButton(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Text("Total Request", style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: size.width*0.03
+                                              ),),
+                                              Text(requestors.length.toString(),style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: size.width*0.030
+                                              ))
+                                            ],
+                                          ),
+                                          onPressed: () {
+
+                                          },
+                                        ),
                                       )
                                     ],
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceAround,
-                                  children: <Widget>[Container(
-                                    child: FlatButton(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text("Total Request", style: TextStyle(
-                                              color: Colors.black,
-                                            fontSize: 13
-                                          ),),
-                                          Text(totalRequest.toString())
-                                        ],
-                                      ),
-                                      onPressed: () {
-
-                                      },
-                                    ),
-
                                   ),
-                                    Container(
-                                      child: FlatButton(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text("New Request Today",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 13
-
-                                              ),),
-                                            Text("2")
-                                          ],
-                                        ),
-                                        onPressed: () {
-
-                                        },
-                                      ),
-                                    ),
-                                    Container(
-                                      child: FlatButton(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text("Total Admin", style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 13
-
-                                            ),),
-                                            Text("1")
-                                          ],
-                                        ),
-                                        onPressed: () {
-
-                                        },
-                                      ),
-                                    )
-                                  ],
                                 ),
                               )
                             ],
@@ -159,7 +173,7 @@ class _RequestListState extends State<RequestList> {
                                                 children: <Widget>[
                                                   Container(
                                                     child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
+                                                      padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 3.0),
                                                       child: Row(
                                                         mainAxisAlignment:  MainAxisAlignment.spaceBetween,
                                                         children: <Widget>[
@@ -171,10 +185,11 @@ class _RequestListState extends State<RequestList> {
                                                                   height: size.height * 0.08,
                                                                   width: size.width * 0.18,
                                                                   decoration: BoxDecoration(
+                                                                    color: Colors.blue,
                                                                       image: DecorationImage(
                                                                         fit: BoxFit.cover,
                                                                         image: NetworkImage(
-                                                                          snapshot.data[index].location,),
+                                                                          users[index].imageURL,),
                                                                       ),
                                                                       borderRadius:
                                                                       BorderRadius.circular(2)),
@@ -184,7 +199,7 @@ class _RequestListState extends State<RequestList> {
                                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                                   children: <Widget>[
                                                                     Text(
-                                                                      snapshot.data[index].bloodType,
+                                                                       users[index].username,
                                                                       style: TextStyle(
                                                                           color: Colors.black,
                                                                           fontWeight: FontWeight.w700,
@@ -204,10 +219,13 @@ class _RequestListState extends State<RequestList> {
                                                               ],
                                                             ),
                                                           ),
-                                                          Text(
-                                                            snapshot.data[index].bloodType,
-                                                            style:
-                                                            TextStyle(color: kPrimaryColor),
+                                                          Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: Text(
+                                                              snapshot.data[index].bloodType,
+                                                              style:
+                                                              TextStyle(color: kPrimaryColor),
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
@@ -226,13 +244,17 @@ class _RequestListState extends State<RequestList> {
         ));
   }
   Future<List<Requestor>> fetchUser() async {
+    requestors = [];
     var res = await Api().getData("request");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
       var count = 0;
       for (var u in body) {
         Requestor request = Requestor.fromJson(u);
-        requestors.add(request);
+        setState(() {
+          users.add(request.user);
+          requestors.add(request);
+        });
       }
 
       return requestors;

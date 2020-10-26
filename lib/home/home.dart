@@ -37,6 +37,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'package:share/share.dart';
 
 
 
@@ -1548,7 +1549,7 @@ class _HomeState extends State<Home> {
                                             Container(
                                               child: FlatButton(
                                                 onPressed: (){
-
+                                                  Share.share('check out my website http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/');
                                                 },
                                                 child: Row(
                                                   children: <Widget>[

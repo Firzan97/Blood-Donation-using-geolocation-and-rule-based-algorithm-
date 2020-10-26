@@ -20,7 +20,7 @@ class _UserListState extends State<UserList> {
   var totalUser;
   var pr;
   @override
-  void init() {
+  void initState() {
     super.initState();
 
   }
@@ -73,74 +73,82 @@ class _UserListState extends State<UserList> {
                             ),
                             child: Image.asset("assets/images/doctor.png"),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: size.height * 0.07,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 9,
-                                        spreadRadius: 7
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceAround,
-                                children: <Widget>[Container(
+                          Container(
+                            height: size.height * 0.07,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 9,
+                                      spreadRadius: 7
+                                  )
+                                ],
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment
+                                  .spaceAround,
+                              children: <Widget>[Container(
+                                child: FlatButton(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text("Total User", style: TextStyle(
+                                          color: Colors.black,
+                                        fontSize: size.width*0.033
+                                      ),),
+                                      Text(totalUser.toString(), style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: size.width*0.033
+                                      ))
+                                    ],
+                                  ),
+                                  onPressed: () {
+
+                                  },
+                                ),
+
+                              ),
+                                Container(
                                   child: FlatButton(
                                     child: Column(
                                       children: <Widget>[
-                                        Text("Total User", style: TextStyle(
-                                            color: Colors.black
+                                        Text("New User this week", style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: size.width*0.033
                                         ),),
-                                        Text(totalUser.toString())
+                                        Text("2", style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: size.width*0.033
+                                        ))
                                       ],
                                     ),
                                     onPressed: () {
 
                                     },
                                   ),
-
                                 ),
-                                  Container(
-                                    child: FlatButton(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text("New User this week",
-                                            style: TextStyle(
-                                                color: Colors.black
-                                            ),),
-                                          Text("2")
-                                        ],
-                                      ),
-                                      onPressed: () {
-
-                                      },
+                                Container(
+                                  child: FlatButton(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text("Total Admin", style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: size.width*0.033
+                                        ),),
+                                        Text("1", style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: size.width*0.033
+                                        ))
+                                      ],
                                     ),
+                                    onPressed: () {
+
+                                    },
                                   ),
-                                  Container(
-                                    child: FlatButton(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text("Total Admin", style: TextStyle(
-                                              color: Colors.black
-                                          ),),
-                                          Text("1")
-                                        ],
-                                      ),
-                                      onPressed: () {
-
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
+                                )
+                              ],
                             ),
-                      )
+                          )
                     ],
                   ),
                 ),
@@ -280,12 +288,18 @@ class _UserListState extends State<UserList> {
   }
 
   Future<List<User>> fetchUser() async {
+    users=[];
     var res = await Api().getData("user");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
       var count = 0;
       for (var u in body) {
+print(u);
+print(User.fromJson(u));
+
         User user = User.fromJson(u);
+        print(user);
+
         users.add(user);
       }
 
@@ -325,8 +339,8 @@ class _UserListState extends State<UserList> {
   _deleteEvent(userId) async{
     print(userId);
     var res = await Api().deleteData("user/${userId}");
+    pr.show();
     if (res.statusCode == 200){
-      pr.show();
       Timer(Duration(seconds: 3), () {
         Navigator.pushReplacement(
           context,

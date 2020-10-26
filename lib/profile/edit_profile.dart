@@ -108,7 +108,12 @@ class _EditProfileState extends State<EditProfile> {
       "weight": _weightController.text!="" ? _weightController.text : user['weight'].toString()
     }).then((result) {
       setStatus(result.statusCode == 200 ? result.body : errMessage);
-      pr.hide();
+//      Navigator.pushReplacement(
+//        context,
+//        MaterialPageRoute(
+//            builder: (context) => Profile()),
+//      );
+     pr.hide();
     }).catchError((error) {
       setStatus(error);
     });
@@ -455,7 +460,7 @@ class _EditProfileState extends State<EditProfile> {
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Enter height',
-                            hintStyle: TextStyle(fontSize: size.width*0.020),),
+                            hintStyle: TextStyle(fontSize: size.width*0.035),),
                         ),
                         Text("Weight",style: TextStyle(
                             fontWeight: FontWeight.w700,

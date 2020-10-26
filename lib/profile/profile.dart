@@ -1391,8 +1391,9 @@ class _ProfileState extends State<Profile> {
       List<Requestor> requests = [];
       var count = 0;
       for (Map u in bodys) {
+        print(user);
         Requestor req = Requestor.fromJson(u);
-        if (user['_id'] == req.user_id) {
+        if (user['_id'] == req.user.id) {
           requests.add(req);
         }
       }

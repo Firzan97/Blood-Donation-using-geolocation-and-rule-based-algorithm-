@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:easy_blood/admin/event/event.dart';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/event/bloodEvent.dart';
 import 'package:easy_blood/event/bloodEventDetail.dart';
@@ -48,7 +49,7 @@ class _EditEventState extends State<EditEvent> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
-      uploadEndPoint = "http://laraveleasyblood-env.eba-kezjpqpc.ap-southeast-1.elasticbeanstalk.com/api/user/${user['_id']}/event/${widget.edit.id}";
+      uploadEndPoint = apiURL+"user/${user['_id']}/event/${widget.edit.id}";
     });
   }
 
@@ -71,6 +72,9 @@ class _EditEventState extends State<EditEvent> {
   }
 
   upload() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    user= pref.getString("user");
+
 //    SharedPreferences pref = await SharedPreferences.getInstance();
 //    pref.setString("user", null);
 //    var email2=pref.getString("_id");
@@ -89,12 +93,26 @@ class _EditEventState extends State<EditEvent> {
     }).then((result) {
       setStatus(result.statusCode == 200 ? result.statusCode : errMessage);
       pr.hide();
-    Navigator.of(context).pop();
-      Navigator.pushReplacement(
-          context,
-      MaterialPageRoute(
-      builder: (BuildContext context) =>
-      BloodEvent()));
+      Navigator.of(context).pop();
+      if(user["role"] =="user"){
+        Navigator.of(context).pop();
+
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    BloodEvent()));
+      }
+      else{
+
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    EventList()));
+      }
+
+
     }).catchError((error) {
       setStatus(error);
     });
@@ -190,15 +208,18 @@ class _EditEventState extends State<EditEvent> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
+                      width: size.width*0.9,
+                      height: size.height*0.07,
                       decoration: BoxDecoration(
                           color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(45),
                         border: Border.all(color: Colors.grey.withOpacity(0.1))
                         ),
 
                       child: TextField(
                       controller: eventName,
                         decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(12.0),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
@@ -214,15 +235,18 @@ class _EditEventState extends State<EditEvent> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
+                      width: size.width*0.9,
+                      height: size.height*0.07,
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(45),
                           border: Border.all(color: Colors.grey.withOpacity(0.1))
                       ),
 
                       child: TextField(
                       controller: eventLocation,
                         decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(12.0),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
@@ -238,15 +262,18 @@ class _EditEventState extends State<EditEvent> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
+                      width: size.width*0.9,
+                      height: size.height*0.07,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(45),
                           border: Border.all(color: Colors.grey.withOpacity(0.1))
                       ),
 
                       child: TextField(
                       controller: eventOrganizer,
                         decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(12.0),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
@@ -262,15 +289,18 @@ class _EditEventState extends State<EditEvent> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
+                      width: size.width*0.9,
+                      height: size.height*0.07,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(45),
                           border: Border.all(color: Colors.grey.withOpacity(0.1))
                       ),
 
                       child: TextField(
                       controller: eventPhoneNumber,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(12.0),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
@@ -293,7 +323,7 @@ class _EditEventState extends State<EditEvent> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Container(
-                                  width: size.width*0.31,
+                                  width: size.width*0.33,
                                   height: 40,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -314,7 +344,7 @@ class _EditEventState extends State<EditEvent> {
                                                 itemStyle: TextStyle(
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 18),
+                                                    fontSize: size.width*0.033),
                                                 doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
                                             onChanged: (date) {
                                               print('change $date in time zone ' +
@@ -329,13 +359,13 @@ class _EditEventState extends State<EditEvent> {
                                           Icon(Icons.date_range),
                                           Text(
                                             'Date Start',
-                                            style: TextStyle(color: Colors.black),
+                                            style: TextStyle(color: Colors.black,        fontSize: size.width*0.033),
                                           ),
                                         ],
                                       )),
                                 ),
                                 Container(
-                                  width: size.width*0.31,
+                                  width: size.width*0.33,
                                   height: 40,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -356,7 +386,7 @@ class _EditEventState extends State<EditEvent> {
                                                 itemStyle: TextStyle(
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 18),
+                                                    fontSize: size.width*0.033),
                                                 doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
                                             onChanged: (date) {
                                               print('change $date in time zone ' +
@@ -371,7 +401,7 @@ class _EditEventState extends State<EditEvent> {
                                           Icon(Icons.date_range),
                                           Text(
                                             'Date End',
-                                            style: TextStyle(color: Colors.black),
+                                            style: TextStyle(color: Colors.black,        fontSize: size.width*0.033),
                                           ),
                                         ],
                                       )),
@@ -385,7 +415,7 @@ class _EditEventState extends State<EditEvent> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Container(
-                                  width: size.width*0.31,
+                                  width: size.width*0.33,
                                   height: 40,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -401,7 +431,7 @@ class _EditEventState extends State<EditEvent> {
                                                 itemStyle: TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 18),
+                                                    fontSize: size.width*0.033),
                                                 doneStyle: TextStyle(color: Colors.black, fontSize: 16)),
                                             showTitleActions: true, onChanged: (time) {
                                               print('change $time in time zone ' +
@@ -416,13 +446,13 @@ class _EditEventState extends State<EditEvent> {
                                           Icon(Icons.timer),
                                           Text(
                                             "Time Start",
-                                            style: TextStyle(color: Colors.black),
+                                            style: TextStyle(color: Colors.black,        fontSize: size.width*0.033),
                                           ),
                                         ],
                                       )),
                                 ),
                                 Container(
-                                  width: size.width*0.31,
+                                  width: size.width*0.33,
                                   height: 40,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -438,7 +468,7 @@ class _EditEventState extends State<EditEvent> {
                                                 itemStyle: TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 18),
+                                                    fontSize: size.width*0.033),
                                                 doneStyle: TextStyle(color: Colors.black, fontSize: 16)),
                                             showTitleActions: true, onChanged: (time) {
                                               print('change $time in time zone ' +
@@ -453,7 +483,7 @@ class _EditEventState extends State<EditEvent> {
                                           Icon(Icons.timer),
                                           Text(
                                             "Time End",
-                                            style: TextStyle(color: Colors.black),
+                                            style: TextStyle(color: Colors.black,        fontSize: size.width*0.033),
                                           ),
                                         ],
                                       )),

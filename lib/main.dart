@@ -6,16 +6,13 @@ import 'package:easy_blood/message_screen.dart';
 import 'package:easy_blood/onboarding.dart';
 import 'package:easy_blood/profile/edit_profile.dart';
 import 'package:easy_blood/profile/profile.dart';
-import 'package:easy_blood/service/geolocation_service.dart';
 import 'package:easy_blood/splash.dart';
 import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_blood/socketIoChat/main.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 Future main()async {
   await DotEnv().load('.env');
   runApp(MaterialApp(home: MyApp()));}

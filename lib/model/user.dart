@@ -1,3 +1,5 @@
+import 'package:easy_blood/model/event.dart';
+
 class User {
   String id;
   String username;
@@ -28,6 +30,8 @@ class User {
         imageURL = json['imageURL'],
         role = json['role'],
         notificationToken = json['notificationToken'];
+
+
 
   Map<String, dynamic> toJson() =>
       {

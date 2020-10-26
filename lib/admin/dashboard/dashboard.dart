@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:easy_blood/admin/donation/donation.dart';
 import 'package:easy_blood/admin/event/event.dart';
 import 'package:easy_blood/admin/request/requestList.dart';
@@ -14,6 +16,21 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+var user;
+
+  void _getUserData()async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      user= jsonDecode(pref.getString("user"));
+      print(user);
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    _getUserData();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -54,7 +71,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               SizedBox(height: size.height*0.02,),
-              Text("Welcome aboard, Admin Firzan ...",style: TextStyle(
+              Text("Welcome aboard, Admin ${user['username']} ...",style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 20
               ),),

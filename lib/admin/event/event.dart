@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/event/bloodEventDetail.dart';
+import 'package:easy_blood/event/edit_event.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/event.dart';
 import 'package:easy_blood/test.dart';
@@ -40,11 +41,7 @@ class _EventListState extends State<EventList> {
         messageTextStyle: TextStyle(
             color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
     );
-    return MaterialApp(
-        theme: ThemeData(
-          fontFamily: "Muli",
-        ),
-        home: Scaffold(
+    return Scaffold(
           appBar: AppBar(
             title: Center(child: Text("EASY BLOOD")),
             elevation: 0,
@@ -198,10 +195,10 @@ class _EventListState extends State<EventList> {
                                                   child: Stack(
                                                     children: <Widget>[
                                                       Positioned(
-                                                        top:10,
-                                                        right:20,
+                                                        top:size.height*0.01,
+                                                        right:size.width*0.01,
                                                         child: Container(
-                                                          width: 280,
+                                                          width: size.width*0.62,
                                                           height: 184,
                                                           decoration: BoxDecoration(
                                                               boxShadow: [
@@ -229,7 +226,7 @@ class _EventListState extends State<EventList> {
                                                                     ),),
                                                                     Text(snapshot.data[index].name,style: TextStyle(
                                                                         fontWeight: FontWeight.w300,
-                                                                        fontSize: 13
+                                                                        fontSize: size.width*0.033
                                                                     ),),
                                                                     Text("Location",style: TextStyle(
                                                                         fontWeight: FontWeight.w700
@@ -237,7 +234,7 @@ class _EventListState extends State<EventList> {
                                                                     Text(
                                                                       snapshot.data[index].location,style: TextStyle(
                                                                         fontWeight: FontWeight.w300,
-                                                                        fontSize: 13
+                                                                        fontSize: size.width*0.033
                                                                     ),),
                                                                     Text("Time",style: TextStyle(
                                                                       fontWeight: FontWeight.w700,
@@ -245,7 +242,7 @@ class _EventListState extends State<EventList> {
                                                                     Text(
                                                                       currentTime,style: TextStyle(
                                                                         fontWeight: FontWeight.w300,
-                                                                        fontSize: 13
+                                                                        fontSize: size.width*0.033
                                                                     ),),
                                                                     Text("Date",style: TextStyle(
                                                                         fontWeight: FontWeight.w700
@@ -253,7 +250,7 @@ class _EventListState extends State<EventList> {
                                                                     Text(
                                                                       dateStart,style: TextStyle(
                                                                         fontWeight: FontWeight.w300,
-                                                                        fontSize: 13
+                                                                        fontSize: size.width*0.033
                                                                     ),),
                                                                   ],
                                                                 ),
@@ -301,7 +298,14 @@ class _EventListState extends State<EventList> {
                                                               onPressed: (){
                                                                 _eventDeleteDialog(snapshot.data[index].id);
                                                               },),
-                                                            IconButton(icon: Icon(Icons.edit,color: Colors.black,))
+                                                            IconButton(icon: Icon(Icons.edit,color: Colors.black,),
+                                                            onPressed: (){
+                                                              Navigator.pushReplacement(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (BuildContext context) =>  EditEvent(edit: snapshot.data[index])
+                                                                  ));
+                                                            },)
                                                           ],
                                                         ),
                                                       )
@@ -317,7 +321,7 @@ class _EventListState extends State<EventList> {
                       ),
                     ])),
           ),
-        ));
+        );
   }
 
   Future<bool> _eventDeleteDialog(eventId) {
@@ -373,7 +377,6 @@ class _EventListState extends State<EventList> {
       var count = 0;
       for (var u in body) {
         Event event = Event.fromJson(u);
-        print(event.dateStart);
         setState(() {
           events.add(event);
         });

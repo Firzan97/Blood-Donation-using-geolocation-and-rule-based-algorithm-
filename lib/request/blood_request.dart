@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/message_screen.dart';
 import 'package:easy_blood/model/request.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,7 +56,7 @@ class _BloodRequestState extends State<BloodRequest> {
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
-  String googleAPiKey = "AIzaSyCgwPP3csDm7SxVkQ730epwEWsZe6bSZ4Y";
+  String googleAPiKey = DotEnv().env['GOOGLE_API_KEY'];
 
 _getUserData()async{
   SharedPreferences localStorage = await SharedPreferences.getInstance();
