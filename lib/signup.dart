@@ -9,6 +9,7 @@ import 'package:easy_blood/loadingScreen.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
 import 'package:easy_blood/signin.dart';
+import 'package:easy_blood/welcome/requirement.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -255,7 +256,7 @@ class _SignUpState extends State<SignUp> {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => Home()),
+            builder: (context) => RequirementForm()),
       );
     }
 
