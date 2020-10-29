@@ -5,6 +5,7 @@ import 'package:easy_blood/component/button_round.dart';
 import 'package:easy_blood/component/input_round.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/welcome/secondRequirement.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,7 +23,7 @@ class _RequirementFormState extends State<RequirementForm> {
   var lastDonation,dropdownValue,pr;
   bool checkedDenggi,receiveVaccine,misscariage, takeAntibiotic,piercedCuppingAcupuntureTattoo;
   List<String> deaseseList= ["Diabetes","Asthma","Hepatitis B","HIV","Sawan","Sakit Jantung","Darah Tinggi","No"];
-   bool surgial=false;
+   bool surgical=false;
    bool tranfussion=false;
    bool injury=false;
   var checkedValueFemale=false;
@@ -31,10 +32,10 @@ class _RequirementFormState extends State<RequirementForm> {
   var sexWithProstitute=false;
   var paidReceivedPayment=false;
   var sexPartner=false;
-  var _beautyInjection;
-  var _problemController;
+  TextEditingController _beautyInjection = new TextEditingController();
+  TextEditingController _problemController= new TextEditingController();
   var lastBeautyInjection=false;
-  var familyHavingHepatitis;
+  TextEditingController familyHavingHepatitis= new TextEditingController();
   var lastInfectedDengue=false;
   var lastMisscariage=false;
   var lastAntibiotic=false;
@@ -223,7 +224,7 @@ class _RequirementFormState extends State<RequirementForm> {
 
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'State your problems',
+                              hintText: 'If so, please state the type and / or purpose',
                               hintStyle: TextStyle(fontSize: size.width*0.035),),
                           ),
 //                          Container(
@@ -285,7 +286,7 @@ class _RequirementFormState extends State<RequirementForm> {
                             ),
                             decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'State your problems',
+                              hintText: 'If so, please state your relationship with him',
                               hintStyle: TextStyle(fontSize: size.width*0.035),),
                           ),
                           Text("Do you have denggue during last 6 months?",style: TextStyle(
@@ -394,7 +395,7 @@ class _RequirementFormState extends State<RequirementForm> {
                               Text("Yes")
                             ],
                           ),
-                          Text("Do you have miscarriage during last 6 months",style: TextStyle(
+                          Text("Have you given birth or had a miscarriage in the last 6 months?",style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontFamily: "Muli",
                               color: Colors.black,
@@ -485,10 +486,10 @@ class _RequirementFormState extends State<RequirementForm> {
                                   fontSize: size.width*0.033
 
                               )),
-                              value: surgial,
+                              value: surgical,
                               onChanged: (newValue) {
                                 setState(() {
-                                  surgial = newValue;
+                                  surgical = newValue;
                                 });
                               },
                               controlAffinity: ListTileControlAffinity.leading, //
@@ -874,7 +875,7 @@ class _RequirementFormState extends State<RequirementForm> {
                 ButtonRound(
                   color: Color(0XFF343a69),
                   text: "CONFIRM",
-                  press: () async {
+                  press: ()  {
                     pr.show();
                     _createQualification();
                     },
@@ -893,10 +894,10 @@ class _RequirementFormState extends State<RequirementForm> {
     var data={
       "lastDonation": lastDonation.toString(),
       "desease": dropdownValue,
-      "problem": _problemController,
-      "beautyInjection": _beautyInjection,
+      "problem": _problemController.text,
+      "beautyInjection": _beautyInjection.text,
 //      "lastInjection": lastBeautyInjection,
-      "familyHavingHepatitis": familyHavingHepatitis,
+      "familyHavingHepatitis": familyHavingHepatitis.text,
       "dengue": checkedDenggi,
 //      "lastInfectedDengue": lastInfectedDengue,
       "receiveVaccine": receiveVaccine,
@@ -907,6 +908,9 @@ class _RequirementFormState extends State<RequirementForm> {
 //      "datepierceCuppingAcupuntureTattoo": lastPiercedCuppingAcupuntureTattoo,
       "takeAntiobiotic": takeAntibiotic,
 //      "dateTakeAntibiotic": lastAntibiotic,
+    "surgical": surgical,
+      "injury": injury,
+      "transfussion": tranfussion,
       "CJD1": CJD1,
       "CJD2": CJD2,
       "CJD3": CJD3,
@@ -919,11 +923,15 @@ class _RequirementFormState extends State<RequirementForm> {
       "partnerCatagories": fallAboveCategories,
       "partnerHIVpositive": testedPositiveHIV,
       "youOrSexPartnerHIVinfected": mayInfectedHIV,
-      "user_id": user['_id'],
     };
     var res = await Api().postData(data,"${user['_id']}/qualification");
    if(res.statusCode==200){
+     print("suksess");
 pr.hide();
+Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => SecondRequirement()),
+);
    }
 
   }

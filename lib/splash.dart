@@ -30,7 +30,7 @@ class _SplashState extends State<Splash> {
           Navigator.of(context).pushReplacementNamed('/dashboard');
         }
         else{
-          Navigator.of(context).pushReplacementNamed('/home ');
+          Navigator.of(context).pushReplacementNamed('/home');
         }
 
       }

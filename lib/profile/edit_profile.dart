@@ -107,13 +107,14 @@ class _EditProfileState extends State<EditProfile> {
       "height": _heightController.text!="" ? _heightController.text : user['height'].toString(),
       "weight": _weightController.text!="" ? _weightController.text : user['weight'].toString()
     }).then((result) {
+      if(result.statusCode==200){
+      }
       setStatus(result.statusCode == 200 ? result.body : errMessage);
 //      Navigator.pushReplacement(
 //        context,
 //        MaterialPageRoute(
 //            builder: (context) => Profile()),
 //      );
-     pr.hide();
     }).catchError((error) {
       setStatus(error);
     });
@@ -565,7 +566,7 @@ class _EditProfileState extends State<EditProfile> {
         localStorage.setString("user", json.encode(body));
         user = jsonDecode(localStorage.getString("user"));
         localStorage.setBool("statusUpdated", checkIfAnyIsNull());
-
+        pr.hide();
       });
       return localStorage.getString("user");
     } else {

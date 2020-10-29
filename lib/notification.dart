@@ -26,10 +26,11 @@ class _NotificationsState extends State<Notifications> {
 
   List<NotificationData> notimessage=[];
   var color = Colors.white;
-
+   var user;
   @override
   void initState(){
     super.initState();
+    getUserData();
     fetchUserNotification();
   }
 
@@ -78,12 +79,15 @@ class _NotificationsState extends State<Notifications> {
                                 Container(
                                   height: 50,
                                   width: 50,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image:
-                                              AssetImage("assets/images/lari2.jpg"))),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: user == null
+                                                ? NetworkImage(
+                                                'https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.png')
+                                                : NetworkImage(user[
+                                            'imageURL']))),
                                 )
                               ],
                             ),
@@ -231,6 +235,14 @@ class _NotificationsState extends State<Notifications> {
         fetchUserNotification();
       });
     }
+  }
+
+  void getUserData() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    setState(() {
+      user = jsonDecode(localStorage.getString("user"));
+    });
+    print(user['created_at']);
   }
 
   Future<List<UserNotification>> fetchUserNotification() async {

@@ -6,8 +6,10 @@ import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/event/edit_event.dart';
 import 'package:easy_blood/home/home.dart';
 import 'package:easy_blood/model/donation.dart';
+import 'package:easy_blood/model/qualification.dart';
 import 'package:easy_blood/model/user.dart';
 import 'package:easy_blood/profile/edit_profile.dart';
+import 'package:easy_blood/welcome/requirement.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:easy_blood/api/api.dart';
@@ -39,7 +41,7 @@ class _ProfileState extends State<Profile> {
   var pr;
   var user;
   String time;
-
+ String lastDonate="d";
   String bloodDonated = "0";
   String bloodRequested = "0";
 
@@ -54,7 +56,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-
+    fetchLastDonation();
     getUserData();
     _setBloodDonated();
     _futureRequest = fetchRequest();
@@ -186,6 +188,7 @@ class _ProfileState extends State<Profile> {
                                         child: Stack(
                                           children: <Widget>[
                                             Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: <Widget>[
                                                 Container(
                                                   width: 80,
@@ -199,6 +202,45 @@ class _ProfileState extends State<Profile> {
                                                                   'https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadingProfileImage.png')
                                                               : NetworkImage(user[
                                                                   'imageURL']))),
+                                                ),
+                                                Container(
+                                                  height: size.height * 0.05,
+                                                  width: size.width * 0.45,
+                                                  decoration: BoxDecoration(
+                                                      color: kPrimaryColor,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          11.00),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            spreadRadius: 2,
+                                                            blurRadius: 5,
+                                                            color: Colors.black
+                                                                .withOpacity(0.3))
+                                                      ]),
+                                                  child: FlatButton(
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.library_books,
+                                                          color: Colors.white,
+                                                          size: size.width*0.05,
+                                                        ),
+                                                        Text(
+                                                          "Update qualification",
+                                                          style: TextStyle(
+                                                              color: Colors.white,
+                                                              fontSize: size.width*0.031),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(builder: (context) => RequirementForm()),
+                                                      );
+                                                    },
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -331,13 +373,13 @@ class _ProfileState extends State<Profile> {
                                               Column(
                                                 children: <Widget>[
                                                   Text(
-                                                    "Status",
+                                                    "${lastDonate} days ago",
                                                     style: TextStyle(
                                                         fontSize:
                                                             size.width * 0.031),
                                                   ),
                                                   Text(
-                                                    "In Process",
+                                                    "Last Donation",
                                                     style: TextStyle(
                                                         fontSize:
                                                             size.width * 0.031),
@@ -1423,6 +1465,24 @@ class _ProfileState extends State<Profile> {
     }
   }
 
+  void fetchLastDonation() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString("user"));
+    var res = await Api().getData("${user["_id"]}/qualification");
+    var body = json.decode(res.body);
+    if (res.statusCode == 200) {
+
+      Qualification qualification = Qualification.fromJson(body);
+      DateTime dateTime = DateTime.parse(qualification.lastDonation.toString());
+      final date2 = DateTime.now();
+      final difference = date2.difference(qualification.lastDonation).inDays;
+      setState(() {
+        lastDonate=difference.toString();
+      });
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
 //  Future<List<Donation>> fetchDonation() async {
 //    SharedPreferences localStorage = await SharedPreferences.getInstance();
 //    var user = jsonDecode(localStorage.getString("user"));
