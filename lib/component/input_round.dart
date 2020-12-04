@@ -8,7 +8,7 @@ class InputRound extends StatelessWidget {
   final ValueChanged<String> validator;
   final InputDecoration deco;
   final TextEditingController controller;
-
+  final TextInputType keyboardType;
   const InputRound({
     Key key,
     this.icon,
@@ -16,12 +16,14 @@ class InputRound extends StatelessWidget {
     this.validator,
     this.deco,
     this.controller,
+    this.keyboardType,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InputContainer(
       child: TextFormField(
+        keyboardType: keyboardType,
         controller: controller,
         cursorColor: kPrimaryColor,
         onChanged: onchanged,

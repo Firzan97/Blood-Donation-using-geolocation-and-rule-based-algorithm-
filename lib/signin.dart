@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:easy_blood/admin/dashboard/dashboard.dart';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/already_have_account.dart';
@@ -9,11 +10,11 @@ import 'package:easy_blood/loadingScreen.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
 import 'package:easy_blood/signup.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,6 +33,7 @@ class _SignInState extends State<SignIn> {
   var pr;
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String token1;
+  bool dataFilled= false,passwordValidator=false;
 
   void firebaseCloudMessaging_Listeners() {
     //get token of mobile device
@@ -73,70 +75,130 @@ class _SignInState extends State<SignIn> {
         statusBarColor: Colors.transparent,
     ),
     child:Scaffold(
+      resizeToAvoidBottomInset: true,
       resizeToAvoidBottomPadding: false,
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 60.0),
-          child: Column(
-            children: <Widget>[
-              Center(
-                child: Text("LOGIN",style: TextStyle(
-                  fontFamily: "Muli",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40.0,
-                  color: kPrimaryColor
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Column(
+              children: <Widget>[
+                Center(
+                  child: Text("LOGIN",style: TextStyle(
+                    fontFamily: "Muli",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40.0,
+                    color: kPrimaryColor
 
-                ),),
-              ),
-              SizedBox(height: size.height*0.02,),
-              Image.asset("assets/images/blood2.png", width: size.height*0.3,),
-              Form(
-                key: _formkey,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 15.0),
-                    InputRound(
-                      controller: email,
-                      deco: InputDecoration(
-                        hintText: "Email",
-                        border: InputBorder.none,
-                        icon: Icon(Icons.email, color: kPrimaryColor,),
-                      ),
-                      validator: (value) =>
-                      (value.isEmpty) ? 'Please enter some text' :
-                      null,
-                    ),
-                    InputPasswordRound(
-                      controller: password,
-                      validator: (val) =>
-                      val.length < 6
-                          ? "Enter a password 6+ chars long"
-                          : null,
-                    ),
-                    ButtonRound(
-                      color: kPrimaryColor,
-                      text: "LOGIN",
-                      press: (){
-                        pr.show();
-                        login();
-                      },
-                    ),
-                  ],
+                  ),),
                 ),
-              ),
-              SizedBox(height: size.height * 0.02),
-              AlreadyHaveAnAccountCheck(
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignUp()),
-                  );
-                },
-              ),
-            ],
+                SizedBox(height: size.height*0.02,),
+                Image.asset("assets/images/blood2.png", width: size.height*0.3,),
+                Form(
+                  key: _formkey,
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 15.0),
+                      InputRound(
+                        controller: email,
+                        deco: InputDecoration(
+                          hintText: "Email",
+                          border: InputBorder.none,
+                          icon: Icon(Icons.email, color: kPrimaryColor,),
+                        ),
+                        onchanged: (value){
+                          setState(() {
+                            if(email.text!="" && password.text!=""){
+                              dataFilled = true;
+                            }
+                            else{
+                              dataFilled = false;
+                            }
+                          });
+                        },
+                        validator: (value) =>
+                        (value.isEmpty) ? 'Please enter some text' :
+                        null,
+                      ),
+
+                      InputPasswordRound(
+                        controller: password,
+                        onchanged: (value){
+                          setState(() {
+                            if(email.text!="" && password.text!=""){
+                              dataFilled = true;
+                            }
+                            else{
+                              dataFilled = false;
+                            }
+                          });
+                        },
+                          validator: (val) {
+                            if (val.length < 6) {
+                              passwordValidator = false;
+                            }
+                            else{
+                              passwordValidator = true;
+                            }
+                          }
+                      ),
+                      ButtonRound(
+                        color: kPrimaryColor,
+                        textColor: dataFilled!=true  ? Colors.grey : Colors.white ,
+                        text: "LOGIN",
+                        press: dataFilled!=true ? null : (){
+                          if (_formkey.currentState.validate()) {
+                            bool isValid = EmailValidator.validate(email.text);
+                            if (isValid == false) {
+                              AwesomeDialog(
+                                context: context,
+                                dismissOnBackKeyPress: true,
+                                dialogType: DialogType.NO_HEADER,
+                                headerAnimationLoop: false,
+                                animType: AnimType.SCALE,
+                                title: 'Invalid Email',
+                                desc:
+                                'Please make sure that you entered the correct email format!',
+                              )
+                                ..show();
+                            }
+                            else if (passwordValidator == false) {
+                              AwesomeDialog(
+                                context: context,
+                                dismissOnBackKeyPress: true,
+                                dialogType: DialogType.NO_HEADER,
+                                headerAnimationLoop: false,
+                                animType: AnimType.SCALE,
+                                title: 'Password too short!',
+                                desc:
+                                'Please make sure your password is at least 6 word!',
+                              )
+                                ..show();
+                            }
+                            else {
+                              pr.show();
+                              login();
+                            }
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: size.height * 0.02),
+                AlreadyHaveAnAccountCheck(
+                  press: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUp()),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

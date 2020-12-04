@@ -573,6 +573,10 @@ class _RequestBloodState extends State<RequestBlood> {
 //    } else {
 //      print("Could added. Wrong input ");
 //    }
+  setState(() {
+    _findDonor = findDonor();
+
+  });
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userjson = localStorage.getString("user");
     var user = jsonDecode(userjson);
@@ -646,112 +650,127 @@ class _RequestBloodState extends State<RequestBlood> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-                "Request has been made. Please wait a minute for the system to find suitable donors"),
-            content:              Container(
-              child: FutureBuilder(
-                  future: findDonor(),
-                  builder: (context,snapshot){
-                    return Container(
-                      height: 200,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
+                "Request has been made. This are the list of suitable donors"),
+            content:              Column(
+              mainAxisSize: MainAxisSize.min,
 
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context,int index){
-                            return Container(
-                              height: 200,
-                              width: 300,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(snapshot.data[index].imageURL))),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(snapshot.data[index].username),
-                                      Text(snapshot.data[index].bloodtype),
-                                      Text(snapshot.data[index].gender),
-                                      Text(snapshot.data[index].phoneNumber),
+              children: [                          SizedBox(height: 20,),
 
+                FutureBuilder(
+                    future: _findDonor,
+                    builder: (context,snapshot){
+                      return Container(
+                        height: 300,
+                        width: size.width,
 
+                        child: Container(
+                          child: ListView.builder(
+                              shrinkWrap: true,
 
+                              scrollDirection: Axis.horizontal,
 
-
-
-                                    ],
-                                  ),
-                                  Row(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context,int index){
+                                return Container(
+                                  height: 150,
+                                  width: 250,
+                                  child: Column(
                                     children: [
                                       Container(
-                                        height: size.height * 0.05,
-                                        width: size.width * 0.2,
+                                        width: 80,
+                                        height: 80,
                                         decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(20),
-                                            color: kPrimaryColor,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  blurRadius: 7,
-                                                  spreadRadius: 3,
-                                                  color: Colors.black
-                                                      .withOpacity(0.25))
-                                            ]),
-                                        child: FlatButton(
-                                            onPressed: () {
-                                              print(snapshot.data[index].notificationToken);
-                                              getQue(snapshot.data[index].notificationToken);
-                                            },
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(20),
-                                            ),
-                                            child:Text("Notify")
-                                        ),
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(snapshot.data[index].imageURL))),
                                       ),
-                                      Container(
-                                        height: size.height * 0.05,
-                                        width: size.width * 0.2,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(20),
-                                            color: kPrimaryColor,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  blurRadius: 7,
-                                                  spreadRadius: 3,
-                                                  color: Colors.black
-                                                      .withOpacity(0.25))
-                                            ]),
-                                        child: FlatButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => MessageScreen(user: snapshot.data[index])),
-                                              );
-                                            },
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(20),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: size.height*0.03),
+                                          Text("Username: "+snapshot.data[index].username),
+                                          Text("Blood Type: " + snapshot.data[index].bloodtype),
+                                          Text("Gender: "+snapshot.data[index].gender),
+                                          Text("Phone Number: "+snapshot.data[index].phoneNumber),
+                                          SizedBox(height: size.height*0.03),
+
+
+
+
+
+
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            height: size.height * 0.05,
+                                            width: size.width * 0.2,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(20),
+                                                color: kPrimaryColor,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      blurRadius: 7,
+                                                      spreadRadius: 3,
+                                                      color: Colors.black
+                                                          .withOpacity(0.25))
+                                                ]),
+                                            child: FlatButton(
+                                                onPressed: () {
+                                                  print(snapshot.data[index].notificationToken);
+                                                  getQue(snapshot.data[index].notificationToken);
+                                                },
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(20),
+                                                ),
+                                                child:Text("Notify")
                                             ),
-                                            child:Text("Chat")
-                                        ),
+                                          ),
+                                          Container(
+                                            height: size.height * 0.05,
+                                            width: size.width * 0.2,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(20),
+                                                color: kPrimaryColor,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      blurRadius: 7,
+                                                      spreadRadius: 3,
+                                                      color: Colors.black
+                                                          .withOpacity(0.25))
+                                                ]),
+                                            child: FlatButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => MessageScreen(user: snapshot.data[index])),
+                                                  );
+                                                },
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(20),
+                                                ),
+                                                child:Text("Chat")
+                                            ),
+                                          )
+                                        ],
                                       )
+
                                     ],
                                   )
-
-                                ],
-                              )
-                            );}
-                      ),
-                    );}
-              ),
+                                );}
+                          ),
+                        ),
+                      );}
+                ),
+              ],
             )
               ,
             actions: <Widget>[
@@ -790,8 +809,8 @@ class _RequestBloodState extends State<RequestBlood> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userjson = localStorage.getString("user");
     var res = await Api().getData("${dropdownValue}/findDonor");
+    print(dropdownValue);
     var body = json.decode(res.body);
-    print("ini semua babiiiiii");
 
     if (res.statusCode == 200) {
       print("ini semua babiiiiii222222222222");

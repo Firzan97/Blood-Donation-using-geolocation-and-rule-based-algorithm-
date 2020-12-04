@@ -265,13 +265,13 @@ class _SecondRequirementState extends State<SecondRequirement> {
     var user =jsonDecode(localStorage.getString("user"));
 
     var data ={
-      "feelingWell": feelingWell,
-      "testBlood": testBlood,
-      "dentalTreatment": dentalTreatment,
-      "takenAlcohol": takenAlcohol,
-      "menstruating": menstruating,
-      "pregnant": pregnant,
-      "breastfeed": breastfeed
+      "feelingWell": feelingWell==true ? "feeling well today" : "not feeling well today",
+      "testBlood": testBlood==true ? "to test blood" : "not to test blood",
+      "dentalTreatment": dentalTreatment==true ? "received dental treatment" : "not receive dental treatment",
+      "takenAlcohol": takenAlcohol ==true ? "have consume alcohol" : "not consume alcohol",
+      "menstruating": menstruating==true ? "have menstruating" : "not menstruating",
+      "pregnant": pregnant==true ? "possible pregnant" : "not pregnant",
+      "breastfeed": breastfeed==true ? "still breastfeeding" : "not breastfeeding"
     };
     var res = await Api().updateData(data, "${user['_id']}/qualification");
     if(res.statusCode==200){

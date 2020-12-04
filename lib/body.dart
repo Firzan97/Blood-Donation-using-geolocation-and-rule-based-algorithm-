@@ -31,6 +31,7 @@ class _BodyState extends State<Body> {
   ];
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: SizedBox(
         width: double.infinity,
@@ -38,7 +39,7 @@ class _BodyState extends State<Body> {
           padding: const EdgeInsets.symmetric(vertical: 15.0),
           child: Column(
             children: <Widget>[
-              SizedBox(height: 80,),
+              SizedBox(height: size.height*0.1,),
               Expanded(
                 flex: 3,
                 child: PageView.builder(
@@ -54,7 +55,7 @@ class _BodyState extends State<Body> {
                 ))
               ),
               Expanded(
-                flex: 2,
+                flex: 1,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(

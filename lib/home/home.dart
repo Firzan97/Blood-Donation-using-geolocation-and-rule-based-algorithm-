@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:easy_blood/about/about.dart';
 import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/api/api.dart';
@@ -18,22 +16,17 @@ import 'package:easy_blood/notification.dart';
 import 'package:easy_blood/profile/edit_profile.dart';
 import 'package:easy_blood/profile/profile.dart';
 import 'package:easy_blood/request/blood_request.dart';
-import 'package:easy_blood/request/findRequest.dart';
 import 'package:easy_blood/requestBlood.dart';
-import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -275,7 +268,7 @@ class _HomeState extends State<Home> {
                                           fontSize: size.width*0.031
                                       ),),
                                       FaIcon(
-                                        FontAwesomeIcons.handsHelping,
+                                        FontAwesomeIcons.tint,
                                         color: kPrimaryColor,
                                       )
                                     ],
@@ -466,7 +459,7 @@ class _HomeState extends State<Home> {
                                           fontSize: size.width*0.031
                                       ),),
                                       FaIcon(
-                                        FontAwesomeIcons.info,
+                                        FontAwesomeIcons.facebookMessenger,
                                         color: kPrimaryColor,
                                       ),
                                     ],
@@ -530,7 +523,7 @@ class _HomeState extends State<Home> {
                             0.5,
                             Padding(
                               padding: const EdgeInsets.only(
-                                  top: 13, right: 8, left: 8),
+                                  top: 13, right: 8, left: 8,bottom: 20),
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -1702,7 +1695,7 @@ class _HomeState extends State<Home> {
 
 
     var data = {
-      "notification_id": "5f8f8ee0301e39d3e9a28d07",
+      "notification_id": "5fb2151a4580d49d1570018f",
       "user_id": user['_id'],
       "is_read": false,
     };

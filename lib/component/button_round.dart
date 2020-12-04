@@ -10,7 +10,7 @@ class ButtonRound extends StatelessWidget {
     this.text,
     this.press,
     this.color,
-    this.textColor,
+    this.textColor=Colors.white,
 }) : super(key: key) ;
 
   @override
@@ -21,17 +21,17 @@ class ButtonRound extends StatelessWidget {
       width: size.width * 0.5,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(29),
-
+color: kPrimaryColor,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(29.0),
         child: FlatButton(
           padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 2.0),
-          color: color,
           onPressed: press,
           child: Text(text,
-            style: TextStyle(color: Colors.white,
-            fontFamily: "Muli"),
+            style: TextStyle(color: textColor,
+            fontFamily: "Muli",
+            fontWeight: FontWeight.w700),
           ),
         ),
       ),

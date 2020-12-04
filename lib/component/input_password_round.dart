@@ -2,7 +2,7 @@ import 'package:easy_blood/component/input_container.dart';
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
 import 'package:flutter/material.dart';
 
-class InputPasswordRound extends StatelessWidget {
+class InputPasswordRound extends StatefulWidget {
   final ValueChanged<String> onchanged;
   final ValueChanged<String> deco;
   final TextEditingController controller;
@@ -16,21 +16,42 @@ class InputPasswordRound extends StatelessWidget {
 }) : super(key: key);
 
   @override
+  _InputPasswordRoundState createState() => _InputPasswordRoundState();
+}
+
+class _InputPasswordRoundState extends State<InputPasswordRound> {
+  bool hide=true;
+  IconData icon= Icons.visibility_off;
+  @override
   Widget build(BuildContext context) {
     return InputContainer(
       child: TextFormField(
-        validator: validator,
-        controller: controller,
-        obscureText: true,
+        onChanged: widget.onchanged,
+        validator: widget.validator,
+        controller: widget.controller,
+        obscureText: hide,
         cursorColor: kPrimaryColor,
         decoration: InputDecoration(
           hintText: "Password",
           icon: Icon(Icons.lock,
           color: kPrimaryColor,),
           border: InputBorder.none,
-          suffixIcon: Icon(
-            Icons.visibility,
-            color: kPrimaryColor,
+          suffixIcon: GestureDetector(
+            onTap: (){
+              setState(() {
+                hide=!hide;
+                if(icon==Icons.visibility){
+                  icon = Icons.visibility_off;
+                }
+                else{
+                  icon=Icons.visibility;
+                }
+              });
+            },
+            child: Icon(
+              icon,
+              color: kPrimaryColor,
+            ),
           ),
         ),
       ),

@@ -22,7 +22,7 @@ class _RequirementFormState extends State<RequirementForm> {
 
   var lastDonation,dropdownValue,pr;
   bool checkedDenggi,receiveVaccine,misscariage, takeAntibiotic,piercedCuppingAcupuntureTattoo;
-  List<String> deaseseList= ["Diabetes","Asthma","Hepatitis B","HIV","Sawan","Sakit Jantung","Darah Tinggi","No"];
+  List<String> deaseseList= ["Diabetes","Asthma","Hepatitis B","HIV","Sawan","Sakit Jantung","Darah Tinggi","Dont have all these desease"];
    bool surgical=false;
    bool tranfussion=false;
    bool injury=false;
@@ -894,35 +894,35 @@ class _RequirementFormState extends State<RequirementForm> {
     var data={
       "lastDonation": lastDonation.toString(),
       "desease": dropdownValue,
-      "problem": _problemController.text,
-      "beautyInjection": _beautyInjection.text,
+      "problem": _problemController.text!="" ? _problemController.text : "no donation problem",
+      "beautyInjection": _beautyInjection.text!="" ? _beautyInjection.text : "nobeauty injection",
 //      "lastInjection": lastBeautyInjection,
-      "familyHavingHepatitis": familyHavingHepatitis.text,
-      "dengue": checkedDenggi,
+      "familyHavingHepatitis": familyHavingHepatitis.text!="" ?familyHavingHepatitis.text : "no family having hepatitis" ,
+      "dengue": checkedDenggi==true ? "have dengue" : "have no dengue",
 //      "lastInfectedDengue": lastInfectedDengue,
-      "receiveVaccine": receiveVaccine,
+      "receiveVaccine": receiveVaccine==true ? "receive vaccine" : "not receive vaccine",
 //      "dateReceiveVaccine": receiveVaccine,
-      "misscariage": misscariage,
+      "misscariage": misscariage==true ? "have misscariage" : "have no misscariage",
 //      "dateMisscariage": lastMisscariage,
-      "pierceCuppingAcupuntureTattoo": piercedCuppingAcupuntureTattoo,
+      "pierceCuppingAcupuntureTattoo": piercedCuppingAcupuntureTattoo==true ? "have piercedCuppingAcupuntureTattoo" : "have not piercedCuppingAcupuntureTattoo",
 //      "datepierceCuppingAcupuntureTattoo": lastPiercedCuppingAcupuntureTattoo,
-      "takeAntiobiotic": takeAntibiotic,
+      "takeAntiobiotic": takeAntibiotic==true ? "have take antibiotic" : "not take antibiotic",
 //      "dateTakeAntibiotic": lastAntibiotic,
-    "surgical": surgical,
-      "injury": injury,
-      "transfussion": tranfussion,
-      "CJD1": CJD1,
-      "CJD2": CJD2,
-      "CJD3": CJD3,
-      "sexWithMan": sexWithProstitute,
-      "sexWithProstitute": sexWithProstitute,
-      "paidOrPaySex": paidReceivedPayment,
-      "sexPartnerNumber": sexPartner,
-      "sexPArnerLast12Month": newSexPartner,
-      "injectDrug": injectedDrug,
-      "partnerCatagories": fallAboveCategories,
-      "partnerHIVpositive": testedPositiveHIV,
-      "youOrSexPartnerHIVinfected": mayInfectedHIV,
+    "surgical": surgical==true ? "have surgical" : "have no surgical",
+      "injury": injury==true ? "have injury" : "have no injury",
+      "transfussion": tranfussion==true ? "have blood transfussion" : "have no blood transfussion",
+      "CJD1": CJD1==true ? "have experience CJD1 " : "have no experience CJD1",
+      "CJD2": CJD2==true ? "have experience CJD2" : "have no experience CJD2",
+      "CJD3": CJD3==true ? "have experience CJD3" : "have no experience CJD3",
+      "sexWithMan": sexWithMan==true ? "have sex with man" : "never have sex with man",
+      "sexWithProstitute": sexWithProstitute==true ? "have sex with prostitute" : "never have sex with prostitute",
+      "paidOrPaySex": paidReceivedPayment==true ? "have paid or pay sex" : "never have paid or pay sex",
+      "sexPartnerNumber": sexPartner==true ? "have several sex partner" : "have no sex partner",
+      "sexPArnerLast12Month": newSexPartner==true ? "have sex partner last 12 month" : "have no sex partner last 12 month",
+      "injectDrug": injectedDrug==true ? "have injected drug" : "have no injectewd drug",
+      "partnerCatagories": fallAboveCategories==true ? "fall above categories" : "not fall above categories",
+      "partnerHIVpositive": testedPositiveHIV==true ? "have tested positive HIV" : "have tested not positive HIV",
+      "youOrSexPartnerHIVinfected": mayInfectedHIV==true ? "may infected HIV " : "not infected HIV",
     };
     var res = await Api().postData(data,"${user['_id']}/qualification");
    if(res.statusCode==200){

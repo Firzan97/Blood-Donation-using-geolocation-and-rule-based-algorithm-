@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/already_have_account.dart';
 import 'package:easy_blood/component/button_round.dart';
+import 'package:easy_blood/component/custom_dialog_notification.dart';
 import 'package:easy_blood/component/input_password_round.dart';
 import 'package:easy_blood/component/input_round.dart';
 import 'package:easy_blood/loadingScreen.dart';
@@ -15,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class SignUp extends StatefulWidget {
   final Function toggleView;
@@ -33,11 +36,12 @@ class _SignUpState extends State<SignUp> {
   TextEditingController age = new TextEditingController();
   TextEditingController gender = new TextEditingController();
    var pr;
-  bool _isLoading = false;
+  bool _isLoading = false,passwordValidator=false;
   String error = "";
   final _formkey = GlobalKey<FormState>();
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String token1;
+  bool dataFilled= false;
 
   void firebaseCloudMessaging_Listeners() {
     //get token of mobile device
@@ -57,6 +61,8 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
+
     Size size = MediaQuery.of(context).size;
     pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
     pr.style(
@@ -73,74 +79,88 @@ class _SignUpState extends State<SignUp> {
         messageTextStyle: TextStyle(
             color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
     );
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-      ),
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: Scaffold(
-            body: SingleChildScrollView(
-                child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40.0),
-                child: Center(
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        "COME JOIN US NOW!",
-                        style: TextStyle(
-                          fontFamily: "Muli",
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                        ),
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          resizeToAvoidBottomInset: true,
+            resizeToAvoidBottomPadding:false,
+          body: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(bottom: bottom),
+
+                decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40.0),
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      bottom.toString(),
+                      style: TextStyle(
+                        fontFamily: "Muli",
+                        color: kPrimaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.0,
                       ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Image.asset(
-                        "assets/images/joinus.png",
-                        width: size.height * 0.25,
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      Form(
-                        key: _formkey,
-                        child: Column(
-                          children: <Widget>[
-                            InputRound(
-                              controller: email,
-                              deco: InputDecoration(
-                                hintText: "Email",
-                                border: InputBorder.none,
-                                icon: Icon(
-                                  Icons.email,
-                                  color: kPrimaryColor,
-                                ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Image.asset(
+                      "assets/images/joinus.png",
+                      width: size.height * 0.25,
+                    ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
+                    Form(
+                      key: _formkey,
+                      child: Column(
+                        children: <Widget>[
+                          InputRound(
+                            controller: email,
+                            deco: InputDecoration(
+                              hintText: "Email",
+                              border: InputBorder.none,
+                              icon: Icon(
+                                Icons.email,
+                                color: kPrimaryColor,
                               ),
-                              validator: (value) => (value.isEmpty)
-                                  ? 'Please enter some text'
-                                  : null,
                             ),
-                            InputRound(
-                              controller: username,
-                              deco: InputDecoration(
-                                hintText: "Username",
-                                border: InputBorder.none,
-                                icon: Icon(
-                                  Icons.person,
-                                  color: kPrimaryColor,
-                                ),
+                            onchanged: (value){
+                              setState(() {
+                                if(email.text!="" && password.text!="" && username.text!="" && age.text!="" ){
+                                  dataFilled = true;
+                                }
+                                else{
+                                  dataFilled = false;
+                                }
+                              });
+                            },
+                          ),
+                          InputRound(
+                            controller: username,
+                            deco: InputDecoration(
+                              hintText: "Username",
+                              border: InputBorder.none,
+                              icon: Icon(
+                                Icons.person,
+                                color: kPrimaryColor,
                               ),
-                              validator: (value) => (value.isEmpty)
-                                  ? 'Please enter some text'
-                                  : null,
                             ),
+                            onchanged: (value){
+                              setState(() {
+                                if(email.text!="" && password.text!="" && username.text!="" && age.text!="" ){
+                                  dataFilled = true;
+                                }
+                                else{
+                                  dataFilled = false;
+                                }
+                              });
+                            },
+                          ),
 //                               InputRound(
 //                                 controller: phoneNumber,
 //                                 deco: InputDecoration(
@@ -152,20 +172,28 @@ class _SignUpState extends State<SignUp> {
 //                                 (value.isEmpty) ? 'Please enter some text' :
 //                                 null,
 //                               ),
-                            InputRound(
-                              controller: age,
-                              deco: InputDecoration(
-                                hintText: "Age",
-                                border: InputBorder.none,
-                                icon: Icon(
-                                  Icons.calendar_today,
-                                  color: kPrimaryColor,
-                                ),
+                          InputRound(
+                            controller: age,
+                            keyboardType: TextInputType.number,
+                            deco: InputDecoration(
+                              hintText: "Age",
+                              border: InputBorder.none,
+                              icon: Icon(
+                                Icons.calendar_today,
+                                color: kPrimaryColor,
                               ),
-                              validator: (value) => (value.isEmpty)
-                                  ? 'Please enter some text'
-                                  : null,
                             ),
+                            onchanged: (value){
+                              setState(() {
+                                if(email.text!="" && password.text!="" && username.text!="" && age.text!="" ){
+                                  dataFilled = true;
+                                }
+                                else{
+                                  dataFilled = false;
+                                }
+                              });
+                            },
+                          ),
 //                               InputRound(
 //                                 controller: gender,
 //                                 deco: InputDecoration(
@@ -177,48 +205,89 @@ class _SignUpState extends State<SignUp> {
 //                                 (value.isEmpty) ? 'Please enter some text' :
 //                                 null,
 //                               ),
-                            InputPasswordRound(
-                              controller: password,
-                              validator: (val) => val.length < 6
-                                  ? "Enter a password 6+ chars long"
-                                  : null,
-                            ),
-                            ButtonRound(
-                              color: kPrimaryColor,
-                              text: "SIGN UP",
-                              press: () async {
-                                if (_formkey.currentState.validate()) {
-                                  print("Validate");
+                          InputPasswordRound(
+                            controller: password,
+                            onchanged: (value){
+                              setState(() {
+                                if(email.text!="" && password.text!="" && username.text!="" && age.text!="" ){
+                                  dataFilled = true;
+                                }
+                                else{
+                                  dataFilled = false;
+                                }
+                              });
+                            },
+                            validator: (val) {
+                              if (val.length < 6) {
+                                passwordValidator = false;
+                              }
+                              else{
+                                passwordValidator = true;
+                              }
+                            }
+                          ),
+                          ButtonRound(
+                            color: kPrimaryColor,
+                            textColor: dataFilled==true ? Colors.white : Colors.grey,
+                            text: "SIGN UP",
+                            press: dataFilled==true ? () async {
+                              if (_formkey.currentState.validate()) {
+                                bool isValid = EmailValidator.validate(email.text);
+                                if(isValid==false){
+                                  AwesomeDialog(
+                                      context: context,
+                                      dismissOnBackKeyPress: true,
+                                      dialogType: DialogType.NO_HEADER,
+                                      headerAnimationLoop: false,
+                                      animType: AnimType.SCALE,
+                                      title: 'Invalid Email',
+                                      desc:
+                                      'Please make sure that you entered the correct email format!',
+                                     )
+                                    ..show();
+                                }
+                                else if(passwordValidator==false){
+                                  AwesomeDialog(
+                                    context: context,
+                                    dismissOnBackKeyPress: true,
+                                    dialogType: DialogType.NO_HEADER,
+                                    headerAnimationLoop: false,
+                                    animType: AnimType.SCALE,
+                                    title: 'Password too short!',
+                                    desc:
+                                    'Please make sure your password is at least 6 word!',
+                                  )
+                                    ..show();
+                                }
+                                else{
                                   pr.show();
                                   register();
-                                } else {
-                                  error = "Could  not sign in. Wrong input ";
                                 }
-                              },
-                            ),
-                          ],
-                        ),
+                              }
+                            } : null
+                          ),
+                        ],
                       ),
-                      AlreadyHaveAnAccountCheck(
-                        login: false,
-                        press: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => SignIn()),
-                          );
-                        },
-                      ),
-                      Text(
-                        error,
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ],
-                  ),
+                    ),
+                    AlreadyHaveAnAccountCheck(
+                      login: false,
+                      press: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignIn()),
+                        );
+                      },
+                    ),
+                    Text(
+                      error,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ],
                 ),
               ),
-            )),
+            ),
           )),
-    );
+        ));
   }
 
   void register() async {
@@ -262,6 +331,20 @@ class _SignUpState extends State<SignUp> {
 
   }
 
+
+  Future<bool> notificationDialog(context){
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => CustomDialogNotification(
+          title: "Invalid Email",
+          description:
+          "Please make sure you entered correct email",
+          buttonText: "Okay",
+//          image: "assets/images/eligible.png"
+
+      ),
+    );
+  }
 }
 
 
