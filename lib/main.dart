@@ -2,7 +2,7 @@ import 'package:easy_blood/admin/dashboard/dashboard.dart';
 import 'package:easy_blood/chat/chat_home.dart';
 import 'package:easy_blood/home/home.dart';
 import 'package:easy_blood/loadingScreen.dart';
-import 'package:easy_blood/message_screen.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/chat/message_screen.dart';
 import 'package:easy_blood/onboarding.dart';
 import 'package:easy_blood/profile/edit_profile.dart';
 import 'package:easy_blood/profile/profile.dart';

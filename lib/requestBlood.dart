@@ -17,7 +17,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'message_screen.dart';
+import 'chat/message_screen.dart';
 
 class RequestBlood extends StatefulWidget {
   @override

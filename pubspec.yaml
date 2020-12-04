@@ -72,6 +72,8 @@ dependencies:
   keyboard_utils: ^1.2.4
   email_validator: ^1.0.6
   awesome_dialog: ^1.2.1
+  network_image_to_byte: ^0.0.1
+  image: ^2.1.19
 
 
 

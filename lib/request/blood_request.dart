@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:dio/dio.dart';
 import 'package:easy_blood/constant/constant.dart';
-import 'package:easy_blood/message_screen.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/chat/message_screen.dart';
 import 'package:easy_blood/model/request.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -113,7 +113,7 @@ _getUserData()async{
     }
     if(customHereIcon==null){
       ImageConfiguration configuration = createLocalImageConfiguration(context);
-      await getBytesFromAsset('assets/images/imhere.png', 100)
+      await getBytesFromAsset('assets/images/here1.png', 100)
           .then((icon) {
         setState(() {
           customHereIcon =icon;
@@ -788,21 +788,25 @@ _getUserData()async{
     if (res.statusCode == 200) {
       List<Requestor> requestors = [];
       var count = 0;
-      var nearestCount;
+      var nearestCount=0;
       for (var u in body) {
+
         Requestor requestor = Requestor.fromJson(u);
         User requestedUser = requestor.user;
         requestedUserList.add(requestedUser);
         requestList.add(requestor);
+
         var addresses = await Geocoder.local.findAddressesFromQuery(requestor.location);
         var first = addresses.first;
         var distanceInMeters = await Geolocator().distanceBetween(double.parse(currentUser['latitude']),double.parse(currentUser['longitude']),first.coordinates.latitude, first.coordinates.longitude);
         distancesList.add(distanceInMeters/1000);
+        print("current latitude " + currentUser['latitude'] +"destination latitude " +first.coordinates.latitude.toString());
         if(temp>distancesList.reduce(min)){
+
           setState(() {
             temp=distancesList.reduce(min);
+            nearestCount=count;
           });
-          nearestCount=count;
         }
 
         allMarkers.add(Marker(

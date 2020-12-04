@@ -31,6 +31,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:share/share.dart';
+import 'package:easy_blood/achievement/achievementHome.dart';
 
 
 
@@ -381,6 +382,56 @@ class _HomeState extends State<Home> {
                                       MaterialPageRoute(
                                           builder: (context) => BloodEvent()),
                                     );
+                                  },
+                                ),
+                              ),
+                            )),
+                        FadeAnimation(
+                            0.5,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 13, right: 8, left: 8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.1),
+                                          spreadRadius: 1,
+                                          blurRadius: 7
+                                      )
+                                    ]),
+                                height: 50,
+                                child: FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  disabledColor: Colors.white,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text("Achievement",style: TextStyle(
+                                          fontSize: size.width*0.031
+                                      ),),
+                                      FaIcon(
+                                        FontAwesomeIcons.clipboardList,
+                                        color: kPrimaryColor,
+                                      )
+                                    ],
+                                  ),
+                                  onPressed: () {
+                                    getUserData();
+                                    if(!checkIfAnyIsNull()){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Achievement()),
+                                      );
+                                    }else{
+                                      updateProfileDialog(context);
+                                    }
+
                                   },
                                 ),
                               ),
