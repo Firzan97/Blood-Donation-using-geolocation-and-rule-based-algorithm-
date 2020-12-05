@@ -287,8 +287,8 @@ class _RequestBloodState extends State<RequestBlood> {
                 ),
               ),
               DraggableScrollableSheet(
-                  initialChildSize: 0.05,
-                  minChildSize: 0.05,
+                  initialChildSize: 0.2,
+                  minChildSize: 0.2,
                   maxChildSize: 0.6,
                   builder: (BuildContext c, s) {
                     return SingleChildScrollView(

@@ -337,12 +337,13 @@ _getUserData()async{
                 ),
               ),
               DraggableScrollableSheet(
-                  initialChildSize: 0.05,
-                  minChildSize: 0.05,
+                  initialChildSize: 0.1,
+                  minChildSize: 0.1,
                   maxChildSize: 0.95,
                   builder: (BuildContext c, s)
                   {
-                    return Container(
+                    return Container(                                width: size.width * 1,
+
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30)),
                         gradient: LinearGradient(
@@ -353,188 +354,189 @@ _getUserData()async{
                               kGradient2.withOpacity(0.4)
                             ]),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          child: SingleChildScrollView(
-                            controller: s,
-                            child: Column(
-                              children: <Widget>[
-                                Icon(Icons.drag_handle),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: GestureDetector(
+                      child: SingleChildScrollView(
+                        controller: s,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              child: Column(
+                                children: [
+                                  Icon(Icons.drag_handle),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: GestureDetector(
+                                          child: Container(
+                                            height: 30,
+                                            width: 70,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(2),
+                                                color: view=="list" ? kPrimaryColor : Colors.white
+                                            ),
+                                            child: Center(
+                                              child: Text("List",style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontFamily: "Muli",
+                                                  color: Colors.black),
+                                              ),
+                                            ),
+                                          ),
+                                          onTap: (){
+                                            setState(() {
+                                              view="list";
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Container(
                                           height: 30,
-                                          width: 70,
+                                          width: 150,
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(2),
-                                              color: view=="list" ? kPrimaryColor : Colors.white
+                                              borderRadius: BorderRadius.circular(20),
+                                              color: Colors.black
                                           ),
                                           child: Center(
-                                            child: Text("List",style: TextStyle(
+                                            child: Text("Blood Request List",style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 fontFamily: "Muli",
-                                                color: Colors.black),
+                                                color: Colors.white),
                                             ),
                                           ),
                                         ),
-                                        onTap: (){
-                                          setState(() {
-                                            view="list";
-                                          });
-                                        },
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        height: 30,
-                                        width: 150,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
-                                          color: Colors.black
-                                        ),
-                                        child: Center(
-                                          child: Text("Blood Request List",style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                                fontFamily: "Muli",
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: GestureDetector(
-                                        child: Container(
-                                          height: 30,
-                                          width: 70,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(2),
-                                              color: view=="detail" ? kPrimaryColor : Colors.white
-                                          ),
-                                          child: Center(
-                                            child: Text("Detail",style: TextStyle(
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: GestureDetector(
+                                          child: Container(
+                                            height: 30,
+                                            width: 70,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(2),
+                                                color: view=="detail" ? kPrimaryColor : Colors.white
+                                            ),
+                                            child: Center(
+                                              child: Text("Detail",style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 fontFamily: "Muli",
                                                 color: Colors.black,
 
-                                            ),
+                                              ),
+                                              ),
                                             ),
                                           ),
+                                          onTap: (){
+                                            setState(() {
+                                              view="detail";
+                                            });
+                                          },
                                         ),
-                                        onTap: (){
-                                          setState(() {
-                                            view="detail";
-                                          });
-                                        },
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: size.height * 0.01,
-                                ),
-                                FutureBuilder(
-                                    future: _futureRequest,
-                                    builder: (context, snapshot) {
-                                      if(snapshot.data==null){
-                                        return LoadingScreen();
-                                      }
-                                      else{
-                                      return Container(
-                                        height: 600,
-                                        child: ListView.builder(
-                                            itemCount: snapshot.data.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              if(snapshot.data==null){
-                                                return LoadingScreen();
-                                              }
-                                              return view=="list" ? Stack(
-                                                children: <Widget>[
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(10.0),
-                                                    child: Container(
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            FutureBuilder(
+                                future: _futureRequest,
+                                builder: (context, snapshot) {
+                                  if(snapshot.data==null){
+                                    return LoadingScreen();
+                                  }
+                                  else{
+                                  return Container(
+                                    height: 500,
+                                    child: ListView.builder(
+                                        itemCount: snapshot.data.length,
+                                        itemBuilder: (BuildContext context,
+                                            int index) {
+                                          if(snapshot.data==null){
+                                            return LoadingScreen();
+                                          }
+                                          return view=="list" ? Stack(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  child: ListTile(
+                                                    leading: Container(
+                                                      height:
+                                                          size.height * 0.149,
+                                                      width: size.width * 0.11,
                                                       decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  10)),
-                                                      child: ListTile(
-                                                        leading: Container(
-                                                          height:
-                                                              size.height * 0.149,
-                                                          width: size.width * 0.11,
-                                                          decoration: BoxDecoration(
-                                                              image:
-                                                                  DecorationImage(
-                                                                fit: BoxFit.cover,
-                                                                image: NetworkImage(
-                                                                    a[index].imageURL),
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(5)),
-                                                        ),
-                                                        title:
-                                                            Text(a[index].username, style: TextStyle(
-                                                              fontSize: size.width*0.038,
-
-                                                            ),),
-                                                        subtitle:
-                                                            Text("${snapshot.data[index].bloodType}",style: TextStyle(
-                                                              color: Colors.red,
-                                                              fontSize: size.width*0.033,
-
-                                                            ),),
-                                                        trailing: Container(
-                                                          width: 130,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: <Widget>[
-                                                              a[index].id!=currentUser['_id'] ?
-                                                              IconButton(
-                                                                icon: Icon(
-                                                                  Icons
-                                                                      .message,
-                                                                  color:
-                                                                  kPrimaryColor,
-                                                                ),
-                                                                onPressed: () {
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) => MessageScreen(user: a[index])),
-                                                                  );
-                                                                },
-                                                              ) : Container(),
-                                                              IconButton(
-                                                                icon: Icon(
-                                                                  Icons.call,
-                                                                  color:
-                                                                      kPrimaryColor,
-                                                                ),
-                                                                onPressed: () {
-                                                                  launch(('tel://${a[index].phoneNumber}'));       //launch(('tel://99999xxxxx'));
-
-
-                                                                },
-                                                              ),
-
-                                                            ],
+                                                          image:
+                                                              DecorationImage(
+                                                            fit: BoxFit.cover,
+                                                            image: NetworkImage(
+                                                                a[index].imageURL),
                                                           ),
-                                                        ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5)),
+                                                    ),
+                                                    title:
+                                                        Text(a[index].username, style: TextStyle(
+                                                          fontSize: size.width*0.038,
+
+                                                        ),),
+                                                    subtitle:
+                                                        Text("${snapshot.data[index].bloodType}",style: TextStyle(
+                                                          color: Colors.red,
+                                                          fontSize: size.width*0.033,
+
+                                                        ),),
+                                                    trailing: Container(
+                                                      width: 130,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: <Widget>[
+                                                          a[index].id!=currentUser['_id'] ?
+                                                          IconButton(
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .message,
+                                                              color:
+                                                              kPrimaryColor,
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder: (context) => MessageScreen(user: a[index])),
+                                                              );
+                                                            },
+                                                          ) : Container(),
+                                                          IconButton(
+                                                            icon: Icon(
+                                                              Icons.call,
+                                                              color:
+                                                                  kPrimaryColor,
+                                                            ),
+                                                            onPressed: () {
+                                                              launch(('tel://${a[index].phoneNumber}'));       //launch(('tel://99999xxxxx'));
+
+
+                                                            },
+                                                          ),
+
+                                                        ],
                                                       ),
                                                     ),
                                                   ),
+                                                ),
+                                              ),
 //                                                  Positioned(
 //                                                    bottom: 0,
 //                                                    left:160,
@@ -565,157 +567,155 @@ _getUserData()async{
 //                                                      },
 //                                                    ),
 //                                                  ),
-                                                ],
-                                              ) : Container(
-                                                child: Column(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding:
-                                                      const EdgeInsets.only(top: 10.0, left: 11, right: 11),
-                                                      child: Container(
-                                                        width: size.width * 1,
-                                                        decoration:
-                                                        BoxDecoration(color: Colors.white, boxShadow: [
-                                                          BoxShadow(
-                                                              color: Colors.black.withOpacity(0.05),
-                                                              blurRadius: 10,
-                                                              spreadRadius: 3)
-                                                        ]),
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: <Widget>[
-                                                            Container(
+                                            ],
+                                          ) : Container(
+                                            child: Column(
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets.only(top: 10.0, left: 11, right: 11),
+                                                  child: Container(
+                                                    width: size.width * 1,
+                                                    decoration:
+                                                    BoxDecoration(color: Colors.white, boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors.black.withOpacity(0.05),
+                                                          blurRadius: 10,
+                                                          spreadRadius: 3)
+                                                    ]),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          decoration: BoxDecoration(
+                                                              color: kPrimaryColor.withOpacity(0.8)
+                                                          ),
+                                                          child: ListTile(
+                                                            leading: Container(
+                                                              height: size.height * 0.149,
+                                                              width: size.width * 0.15,
                                                               decoration: BoxDecoration(
-                                                                  color: kPrimaryColor.withOpacity(0.8)
-                                                              ),
-                                                              child: ListTile(
-                                                                leading: Container(
-                                                                  height: size.height * 0.149,
-                                                                  width: size.width * 0.15,
-                                                                  decoration: BoxDecoration(
 
-                                                                      boxShadow: [
-                                                                        BoxShadow(
-                                                                            color: Colors.grey.withOpacity(0.1),
-                                                                            blurRadius: 8,
-                                                                            spreadRadius: 5)
-                                                                      ],
-                                                                      shape: BoxShape.circle,
-                                                                      image: DecorationImage(
-                                                                        fit: BoxFit.cover,
-                                                                        image:
-                                                                        NetworkImage(a[index].imageURL),
-                                                                      )),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                        color: Colors.grey.withOpacity(0.1),
+                                                                        blurRadius: 8,
+                                                                        spreadRadius: 5)
+                                                                  ],
+                                                                  shape: BoxShape.circle,
+                                                                  image: DecorationImage(
+                                                                    fit: BoxFit.cover,
+                                                                    image:
+                                                                    NetworkImage(a[index].imageURL),
+                                                                  )),
+                                                            ),
+                                                            title: Text(a[index].username,style: TextStyle(
+                                                              fontSize: size.width*0.042,
+
+                                                            ),),
+                                                            isThreeLine: true,
+                                                            subtitle: RichText(
+                                                              text: TextSpan(
+                                                                text: 'Looking for ${snapshot.data[index].bloodType} blood donor\n',
+                                                                style: TextStyle(
+                                                                    color: Colors.black,
+                                                                  fontSize: size.width*0.035,
+
                                                                 ),
-                                                                title: Text(a[index].username,style: TextStyle(
-                                                                  fontSize: size.width*0.042,
-
-                                                                ),),
-                                                                isThreeLine: true,
-                                                                subtitle: RichText(
-                                                                  text: TextSpan(
-                                                                    text: 'Looking for ${snapshot.data[index].bloodType} blood donor\n',
-                                                                    style: TextStyle(
-                                                                        color: Colors.black,
-                                                                      fontSize: size.width*0.035,
-
-                                                                    ),
-                                                                    children: <TextSpan>[
-                                                                      TextSpan(
-                                                                          text: 'Posted 3 hours ago',
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight.w300,
-                                                                            fontSize: size.width*0.033,
-                                                                          )),
+                                                                children: <TextSpan>[
+                                                                  TextSpan(
+                                                                      text: 'Posted 3 hours ago',
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight.w300,
+                                                                        fontSize: size.width*0.033,
+                                                                      )),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(
+                                                              left: 20.0, top: 10, bottom: 15),
+                                                          child: Text(
+                                                              snapshot.data[index].reason),
+                                                        ),
+                                                        Container(
+                                                          child: Column(
+                                                            children: <Widget>[
+                                                              Image.asset("assets/images/lari2.jpg"),
+                                                              Container(
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets.only(left:8.0,right: 8.0),
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                    children: <Widget>[
+                                                                      Stack(children: <Widget>[
+                                                                        Image.asset(
+                                                                          "assets/images/begdarah.png",width: 50,),
+                                                                        Positioned(
+                                                                            top: size.height * 0.028,
+                                                                            left: size.width * 0.04,
+                                                                            child: Transform.rotate(angle: - pi / 5,
+                                                                              child: Text("AB",
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 9,
+                                                                                      color: Colors.white,
+                                                                                      fontWeight:
+                                                                                      FontWeight.w700)),
+                                                                            ))
+                                                                      ]),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            bottom:4.0,top: 2.0, left: 15),
+                                                                        child: FlatButton(
+                                                                          color: kThirdColor,
+                                                                          shape: RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(5),
+                                                                          ),
+                                                                          child: Text("Saves a life",style: TextStyle(color: Colors.white70),),
+                                                                          onPressed: () {},
+                                                                        ),
+                                                                      )
                                                                     ],
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding: const EdgeInsets.only(
-                                                                  left: 20.0, top: 10, bottom: 15),
-                                                              child: Text(
-                                                                  snapshot.data[index].reason),
-                                                            ),
-                                                            Container(
-                                                              child: Column(
-                                                                children: <Widget>[
-                                                                  Image.asset("assets/images/lari2.jpg"),
-                                                                  Container(
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.only(left:8.0,right: 8.0),
-                                                                      child: Row(
-                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                        children: <Widget>[
-                                                                          Stack(children: <Widget>[
-                                                                            Image.asset(
-                                                                              "assets/images/begdarah.png",width: 50,),
-                                                                            Positioned(
-                                                                                top: size.height * 0.028,
-                                                                                left: size.width * 0.04,
-                                                                                child: Transform.rotate(angle: - pi / 5,
-                                                                                  child: Text("AB",
-                                                                                      style: TextStyle(
-                                                                                          fontSize: 9,
-                                                                                          color: Colors.white,
-                                                                                          fontWeight:
-                                                                                          FontWeight.w700)),
-                                                                                ))
-                                                                          ]),
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(
-                                                                                bottom:4.0,top: 2.0, left: 15),
-                                                                            child: FlatButton(
-                                                                              color: kThirdColor,
-                                                                              shape: RoundedRectangleBorder(
-                                                                                borderRadius:
-                                                                                BorderRadius.circular(5),
-                                                                              ),
-                                                                              child: Text("Saves a life",style: TextStyle(color: Colors.white70),),
-                                                                              onPressed: () {},
-                                                                            ),
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              decoration: BoxDecoration(
-                                                               color: Colors.grey.withOpacity(0.5)
-                                                              ),
-                                                              child: Row(
-                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                children: <Widget>[
-                                                                  Container(
-                                                                    child: FlatButton(
-                                                                      child: Row(
-                                                                        children: <Widget>[
-                                                                          Icon(Icons.share),
-                                                                          Text("Share")
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            )
-                                                          ],
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ),
+                                                        Container(
+                                                          decoration: BoxDecoration(
+                                                           color: Colors.grey.withOpacity(0.5)
+                                                          ),
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: <Widget>[
+                                                              Container(
+                                                                child: FlatButton(
+                                                                  child: Row(
+                                                                    children: <Widget>[
+                                                                      Icon(Icons.share),
+                                                                      Text("Share")
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              );
-                                            }),
-                                      );}
-                                    }),
-                              ],
-                            ),
-                          ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                  );}
+                                }),
+                          ],
                         ),
                       ),
                     );

@@ -17,6 +17,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ChatHome extends StatefulWidget {
   @override
@@ -27,8 +28,14 @@ class _ChatHomeState extends State<ChatHome> {
   TextEditingController _searchController = new TextEditingController();
   var currentUser;
   List<User> users=[];
+  List<User> users2=[];
+
   List<Message> latestMessages=[];
+  List<Message> latestMessages2=[];
+
   List<String> unread=[];
+  List<String> unread2=[];
+
   var futureConversation;
   StreamController<String> _eventData = StreamController<String>();
   Sink get _inEventData => _eventData.sink;
@@ -37,6 +44,8 @@ class _ChatHomeState extends State<ChatHome> {
   String channelName = 'easy-blood';
   String eventName = "message";
   List<Conversation> convers = [];
+  List<Conversation> convers2 = [];
+
   _getUserData()async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
@@ -47,11 +56,11 @@ class _ChatHomeState extends State<ChatHome> {
   @override
   void dispose()
   {
+    super.dispose();
     Pusher.unsubscribe(channelName);
     channel.unbind(eventName);
     _eventData.close();
 
-    super.dispose();
   }
 
   @override
@@ -81,7 +90,7 @@ class _ChatHomeState extends State<ChatHome> {
         statusBarColor: Colors.transparent,
     ),
     child: Scaffold(
-      body: Container(
+        body: Container(
         decoration: BoxDecoration(
           gradient: colorgradient,
             image: new DecorationImage(
@@ -124,41 +133,57 @@ class _ChatHomeState extends State<ChatHome> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40)),
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)),
                         boxShadow: [
                     BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withOpacity(0.4),
                       blurRadius: 5,
                       spreadRadius: 3
                   )
                     ]
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          FutureBuilder(
-                              future: futureConversation,
-                              builder: (context,
-                                  snapshot) {
-                                if (snapshot
-                                    .data ==
-                                    null) {
-                                  return Container(
-                                    height: size.height*0.4,
-                                    child:
-                                    Center(
-                                      child:
-                                      LoadingScreen(),
-                                    ),
-                                  );
-                                }
+                    child: Column(
+                      children: [
+                        FutureBuilder(
+                            future: futureConversation,
+                            builder: (context,
+                                snapshot) {
+                              if (snapshot
+                                  .data ==
+                                  null) {
                                 return Container(
+                                  height: size.height*0.4,
+                                  child:
+                                  Center(
+                                    child:
+                                    LoadingScreen(),
+                                  ),
+                                );
+                              }
+                              else if (snapshot
+                                  .data.isEmpty) {
+                                return Container(
+                                  width: size.width*1,
+                                  height: size.height*0.7,
+                                  child:
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text("There are no message yet!"),
+                                      SvgPicture.asset(
+                                        "assets/images/message.svg",
+                                        semanticsLabel: 'A red up arrow',height: 250,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                              return SingleChildScrollView(
+                                child: Container(
                                   height:
                                   size.height *
-                                      0.1,
+                                      0.75,
                                   decoration: BoxDecoration(
-
                                   ),
                                   child: ListView
                                       .builder(
@@ -167,19 +192,26 @@ class _ChatHomeState extends State<ChatHome> {
                                           .length,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return InkWell(
+                                        return GestureDetector(
                                           onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (_) => MessageScreen(user: users[index], conversation: convers[index])));
                                           },
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(bottom: 20),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              border: Border(
+
+                                                bottom: BorderSide(width: 1.0, color: Colors.grey.withOpacity(0.1)),
+                                              ),
+
+                                            ),
                                             child: Row(
                                               children: <Widget>[
-                                                Container(
-                                                  width: size.width*0.15,
-                                                  height: size.height*0.1,
-                                                  child: Stack(
-                                                    children: <Widget>[
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
+                                                  child: Container(
+                                                    height: size.height*0.1,
+                                                    child: Stack(
+                                                      children: <Widget>[
 //                                                  userMessages[index]['story']
 //                                                      ? Container(
 //                                                    decoration: BoxDecoration(
@@ -201,16 +233,16 @@ class _ChatHomeState extends State<ChatHome> {
 //                                                    ),
 //                                                  )
 //                                                      :
-                                                  Container(
-                                                    width: size.width*0.15,
-                                                    height: size.height*0.09,
-                                                        decoration: BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            image: DecorationImage(
-                                                                image:
-                                                                NetworkImage(users[index].imageURL),
-                                                                fit: BoxFit.cover)),
-                                                      ),
+                                                    Container(
+                                                      width: size.width*0.15,
+                                                      height: size.height*0.09,
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape.circle,
+                                                              image: DecorationImage(
+                                                                  image:
+                                                                  NetworkImage(users2[index].imageURL),
+                                                                  fit: BoxFit.cover)),
+                                                        ),
 
 //                                                  userMessages[index]['online']
 //                                                      ? Positioned(
@@ -227,12 +259,13 @@ class _ChatHomeState extends State<ChatHome> {
 //                                                    ),
 //                                                  )
 //                                                      : Container()
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
 
                                                 SizedBox(
-                                                  width: size.width*0.03,
+                                                  width: size.width*0.01,
                                                 ),
                                                 Container(
                                                   width: size.width*0.6,
@@ -240,9 +273,9 @@ class _ChatHomeState extends State<ChatHome> {
                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: <Widget>[
                                                       Text(
-                                                        users[index].username,
+                                                        users2[index].username,
                                                         style: TextStyle(
-                                                            fontSize: 17, fontWeight: FontWeight.w500),
+                                                            fontSize: 17, fontWeight: FontWeight.w600),
                                                       ),
                                                       SizedBox(
                                                         height: size.height*0.001,
@@ -251,9 +284,9 @@ class _ChatHomeState extends State<ChatHome> {
                                                         width: MediaQuery.of(context).size.width - 135,
                                                         child: Text(
 
-                                                          "${latestMessages.length!=0 ? latestMessages[index].message: ""}",
+                                                          "${latestMessages2.length!=0 ? latestMessages2[index].message: ""}",
                                                           style: TextStyle(
-                                                              fontSize: 15, color: black.withOpacity(0.8)
+                                                              fontSize: 15, color: black.withOpacity(0.5)
                                                           ),
                                                           overflow: TextOverflow.ellipsis,
                                                         ),
@@ -261,7 +294,7 @@ class _ChatHomeState extends State<ChatHome> {
                                                     ],
                                                   ),
                                                 ),
-                                                unread[index]=="0" ? Container() :
+                                                unread2[index]=="0" ? Container() :
                                                 Container(
                                                   width: size.width*0.08,
 
@@ -271,7 +304,7 @@ class _ChatHomeState extends State<ChatHome> {
                                                       color: kGradient1.withOpacity(0.5),
                                                   ),
                                                   child: Center(
-                                                    child: Text(unread[index] ,style: TextStyle(
+                                                    child: Text(unread2[index] ,style: TextStyle(
                                                       fontSize: size.width*0.039
                                                     ),),
                                                   ),
@@ -282,11 +315,11 @@ class _ChatHomeState extends State<ChatHome> {
                                         );
                                       }
                                   ),
-                                );
-                              }
-                          ),
-                        ],
-                      ),
+                                ),
+                              );
+                            }
+                        ),
+                      ],
                     ),
                   ),
                 )
@@ -299,7 +332,6 @@ class _ChatHomeState extends State<ChatHome> {
   }
 
   Future<void> initPusher() async {
-
     await Pusher.init(
         DotEnv().env['PUSHER_APP_KEY'],
         PusherOptions(cluster: DotEnv().env['PUSHER_APP_CLUSTER']),
@@ -317,20 +349,24 @@ class _ChatHomeState extends State<ChatHome> {
 
     eventStream.listen((data) async {
       setState(() {
-
+        futureConversation= fetchConversation();
       });
     });
   }
 
-
   Future<List<Conversation>> fetchConversation() async {
+    setState(() {
+      latestMessages= [];
+      convers =[];
+      unread=[];
+      users=[];
+    });
     var res = await Api().getData("conversation/${currentUser['_id']}");
     var body = json.decode(res.body);
     List<Message> messages = [];
     Conversation conver;
     User temp;
     if (res.statusCode == 200) {
-
       var count = 0;
       for (var u in body) {
         conver = Conversation.fromJson(u);
@@ -341,8 +377,11 @@ class _ChatHomeState extends State<ChatHome> {
         else{
           temp = conver.userReceive;
         }
-        users.add(temp);
-        convers.add(conver);
+        setState(() {
+          users.add(temp);
+          convers.add(conver);
+        });
+
         var count = await Api().getData("message/${temp.id}/unread/${conver.id}");
         unread.add(count.body.toString());
         var temp2 = await Api().getData("latestMessage/${conver.id}");
@@ -350,9 +389,12 @@ class _ChatHomeState extends State<ChatHome> {
 
         if (temp2.statusCode == 200) {
           if(temp2.body.length!=0) {
+
             temp3 = json.decode(temp2.body);
             Message temp = Message.fromJson(temp3);
             latestMessages.add(temp);
+            print("hail to the king");
+            print(temp2.body);
           }
           else{
            Message temp = new Message("","","");
@@ -360,7 +402,15 @@ class _ChatHomeState extends State<ChatHome> {
           }
         }
       }
-      return convers;
+      setState(() {
+        latestMessages2 = latestMessages;
+        convers2 =convers;
+        unread2=unread;
+        users2=users;
+      });
+      print(convers.length);
+
+      return convers2;
     } else {
       throw Exception('Failed to load album');
     }

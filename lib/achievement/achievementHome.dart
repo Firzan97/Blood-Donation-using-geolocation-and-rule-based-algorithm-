@@ -69,7 +69,6 @@ List<Choice> choices = <Choice>[
   Choice(title: "Leaderboard", icon: Icon(FontAwesomeIcons.trophy), backgroundImage: "assets/images/board.svg",noData: "Cannot generate leaderboard if you do not have any achievement yet!"),
 ];
 
-
 class ChoicePage extends StatelessWidget {
 
   const ChoicePage({Key key, this.choice}) : super(key: key);

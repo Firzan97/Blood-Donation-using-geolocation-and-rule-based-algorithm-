@@ -22,11 +22,6 @@ class MessageScreen extends StatefulWidget {
   final Conversation conversation;
 
   const MessageScreen({Key key, this.user, this.conversation}) : super(key: key);
-
-
-
-
-
   @override
   _MessageScreenState createState() => _MessageScreenState();
 }
@@ -45,34 +40,36 @@ class _MessageScreenState extends State<MessageScreen> {
   List<String> messages = new List<String>();
   var bottomList=0;
 
-  @override
-  void dispose()
-  {
-    Pusher.unsubscribe(channelName);
-    channel.unbind(eventName);
-    _eventData.close();
+  void getUserData() async{
 
-    super.dispose();
-  }
-
-  _getUserData() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
      setState(() {
        userId= jsonDecode(localStorage.getString("user"));
      });
   }
+
+
+
   @override
   void initState()
   {
     super.initState();
-    _getUserData();
-
+    getUserData();
     initPusher();
     _readMessage();
-      _futureMessage = fetchMessage();
+  }
 
+  @override
+  void dispose()
+  {
+    super.dispose();
+    Pusher.unsubscribe(channelName);
+    channel.unbind(eventName);
+    _eventData.close();
 
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +85,8 @@ class _MessageScreenState extends State<MessageScreen> {
         );
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomPadding: false,
           appBar: AppBar(
             backgroundColor: kPrimaryColor.withOpacity(0.6),
             elevation: 0,
@@ -148,93 +147,101 @@ class _MessageScreenState extends State<MessageScreen> {
               ),
             ],
           ),
-            body: Column(
-              children: [
-                Container(
-                  height: size.height*0.84,
-                  child: FutureBuilder(
-                    future: fetchMessage(),
-                    builder: (context,snapshot){
-                      return snapshot.data==null ? LoadingScreen()  :
-                      ListView.builder(
-                          controller: _scrollController,
-                          padding: EdgeInsets.only(right: 20,left: 20,top: 20,bottom: 80),
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext c, index){
-                            return snapshot.data.length!=0 ? ChatBubble(isMe: snapshot.data[index].userSendId== userId['_id'] ? true : false,message: snapshot.data[index].message,profileImg: widget.user.imageURL) : Container();
-                          }
-                      );
-                    },
+        body: Container(
+          height: size.height*0.9,
+          width: size.width*1,
+          child: Stack(
+                children: [
+                  Container(
+                    width: size.width*1,
+                    height: size.height*0.76,
+                    child: FutureBuilder(
+                      future: fetchMessage(),
+                      builder: (context,snapshot){
+                        return snapshot.data==null ? LoadingScreen()  :
+                        ListView.builder(
+                            controller: _scrollController,
+                            padding: EdgeInsets.only(right: 20,left: 20,top: 20,bottom: 80),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext c, index){
+                              return snapshot.data.length!=0 ? ChatBubble(isMe: snapshot.data[index].userSendId== userId['_id'] ? true : false,message: snapshot.data[index].message,profileImg: widget.user.imageURL) : Container();
+                            }
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
-        bottomSheet: Container(
-          height: size.height*0.1,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: colorgradient,
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40))
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 12,right: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                  child: Row(
 
-                    children: <Widget>[
-                      Container(
-                        width: size.width*0.75,
-                        height: size.height*0.07,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 9,
-                              spreadRadius: 4
-                            )
+                  Positioned(
+bottom: 0,                    child: Container(
+                      height: size.height*0.1,
+                      width: size.width*1,
+                      decoration: BoxDecoration(
+                          gradient: colorgradient,
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40))
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12,right: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+
+                                children: <Widget>[
+                                  Container(
+                                    width: size.width*0.75,
+                                    height: size.height*0.07,
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black.withOpacity(0.1),
+                                              blurRadius: 9,
+                                              spreadRadius: 4
+                                          )
+                                        ],
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(20)
+                                    ),
+                                    child: TextField(
+                                      cursorColor: black,
+                                      controller: k,
+                                      decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(vertical: 13,horizontal: 12),
+
+                                          border: InputBorder.none,
+                                          hintText: "Write a reply ....",
+                                          hintStyle: TextStyle(
+                                              fontSize: size.width*0.042
+                                          )
+                                      ),
+                                    ),
+                                  ),
+
+                                  IconButton(icon: Icon(Icons.send,size: size.width*0.08,color: Colors.black),onPressed: (){
+//                      _sendMessage(k.text);
+                                    _setConversation();
+
+                                  },),
+                                ],
+                              ),
+                            ),
+
+
+
                           ],
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)
-                        ),
-                        child: TextField(
-                          cursorColor: black,
-                          controller: k,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 13,horizontal: 12),
-
-                            border: InputBorder.none,
-                              hintText: "Write a reply ....",
-                            hintStyle: TextStyle(
-                              fontSize: size.width*0.042
-                            )
-                          ),
                         ),
                       ),
-
-                      IconButton(icon: Icon(Icons.send,size: size.width*0.08,color: Colors.black),onPressed: (){
-//                      _sendMessage(k.text);
-                        _setConversation();
-
-                      },),
-                    ],
+                    ),
                   ),
-                ),
-
-
-
-              ],
-            ),
-          ),
+                ],
+              ),
         ),
       ),
     );
   }
 
+//use to fetch all message between receiver and sender
   Future<List<Message>> fetchMessage() async {
-    print("babiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii ${userId}");
     var res = await Api().getData("conversationMessage/${widget.user.id}/${userId['_id']}");
 
     if (res.statusCode == 200) {
@@ -264,6 +271,7 @@ class _MessageScreenState extends State<MessageScreen> {
     }
   }
 
+  //use to update conversation between receiver and sender
   _setConversation() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userjson = localStorage.getString("user");
@@ -286,11 +294,14 @@ class _MessageScreenState extends State<MessageScreen> {
     }
   }
 
+
+
+  //use to update the message from unread to readed everytime user see conversation
   _readMessage() async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userjson = localStorage.getString("user");
     var user= jsonDecode(userjson);
-
+   print("hehehehehe "+widget.conversation.id);
     var data = {
       "userId": widget.user.id,
       "isRead": true,
