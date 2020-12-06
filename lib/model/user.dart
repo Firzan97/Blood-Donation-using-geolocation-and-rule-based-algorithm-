@@ -13,9 +13,10 @@ class User {
   String imageURL;
   String role;
   String notificationToken;
+  bool isOnline;
 
   User(this.username, this.email, this.password, this.bloodtype, this.phoneNumber,
-      this.gender, this.latitude, this.longitude, this.imageURL, this.role);
+      this.gender, this.latitude, this.longitude, this.imageURL, this.role,this.isOnline);
 
   User.fromJson(Map<String, dynamic> json)
       : id = json['_id'],
@@ -29,7 +30,9 @@ class User {
         longitude = double.parse(json['longitude']),
         imageURL = json['imageURL'],
         role = json['role'],
-        notificationToken = json['notificationToken'];
+        notificationToken = json['notificationToken'],
+        isOnline = json['isOnline'];
+
 
 
 

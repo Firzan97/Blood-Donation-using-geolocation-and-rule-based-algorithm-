@@ -4,6 +4,13 @@ import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/con
 import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pusher_websocket_flutter/pusher.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:easy_blood/api/api.dart';
+
 
 class About extends StatefulWidget {
   @override
@@ -11,6 +18,15 @@ class About extends StatefulWidget {
 }
 
 class _AboutState extends State<About> {
+
+  @override
+
+  @override
+  void initState(){
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -168,6 +184,7 @@ class _AboutState extends State<About> {
 
                     ]),
                   ),
+
                 ],
               ),
             ),
@@ -175,6 +192,10 @@ class _AboutState extends State<About> {
         ));
 
   }
+
+
+
+
 
   Future<bool> versionDialog(context){
     return showDialog(

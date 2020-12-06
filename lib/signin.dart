@@ -17,6 +17,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pusher_websocket_flutter/pusher.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:easy_blood/api/api.dart';
+
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -32,8 +38,15 @@ class _SignInState extends State<SignIn> {
   String error = "";
   var pr;
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  String token1;
   bool dataFilled= false,passwordValidator=false;
+  String token1;
+  StreamController<String> _eventData = StreamController<String>();
+  Sink get _inEventData => _eventData.sink;
+  Stream get eventStream => _eventData.stream;
+  Channel channel;
+
+  String channelName = 'easy-blood';
+  String eventName = "message";
 
   void firebaseCloudMessaging_Listeners() {
     //get token of mobile device
@@ -50,8 +63,17 @@ class _SignInState extends State<SignIn> {
   void initState(){
     super.initState();
     firebaseCloudMessaging_Listeners();
-  }
+    initPusher();
 
+  }
+  void dispose()
+  {
+    super.dispose();
+    Pusher.unsubscribe(channelName);
+    channel.unbind(eventName);
+    _eventData.close();
+
+  }
   @override
   Widget build(BuildContext context) {
     pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
@@ -180,6 +202,7 @@ class _SignInState extends State<SignIn> {
                             }
                             else {
                               pr.show();
+//                              updateName();
                               login();
                             }
                           }
@@ -206,6 +229,41 @@ class _SignInState extends State<SignIn> {
     );
   }
 
+
+
+  Future<void> initPusher() async {
+    await Pusher.init(
+        DotEnv().env['PUSHER_APP_KEY'],
+        PusherOptions(cluster: DotEnv().env['PUSHER_APP_CLUSTER']),
+        enableLogging: true
+    );
+
+    Pusher.connect();
+
+    channel = await Pusher.subscribe(channelName);
+
+    channel.bind(eventName, (last) {
+      final String data = last.data;
+      _inEventData.add(data);
+    });
+
+    eventStream.listen((data) async {
+      setState(() {
+
+      });
+    });
+  }
+
+//  updateName() async{
+//    SharedPreferences localStorage = await SharedPreferences.getInstance();
+//    var user = jsonDecode(localStorage.getString("user"));
+//    var data={
+//      "username": "babi",
+//    };
+//    var res = await Api().updateData(data,"userName/${user['_id']}");
+//    print("update nama equal to === " + res.statusCode.toString());
+//  }
+
   Future<bool> infoDialog(context){
     return showDialog(
         context: context,
@@ -226,6 +284,8 @@ class _SignInState extends State<SignIn> {
         }
     );
   }
+
+
 
   Future<void> updateNotificationToken($userid)async{
     var data={

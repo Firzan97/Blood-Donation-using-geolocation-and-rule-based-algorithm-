@@ -53,20 +53,11 @@ class _ChatHomeState extends State<ChatHome> {
     });
   }
 
-  @override
-  void dispose()
-  {
-    super.dispose();
-    Pusher.unsubscribe(channelName);
-    channel.unbind(eventName);
-    _eventData.close();
-
-  }
 
   @override
   void initState(){
     super.initState();
-
+//    initPusher();
     _getUserData();
     Future.delayed(const Duration(milliseconds: 500), () {
 
@@ -79,7 +70,21 @@ class _ChatHomeState extends State<ChatHome> {
 
     });
 
-    initPusher();
+  }
+  Future<void> disposePusher()async{
+    await channel.unbind(eventName);
+    await Pusher.unsubscribe(channelName);
+    Pusher.disconnect();
+
+  }
+  @override
+  void dispose()
+  {
+    disposePusher();
+    super.dispose();
+
+
+
   }
 
   @override
@@ -332,26 +337,32 @@ class _ChatHomeState extends State<ChatHome> {
   }
 
   Future<void> initPusher() async {
+    var b,lastConnectionState;
     await Pusher.init(
         DotEnv().env['PUSHER_APP_KEY'],
         PusherOptions(cluster: DotEnv().env['PUSHER_APP_CLUSTER']),
         enableLogging: true
     );
-
-    Pusher.connect();
+    Pusher.connect(onConnectionStateChange: (x) async {
+      if (mounted)
+        setState(() {
+          lastConnectionState = x.currentState;
+        });
+    }, onError: (x) {
+      debugPrint("Error: ${x.message}");
+    });
 
     channel = await Pusher.subscribe(channelName);
 
-    channel.bind(eventName, (last) {
-      final String data = last.data;
-      _inEventData.add(data);
+
+    await channel.bind(eventName, (x) {
+      if (mounted)
+        setState(() {
+          b = x;
+          print("babi");
+        });
     });
 
-    eventStream.listen((data) async {
-      setState(() {
-        futureConversation= fetchConversation();
-      });
-    });
   }
 
   Future<List<Conversation>> fetchConversation() async {

@@ -289,7 +289,12 @@ class _SignUpState extends State<SignUp> {
           )),
         ));
   }
-
+  Future<void> updateNotificationToken($userid)async{
+    var data={
+      "notificationToken": token1,
+    };
+    var res = await Api().updateData(data, "user/${$userid}/notification");
+  }
   void register() async {
     setState(() {
       _isLoading = true;

@@ -10,6 +10,7 @@ import 'package:easy_blood/model/message.dart';
 import 'package:easy_blood/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -62,10 +63,8 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   void dispose()
   {
+    disposePusher();
     super.dispose();
-    Pusher.unsubscribe(channelName);
-    channel.unbind(eventName);
-    _eventData.close();
 
   }
 
@@ -125,7 +124,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       height: 3,
                     ),
                     Text(
-                      "Active now",
+                      widget.user.isOnline==true ? "Online" : "Offline",
                       style: TextStyle(color: Colors.white, fontSize: size.width*0.026),
                     )
                   ],
@@ -138,7 +137,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 width: 13,
                 height: 13,
                 decoration: BoxDecoration(
-                    color: online,
+                    color: widget.user.isOnline==true ? online : Colors.red,
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white38)),
               ),
@@ -323,34 +322,40 @@ bottom: 0,                    child: Container(
 //    var res = await Api().postData(data,"message");
 //
 //  }
+Future<void> disposePusher()async{
+  await channel.unbind(eventName);
+  await Pusher.unsubscribe(channelName);
+  Pusher.disconnect();
+
+}
 
   Future<void> initPusher() async {
-    await Pusher.init(
-        DotEnv().env['PUSHER_APP_KEY'],
-        PusherOptions(cluster: DotEnv().env['PUSHER_APP_CLUSTER']),
-        enableLogging: true
-    );
+    var b,lastConnectionState;
+//    await Pusher.init(
+//        DotEnv().env['PUSHER_APP_KEY'],
+//        PusherOptions(cluster: DotEnv().env['PUSHER_APP_CLUSTER']),
+//        enableLogging: true
+//    );
+//    Pusher.connect(onConnectionStateChange: (x) async {
+//      if (mounted)
+//        setState(() {
+//          lastConnectionState = x.currentState;
+//        });
+//    }, onError: (x) {
+//      debugPrint("Error: ${x.message}");
+//    });
+//
+//    channel = await Pusher.subscribe(channelName);
 
-    Pusher.connect();
 
-    channel = await Pusher.subscribe(channelName);
-
-    channel.bind(eventName, (last) {
-      final String data = last.data;
-      _inEventData.add(data);
-    });
-
-    eventStream.listen((data) async {
-      setState(() {
-        _futureMessage= fetchMessage();
-        WidgetsBinding.instance
-            .addPostFrameCallback((_){
-          if (_scrollController.hasClients) {
-            _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-          }
+    await channel.bind(eventName, (x) {
+      if (mounted)
+        setState(() {
+          b = x;
+          print("babi");
         });
-      });
     });
+
   }
 }
 

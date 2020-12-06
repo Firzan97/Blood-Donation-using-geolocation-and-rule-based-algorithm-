@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'package:awesome_dialog/awesome_dialog.dart';
+import "package:easy_blood/admin/dashboard/profile.dart";
 import 'package:easy_blood/admin/donation/donation.dart';
 import 'package:easy_blood/admin/event/event.dart';
 import 'package:easy_blood/admin/request/requestList.dart';
@@ -17,7 +18,9 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
 var user;
-
+String suis="OFF";
+var i,_value="Default";
+var background = kPrimaryColor,card= Colors.white;
   void _getUserData()async{
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
@@ -42,7 +45,7 @@ var user;
         body: Container(
           height: size.height*1,
           decoration: BoxDecoration(
-            color: kPrimaryColor
+            color: background
           ),
           child: Column(
             children: <Widget>[
@@ -53,6 +56,75 @@ var user;
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Icons.settings,color: Colors.black,),
+                      onPressed: (){
+                        AwesomeDialog(
+                          context: context,
+                          animType: AnimType.SCALE,
+                          dialogType: DialogType.NO_HEADER,
+                          body: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text("Light Mode"),
+                                  FlatButton(
+                                    color: Colors.red,
+                                    child: Text(suis),
+                                    onPressed: (){
+                                      setState(() {
+                                        if(suis=="OFF")
+                                          suis="ON";
+                                        else
+                                          suis="OFF";
+                                      });
+
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Dark Mode"),
+                                  FlatButton(
+                                    color: Colors.red,
+                                    child: Text(suis),
+                                    onPressed: (){
+                                      setState(() {
+                                        if(suis=="OFF")
+                                          suis="ON";
+                                        else
+                                          suis="OFF";
+                                      });
+
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Default Mode"),
+                                  FlatButton(
+                                    color: Colors.red,
+                                    child: Text(suis),
+                                    onPressed: (){
+                                      setState(() {
+                                        if(suis=="OFF")
+                                          suis="ON";
+                                        else
+                                          suis="OFF";
+                                      });
+                                    },
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        )..show();
+//                        Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (context) => AdminSetting()),
+//                        );
+                      },
                     ),
                     Column(
                       children: <Widget>[
@@ -86,7 +158,7 @@ var user;
                         children: <Widget>[
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color:card,
                               borderRadius: BorderRadius.circular(6),
                               boxShadow: [
                                 BoxShadow(
@@ -107,13 +179,17 @@ var user;
                                   ],
                                 ),
                                 onPressed: (){
-
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Profile()),
+                                  );
                                 },
                               ),
                           ),
                           Container(
                             decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: card,
                                 borderRadius: BorderRadius.circular(6),
                                 boxShadow: [
                                   BoxShadow(
@@ -152,7 +228,7 @@ var user;
                         children: <Widget>[
                           Container(
                             decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: card,
                                 borderRadius: BorderRadius.circular(6),
                                 boxShadow: [
                                   BoxShadow(
@@ -183,7 +259,7 @@ var user;
                           ),
                           Container(
                             decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: card,
                                 borderRadius: BorderRadius.circular(6),
                                 boxShadow: [
                                   BoxShadow(
@@ -222,7 +298,7 @@ var user;
                         children: <Widget>[
                           Container(
                             decoration: BoxDecoration(
-                                color: Colors.white,
+                                color:card,
                                 borderRadius: BorderRadius.circular(6),
                                 boxShadow: [
                                   BoxShadow(
@@ -249,7 +325,7 @@ var user;
                           ),
                           Container(
                             decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: card,
                                 borderRadius: BorderRadius.circular(6),
                                 boxShadow: [
                                   BoxShadow(
@@ -278,6 +354,7 @@ var user;
                         ],
                       ),
                     ),
+
                   ],
                 ),
               )
@@ -320,6 +397,39 @@ var user;
     );
 
   }
+
+Future<bool> AdminSetting(context){
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text("Alert!"),
+          content: Text("Are you sure want to Logout?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Exit"),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Save"),
+              onPressed: (){
+                LogOut();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Welcome()),
+                );
+              },
+            ),
+          ],
+        );
+      }
+  );
+
+}
 
   void LogOut() async{
     SharedPreferences pref = await SharedPreferences.getInstance();
