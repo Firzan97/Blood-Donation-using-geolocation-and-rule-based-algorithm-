@@ -1,28 +1,32 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:easy_blood/admin/user/add_admin.dart';
+import 'package:easy_blood/admin/user/add_user.dart';
 
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/model/admin.dart' ;
+
 import 'package:easy_blood/model/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 class UserList extends StatefulWidget {
   @override
   _UserListState createState() => _UserListState();
 }
 
 class _UserListState extends State<UserList> {
-
   @override
   void initState() {
     super.initState();
-
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +56,7 @@ class _UserListState extends State<UserList> {
                 );
               }).toList(),
             ),
+
           ),
           body:TabBarView(
               children: choices.map((Choice choice){
@@ -81,13 +86,13 @@ class Choice {
 }
 
 List<Choice> choices = <Choice>[
-  Choice(title: "User", icon: Icons.upgrade, backgroundImage: "assets/images/achiement.svg",noData: "Upgrade as Admin", function: fetchUser("user")),
-  Choice(title: "Admin", icon: Icons.download_outlined, backgroundImage: "assets/images/board.svg",noData: "Downgrade as User",function: fetchUser("admin")),
+  Choice(title: "user", icon: Icons.upgrade, backgroundImage: "assets/images/achiement.svg",noData: "Upgrade as Admin", function: fetchUser("user")),
+  Choice(title: "admin", icon: Icons.download_outlined, backgroundImage: "assets/images/board.svg",noData: "Downgrade as User",function: fetchUser("admin")),
 ];
 
 
 
-FutureOr<List<User>> fetchUser(role) async {
+Future<List<User>> fetchUser(role) async {
   List<User> users=[];
   var res = await Api().getData("user");
   var body = json.decode(res.body);
@@ -108,6 +113,26 @@ FutureOr<List<User>> fetchUser(role) async {
   }
 }
 
+
+Future<List<Admin>> fetchAdmin(role) async {
+  List<Admin> admins=[];
+  var res = await Api().getData("admin");
+  var body = json.decode(res.body);
+  if (res.statusCode == 200) {
+    var count = 0;
+    for (var u in body) {
+      print(u);
+
+      Admin admin = Admin.fromJson(u);
+      print(admin.role);
+      if(admin.role==role)
+        admins.add(admin);
+    }
+    return admins;
+  } else {
+    throw Exception('Failed to load album');
+  }
+}
 class ChoicePage extends StatefulWidget {
 
   const ChoicePage({Key key, this.choice}) : super(key: key);
@@ -120,8 +145,22 @@ class ChoicePage extends StatefulWidget {
 class _ChoicePageState extends State<ChoicePage> {
   List<User> users = [];
   var totalUser;
-  var pr;
+  var pr,data;
+  var user;
 
+  void getUserData()async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    setState(() {
+      user = jsonDecode(localStorage.getString("user"));
+
+    });  }
+   @override
+   void initState(){
+     super.initState();
+     getUserData();
+
+     widget.choice.title=="admin" ? data=fetchAdmin(widget.choice.title) : data=fetchUser(widget.choice.title);
+   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -143,22 +182,30 @@ class _ChoicePageState extends State<ChoicePage> {
     return Container(
       child: SingleChildScrollView(
           child: Column(
-              children: <Widget>[
-                Container(
-                  height: size.height * 0.3,
-                  decoration: BoxDecoration(color: kPrimaryColor),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          height: size.height * 0.18,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6)
+            children: [
+              Container(
+                height: size.height * 0.3,
+                decoration: BoxDecoration(color: kPrimaryColor),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+
+                          Container(
+                            height: size.height * 0.18,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6)
+                            ),
+                            child: Image.asset("assets/images/bloodcell2.png"),
                           ),
-                          child: Image.asset("assets/images/doctor.png"),
-                        ),
-                        Container(
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
                           height: size.height * 0.07,
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -193,6 +240,7 @@ class _ChoicePageState extends State<ChoicePage> {
                               ),
 
                             ),
+
                               Container(
                                 child: FlatButton(
                                   child: Column(
@@ -233,15 +281,17 @@ class _ChoicePageState extends State<ChoicePage> {
                               )
                             ],
                           ),
-                        )
-                      ],
-                    ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                Container(
+              ),
+              SingleChildScrollView(
+                child: Container(
                   height: size.height*0.7,
                   child: FutureBuilder(
-                      future: widget.choice.function,
+                      future:data,
                       builder: (context, snapshot) {
                         if (snapshot.data == null) {
                           return Container(
@@ -253,7 +303,7 @@ class _ChoicePageState extends State<ChoicePage> {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
-                            children: <Widget>[
+                            children: [
                               Container(
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -267,121 +317,170 @@ class _ChoicePageState extends State<ChoicePage> {
                                       ]
                                   ),
                                   height: size.height*0.6,
-                                  child: ListView.builder(
-                                      itemCount: snapshot.data.length,
-                                      itemBuilder: (BuildContext context, int index){
-                                        return Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Row(
-                                                        children: <Widget>[
-                                                          Container(
-                                                            height: size.height * 0.08,
-                                                            width: size.width * 0.18,
-                                                            decoration: BoxDecoration(
-                                                                image: DecorationImage(
-                                                                  fit: BoxFit.cover,
-                                                                  image: NetworkImage(
-                                                                    snapshot.data[index].imageURL,),
-                                                                ),
-                                                                borderRadius:
-                                                                BorderRadius.circular(2)),
-                                                          ),
-                                                          SizedBox(width: size.width*0.03,),
-                                                          Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: <Widget>[
-                                                              Text(
-                                                                snapshot.data[index].username,
-                                                                style: TextStyle(
-                                                                    color: Colors.black,
-                                                                    fontWeight: FontWeight.w700,
-                                                                    fontSize: 14),
-                                                              ),
-                                                              Text(
-                                                                snapshot.data[index].email,
-                                                                style: TextStyle(
-                                                                    color: Colors.black,
-                                                                    fontWeight: FontWeight.w500,
-                                                                    fontSize: 13),
-                                                              ),
+                                  child: Column(
+                                    children: [
+                                      Center(
+                                        child: FlatButton(
+                                          color: Colors.white,
+                                          child: Icon(Icons.add),
+                                          onPressed: (){
+                                              widget.choice.title=="admin" ?
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => AddAdmin()),
+                                              )
+                                                  :
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => AddUser()),
+                                              );
+                                          },
+                                        ),
+                                      ),
+                                      Container(
+                                        height: size.height*0.5,
 
+                                        child: ListView.builder(
+                                            itemCount: snapshot.data.length,
+                                            itemBuilder: (BuildContext context, int index){
+                                              return Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: <Widget>[
+
+                                                    Container(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Row(
+                                                          mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Row(
+                                                                children: <Widget>[
+                                                                  Container(
+                                                                    height: size.height * 0.08,
+                                                                    width: size.width * 0.18,
+                                                                    decoration: BoxDecoration(
+                                                                        image: DecorationImage(
+                                                                          fit: BoxFit.cover,
+                                                                          image: NetworkImage(
+                                                                            snapshot.data[index].imageURL,),
+                                                                        ),
+                                                                        borderRadius:
+                                                                        BorderRadius.circular(2)),
+                                                                  ),
+                                                                  SizedBox(width: size.width*0.03,),
+                                                                  Column(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                    children: <Widget>[
+                                                                      Text(
+                                                                        snapshot.data[index].username,
+                                                                        style: TextStyle(
+                                                                            color: Colors.black,
+                                                                            fontWeight: FontWeight.w700,
+                                                                            fontSize: 14),
+                                                                      ),
+                                                                      Text(
+                                                                        snapshot.data[index].email,
+                                                                        style: TextStyle(
+                                                                            color: Colors.black,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            fontSize: 13),
+                                                                      ),
+
+                                                                    ],
+                                                                  ),
+
+                                                                ],
+                                                              ),
+                                                            ), widget.choice.title=="admin" ? SizedBox() :
+                                                        Text(
+                                                              snapshot.data[index].bloodtype,
+                                                              style:
+                                                              TextStyle(color: kPrimaryColor),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        FlatButton(
+                                                          child: Row(
+                                                            children: <Widget>[
+                                                              Icon(Icons.delete_forever,color: Colors.black,),
+                                                              Text("Delete",style: TextStyle(
+                                                                  color: Colors.black
+                                                              ),)
                                                             ],
                                                           ),
+                                                          onPressed: (){
+                                                            _userDeleteDialog(snapshot.data[index].id);
 
-                                                        ],
-                                                      ),
-                                                    ), widget.choice.title=="Admin" ? SizedBox() :
-                                                Text(
-                                                      snapshot.data[index].bloodtype,
-                                                      style:
-                                                      TextStyle(color: kPrimaryColor),
+                                                          },
+                                                        ),
+                                                        FlatButton(
+                                                          child: Row(
+                                                            children: <Widget>[
+                                                              Icon(Icons.edit,color: Colors.black,),
+                                                              Text("Edit",style: TextStyle(
+                                                                  color: Colors.black
+                                                              ))
+                                                            ],
+                                                          ),
+                                                          onPressed: (){
+
+                                                          },
+                                                        ),
+                                                       snapshot.data[index].id!=user["_id"] ? FlatButton(
+                                                          child: Row(
+                                                            children: <Widget>[
+                                                              Icon(widget.choice.icon,color: Colors.black,),
+                                                              Text(widget.choice.noData,style: TextStyle(
+                                                                  color: Colors.black
+                                                              ))
+                                                            ],
+                                                          ),
+                                                          onPressed: (){
+                                                            widget.choice.title=="admin" ? downgradeAsUser(snapshot.data[index].id) : upgradeAsAdmin(snapshot.data[index].id);
+
+                                                            setState(() {
+                                                              if(widget.choice.title=="admin"){
+                                                                data=fetchAdmin(widget.choice.title);
+
+
+                                                              }
+                                                              else{
+                                                                data = fetchUser(widget.choice.title);
+
+                                                              }
+
+                                                            });
+                                                          },
+                                                        ) : SizedBox()
+                                                      ],
                                                     ),
+                                                    SizedBox(height: size.height*0.04,)
                                                   ],
                                                 ),
-                                              ),
-                                            ),
-                                            Row(
-                                              children: <Widget>[
-                                                FlatButton(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(Icons.delete_forever,color: Colors.black,),
-                                                      Text("Delete",style: TextStyle(
-                                                          color: Colors.black
-                                                      ),)
-                                                    ],
-                                                  ),
-                                                  onPressed: (){
-                                                    _userDeleteDialog(snapshot.data[index].id);
-
-                                                  },
-                                                ),
-                                                FlatButton(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(Icons.edit,color: Colors.black,),
-                                                      Text("Edit",style: TextStyle(
-                                                          color: Colors.black
-                                                      ))
-                                                    ],
-                                                  ),
-                                                  onPressed: (){
-
-                                                  },
-                                                ),
-                                                FlatButton(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(widget.choice.icon,color: Colors.black,),
-                                                      Text(widget.choice.noData,style: TextStyle(
-                                                          color: Colors.black
-                                                      ))
-                                                    ],
-                                                  ),
-                                                  onPressed: (){
-                                                    widget.choice.title=="Admin" ? downgradeAsUser(snapshot.data[index].id) : upgradeAsAdmin(snapshot.data[index].id);
-                                                  },
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        );
-                                      })),
+                                              );
+                                            }),
+                                      ),
+                                    ],
+                                  )),
                             ],
                           ),
                         );
                       }),
                 ),
-              ])),
+              ),
+
+            ],
+          )),
     );
   }
 
@@ -442,7 +541,6 @@ class _ChoicePageState extends State<ChoicePage> {
     pr.show();
     if (res.statusCode == 200){
       Timer(Duration(seconds: 3), () {
-        Navigator.pop(context);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -457,14 +555,3 @@ class _ChoicePageState extends State<ChoicePage> {
 }
 
 
-class Admin extends StatefulWidget {
-  @override
-  _AdminState createState() => _AdminState();
-}
-
-class _AdminState extends State<Admin> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}

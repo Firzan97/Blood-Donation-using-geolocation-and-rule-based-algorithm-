@@ -41,6 +41,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var lastdonate;
   int _page = 0;
   List<Color> colorList = [Colors.black,Colors.black,Colors.black,Colors.black,Colors.black];
   GlobalKey _bottomNavigationKey = GlobalKey();
@@ -96,6 +97,8 @@ class _HomeState extends State<Home> {
   @override
   void initState(){
     super.initState();
+    setState(() {});
+
     _firebaseMessaging.configure(
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
@@ -117,6 +120,7 @@ class _HomeState extends State<Home> {
       },
     );
     getUserData();
+    lastDonation();
   }
 
   @override
@@ -767,7 +771,7 @@ class _HomeState extends State<Home> {
                                               ),
                                               onPressed: () {
                                                 getUserLocation();
-                                                _updatelocation();
+//                                                _updatelocation();
                                               },
                                             ),
                                           ),
@@ -778,15 +782,27 @@ class _HomeState extends State<Home> {
                                             color: Colors.yellowAccent,
                                             borderRadius: BorderRadius.circular(20)
                                           ),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
+                                          child: Column(
+                                            children: [
+                                              Text("Latest Donation", style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: "Muli",
+                                              color: Colors.black,fontSize: size.width*0.026),),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: <Widget>[
 
-                                              Text(
-                                                "Not Eligible",
-                                                style: TextStyle(
-                                                    color: Colors.black,fontSize: size.width*0.031),
-                                              )
+                                                  Text(
+                                                   " ${lastdonate} days ago",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w500,
+                                                        fontFamily: "Muli",
+                                                        color: Colors.black,fontSize: size.width*0.028),
+
+                                                  )
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -1229,8 +1245,8 @@ class _HomeState extends State<Home> {
                                                  itemCount: snapshot.data.length,
                                                  itemBuilder: (BuildContext context, int index){
                                                  DateFormat dateFormat = DateFormat('dd/MM/yyyy');
-                                                 String dateStart = dateFormat.format(snapshot.data[index].timeStart);
-                                                 dynamic currentTime = DateFormat.jm().format(snapshot.data[index].timeStart);
+                                                 var dateStart = dateFormat.format(snapshot.data[index].dateStart);
+                                                 var currentTime = DateFormat.jm().format(snapshot.data[index].dateStart);
 
                                                             return GestureDetector(
                                                               onTap: () {
@@ -1251,7 +1267,7 @@ class _HomeState extends State<Home> {
                                                                     Positioned(
                                                                       bottom:
                                                                           size.height*0.014,
-                                                                      left: 50,
+                                                                      left: 60,
                                                                       child:
                                                                           Padding(
                                                                         padding:
@@ -1448,84 +1464,84 @@ class _HomeState extends State<Home> {
                                               ),
                                             );
                                           }
-                                        return  Container(
-                                          height:size.height*0.291,
-                                            child: ListView.builder(
-                                              shrinkWrap: true,
-                                             itemCount: snapshot.data.length,
-                                              itemBuilder: (BuildContext context, int index) {
-                                                DateTime dateTime = DateTime.parse(snapshot.data[index].created_at);
-                                                DateFormat dateFormat = DateFormat('yyyy-MM-dd');
-                                                String time = dateFormat.format(dateTime);
+                                          else{
+                                            return  Container(
+                                                height:size.height*0.291,
+                                                child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemCount: snapshot.data.length,
+                                                    itemBuilder: (BuildContext context, int index) {
+                                                      DateTime dateTime = DateTime.parse(snapshot.data[index].created_at);
+                                                      DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+                                                      String time = dateFormat.format(dateTime);
 
-                                              return Column(
-                                                children: <Widget>[
-                                                  Container(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Row(
-                                                        mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                                      return Column(
                                                         children: <Widget>[
-                                                          Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Container(
-                                                                  height: size.height * 0.08,
-                                                                  width: size.width * 0.18,
-                                                                  decoration: BoxDecoration(
-                                                                      image: DecorationImage(
-                                                                        fit: BoxFit.cover,
-                                                                        image: NetworkImage(
-                                                                          a[index].imageURL,),
+                                                          Container(
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Row(
+                                                                mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                                                children: <Widget>[
+                                                                  Row(
+                                                                    children: <Widget>[
+                                                                      Container(
+                                                                        height: size.height * 0.08,
+                                                                        width: size.width * 0.18,
+                                                                        decoration: BoxDecoration(
+                                                                            image: DecorationImage(
+                                                                              fit: BoxFit.cover,
+                                                                              image: NetworkImage(
+                                                                                a[index].imageURL,),
+                                                                            ),
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(2)),
                                                                       ),
-                                                                      borderRadius:
-                                                                      BorderRadius.circular(2)),
-                                                                ),
-                                                                SizedBox(width: size.width*0.03,),
-                                                                Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: <Widget>[
-                                                                    Text(
-                                                                      a[index].username,
-                                                                      style: TextStyle(
-                                                                          color: Colors.black,
-                                                                          fontWeight: FontWeight.w700,
-                                                                          fontSize: size.width*0.033),
-                                                                    ),
-                                                                    Text(
-                                                                      snapshot.data[index].location,
-                                                                      style: TextStyle(
-                                                                          color: Colors.black,
-                                                                          fontWeight: FontWeight.w500,
-                                                                          fontSize: size.width*0.031),
-                                                                    ),
-                                                                    Text(
-                                                                      Jiffy(time).fromNow() // 7 years ago
-                                                                      ,
-                                                                      style: TextStyle(
-                                                                          color: Colors.grey,
-                                                                          fontSize: size.width*0.029,
-                                                                          fontWeight: FontWeight.w300),
-                                                                    ),
-                                                                  ],
-                                                                ),
+                                                                      SizedBox(width: size.width*0.03,),
+                                                                      Column(
+                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                        children: <Widget>[
+                                                                          Text(
+                                                                            a[index].username,
+                                                                            style: TextStyle(
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.w700,
+                                                                                fontSize: size.width*0.033),
+                                                                          ),
+                                                                          Text(
+                                                                            snapshot.data[index].location,
+                                                                            style: TextStyle(
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: size.width*0.031),
+                                                                          ),
+                                                                          Text(
+                                                                            Jiffy(time).fromNow() // 7 years ago
+                                                                            ,
+                                                                            style: TextStyle(
+                                                                                color: Colors.grey,
+                                                                                fontSize: size.width*0.029,
+                                                                                fontWeight: FontWeight.w300),
+                                                                          ),
+                                                                        ],
+                                                                      ),
 
-                                                              ],
+                                                                    ],
+                                                                  ),
+                                                                  Text(
+                                                                    snapshot.data[index].bloodType,
+                                                                    style:
+                                                                    TextStyle(color: kPrimaryColor,fontSize: size.width*0.033),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
-                                                          Text(
-                                                            snapshot.data[index].bloodType,
-                                                            style:
-                                                            TextStyle(color: kPrimaryColor,fontSize: size.width*0.033),
-                                                          ),
                                                         ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );}
-                                            ));},
+                                                      );}
+                                                ));
+                                          }
+                                        },
                                       )
                                       ],
                                     ),
@@ -1627,6 +1643,21 @@ class _HomeState extends State<Home> {
     );
 
   }
+
+  Future<String> lastDonation()async{
+var response = await Api().getData("${user['_id']}/qualification");
+if(response.statusCode==200){
+
+  print("cibaiii luu");
+  setState(() {
+    lastdonate = response.body.toString();
+
+  });
+  return response.body;
+}
+  }
+
+
   void getUserLocation()async{
     var coordinates;
     await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high)

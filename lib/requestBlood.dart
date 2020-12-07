@@ -16,6 +16,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'chat/message_screen.dart';
 
@@ -659,6 +660,23 @@ class _RequestBloodState extends State<RequestBlood> {
                 FutureBuilder(
                     future: _findDonor,
                     builder: (context,snapshot){
+                      if(snapshot.data.length==0){
+                        return Container(
+                          height: 350,
+                          width: 250,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text("Sorry for the time being, no user that compatible with you yet :("),
+                              SvgPicture.asset(
+                                "assets/images/noData.svg",
+                                semanticsLabel: 'A red up arrow',height: 200,
+                              ),
+                            ],
+                          ),
+                        );
+
+                      }
                       return Container(
                         height: 300,
                         width: size.width,
@@ -671,6 +689,7 @@ class _RequestBloodState extends State<RequestBlood> {
 
                               itemCount: snapshot.data.length,
                               itemBuilder: (BuildContext context,int index){
+
                                 return Container(
                                   height: 150,
                                   width: 250,

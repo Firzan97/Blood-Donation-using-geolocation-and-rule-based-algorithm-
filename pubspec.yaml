@@ -21,7 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  flutter:
+  flutter_localizations:
     sdk: flutter
 
 
@@ -74,7 +74,8 @@ dependencies:
   awesome_dialog: ^1.2.1
   network_image_to_byte: ^0.0.1
   image: ^2.1.19
-
+  flutter_rounded_date_picker: 1.0.5
+  dart_date: ^1.0.8
 
 
 

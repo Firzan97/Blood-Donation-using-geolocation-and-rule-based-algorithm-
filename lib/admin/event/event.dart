@@ -164,6 +164,7 @@ class _EventListState extends State<EventList> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
                                   children: <Widget>[
+
                                     Container(
                                         decoration: BoxDecoration(
                                             color: Colors.white,
@@ -177,143 +178,160 @@ class _EventListState extends State<EventList> {
                                             ]
                                         ),
                                         height: size.height*0.6,
-                                        child: ListView.builder(
-                                            itemCount: snapshot.data.length,
-                                            itemBuilder: (BuildContext context, int index){
-                                              DateFormat dateFormat = DateFormat('dd/MM/yyyy');
-                                              String dateStart = dateFormat.format(snapshot.data[index].timeStart);
-                                              dynamic currentTime = DateFormat.jm().format(snapshot.data[index].timeStart);
+                                        child: Column(
+                                          children: [
+                                            Center(
+                                              child: FlatButton(
+                                                color: Colors.white,
+                                                child: Icon(Icons.add),
+                                                onPressed: (){
+
+                                                },
+                                              ),
+                                            ),
+                                            Container(
+                                              height: size.height*0.5,
+
+                                              child: ListView.builder(
+                                                  itemCount: snapshot.data.length,
+                                                  itemBuilder: (BuildContext context, int index){
+                                                    DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+                                                    var dateStart = dateFormat.format(snapshot.data[index].dateStart);
+                                                    var currentTime = DateFormat.jm().format(snapshot.data[index].dateStart);
 
 
-                                              return Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Container(
+                                                    return Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Container(
 //                                      decoration: BoxDecoration(
 //                                          color: Colors.white,
 //                                          borderRadius:
 //                                              BorderRadius.circular(5.0)),
-                                                  child: Stack(
-                                                    children: <Widget>[
-                                                      Positioned(
-                                                        top:size.height*0.01,
-                                                        right:size.width*0.01,
-                                                        child: Container(
-                                                          width: size.width*0.62,
-                                                          height: 184,
-                                                          decoration: BoxDecoration(
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                    blurRadius: 9,
-                                                                    spreadRadius: 3,
-                                                                    color: Colors.black.withOpacity(0.1)
-                                                                )
-                                                              ],
-                                                              color: Colors.white,
-                                                              borderRadius:
-                                                              BorderRadius.circular(5.0)),
-                                                          child:  Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                SizedBox(width: size.width*0.11,),
-
-                                                                Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: <Widget>[
-                                                                    Text("Title",style: TextStyle(
-                                                                      fontWeight: FontWeight.w700,
-
-                                                                    ),),
-                                                                    Text(snapshot.data[index].name,style: TextStyle(
-                                                                        fontWeight: FontWeight.w300,
-                                                                        fontSize: size.width*0.033
-                                                                    ),),
-                                                                    Text("Location",style: TextStyle(
-                                                                        fontWeight: FontWeight.w700
-                                                                    ),),
-                                                                    Text(
-                                                                      snapshot.data[index].location,style: TextStyle(
-                                                                        fontWeight: FontWeight.w300,
-                                                                        fontSize: size.width*0.033
-                                                                    ),),
-                                                                    Text("Time",style: TextStyle(
-                                                                      fontWeight: FontWeight.w700,
-                                                                    ),),
-                                                                    Text(
-                                                                      currentTime,style: TextStyle(
-                                                                        fontWeight: FontWeight.w300,
-                                                                        fontSize: size.width*0.033
-                                                                    ),),
-                                                                    Text("Date",style: TextStyle(
-                                                                        fontWeight: FontWeight.w700
-                                                                    ),),
-                                                                    Text(
-                                                                      dateStart,style: TextStyle(
-                                                                        fontWeight: FontWeight.w300,
-                                                                        fontSize: size.width*0.033
-                                                                    ),),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: (){
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    BloodEventDetail(
-                                                                        event: snapshot
-                                                                            .data[index])),
-                                                          );
-                                                        },
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                    blurRadius: 9,
-                                                                    spreadRadius: 3,
-                                                                    color: Colors.grey.withOpacity(0.2)
-                                                                )
-                                                              ]
-                                                          ),
-                                                          child:  ClipRRect(
-                                                              borderRadius: BorderRadius.circular(25),
-                                                              child: Image.network(
-                                                                snapshot.data[index].imageURL,
-                                                                width: 140,
-                                                                height: 200,
-                                                                fit: BoxFit.fill,
-                                                              )),
-                                                        ),
-                                                      ),
-                                                      Positioned(
-                                                        right: 15,
-                                                        child:    Row(
+                                                        child: Stack(
                                                           children: <Widget>[
-                                                            IconButton(icon: Icon(Icons.delete_forever,color: Colors.black,),
-                                                              onPressed: (){
-                                                                _eventDeleteDialog(snapshot.data[index].id);
-                                                              },),
-                                                            IconButton(icon: Icon(Icons.edit,color: Colors.black,),
-                                                            onPressed: (){
-                                                              Navigator.pushReplacement(
+                                                            Positioned(
+                                                              top:size.height*0.01,
+                                                              right:size.width*0.01,
+                                                              child: Container(
+                                                                width: size.width*0.62,
+                                                                height: 184,
+                                                                decoration: BoxDecoration(
+                                                                    boxShadow: [
+                                                                      BoxShadow(
+                                                                          blurRadius: 9,
+                                                                          spreadRadius: 3,
+                                                                          color: Colors.black.withOpacity(0.1)
+                                                                      )
+                                                                    ],
+                                                                    color: Colors.white,
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(5.0)),
+                                                                child:  Padding(
+                                                                  padding: const EdgeInsets.all(8.0),
+                                                                  child: Row(
+                                                                    children: <Widget>[
+                                                                      SizedBox(width: size.width*0.03,),
+
+                                                                      Column(
+                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                        children: <Widget>[
+                                                                          Text("Title",style: TextStyle(
+                                                                            fontWeight: FontWeight.w700,
+
+                                                                          ),),
+                                                                          Text(snapshot.data[index].name,style: TextStyle(
+                                                                              fontWeight: FontWeight.w300,
+                                                                              fontSize: size.width*0.033
+                                                                          ),),
+                                                                          Text("Location",style: TextStyle(
+                                                                              fontWeight: FontWeight.w700
+                                                                          ),),
+                                                                          Text(
+                                                                            snapshot.data[index].location,style: TextStyle(
+                                                                              fontWeight: FontWeight.w300,
+                                                                              fontSize: size.width*0.033
+                                                                          ),),
+                                                                          Text("Time",style: TextStyle(
+                                                                            fontWeight: FontWeight.w700,
+                                                                          ),),
+                                                                          Text(
+                                                                            currentTime,style: TextStyle(
+                                                                              fontWeight: FontWeight.w300,
+                                                                              fontSize: size.width*0.033
+                                                                          ),),
+                                                                          Text("Date",style: TextStyle(
+                                                                              fontWeight: FontWeight.w700
+                                                                          ),),
+                                                                          Text(
+                                                                            dateStart,style: TextStyle(
+                                                                              fontWeight: FontWeight.w300,
+                                                                              fontSize: size.width*0.033
+                                                                          ),),
+                                                                        ],
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: (){
+                                                                Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
-                                                                      builder: (BuildContext context) =>  EditEvent(edit: snapshot.data[index])
-                                                                  ));
-                                                            },)
+                                                                      builder: (context) =>
+                                                                          BloodEventDetail(
+                                                                              event: snapshot
+                                                                                  .data[index])),
+                                                                );
+                                                              },
+                                                              child: Container(
+                                                                decoration: BoxDecoration(
+                                                                    boxShadow: [
+                                                                      BoxShadow(
+                                                                          blurRadius: 9,
+                                                                          spreadRadius: 3,
+                                                                          color: Colors.grey.withOpacity(0.2)
+                                                                      )
+                                                                    ]
+                                                                ),
+                                                                child:  ClipRRect(
+                                                                    borderRadius: BorderRadius.circular(25),
+                                                                    child: Image.network(
+                                                                      snapshot.data[index].imageURL,
+                                                                      width: 140,
+                                                                      height: 200,
+                                                                      fit: BoxFit.fill,
+                                                                    )),
+                                                              ),
+                                                            ),
+                                                            Positioned(
+                                                              right: 15,
+                                                              child:    Row(
+                                                                children: <Widget>[
+                                                                  IconButton(icon: Icon(Icons.delete_forever,color: Colors.black,),
+                                                                    onPressed: (){
+                                                                      _eventDeleteDialog(snapshot.data[index].id);
+                                                                    },),
+                                                                  IconButton(icon: Icon(Icons.edit,color: Colors.black,),
+                                                                  onPressed: (){
+                                                                    Navigator.pushReplacement(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                            builder: (BuildContext context) =>  EditEvent(edit: snapshot.data[index])
+                                                                        ));
+                                                                  },)
+                                                                ],
+                                                              ),
+                                                            )
                                                           ],
                                                         ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            })),
+                                                      ),
+                                                    );
+                                                  }),
+                                            ),
+                                          ],
+                                        )),
                                   ],
                                 ),
                               );

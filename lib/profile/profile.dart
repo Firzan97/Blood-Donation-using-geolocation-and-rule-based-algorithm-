@@ -59,9 +59,12 @@ class _ProfileState extends State<Profile> {
     fetchLastDonation();
     getUserData();
     _setBloodDonated();
-    _futureRequest = fetchRequest();
-    _futureDonation = fetchRequest();
-    _futureEvent = fetchEvent();
+    setState(() {
+      _futureRequest = fetchRequest();
+      _futureDonation = fetchRequest();
+      _futureEvent = fetchEvent();
+    });
+
   }
 
   @override
@@ -99,9 +102,7 @@ class _ProfileState extends State<Profile> {
             value: SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
             ),
-            child: MaterialApp(
-              theme: ThemeData(fontFamily: "Muli"),
-              home: Scaffold(
+            child: Scaffold(
                 body: Container(
                   color: Colors.grey.withOpacity(0.1),
                   child: Column(
@@ -147,6 +148,7 @@ class _ProfileState extends State<Profile> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
+                                    SizedBox(height: size.height*0.04),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -934,10 +936,6 @@ class _ProfileState extends State<Profile> {
                                                         ]),
                                                     child: Column(
                                                       children: <Widget>[
-                                                        SizedBox(
-                                                          height: size.height *
-                                                              0.03,
-                                                        ),
                                                         FutureBuilder(
                                                             future:
                                                                 _futureEvent,
@@ -1034,8 +1032,8 @@ class _ProfileState extends State<Profile> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    height: 30,
-                                                    width: 150,
+                                                    height: size.height*0.05,
+                                                    width: size.width*0.34,
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -1080,10 +1078,6 @@ class _ProfileState extends State<Profile> {
                                                         ]),
                                                     child: Column(
                                                       children: <Widget>[
-                                                        SizedBox(
-                                                          height: size.height *
-                                                              0.03,
-                                                        ),
                                                         FutureBuilder(
                                                             future:
                                                                 _futureRequest,
@@ -1182,8 +1176,8 @@ class _ProfileState extends State<Profile> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    height: 30,
-                                                    width: 150,
+                                                    height: size.height*0.05,
+                                                    width: size.width*0.34,
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -1228,10 +1222,6 @@ class _ProfileState extends State<Profile> {
                                                         ]),
                                                     child: Column(
                                                       children: <Widget>[
-                                                        SizedBox(
-                                                          height: size.height *
-                                                              0.03,
-                                                        ),
                                                         FutureBuilder(
                                                             future:
                                                                 _futureEvent,
@@ -1269,7 +1259,7 @@ class _ProfileState extends State<Profile> {
                                                                                 Row(
                                                                               children: <Widget>[
                                                                                 Container(
-                                                                                  height: 80,
+                                                                                  height: 90,
                                                                                   width: 60,
                                                                                   decoration: BoxDecoration(
                                                                                     shape: BoxShape.rectangle,
@@ -1302,6 +1292,8 @@ class _ProfileState extends State<Profile> {
                                                                                           IconButton(
                                                                                             icon: Icon(Icons.edit, color: Colors.black),
                                                                                             onPressed: () {
+                                                                                              Navigator.pop(context);
+
                                                                                               Navigator.push(
                                                                                                 context,
                                                                                                 MaterialPageRoute(builder: (context) => EditEvent(edit: snapshot.data[index])),
@@ -1332,8 +1324,8 @@ class _ProfileState extends State<Profile> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    height: 30,
-                                                    width: 150,
+                                                    height: size.height*0.05,
+                                                    width: size.width*0.34,
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
@@ -1367,7 +1359,7 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-            ));
+            );
   }
 
   void _setBloodDonated() async {

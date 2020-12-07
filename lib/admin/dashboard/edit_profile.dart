@@ -41,15 +41,10 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _mobileController = new TextEditingController();
   TextEditingController _weightController = new TextEditingController();
   TextEditingController _heightController = new TextEditingController();
+  TextEditingController _agecontroller = new TextEditingController();
+
   var pr;
   var statusUpdated;
-
-  getUserAddress()async{
-    final coordinates = new Coordinates(latitude, longitude);
-    addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    first = addresses.first;
-    print("${first.featureName} : ${first.addressLine}");
-  }
 
   Future getImage(image) async {
     var pickedFile;
@@ -88,26 +83,14 @@ class _EditProfileState extends State<EditProfile> {
 //    SharedPreferences pref = await SharedPreferences.getInstance();
 //    pref.setString("user", null);
 //    var email2=pref.getString("_id");
-    var gender;
-    if(checkedValueMale==true){
-      gender = "Male";
-    }
-    else{
-      gender="female";
-    }
     http.put(uploadEndPoint, body: {
       "image": base64Image!=null ? base64Image : "" ,
       "username": _usernameController.text!="" ? _usernameController.text : user['username'].toString(),
       "email": _emailController.text!="" ? _emailController.text : user['email'].toString(),
-      "latitude": latitude!=null ? latitude.toString() : user['latitude'].toString(),
-      "longitude": longitude!=null ? longitude.toString() : user['longitude'].toString() ,
-      "bloodType": dropdownValue!=null ? dropdownValue : user['bloodType'].toString(),
-      "gender": (checkedValueFemale!=true && checkedValueMale!=true) ?  user['gender'].toString() : gender,
-      "phoneNumber": _mobileController.text!="" ? _mobileController.text : user['phoneNumber'].toString(),
-      "height": _heightController.text!="" ? _heightController.text : user['height'].toString(),
-      "weight": _weightController.text!="" ? _weightController.text : user['weight'].toString()
+      "age": _agecontroller.text!= "" ? _agecontroller.text : user["age"].toString()
     }).then((result) {
       if(result.statusCode==200){
+        print("berjayaaaa" + result.body);
       }
       setStatus(result.statusCode == 200 ? result.body : errMessage);
 //      Navigator.pushReplacement(
@@ -116,7 +99,7 @@ class _EditProfileState extends State<EditProfile> {
 //            builder: (context) => Profile()),
 //      );
     }).catchError((error) {
-      setStatus(error);
+      setStatus(error+ "sasasa");
     });
   }
 
@@ -126,27 +109,10 @@ class _EditProfileState extends State<EditProfile> {
 
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
-      uploadEndPoint = apiURL +"user/${user['_id']}";
+      uploadEndPoint = apiURL +"admin/${user['_id']}";
       _usernameController.text = user['username'];
       _emailController.text = user['email'];
-      _weightController.text = user['weight'];
-      _heightController.text = user['height'];
-      _mobileController.text = user['phoneNumber'];
-      dropdownValue = user['bloodType'];
-      if(user['gender']=='Male'){
-        checkedValueMale=true;
-      }
-      else{
-        checkedValueFemale=false;
-      }
-    });
-  }
-
-  void getUserLocation()async{
-    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    setState(() {
-      latitude = position.latitude;
-      longitude = position.longitude;
+      _agecontroller.text = user["age"];
     });
   }
 
@@ -154,7 +120,6 @@ class _EditProfileState extends State<EditProfile> {
   void initState(){
     getUserData();
     super.initState();
-    getUserLocation();
 //    getUserAddress();
 
   }
@@ -285,48 +250,10 @@ class _EditProfileState extends State<EditProfile> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("Current Location",style: TextStyle(
-                          fontSize: size.width*0.036,
-                          fontWeight: FontWeight.w700,
 
-                        ),),
                         SizedBox(
                           height: size.height * 0.01,
                         ),
-                        Container(
-                          height: size.height*0.05,
-                          width: size.width*0.3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 9,
-                                  color: Colors.black.withOpacity(0.1),
-                                  spreadRadius: 3
-                              )
-                            ],
-                          ),
-                          child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)
-                            ),
-                            child: Text("Locate",style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "Muli",
-                                color: Colors.black,
-                                fontSize: size.width*0.036
-
-                            ),),onPressed: (){
-                            getUserLocation();
-                            getUserAddress();
-                          },
-                          ),
-                        ),
-                        SizedBox(
-                          height: size.height * 0.01,
-                        ),
-                        first==null ? Text("your address") : Text("${first.addressLine}"),
                         SizedBox(
                           height: size.height * 0.02,
                         ),
@@ -364,25 +291,22 @@ class _EditProfileState extends State<EditProfile> {
                             hintText: 'Enter email',
                             hintStyle: TextStyle(fontSize: size.width*0.035),),
                         ),
-                        Text("Gender",style: TextStyle(
+                        Text("Age",style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontFamily: "Muli",
                             color: Colors.black,
                             fontSize: size.width*0.036)),
-                        CheckboxListTile(
-                          title: Text("Male",style: TextStyle(
+                        TextField(
+                          controller: _agecontroller,
+                          style: TextStyle(
                               fontFamily: "Muli",
-                              fontSize: size.width*0.040
+                              fontSize: size.width*0.033
 
-                          ),),
-                          secondary: FaIcon(FontAwesomeIcons.male),
-                          value: checkedValueMale,
-                          onChanged: (newValue) {
-                            setState(() {
-                              checkedValueMale = newValue;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading, //
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Enter age',
+                            hintStyle: TextStyle(fontSize: size.width*0.035),),
                         ),
                         SizedBox(
                           height: size.height * 0.02,
@@ -445,31 +369,16 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  bool checkIfAnyIsNull() {
-    return [user['imageURL'],
-      user['email'],
-      user['username'],
-      user['age'],
-      user['gender'],
-      user['bloodType'],
-      user['height'],
-      user['imageURL'],
-      user['latitude'],
-      user['longitude'],
-      user['phoneNumber'],
-      user['weight']].contains("");
-  }
 
   Future<String> fetchUser() async {
+    print("sasasasaadmin/${user['_id']}");
     await Future.delayed(const Duration(seconds: 10));
     SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var res = await Api().getData("user/${user['_id']}");
-    var body = json.decode(res.body);
-    if (res.statusCode == 200) {
+    var res = await Api().getData("admin/${user['_id']}");
+print(res.body);    if (res.statusCode == 200) {
       setState(() {
-        localStorage.setString("user", json.encode(body));
+//        localStorage.setString("user", json.encode(body));
         user = jsonDecode(localStorage.getString("user"));
-        localStorage.setBool("statusUpdated", checkIfAnyIsNull());
         pr.hide();
       });
       return localStorage.getString("user");

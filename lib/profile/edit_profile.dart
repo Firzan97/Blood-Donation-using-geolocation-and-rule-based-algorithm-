@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:flutter/foundation.dart';
 
 
 class EditProfile extends StatefulWidget {
@@ -24,7 +25,9 @@ class _EditProfileState extends State<EditProfile> {
   var user;
   bool checkedValueFemale = false;
   bool checkedValueMale = false;
+  bool updateLocation=false;
   String dropdownValue ;
+  List<String> bloods = ['A', 'B', 'AB', 'O'];
   File _image;
   final picker = ImagePicker();
   String base64Image;
@@ -36,6 +39,7 @@ class _EditProfileState extends State<EditProfile> {
   static double longitude=0.0;
   var addresses;
   var first;
+  List sasasa;
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _usernameController = new TextEditingController();
   TextEditingController _mobileController = new TextEditingController();
@@ -43,7 +47,6 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _heightController = new TextEditingController();
   var pr;
   var statusUpdated;
-
   getUserAddress()async{
     final coordinates = new Coordinates(latitude, longitude);
     addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
@@ -135,13 +138,28 @@ class _EditProfileState extends State<EditProfile> {
       dropdownValue = user['bloodType'];
       if(user['gender']=='Male'){
         checkedValueMale=true;
+        checkedValueFemale=false;
+
       }
       else{
-        checkedValueFemale=false;
+        checkedValueMale=false;
+        checkedValueFemale=true;
       }
+      sasasa = [ _usernameController.text ,_emailController.text,_weightController.text,_heightController.text ,_mobileController.text,dropdownValue,checkedValueMale,checkedValueFemale,updateLocation];
+
+    });
+    setState(() {
+
+
     });
   }
 
+  bool checkData(){
+    List temp = [ _usernameController.text ,_emailController.text,_weightController.text,_heightController.text ,_mobileController.text,dropdownValue,checkedValueMale,checkedValueFemale,updateLocation];
+    print(sasasa);
+    print(temp);
+    return listEquals(sasasa, temp) ;
+  }
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     setState(() {
@@ -152,9 +170,11 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState(){
-    getUserData();
     super.initState();
+    getUserData();
     getUserLocation();
+//    checkUpdate();
+
 //    getUserAddress();
 
   }
@@ -189,83 +209,89 @@ class _EditProfileState extends State<EditProfile> {
             ),
             child: Column(
               children: <Widget>[
+                SizedBox(height: size.height*0.06),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    IconButton(icon: Icon(Icons.arrow_back),onPressed: (){Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Profile()),
-                    );},),
-                    SizedBox(width: size.width*0.31,),
-                    Text("Edit Profile"),
+//                    IconButton(icon: Icon(Icons.arrow_back),onPressed: (){Navigator.pushReplacement(
+//                      context,
+//                      MaterialPageRoute(
+//                          builder: (context) => Profile()),
+//                    );},),
+                    Text("Edit Profile", style: TextStyle(
+                      fontSize: size.width*0.04
+                    ),),
                   ],
                 ),
-                Container(
-                  width: size.width*1,
-                  child: Stack(
-                    children: <Widget>[
-                      Center(
-                        child: Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                    blurRadius: 9,
-                                    color: Colors.black.withOpacity(0.5),
-                                    spreadRadius: 3
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: size.width*1,
+                    child: Stack(
+                      children: <Widget>[
+                        Center(
+                          child: Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                      blurRadius: 9,
+                                      color: Colors.black.withOpacity(0.5),
+                                      spreadRadius: 3
+                                  )
+                                ],
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: user!=null ? user['imageURL']==null  ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadProfileImage.png') : NetworkImage(user['imageURL']) : NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadProfileImage.png')
                                 )
-                              ],
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: user!=null ? user['imageURL']==null  ? NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadProfileImage.png') : NetworkImage(user['imageURL']) : NetworkImage('https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadProfileImage.png')
-                              )
+                            ),
                           ),
                         ),
-                      ),
 
-                      Column(
-                        children: <Widget>[
-                          SizedBox(height: size.height*0.2,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              ClipOval(
-                                child: Material(
-                                  color: kPrimaryColor, // button color
-                                  child: InkWell(
-                                    splashColor: Colors.black, // inkwell color
-                                    child: SizedBox(width: 36, height: 36, child: Icon(Icons.photo_library)),
-                                    onTap: () {
-                                      const image="gallery";
-                                      getImage(image);
+                        Column(
+                          children: <Widget>[
+                            SizedBox(height: size.height*0.2,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                ClipOval(
+                                  child: Material(
+                                    color: kPrimaryColor, // button color
+                                    child: InkWell(
+                                      splashColor: Colors.black, // inkwell color
+                                      child: SizedBox(width: 36, height: 36, child: Icon(Icons.photo_library)),
+                                      onTap: () {
+                                        const image="gallery";
+                                        getImage(image);
 
 
-                                    },
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(width: size.width*0.03,),
-                              ClipOval(
-                                child: Material(
-                                  color: kPrimaryColor, // button color
-                                  child: InkWell(
-                                    splashColor: Colors.black, // inkwell color
-                                    child: SizedBox(width: 36, height: 36, child: Icon(Icons.camera_alt)),
-                                    onTap: () {
-                                      const image="camera";
-                                      getImage(image);
+                                SizedBox(width: size.width*0.03,),
+                                ClipOval(
+                                  child: Material(
+                                    color: kPrimaryColor, // button color
+                                    child: InkWell(
+                                      splashColor: Colors.black, // inkwell color
+                                      child: SizedBox(width: 36, height: 36, child: Icon(Icons.camera_alt)),
+                                      onTap: () {
+                                        const image="camera";
+                                        getImage(image);
 
-                                    },
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: size.height*0.01,),
@@ -322,6 +348,9 @@ class _EditProfileState extends State<EditProfile> {
                             ),),onPressed: (){
                             getUserLocation();
                             getUserAddress();
+                            setState(() {
+                              updateLocation=true;
+                            });
                           },
                           ),
                         ),
@@ -338,6 +367,10 @@ class _EditProfileState extends State<EditProfile> {
                           color: Colors.black,
                           fontSize: size.width*0.036),),
                         TextField(
+                          onChanged:(value) {
+                            checkData();
+
+                          },
                           controller: _usernameController,
                           style: TextStyle(
                               fontFamily: "Muli",
@@ -355,6 +388,10 @@ class _EditProfileState extends State<EditProfile> {
                             color: Colors.black,
                             fontSize: size.width*0.036)),
                         TextField(
+                          onChanged:(value) {
+                            checkData();
+
+                          },
                           controller: _emailController,
                           style: TextStyle(
                               fontFamily: "Muli",
@@ -372,6 +409,7 @@ class _EditProfileState extends State<EditProfile> {
                             color: Colors.black,
                             fontSize: size.width*0.036)),
                         CheckboxListTile(
+
                           title: Text("Male",style: TextStyle(
                               fontFamily: "Muli",
                               fontSize: size.width*0.040
@@ -382,6 +420,9 @@ class _EditProfileState extends State<EditProfile> {
                           onChanged: (newValue) {
                             setState(() {
                               checkedValueMale = newValue;
+                              checkedValueFemale=false;
+                              checkData();
+
                             });
                           },
                           controlAffinity: ListTileControlAffinity.leading, //
@@ -395,8 +436,12 @@ class _EditProfileState extends State<EditProfile> {
                           secondary: FaIcon(FontAwesomeIcons.female),
                           value: checkedValueFemale,
                           onChanged: (newValue) {
+
                             setState(() {
                               checkedValueFemale = newValue;
+                              checkedValueMale=false;
+                              checkData();
+
                             });
                           },
                           controlAffinity: ListTileControlAffinity.leading, //
@@ -417,11 +462,14 @@ class _EditProfileState extends State<EditProfile> {
                             color: Colors.deepPurpleAccent,
                           ),
                           onChanged: (String newValue) {
+
                             setState(() {
                               dropdownValue = newValue;
+                              checkData();
+
                             });
                           },
-                          items: <String>['A', 'B', 'AB', 'O']
+                          items: bloods
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -435,6 +483,10 @@ class _EditProfileState extends State<EditProfile> {
                             color: Colors.black,
                             fontSize: size.width*0.036)),
                         TextField(
+                          onChanged:(value) {
+                            checkData();
+
+                          },
                           controller: _mobileController,
                           style: TextStyle(
                               fontFamily: "Muli",
@@ -452,6 +504,10 @@ class _EditProfileState extends State<EditProfile> {
                             color: Colors.black,
                             fontSize: size.width*0.036)),
                         TextField(
+                          onChanged:(value) {
+                            checkData();
+
+                          },
                           controller: _heightController,
                           style: TextStyle(
                               fontFamily: "Muli",
@@ -469,6 +525,10 @@ class _EditProfileState extends State<EditProfile> {
                             color: Colors.black,
                             fontSize: size.width*0.036)),
                         TextField(
+                          onChanged:(value) {
+                            checkData();
+
+                          },
                           controller: _weightController,
                           style: TextStyle(
                               fontFamily: "Muli",
@@ -501,8 +561,14 @@ class _EditProfileState extends State<EditProfile> {
                               child: FlatButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
-                                child: Text("CANCEL"),
-                                onPressed: () {},
+                                child: Text("Back"),
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Profile()),
+                    );
+                                },
                               ),
                             ),
                             Container(
@@ -521,10 +587,14 @@ class _EditProfileState extends State<EditProfile> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
                                 child: Text("CONFIRM"),
-                                onPressed: () {
+                                onPressed: checkData()==true ? null : () {
                                   pr.show();
                                   upload();
                                   fetchUser();
+                                  setState(() {
+                                    sasasa = [ _usernameController.text ,_emailController.text,_weightController.text,_heightController.text ,_mobileController.text,dropdownValue,checkedValueMale,checkedValueFemale,updateLocation];
+                                  });
+
                                 },
                               ),
                             ),
@@ -540,6 +610,7 @@ class _EditProfileState extends State<EditProfile> {
         ),),
     );
   }
+
 
   bool checkIfAnyIsNull() {
     return [user['imageURL'],

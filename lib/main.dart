@@ -13,7 +13,8 @@ import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_blood/socketIoChat/main.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 Future main()async {
   await DotEnv().load('.env');
   runApp(MaterialApp(home: MyApp()));}
@@ -28,6 +29,14 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', 'US'), // English
+          const Locale('th', 'TH'), // Thai
+        ],
       theme: ThemeData(
         fontFamily: "Muli",
       ),

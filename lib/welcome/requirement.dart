@@ -11,6 +11,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 
 class RequirementForm extends StatefulWidget {
   @override
@@ -89,29 +90,13 @@ class _RequirementFormState extends State<RequirementForm> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)
                       ),
-                      onPressed: () {
-                        DatePicker.showDatePicker(context,
-                            showTitleActions: true,
-                            minTime: DateTime(2020, 3, 5),
-                            maxTime: DateTime(2029, 6, 7),
-                            theme: DatePickerTheme(
-                                headerColor: kPrimaryColor,
-                                backgroundColor: kThirdColor,
-                                itemStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                                doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
-                            onChanged: (date) {
-                              print('change $date in time zone ' +
-                                  date.timeZoneOffset.inHours.toString());
-                            }, onConfirm: (date) {
-                          setState(() {
-                            lastDonation = date;
-
-                          });
-                              print('confirm ${date}');
-                            }, currentTime: DateTime.now(), locale: LocaleType.en);
+                      onPressed: ()async {
+                        lastDonation = await showRoundedDatePicker(
+                          context: context,
+                          theme: ThemeData(primarySwatch: Colors.red),
+                          imageHeader: AssetImage("assets/images/blood.jpg"),
+                          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        );
                       },
                       child: Row(
                         children: <Widget>[

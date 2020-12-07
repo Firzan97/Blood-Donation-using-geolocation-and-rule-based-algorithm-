@@ -19,6 +19,8 @@ import '../component/button_round.dart';
 import '../component/input_round.dart';
 import 'dart:convert' show JSON;
 import 'package:http/http.dart' as http;
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 
 
 import '../component/input_time.dart';
@@ -58,6 +60,7 @@ class _BloodEventState extends State<BloodEvent> {
   void initState() {
     super.initState();
     futureEvent = fetchEvent();
+
   }
 
   TextEditingController eventName = new TextEditingController();
@@ -66,7 +69,7 @@ class _BloodEventState extends State<BloodEvent> {
   TextEditingController eventDate = new TextEditingController();
   TextEditingController eventOrganizer = new TextEditingController();
   TextEditingController eventPhoneNumber = new TextEditingController();
-   var dateStart,dateEnd,timeStart,timeEnd;
+   var dateStart,dateEnd,timeStart,_timeStart,timeEnd,_timeEnd;
   bool _isLoading = false;
   String error = "";
   final _formKey = GlobalKey<FormState>();
@@ -91,512 +94,521 @@ class _BloodEventState extends State<BloodEvent> {
             color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600, fontFamily: "Muli")
     );
     Size size = MediaQuery.of(context).size;
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-        ),
-            child: Scaffold(
-                body: Container(
-                    width: size.width * 1,
-                    height: size.height * 1,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          child: FutureBuilder(
-                            future: fetchEvent(),
-                            builder: (context, snapshot) {
-                              if (snapshot.data == null) {
-                                return Container(
-                                  child: Center(
-                                    child: LoadingScreen(),
-                                  ),
-                                );
-                              }
-                              return ListView.builder(
-                                itemCount: snapshot.data.length,
-                                itemBuilder:
-                                    (BuildContext context, int index) {
-                                      DateFormat dateFormat = DateFormat('dd/MM/yyyy');
-                                      String dateStart = dateFormat.format(snapshot.data[index].timeStart);
-                                      dynamic currentTime = DateFormat.jm().format(snapshot.data[index].timeStart);
+    return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'), // English
+        const Locale('th', 'TH'), // Thai
+      ],
+      home: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+          ),
+              child: Scaffold(
+                  body: Container(
+                      width: size.width * 1,
+                      height: size.height * 1,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            child: FutureBuilder(
+                              future: fetchEvent(),
+                              builder: (context, snapshot) {
+                                if (snapshot.data == null) {
+                                  return Container(
+                                    child: Center(
+                                      child: LoadingScreen(),
+                                    ),
+                                  );
+                                }
+                                return ListView.builder(
+                                  itemCount: snapshot.data.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                        DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+                                        var dateStart = dateFormat.format(snapshot.data[index].dateStart);
+                                        var currentTime = DateFormat.jm().format(snapshot.data[index].dateStart);
+                                         var c = snapshot.data[index].timeStart;
 
 
-                                      return Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
 //                                      decoration: BoxDecoration(
 //                                          color: Colors.white,
 //                                          borderRadius:
 //                                              BorderRadius.circular(5.0)),
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Positioned(
-                                          top:size.height*0.02,
-                                          right:size.width*0.05,
-                                          child: Container(
-                                            width: 280,
-                                          height: 184,
-                                          decoration: BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Positioned(
+                                            top:size.height*0.01,
+                                            right:size.width*0.01,
+                                            child: Container(
+                                              width: size.width*0.67,
+                                            height: size.height*0.23,
+                                            decoration: BoxDecoration(
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      blurRadius: 9,
+                                                      spreadRadius: 3,
+                                                      color: Colors.black.withOpacity(0.1)
+                                                  )
+                                                ],
+                                        color: Colors.white,
+                                        borderRadius:
+                                              BorderRadius.circular(5.0)),
+                                              child:  Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    SizedBox(width: size.width*0.06,),
+
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      Text("Title",style: TextStyle(
+                                                          fontWeight: FontWeight.w700,
+
+                                                      ),),
+                                                      Text(snapshot.data[index].name,style: TextStyle(
+                                                          fontWeight: FontWeight.w300,
+                                                        fontSize: 13
+                                                      ),),
+                                                      Text("Location",style: TextStyle(
+                                                          fontWeight: FontWeight.w700
+                                                      ),),
+                                                      Text(
+                                                    snapshot.data[index].location,style: TextStyle(
+                                                          fontWeight: FontWeight.w300,
+                                                          fontSize: 13
+                                                      ),),
+                                                      Text("Time",style: TextStyle(
+                                                        fontWeight: FontWeight.w700,
+                                                      ),),
+                                                      Text(
+                                                        snapshot.data[index].timeStart.toString(),style: TextStyle(
+                                                          fontWeight: FontWeight.w300,
+                                                          fontSize: 13
+                                                      ),),
+                                                      Text("Date",style: TextStyle(
+                                                          fontWeight: FontWeight.w700
+                                                      ),),
+                                                      Text(
+                                                        dateStart,style: TextStyle(
+                                                          fontWeight: FontWeight.w300,
+                                                          fontSize: 13
+                                                      ),),
+                                                    ],
+                                            ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: (){
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        BloodEventDetail(
+                                                            event: snapshot
+                                                                .data[index])),
+                                              );
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                boxShadow: [
+                                                  BoxShadow(
                                                     blurRadius: 9,
                                                     spreadRadius: 3,
-                                                    color: Colors.black.withOpacity(0.1)
-                                                )
-                                              ],
-                                      color: Colors.white,
-                                      borderRadius:
-                                            BorderRadius.circular(5.0)),
-                                            child:  Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  SizedBox(width: size.width*0.26,),
-
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text("Title",style: TextStyle(
-                                                        fontWeight: FontWeight.w700,
-
-                                                    ),),
-                                                    Text(snapshot.data[index].name,style: TextStyle(
-                                                        fontWeight: FontWeight.w300,
-                                                      fontSize: 13
-                                                    ),),
-                                                    Text("Location",style: TextStyle(
-                                                        fontWeight: FontWeight.w700
-                                                    ),),
-                                                    Text(
-                                                  snapshot.data[index].location,style: TextStyle(
-                                                        fontWeight: FontWeight.w300,
-                                                        fontSize: 13
-                                                    ),),
-                                                    Text("Time",style: TextStyle(
-                                                      fontWeight: FontWeight.w700,
-                                                    ),),
-                                                    Text(
-                                                       currentTime,style: TextStyle(
-                                                        fontWeight: FontWeight.w300,
-                                                        fontSize: 13
-                                                    ),),
-                                                    Text("Date",style: TextStyle(
-                                                        fontWeight: FontWeight.w700
-                                                    ),),
-                                                    Text(
-                                                        dateStart,style: TextStyle(
-                                                        fontWeight: FontWeight.w300,
-                                                        fontSize: 13
-                                                    ),),
-                                                  ],
-                                          ),
-                                                ],
+                                                    color: Colors.grey.withOpacity(0.2)
+                                                  )
+                                                ]
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: (){
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      BloodEventDetail(
-                                                          event: snapshot
-                                                              .data[index])),
-                                            );
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  blurRadius: 9,
-                                                  spreadRadius: 3,
-                                                  color: Colors.grey.withOpacity(0.2)
-                                                )
-                                              ]
-                                            ),
-                                            child:  ClipRRect(
+                                              child:  ClipRRect(
 borderRadius: BorderRadius.circular(25),
-                                                child: Image.network(
-                                                  snapshot.data[index].imageURL,
-                                                  width: 140,
-                                                  height: 200,
-                                                  fit: BoxFit.fill,
-                                                )),
+                                                  child: Image.network(
+                                                    snapshot.data[index].imageURL,
+                                                    width: 140,
+                                                    height: 200,
+                                                    fit: BoxFit.fill,
+                                                  )),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                      );
-                                },
-                              );
-
-                              // By default, show a loading spinner.
-                              return CircularProgressIndicator();
-                            },
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 10,
-                          right: 10,
-                          child: Container(
-                            width: size.width * 0.9,
-                            height: size.height * 0.075,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20)),
-                                color: Color(0xffffbcaf).withOpacity(0.5)),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 5,
-                          right: 5,
-                          child: Container(
-                            width: size.width * 0.9,
-                            height: size.height * 0.065,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20)),
-                                color: Color(0xffffbcaf).withOpacity(0.9)),
-                          ),
-                        ),
-                        DraggableScrollableSheet(
-                            initialChildSize: 0.05,
-                            minChildSize: 0.05,
-                            maxChildSize: 0.7,
-                            builder: (BuildContext c, s) {
-                              return Container(
-                                width: size.width * 1,
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.bottomLeft,
-                                        colors: [
-                                          Color(0xffffbcaf),
-                                          kGradient2.withOpacity(0.7)
-                                        ]),
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20))),
-                                child: SingleChildScrollView(
-                                  controller: s,
-                                  child: Container(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Center(child: Text("ADD EVENT")),
-                                          Container(
-                                            child: Form(
-                                              key: _formKey,
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(8.0),
-                                                    child: Container(
-                                                        height: 40,
-                                                        width: size.width * 0.27,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30.0)),
-                                                        child: FlatButton(
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(20)
-                                                          ),
-                                                          child: Text("Upload",style: TextStyle(
-                                                              fontWeight: FontWeight.w700,
-                                                              fontFamily: "Muli",
-                                                              color: Colors.black
-                                                          ),),onPressed: (){
-                                                          getImageGallery();
-                                                        },
-                                                        )),
-                                                  ),
-                                                  InputRound(
-                                                    controller: eventName,
-                                                    deco: InputDecoration(
-                                                      hintText: "Event Name",
-                                                      hintStyle: TextStyle(fontSize: size.width*0.035),
-                                                      border: InputBorder.none,
-                                                      icon: Icon(
-                                                        Icons.event_available,
-                                                        color: kThirdColor,
-                                                      ),
-                                                    ),
-                                                    validator: (value) => (value
-                                                            .isEmpty)
-                                                        ? 'Please enter some text'
-                                                        : null,
-                                                  ),
-                                                  InputRound(
-                                                    controller: eventLocation,
-                                                    deco: InputDecoration(
-                                                      hintText: "Location",
-                                                      hintStyle: TextStyle(fontSize: size.width*0.035),
-                                                      border: InputBorder.none,
-                                                      icon: Icon(
-                                                        Icons.location_on,
-                                                        color: kThirdColor,
-                                                      ),
-                                                    ),
-                                                    validator: (value) => (value
-                                                            .isEmpty)
-                                                        ? 'Please enter some text'
-                                                        : null,
-                                                  ),
-                                                  InputRound(
-                                                    controller: eventOrganizer,
-                                                    deco: InputDecoration(
-                                                      hintText: "Organizer",
-                                                      hintStyle: TextStyle(fontSize: size.width*0.035),
-                                                      border: InputBorder.none,
-                                                      icon: Icon(
-                                                        Icons.event_available,
-                                                        color: kThirdColor,
-                                                      ),
-                                                    ),
-                                                    validator: (value) => (value
-                                                            .isEmpty)
-                                                        ? 'Please enter some text'
-                                                        : null,
-                                                  ),
-                                                  InputRound(
-                                                    controller: eventPhoneNumber,
-                                                    deco: InputDecoration(
-                                                      hintText: "Phone Number",
-                                                      hintStyle: TextStyle(fontSize: size.width*0.035),
-                                                      border: InputBorder.none,
-                                                      icon: Icon(
-                                                        Icons.event_available,
-                                                        color: kThirdColor,
-                                                      ),
-                                                    ),
-                                                    validator: (value) => (value
-                                                            .isEmpty)
-                                                        ? 'Please enter some text'
-                                                        : null,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: <Widget>[
-                                                    Container(
-                                                    width: 150,
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(20)
-                                                    ),
-                                                    child: FlatButton(
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(20)
-                                                        ),
-                                                        onPressed: () {
-                                                          DatePicker.showDatePicker(context,
-                                                              showTitleActions: true,
-                                                              minTime: DateTime(2020, 3, 5),
-                                                              maxTime: DateTime(2029, 6, 7),
-                                                              theme: DatePickerTheme(
-                                                                  headerColor: kPrimaryColor,
-                                                                  backgroundColor: kThirdColor,
-                                                                  itemStyle: TextStyle(
-                                                                      color: Colors.white,
-                                                                      fontWeight: FontWeight.bold,
-                                                                      fontSize: 18),
-                                                                  doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
-                                                              onChanged: (date) {
-                                                                print('change $date in time zone ' +
-                                                                    date.timeZoneOffset.inHours.toString());
-                                                              }, onConfirm: (date) {
-                                                                dateStart = date;
-                                                                print('confirm ${date}');
-                                                              }, currentTime: DateTime.now(), locale: LocaleType.en);
-                                                        },
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Icon(Icons.date_range),
-                                                            Text(
-                                                              'Date Start',
-                                                              style: TextStyle(color: Colors.black),
-                                                            ),
-                                                          ],
-                                                        )),
-                                                  ),
-                                            Container(
-                                              width: 150,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(20)
-                                              ),
-                                              child: FlatButton(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(20)
-                                                  ),
-                                                  onPressed: () {
-                                                    DatePicker.showDatePicker(context,
-                                                        showTitleActions: true,
-                                                        minTime: DateTime(2020, 3, 5),
-                                                        maxTime: DateTime(2029, 6, 7),
-                                                        theme: DatePickerTheme(
-                                                            headerColor: kPrimaryColor,
-                                                            backgroundColor: kThirdColor,
-                                                            itemStyle: TextStyle(
-                                                                color: Colors.white,
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 18),
-                                                            doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
-                                                        onChanged: (date) {
-                                                          print('change $date in time zone ' +
-                                                              date.timeZoneOffset.inHours.toString());
-                                                        }, onConfirm: (date) {
-                                                          dateEnd = date;
-                                                          print('confirm ${date}');
-                                                        }, currentTime: DateTime.now(), locale: LocaleType.en);
-                                                  },
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(Icons.date_range),
-                                                      Text(
-                                                        'Date End',
-                                                        style: TextStyle(color: Colors.black),
-                                                      ),
-                                                    ],
-                                                  )),
-                                            )
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: <Widget>[
-                                                    Container(
-                                                    width: 150,
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.circular(20)),
-                                                    child: FlatButton(
-                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                                                        onPressed: () {
-
-                                                          DatePicker.showTime12hPicker(context,
-                                                              theme: DatePickerTheme(
-                                                                  headerColor: kGradient1,
-                                                                  backgroundColor: Colors.white,
-                                                                  itemStyle: TextStyle(
-                                                                      color: Colors.black,
-                                                                      fontWeight: FontWeight.bold,
-                                                                      fontSize: 18),
-                                                                  doneStyle: TextStyle(color: Colors.black, fontSize: 16)),
-                                                              showTitleActions: true, onChanged: (time) {
-                                                                print('change $time in time zone ' +
-                                                                    time.timeZoneOffset.inHours.toString());
-                                                              }, onConfirm: (time) {
-                                                                timeStart=time;
-                                                                print('confirm $time');
-                                                              }, currentTime: DateTime.now());
-                                                        },
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Icon(Icons.timer),
-                                                            Text(
-                                                              "Time Start",
-                                                              style: TextStyle(color: Colors.black),
-                                                            ),
-                                                          ],
-                                                        )),
-                                                  ),
-                                            Container(
-                                              width: 150,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(20)),
-                                              child: FlatButton(
-                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                                                  onPressed: () {
-
-                                                    DatePicker.showTime12hPicker(context,
-                                                        theme: DatePickerTheme(
-                                                            headerColor: kGradient1,
-                                                            backgroundColor: Colors.white,
-                                                            itemStyle: TextStyle(
-                                                                color: Colors.black,
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 18),
-                                                            doneStyle: TextStyle(color: Colors.black, fontSize: 16)),
-                                                        showTitleActions: true, onChanged: (time) {
-                                                          print('change $time in time zone ' +
-                                                              time.timeZoneOffset.inHours.toString());
-                                                        }, onConfirm: (time) {
-                                                          timeEnd=time;
-                                                          print('confirm $time');
-                                                        }, currentTime: DateTime.now());
-                                                  },
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Icon(Icons.timer),
-                                                      Text(
-                                                        "Time End",
-                                                        style: TextStyle(color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )),
-                                            ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                  ButtonRound(
-                                                    color: Color(0XFF343a69),
-                                                    text: "CONFIRM",
-                                                    press: () async {
-                                                      if (_formKey.currentState
-                                                          .validate()) {
-                                                        pr.show();
-                                                        print("Validate");
-                                                        addEvent();
-
-                                                      } else {
-                                                        error =
-                                                            "Could  not sign in. Wrong input ";
-                                                      }
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          )
                                         ],
                                       ),
                                     ),
+                                        );
+                                  },
+                                );
+
+                                // By default, show a loading spinner.
+                                return CircularProgressIndicator();
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            left: 10,
+                            right: 10,
+                            child: Container(
+                              width: size.width * 0.9,
+                              height: size.height * 0.075,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20)),
+                                  color: Color(0xffffbcaf).withOpacity(0.5)),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            left: 5,
+                            right: 5,
+                            child: Container(
+                              width: size.width * 0.9,
+                              height: size.height * 0.065,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20)),
+                                  color: Color(0xffffbcaf).withOpacity(0.9)),
+                            ),
+                          ),
+                          DraggableScrollableSheet(
+                              initialChildSize: 0.05,
+                              minChildSize: 0.05,
+                              maxChildSize: 0.7,
+                              builder: (BuildContext c, s) {
+                                return Container(
+                                  width: size.width * 1,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topRight,
+                                          end: Alignment.bottomLeft,
+                                          colors: [
+                                            Color(0xffffbcaf),
+                                            kGradient2.withOpacity(0.7)
+                                          ]),
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20))),
+                                  child: SingleChildScrollView(
+                                    controller: s,
+                                    child: Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Center(child: Text("ADD EVENT")),
+                                            Container(
+                                              child: Form(
+                                                key: _formKey,
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(8.0),
+                                                      child: Container(
+                                                          height: 40,
+                                                          width: size.width * 0.27,
+                                                          decoration: BoxDecoration(
+                                                              color: Colors.white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          30.0)),
+                                                          child: FlatButton(
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(20)
+                                                            ),
+                                                            child: Text("Upload",style: TextStyle(
+                                                                fontWeight: FontWeight.w700,
+                                                                fontFamily: "Muli",
+                                                                color: Colors.black
+                                                            ),),onPressed: (){
+                                                            getImageGallery();
+                                                          },
+                                                          )),
+                                                    ),
+                                                    InputRound(
+                                                      controller: eventName,
+                                                      deco: InputDecoration(
+                                                        hintText: "Event Name",
+                                                        hintStyle: TextStyle(fontSize: size.width*0.035),
+                                                        border: InputBorder.none,
+                                                        icon: Icon(
+                                                          Icons.event_available,
+                                                          color: kThirdColor,
+                                                        ),
+                                                      ),
+                                                      validator: (value) => (value
+                                                              .isEmpty)
+                                                          ? 'Please enter some text'
+                                                          : null,
+                                                    ),
+                                                    InputRound(
+                                                      controller: eventLocation,
+                                                      deco: InputDecoration(
+                                                        hintText: "Location",
+                                                        hintStyle: TextStyle(fontSize: size.width*0.035),
+                                                        border: InputBorder.none,
+                                                        icon: Icon(
+                                                          Icons.location_on,
+                                                          color: kThirdColor,
+                                                        ),
+                                                      ),
+                                                      validator: (value) => (value
+                                                              .isEmpty)
+                                                          ? 'Please enter some text'
+                                                          : null,
+                                                    ),
+                                                    InputRound(
+                                                      controller: eventOrganizer,
+                                                      deco: InputDecoration(
+                                                        hintText: "Organizer",
+                                                        hintStyle: TextStyle(fontSize: size.width*0.035),
+                                                        border: InputBorder.none,
+                                                        icon: Icon(
+                                                          Icons.event_available,
+                                                          color: kThirdColor,
+                                                        ),
+                                                      ),
+                                                      validator: (value) => (value
+                                                              .isEmpty)
+                                                          ? 'Please enter some text'
+                                                          : null,
+                                                    ),
+                                                    InputRound(
+                                                      controller: eventPhoneNumber,
+                                                      deco: InputDecoration(
+                                                        hintText: "Phone Number",
+                                                        hintStyle: TextStyle(fontSize: size.width*0.035),
+                                                        border: InputBorder.none,
+                                                        icon: Icon(
+                                                          Icons.event_available,
+                                                          color: kThirdColor,
+                                                        ),
+                                                      ),
+                                                      validator: (value) => (value
+                                                              .isEmpty)
+                                                          ? 'Please enter some text'
+                                                          : null,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: <Widget>[
+                                                      Container(
+                                                      width: 150,
+                                                      height: 40,
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(20)
+                                                      ),
+                                                      child: FlatButton(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(20)
+                                                          ),
+                                                          onPressed: ()async {
+                                                            dateStart = await showRoundedDatePicker(
+                                                            context: context,
+                                                            theme: ThemeData(primarySwatch: Colors.red),
+                                                            imageHeader: AssetImage("assets/images/blood.jpg"),
+                                                            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                                                          );
+                                                          },
+                                                          child: Row(
+                                                            children: <Widget>[
+                                                              Icon(Icons.date_range),
+                                                              Text(
+                                                                'Date Start',
+                                                                style: TextStyle(color: Colors.black),
+                                                              ),
+                                                            ],
+                                                          )),
+                                                    ),
+                                              Container(
+                                                width: 150,
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.circular(20)
+                                                ),
+                                                child: FlatButton(
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20)
+                                                    ),
+                                                    onPressed: () async{
+                                                     dateEnd = await showRoundedDatePicker(
+                                                       context: context,
+                                                       theme: ThemeData(primarySwatch: Colors.red),
+                                                       imageHeader: AssetImage("assets/images/blood.jpg"),
+                                                       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                                                     );
+                                                    },
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Icon(Icons.date_range),
+                                                        Text(
+                                                          'Date End',
+                                                          style: TextStyle(color: Colors.black),
+                                                        ),
+                                                      ],
+                                                    )),
+                                              )
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: <Widget>[
+                                                      Container(
+                                                      width: 150,
+                                                      height: 40,
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(20)),
+                                                      child: FlatButton(
+                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                          onPressed: ()async {
+
+                                                          timeStart = await showRoundedTimePicker(
+                                                            context: context,
+                                                            initialTime: TimeOfDay.now(),
+                                                          );
+                                                          if(timeStart.hour>=12){
+                                                            var time = timeStart.hour-12;
+                                                            if(time==0){
+                                                              var time = timeStart.hour;
+                                                              _timeStart=time.toString()+ ":"+timeStart.minute.toString()+" PM";
+
+                                                            }
+                                                            else{
+                                                              _timeStart=time.toString()+ ":"+timeStart.minute.toString()+" PM";
+
+                                                            }
+                                                          }
+                                                          else{
+                                                            if(timeStart.hour==0){
+                                                              var time = timeStart.hour+12;
+                                                              _timeStart=time.toString()+ ":"+timeStart.minute.toString()+" AM";
+
+                                                            }
+                                                            else{
+                                                              _timeStart=timeStart.hour.toString()+ ":"+timeStart.minute.toString()+" AM";
+
+                                                            }
+
+                                                          }
+                                                          },
+                                                          child: Row(
+                                                            children: <Widget>[
+                                                              Icon(Icons.timer),
+                                                              Text(
+                                                                "Time Start",
+                                                                style: TextStyle(color: Colors.black),
+                                                              ),
+                                                            ],
+                                                          )),
+                                                    ),
+                                              Container(
+                                                width: 150,
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius: BorderRadius.circular(20)),
+                                                child: FlatButton(
+                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                                    onPressed: ()async {
+
+                                                     timeEnd=await showRoundedTimePicker(
+                                                       context: context,
+                                                       initialTime: TimeOfDay.now(),
+                                                     );
+                                                     if(timeEnd.hour>=12){
+                                                       var time = timeEnd.hour-12;
+                                                       if(time==0){
+                                                         var time = timeEnd.hour;
+                                                         _timeEnd=time.toString()+ ":"+timeEnd.minute.toString()+" PM";
+
+                                                       }
+                                                       else{
+                                                         _timeEnd=time.toString()+ ":"+timeEnd.minute.toString()+" PM";
+
+                                                       }
+                                                     }
+                                                     else{
+                                                       if(timeEnd.hour==0){
+                                                         var time = timeEnd.hour+12;
+                                                         _timeEnd=time.toString()+ ":"+timeEnd.minute.toString()+" AM";
+
+                                                       }
+                                                       else{
+                                                         _timeEnd=timeEnd.hour.toString()+ ":"+timeEnd.minute.toString()+" AM";
+
+                                                       }
+
+                                                     }
+                                                    },
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Icon(Icons.timer),
+                                                        Text(
+                                                          "Time End",
+                                                          style: TextStyle(color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )),
+                                              ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    ButtonRound(
+                                                      color: Color(0XFF343a69),
+                                                      text: "CONFIRM",
+                                                      press: () async {
+                                                        if (_formKey.currentState
+                                                            .validate()) {
+                                                          pr.show();
+                                                          print("Validate");
+                                                          addEvent();
+
+                                                        } else {
+                                                          error =
+                                                              "Could  not sign in. Wrong input ";
+                                                        }
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              );
-                            })
-                      ],
-                    ))));
+                                );
+                              })
+                        ],
+                      )))),
+    );
   }
 
   Future<List<Event>> fetchEvent() async {
@@ -608,6 +620,7 @@ borderRadius: BorderRadius.circular(25),
       var count=0;
       for (var u in body) {
         count++;
+
         Event event = Event.fromJson(u);
         events.add(event);
       }
@@ -659,8 +672,8 @@ borderRadius: BorderRadius.circular(25),
       "dateStart": dateStart.toString(),
       "dateEnd": dateEnd.toString(),
       "organizer": eventOrganizer.text,
-      "timeStart":timeStart.toString(),
-      "timeEnd": timeEnd.toString(),
+      "timeStart":_timeStart,
+      "timeEnd": _timeEnd,
       "imageURL": "assets/images/dermadarah2.jpg",
       "user_id": user["_id"],
     };
@@ -719,4 +732,9 @@ borderRadius: BorderRadius.circular(25),
 //
 //
 //  }
+}
+extension DateTimeExtension on DateTime {
+  DateTime applied(TimeOfDay time) {
+    return DateTime(year, month, day, time.hour, time.minute);
+  }
 }

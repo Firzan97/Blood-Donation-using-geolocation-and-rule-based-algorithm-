@@ -143,7 +143,7 @@ var background = kPrimaryColor,card= Colors.white;
                 ),
               ),
               SizedBox(height: size.height*0.02,),
-              Text("Welcome aboard, Admin ${user['username']} ...",style: TextStyle(
+              Text(user==null ? "" : "Welcome aboard, Admin ${user['username']} ...",style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 20
               ),),
@@ -179,7 +179,7 @@ var background = kPrimaryColor,card= Colors.white;
                                   ],
                                 ),
                                 onPressed: (){
-                                  Navigator.pushReplacement(
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Profile()),

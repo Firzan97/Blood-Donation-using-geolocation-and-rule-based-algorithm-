@@ -5,6 +5,8 @@ import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/event/bloodEvent.dart';
 import 'package:easy_blood/event/bloodEventDetail.dart';
 import 'package:easy_blood/loadingScreen.dart';
+import 'package:easy_blood/profile/profile.dart';
+import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:easy_blood/constant/constant.dart';
@@ -34,7 +36,7 @@ class _EditEventState extends State<EditEvent> {
   TextEditingController eventOrganizer = new TextEditingController();
   TextEditingController eventPhoneNumber = new TextEditingController();
 
-  var dateStart,dateEnd,timeStart,timeEnd;
+  var dateStart,dateEnd,timeStart,timeEnd,_timeStart,_timeEnd;
   final picker = ImagePicker();
   String base64Image;
   File _image;
@@ -73,7 +75,7 @@ class _EditEventState extends State<EditEvent> {
 
   upload() async{
     SharedPreferences pref = await SharedPreferences.getInstance();
-    user= pref.getString("user");
+    user= jsonDecode(pref.getString("user"));
 
 //    SharedPreferences pref = await SharedPreferences.getInstance();
 //    pref.setString("user", null);
@@ -87,21 +89,20 @@ class _EditEventState extends State<EditEvent> {
       "phoneNumber":  eventPhoneNumber.text!="" ? eventPhoneNumber.text : widget.edit.phoneNum,
       "dateStart":  dateStart!=null ? dateStart.toString() : widget.edit.dateStart.toString(),
       "dateEnd":  dateEnd!=null ? dateEnd.toString() : widget.edit.dateEnd.toString(),
-      "timeStart":  timeStart!=null ? timeStart.toString() : widget.edit.timeStart.toString(),
-      "timeEnd":  timeEnd!=null ? timeEnd.toString() : widget.edit.timeEnd.toString(),
+      "timeStart":  _timeStart!=null ? _timeStart.toString() : widget.edit.timeStart.toString(),
+      "timeEnd":  _timeEnd!=null ? _timeEnd.toString() : widget.edit.timeEnd.toString(),
 
     }).then((result) {
       setStatus(result.statusCode == 200 ? result.statusCode : errMessage);
       pr.hide();
+      print(jsonDecode(result.body));
       Navigator.of(context).pop();
       if(user["role"] =="user"){
-        Navigator.of(context).pop();
-
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    BloodEvent()));
+                    Profile()));
       }
       else{
 
@@ -333,26 +334,13 @@ class _EditEventState extends State<EditEvent> {
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(20)
                                       ),
-                                      onPressed: () {
-                                        DatePicker.showDatePicker(context,
-                                            showTitleActions: true,
-                                            minTime: DateTime(2020, 3, 5),
-                                            maxTime: DateTime(2029, 6, 7),
-                                            theme: DatePickerTheme(
-                                                headerColor: kPrimaryColor,
-                                                backgroundColor: kThirdColor,
-                                                itemStyle: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: size.width*0.033),
-                                                doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
-                                            onChanged: (date) {
-                                              print('change $date in time zone ' +
-                                                  date.timeZoneOffset.inHours.toString());
-                                            }, onConfirm: (date) {
-                                              dateStart = date;
-                                              print('confirm ${date}');
-                                            }, currentTime: DateTime.now(), locale: LocaleType.en);
+                                      onPressed: () async{
+                                        dateStart = await showRoundedDatePicker(
+                                          context: context,
+                                          theme: ThemeData(primarySwatch: Colors.red),
+                                          imageHeader: AssetImage("assets/images/blood.jpg"),
+                                          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                                        );
                                       },
                                       child: Row(
                                         children: <Widget>[
@@ -375,26 +363,13 @@ class _EditEventState extends State<EditEvent> {
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(20)
                                       ),
-                                      onPressed: () {
-                                        DatePicker.showDatePicker(context,
-                                            showTitleActions: true,
-                                            minTime: DateTime(2020, 3, 5),
-                                            maxTime: DateTime(2029, 6, 7),
-                                            theme: DatePickerTheme(
-                                                headerColor: kPrimaryColor,
-                                                backgroundColor: kThirdColor,
-                                                itemStyle: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: size.width*0.033),
-                                                doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
-                                            onChanged: (date) {
-                                              print('change $date in time zone ' +
-                                                  date.timeZoneOffset.inHours.toString());
-                                            }, onConfirm: (date) {
-                                              dateEnd = date;
-                                              print('confirm ${date}');
-                                            }, currentTime: DateTime.now(), locale: LocaleType.en);
+                                      onPressed: () async{
+                                        dateEnd = await showRoundedDatePicker(
+                                          context: context,
+                                          theme: ThemeData(primarySwatch: Colors.red),
+                                          imageHeader: AssetImage("assets/images/blood.jpg"),
+                                          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                                        );
                                       },
                                       child: Row(
                                         children: <Widget>[
@@ -422,24 +397,36 @@ class _EditEventState extends State<EditEvent> {
                                       borderRadius: BorderRadius.circular(20)),
                                   child: FlatButton(
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                                      onPressed: () {
+                                      onPressed: ()async {
 
-                                        DatePicker.showTime12hPicker(context,
-                                            theme: DatePickerTheme(
-                                                headerColor: kGradient1,
-                                                backgroundColor: Colors.white,
-                                                itemStyle: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: size.width*0.033),
-                                                doneStyle: TextStyle(color: Colors.black, fontSize: 16)),
-                                            showTitleActions: true, onChanged: (time) {
-                                              print('change $time in time zone ' +
-                                                  time.timeZoneOffset.inHours.toString());
-                                            }, onConfirm: (time) {
-                                              timeStart=time;
-                                              print('confirm $time');
-                                            }, currentTime: DateTime.now());
+                                        timeStart = await showRoundedTimePicker(
+                                          context: context,
+                                          initialTime: TimeOfDay.now(),
+                                        );
+                                        if(timeStart.hour>=12){
+                                          var time = timeStart.hour-12;
+                                          if(time==0){
+                                            var time = timeStart.hour;
+                                            _timeStart=time.toString()+ ":"+timeStart.minute.toString()+" PM";
+
+                                          }
+                                          else{
+                                            _timeStart=time.toString()+ ":"+timeStart.minute.toString()+" PM";
+
+                                          }
+                                        }
+                                        else{
+                                          if(timeStart.hour==0){
+                                            var time = timeStart.hour+12;
+                                            _timeStart=time.toString()+ ":"+timeStart.minute.toString()+" AM";
+
+                                          }
+                                          else{
+                                            _timeStart=timeStart.hour.toString()+ ":"+timeStart.minute.toString()+" AM";
+
+                                          }
+
+                                        }
                                       },
                                       child: Row(
                                         children: <Widget>[
@@ -459,24 +446,36 @@ class _EditEventState extends State<EditEvent> {
                                       borderRadius: BorderRadius.circular(20)),
                                   child: FlatButton(
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                                      onPressed: () {
+                                      onPressed: ()async {
 
-                                        DatePicker.showTime12hPicker(context,
-                                            theme: DatePickerTheme(
-                                                headerColor: kGradient1,
-                                                backgroundColor: Colors.white,
-                                                itemStyle: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: size.width*0.033),
-                                                doneStyle: TextStyle(color: Colors.black, fontSize: 16)),
-                                            showTitleActions: true, onChanged: (time) {
-                                              print('change $time in time zone ' +
-                                                  time.timeZoneOffset.inHours.toString());
-                                            }, onConfirm: (time) {
-                                              timeEnd=time;
-                                              print('confirm $time');
-                                            }, currentTime: DateTime.now());
+                                        timeEnd=await showRoundedTimePicker(
+                                          context: context,
+                                          initialTime: TimeOfDay.now(),
+                                        );
+                                        if(timeEnd.hour>=12){
+                                          var time = timeEnd.hour-12;
+                                          if(time==0){
+                                            var time = timeEnd.hour;
+                                            _timeEnd=time.toString()+ ":"+timeEnd.minute.toString()+" PM";
+
+                                          }
+                                          else{
+                                            _timeEnd=time.toString()+ ":"+timeEnd.minute.toString()+" PM";
+
+                                          }
+                                        }
+                                        else{
+                                          if(timeEnd.hour==0){
+                                            var time = timeEnd.hour+12;
+                                            _timeEnd=time.toString()+ ":"+timeEnd.minute.toString()+" AM";
+
+                                          }
+                                          else{
+                                            _timeEnd=timeEnd.hour.toString()+ ":"+timeEnd.minute.toString()+" AM";
+
+                                          }
+
+                                        }
                                       },
                                       child: Row(
                                         children: <Widget>[

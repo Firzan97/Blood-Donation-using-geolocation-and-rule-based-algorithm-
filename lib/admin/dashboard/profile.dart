@@ -49,19 +49,26 @@ class _ProfileState extends State<Profile> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
+
     });
-    print(user['created_at']);
+    var response = await Api().getData("admin/${user['_id']}");
+    if(response.statusCode==200){
+      var body = json.decode(response.body);
+      print(body);
+      setState(() {
+        localStorage.setString("user", json.encode(body));
+        user = jsonDecode(localStorage.getString("user"));
+
+      });
+    }
+
   }
 
   @override
   void initState() {
     super.initState();
-    fetchLastDonation();
     getUserData();
-    _setBloodDonated();
-    _futureRequest = fetchRequest();
-    _futureDonation = fetchRequest();
-    _futureEvent = fetchEvent();
+
   }
 
   @override
@@ -327,72 +334,7 @@ class _ProfileState extends State<Profile> {
                                               ),
                                             ),
                                           ),
-                                          Padding(
-                                            padding:
-                                            const EdgeInsets.all(5.0),
-                                            child: Container(
-                                              width: size.width * 1,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(
-                                                              0.1),
-                                                          width: 1.0))),
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                    children: <Widget>[
-                                                      Row(
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding: const EdgeInsets
-                                                                .symmetric(
-                                                                vertical:
-                                                                4.0,
-                                                                horizontal:
-                                                                8),
-                                                            child: Icon(
-                                                              FontAwesomeIcons
-                                                                  .genderless,
-                                                              size:
-                                                              size.width *
-                                                                  0.06,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            "Gender",
-                                                            style: TextStyle(
-                                                                fontSize: size
-                                                                    .width *
-                                                                    0.031),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Text(
-                                                        user["gender"] ==
-                                                            null
-                                                            ? ""
-                                                            : user[
-                                                        "gender"],
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                            size.width *
-                                                                0.031),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height:
-                                                    size.height * 0.02,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
+
                                           Padding(
                                             padding:
                                             const EdgeInsets.all(5.0),
@@ -520,72 +462,6 @@ class _ProfileState extends State<Profile> {
                                               ),
                                             ),
                                           ),
-                                          Padding(
-                                            padding:
-                                            const EdgeInsets.all(5.0),
-                                            child: Container(
-                                              width: size.width * 1,
-                                              decoration: BoxDecoration(
-                                                  border: Border(
-                                                      bottom: BorderSide(
-                                                          color: Colors.grey
-                                                              .withOpacity(
-                                                              0.1),
-                                                          width: 1.0))),
-                                              child: Column(
-                                                children: <Widget>[
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                    children: <Widget>[
-                                                      Row(
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding: const EdgeInsets
-                                                                .symmetric(
-                                                                vertical:
-                                                                4.0,
-                                                                horizontal:
-                                                                8),
-                                                            child: Icon(
-                                                              Icons.phone,
-                                                              size:
-                                                              size.width *
-                                                                  0.06,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            "Mobile Number",
-                                                            style: TextStyle(
-                                                                fontSize: size
-                                                                    .width *
-                                                                    0.031),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Text(
-                                                        user["phoneNumber"] ==
-                                                            null
-                                                            ? ""
-                                                            : user[
-                                                        "phoneNumber"],
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                            size.width *
-                                                                0.031),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height:
-                                                    size.height * 0.02,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-
                                         ],
                                       ),
                                     ),

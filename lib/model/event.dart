@@ -8,8 +8,8 @@ class Event {
   final DateTime dateStart;
   final DateTime dateEnd;
   final String organizer;
-  final DateTime timeStart;
-  final DateTime timeEnd;
+  final String timeStart;
+  final String timeEnd;
   final String imageURL;
   final String user_id;
   final String created_at;
@@ -28,8 +28,8 @@ class Event {
         dateStart = DateTime.parse(json['dateStart']),
         dateEnd = DateTime.parse(json['dateEnd']),
         organizer = json['organizer'],
-        timeStart= DateTime.parse(json['timeStart']),
-        timeEnd = DateTime.parse(json['timeEnd']),
+        timeStart= json['timeStart'],
+        timeEnd = json['timeEnd'],
         imageURL = json['imageURL'],
         user_id = json['user_id'],
         created_at = json['created_at'];
