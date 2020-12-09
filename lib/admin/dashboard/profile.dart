@@ -37,7 +37,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   Future<List<Requestor>> _futureRequest;
   Future<List<Requestor>> _futureDonation;
-  Future<List<Event>> _futureEvent;
+  Future<List<Campaign>> _futureEvent;
   var pr;
   var user;
   String time;
@@ -557,15 +557,15 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  Future<List<Event>> fetchEvent() async {
+  Future<List<Campaign>> fetchEvent() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString("user"));
     var res = await Api().getData("event");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
-      List<Event> events = [];
+      List<Campaign> events = [];
       for (Map u in body) {
-        Event event = Event.fromJson(u);
+        Campaign event = Campaign.fromJson(u);
         if (user['_id'] == event.user_id) {
           events.add(event);
         }

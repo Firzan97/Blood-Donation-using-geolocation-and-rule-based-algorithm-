@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:async';
+
 import 'package:easy_blood/about/about.dart';
 import 'package:easy_blood/animation/faceAnimation.dart';
 import 'package:easy_blood/api/api.dart';
@@ -32,6 +34,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:share/share.dart';
 import 'package:easy_blood/achievement/achievementHome.dart';
+import 'package:pusher_websocket_flutter/pusher.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 
@@ -41,7 +45,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var lastdonate;
+  var lastdonate="0";
   int _page = 0;
   List<Color> colorList = [Colors.black,Colors.black,Colors.black,Colors.black,Colors.black];
   GlobalKey _bottomNavigationKey = GlobalKey();
@@ -60,6 +64,13 @@ class _HomeState extends State<Home> {
   var contextDummy;
   bool statusUpdated;
    var token;
+  StreamController<String> _eventData = StreamController<String>();
+  Sink get _inEventData => _eventData.sink;
+  Stream get eventStream => _eventData.stream;
+  Channel channel;
+  ScrollController _scrollController = new ScrollController();
+  String channelName = 'easy-blood';
+  String eventName = "message";
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   Future<void> initializeLocalNotifications() async {
@@ -89,15 +100,17 @@ class _HomeState extends State<Home> {
        token = localStorage.getString('tokenNotification');
      });
      print(statusUpdated);
-    print(user);
+    print("idddd isss " + user["_id"]);
     print(token);
+    lastDonation();
+
   }
 
 
   @override
   void initState(){
     super.initState();
-    setState(() {});
+    getUserData();
 
     _firebaseMessaging.configure(
       onLaunch: (Map<String, dynamic> message) async {
@@ -119,8 +132,6 @@ class _HomeState extends State<Home> {
         addUserNotification();
       },
     );
-    getUserData();
-    lastDonation();
   }
 
   @override
@@ -1644,11 +1655,58 @@ class _HomeState extends State<Home> {
 
   }
 
-  Future<String> lastDonation()async{
-var response = await Api().getData("${user['_id']}/qualification");
+
+  Future<void> disposePusher()async{
+//    await channel.unbind(eventName);
+    await Pusher.unsubscribe(channelName);
+    Pusher.disconnect();
+  }
+
+
+
+  Future<bool> LogOutDialog(context){
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Alert!"),
+            content: Text("Are you sure want to Logout?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("No",style: TextStyle(
+                    color: Colors.red
+                ),),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("Yes",style: TextStyle(
+                    color: Colors.red
+                ),),
+                onPressed: (){
+                  disposePusher();
+                  LogOut();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Welcome()),
+                  );
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
+  Future<String> lastDonation() async{
+
+var response = await Api().getData("${user["_id"]}/qualification");
+print("cibaiii luu "+ "${user["_id"]}/qualification");
+
 if(response.statusCode==200){
 
-  print("cibaiii luu");
   setState(() {
     lastdonate = response.body.toString();
 
@@ -1738,14 +1796,14 @@ if(response.statusCode==200){
   }
 
 
-  Future<List<Event>> fetchEvent() async {
+  Future<List<Campaign>> fetchEvent() async {
 
     var res = await Api().getData("event");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
-      List<Event> events = [];
+      List<Campaign> events = [];
       for (Map u in body) {
-        Event event = Event.fromJson(u);
+        Campaign event = Campaign.fromJson(u);
         events.add(event);
       }
 
@@ -1754,6 +1812,7 @@ if(response.statusCode==200){
       throw Exception('Failed to load album');
     }
   }
+
   Future<List<Requestor>> fetchBlood() async {
     var res = await Api().getData("request");
     var bodys = json.decode(res.body);
@@ -1774,20 +1833,18 @@ if(response.statusCode==200){
 
 
   Future<void> addUserNotification() async{
-
-
     var data = {
       "notification_id": "5fb2151a4580d49d1570018f",
       "user_id": user['_id'],
       "is_read": false,
     };
+
     var res = await Api().postData(data, "userNotification");
     print(res.statusCode);
     if (res.statusCode == 200) {
       print("notification berjaya");
     }
   }
-
 }
 
 void getPosition() async {
@@ -1807,41 +1864,8 @@ void LogOut() async{
 
 
 
-Future<bool> LogOutDialog(context){
-  return showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context){
-        return AlertDialog(
-          title: Text("Alert!"),
-          content: Text("Are you sure want to Logout?"),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("No",style: TextStyle(
-                  color: Colors.red
-              ),),
-              onPressed: (){
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text("Yes",style: TextStyle(
-                  color: Colors.red
-              ),),
-              onPressed: (){
-                LogOut();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Welcome()),
-                );
-              },
-            ),
-          ],
-        );
-      }
-  );
-}
+
+
 
 Future<bool> notificationDialog(context){
   return showDialog(

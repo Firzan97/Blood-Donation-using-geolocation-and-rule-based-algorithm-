@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class BloodEventDetail extends StatelessWidget {
-  final Event event;
+  final Campaign event;
 
   const BloodEventDetail({Key key, this.event}) : super(key: key);
 

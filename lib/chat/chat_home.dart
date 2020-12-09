@@ -77,15 +77,12 @@ class _ChatHomeState extends State<ChatHome> {
     Pusher.disconnect();
 
   }
-  @override
-  void dispose()
-  {
-    disposePusher();
-    super.dispose();
-
-
-
-  }
+//  @override
+//  void dispose()
+//  {
+//    disposePusher();
+//    super.dispose();
+//  }
 
   @override
   Widget build(BuildContext context) {

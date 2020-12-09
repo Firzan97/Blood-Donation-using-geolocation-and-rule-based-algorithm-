@@ -21,6 +21,7 @@ import 'dart:convert' show JSON;
 import 'package:http/http.dart' as http;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
+import 'package:easy_blood/loadingScreen.dart';
 
 
 import '../component/input_time.dart';
@@ -33,7 +34,7 @@ class BloodEvent extends StatefulWidget {
 }
 
 class _BloodEventState extends State<BloodEvent> {
-  Future<List<Event>> futureEvent;
+  Future<List<Campaign>> futureEvent;
   File _image;
   final picker = ImagePicker();
   String base64Image;
@@ -611,17 +612,17 @@ borderRadius: BorderRadius.circular(25),
     );
   }
 
-  Future<List<Event>> fetchEvent() async {
+  Future<List<Campaign>> fetchEvent() async {
 
     var res = await Api().getData("event");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
-      List<Event> events = [];
+      List<Campaign> events = [];
       var count=0;
       for (var u in body) {
         count++;
 
-        Event event = Event.fromJson(u);
+        Campaign event = Campaign.fromJson(u);
         events.add(event);
       }
 

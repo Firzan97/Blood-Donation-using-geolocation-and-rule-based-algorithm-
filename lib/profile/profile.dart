@@ -26,7 +26,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
+import 'package:easy_blood/profile/compatible_donor.dart';
 class Profile extends StatefulWidget {
   Profile({Key key}) : super(key: key);
 
@@ -37,7 +37,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   Future<List<Requestor>> _futureRequest;
   Future<List<Requestor>> _futureDonation;
-  Future<List<Event>> _futureEvent;
+  Future<List<Campaign>> _futureEvent;
   var pr;
   var user;
   String time;
@@ -1110,64 +1110,103 @@ class _ProfileState extends State<Profile> {
                                                                                 int index) {
                                                                           return Padding(
                                                                             padding:
-                                                                                const EdgeInsets.all(15.0),
+                                                                                const EdgeInsets.symmetric(horizontal: 15.0),
                                                                             child:
-                                                                                Row(
-                                                                              children: <Widget>[
                                                                                 Container(
-                                                                                  height: 50,
-                                                                                  width: 60,
-                                                                                  decoration: BoxDecoration(
-                                                                                    shape: BoxShape.rectangle,
-                                                                                  ),
-                                                                                  child: ClipRRect(
-                                                                                      borderRadius: BorderRadius.circular(5),
-                                                                                      child: Image.asset(
-                                                                                        "assets/images/lari2.jpg",
-                                                                                        fit: BoxFit.cover,
-                                                                                      )),
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: size.width * 0.09,
-                                                                                ),
-                                                                                Column(
-                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                  children: <Widget>[
-                                                                                    Text("6 hours ago"),
-                                                                                    Row(
-                                                                                      children: <Widget>[
-                                                                                        Container(
-                                                                                          child: Text("Syazwan Asraf"),
+
+                                                                                  child: Column(
+                                                                                    children: [
+                                                                                      Row(
+                                                                              children: <Widget>[
+                                                                                      Container(
+                                                                                        height: 50,
+                                                                                        width: 60,
+                                                                                        decoration: BoxDecoration(
+                                                                                          shape: BoxShape.rectangle,
                                                                                         ),
-                                                                                        SizedBox(
-                                                                                          width: size.width * 0.08,
-                                                                                        ),
-                                                                                        Container(
-                                                                                          child: Row(
+                                                                                        child: ClipRRect(
+                                                                                            borderRadius: BorderRadius.circular(5),
+                                                                                            child: Image.asset(
+                                                                                              "assets/images/lari2.jpg",
+                                                                                              fit: BoxFit.cover,
+                                                                                            )),
+                                                                                      ),
+                                                                                      SizedBox(
+                                                                                        width: size.width * 0.05,
+                                                                                      ),
+                                                                                      Column(
+                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                        children: <Widget>[
+                                                                                          SizedBox(
+                                                                                            height: size.height * 0.02,
+                                                                                          ),
+                                                                                          Text("6 hours ago"),
+                                                                                          Row(
                                                                                             children: <Widget>[
-                                                                                              IconButton(
-                                                                                                onPressed: () {
-                                                                                                  _DeleteDialog(snapshot.data[index].id, 'event');
-                                                                                                },
-                                                                                                icon: Icon(
-                                                                                                  Icons.edit,
-                                                                                                ),
+                                                                                              Container(
+                                                                                                child: Text("Syazwan Asraf"),
                                                                                               ),
-                                                                                              IconButton(
-                                                                                                icon: Icon(Icons.delete_forever),
-                                                                                                onPressed: () {
-                                                                                                  _DeleteDialog(snapshot.data[index].id, 'request');
-                                                                                                },
+                                                                                              SizedBox(
+                                                                                                width: size.width * 0.08,
+                                                                                              ),
+                                                                                              Container(
+                                                                                                child: Row(
+                                                                                                  children: <Widget>[
+                                                                                                    IconButton(
+                                                                                                      onPressed: () {
+                                                                                                        _DeleteDialog(snapshot.data[index].id, 'event');
+                                                                                                      },
+                                                                                                      icon: Icon(
+                                                                                                        Icons.edit,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    IconButton(
+                                                                                                      icon: Icon(Icons.delete_forever),
+                                                                                                      onPressed: () {
+                                                                                                        print(snapshot.data[index].id);
+                                                                                                        _DeleteDialog(snapshot.data[index].id, 'request');
+                                                                                                      },
+                                                                                                    )
+                                                                                                  ],
+                                                                                                ),
                                                                                               )
                                                                                             ],
                                                                                           ),
-                                                                                        )
-                                                                                      ],
-                                                                                    )
-                                                                                  ],
-                                                                                )
+
+
+                                                                                        ],
+                                                                                      )
                                                                               ],
                                                                             ),
+
+                                                                                      Container(
+                                                                                        height: size.height*0.04,
+                                                                                        decoration: BoxDecoration(
+                                                                                          color: kPrimaryColor,
+                                                                                          borderRadius: BorderRadius.circular(5),
+                                                                                          boxShadow: [
+                                                                                            BoxShadow(
+                                                                                              color: Colors.black.withOpacity(0.1),
+                                                                                              blurRadius: 3,
+                                                                                              spreadRadius: 5
+                                                                                            )
+                                                                                          ]
+                                                                                        ),
+                                                                                        child: FlatButton(
+                                                                                          child: Text("Compatible Donor"),
+                                                                                          onPressed: (){
+                                                                                            Navigator.push(
+                                                                                              context,
+                                                                                              MaterialPageRoute(
+                                                                                                  builder: (context) =>
+                                                                                                      CompatibleDonor(bloodType: snapshot.data[index].bloodType,requestId: snapshot.data[index].id)),
+                                                                                            );
+                                                                                          },
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
                                                                           );
                                                                         }),
                                                               );
@@ -1392,7 +1431,13 @@ class _ProfileState extends State<Profile> {
                   child: Text('Yes'),
                   onPressed: () {
                     Navigator.of(context).pop(true);
-                    _deleteEvent(Id);
+                    if(activity=="request"){
+                      _deleteRequest(Id);
+                    }
+                    else{
+                      _deleteEvent(Id);
+
+                    }
                   },
                 )
               ],
@@ -1402,9 +1447,28 @@ class _ProfileState extends State<Profile> {
         false;
   }
 
+  _deleteRequest(requestId) async {
+    var res = await Api().deleteData("request/${requestId}");
+    if (res.statusCode == 200) {
+      print("request/${requestId}");
+      pr.show();
+      setState(() {
+        _futureRequest=fetchRequest();
+      });
+      Timer(Duration(seconds: 3), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Profile()),
+        );
+        pr.hide();
+      });
+    }
+  }
+
   _deleteEvent(eventId) async {
     var res = await Api().deleteData("event/${eventId}");
     if (res.statusCode == 200) {
+      print("event/${eventId}");
       pr.show();
       Timer(Duration(seconds: 3), () {
         Navigator.pushReplacement(
@@ -1438,15 +1502,15 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  Future<List<Event>> fetchEvent() async {
+  Future<List<Campaign>> fetchEvent() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString("user"));
     var res = await Api().getData("event");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
-      List<Event> events = [];
+      List<Campaign> events = [];
       for (Map u in body) {
-        Event event = Event.fromJson(u);
+        Campaign event = Campaign.fromJson(u);
         if (user['_id'] == event.user_id) {
           events.add(event);
         }

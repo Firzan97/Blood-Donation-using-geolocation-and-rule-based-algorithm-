@@ -18,7 +18,7 @@ class EventList extends StatefulWidget {
 }
 
 class _EventListState extends State<EventList> {
-  List<Event> events = [];
+  List<Campaign> events = [];
   int incomingEvent,eventToday;
   var pr;
   @override
@@ -385,7 +385,7 @@ class _EventListState extends State<EventList> {
     }
   }
 
-  Future<List<Event>> fetchTotalEvent() async {
+  Future<List<Campaign>> fetchTotalEvent() async {
     events=[];
     DateTime now = new DateTime.now();
 
@@ -394,7 +394,7 @@ class _EventListState extends State<EventList> {
     if (res.statusCode == 200) {
       var count = 0;
       for (var u in body) {
-        Event event = Event.fromJson(u);
+        Campaign event = Campaign.fromJson(u);
         setState(() {
           events.add(event);
         });
@@ -405,14 +405,14 @@ class _EventListState extends State<EventList> {
       throw Exception('Failed to load album');
     }
   }
-  Future<List<Event>> fetchIncomingEvent() async {
+  Future<List<Campaign>> fetchIncomingEvent() async {
     events=[];
     var res = await Api().getData("IncomingEvent");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
       var count = 0;
       for (var u in body) {
-        Event event = Event.fromJson(u);
+        Campaign event = Campaign.fromJson(u);
         setState(() {
           events.add(event);
         });
@@ -423,14 +423,14 @@ class _EventListState extends State<EventList> {
       throw Exception('Failed to load album');
     }
   }
-  Future<List<Event>> fetchNewEvent() async {
+  Future<List<Campaign>> fetchNewEvent() async {
     events=[];
     var res = await Api().getData("Todayevent");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
       var count = 0;
       for (var u in body) {
-        Event event = Event.fromJson(u);
+        Campaign event = Campaign.fromJson(u);
         setState(() {
           events.add(event);
         });

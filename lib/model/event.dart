@@ -1,6 +1,6 @@
 import 'package:easy_blood/model/user.dart';
 
-class Event {
+class Campaign{
   final String id;
   final String name;
   final String location;
@@ -15,12 +15,12 @@ class Event {
   final String created_at;
 //  final User user;
 
-  Event(
+  Campaign(
     this.name,
     this.location, this.phoneNum, this.dateStart, this.dateEnd, this.organizer, this.timeStart, this.timeEnd, this.imageURL, this.user_id, this.id, this.created_at,
   );
 
-  Event.fromJson(Map<String, dynamic> json)
+  Campaign.fromJson(Map<String, dynamic> json)
       : id = json['_id'],
         name = json['name'],
         location = json['location'],

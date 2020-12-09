@@ -56,17 +56,17 @@ class _MessageScreenState extends State<MessageScreen> {
   {
     super.initState();
     getUserData();
-    initPusher();
     _readMessage();
+//    initPusher();
   }
 
-  @override
-  void dispose()
-  {
-    disposePusher();
-    super.dispose();
-
-  }
+//  @override
+//  void dispose()
+//  {
+//    disposePusher();
+//    super.dispose();
+//
+//  }
 
 
 
@@ -124,7 +124,7 @@ class _MessageScreenState extends State<MessageScreen> {
                       height: 3,
                     ),
                     Text(
-                      widget.user.isOnline==true ? "Online" : "Offline",
+                      widget.user.isOnline==true ? "Online" : "Offsline",
                       style: TextStyle(color: Colors.white, fontSize: size.width*0.026),
                     )
                   ],
@@ -242,6 +242,7 @@ bottom: 0,                    child: Container(
 //use to fetch all message between receiver and sender
   Future<List<Message>> fetchMessage() async {
     var res = await Api().getData("conversationMessage/${widget.user.id}/${userId['_id']}");
+//    _readMessage();
 
     if (res.statusCode == 200) {
       List<Message> messages = [];
@@ -272,6 +273,7 @@ bottom: 0,                    child: Container(
 
   //use to update conversation between receiver and sender
   _setConversation() async{
+
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userjson = localStorage.getString("user");
     var user= jsonDecode(userjson);
@@ -286,8 +288,8 @@ bottom: 0,                    child: Container(
     var res = await Api().postData(data,"conversation");
 
     if(res.statusCode==200){
-      print("menjadi babi");
       setState(() {
+
         k.text="";
       });
     }
@@ -300,16 +302,17 @@ bottom: 0,                    child: Container(
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userjson = localStorage.getString("user");
     var user= jsonDecode(userjson);
-   print("hehehehehe "+widget.conversation.id);
     var data = {
+      "userSendId": user["_id"],
+      "userReceiveId": widget.user.id,
       "userId": widget.user.id,
       "isRead": true,
     };
 
-    var res = await Api().updateData(data,"message/${widget.conversation.id}");
+    var res = await Api().updateData(data,"message");
 
     if(res.statusCode==200){
-      print("menjadi babi update isread ${widget.user.id} message/${widget.conversation.id}");
+      print("Alhamdulillah read message menjadi");
     }
   }
 
@@ -331,21 +334,22 @@ Future<void> disposePusher()async{
 
   Future<void> initPusher() async {
     var b,lastConnectionState;
-//    await Pusher.init(
-//        DotEnv().env['PUSHER_APP_KEY'],
-//        PusherOptions(cluster: DotEnv().env['PUSHER_APP_CLUSTER']),
-//        enableLogging: true
-//    );
-//    Pusher.connect(onConnectionStateChange: (x) async {
-//      if (mounted)
-//        setState(() {
-//          lastConnectionState = x.currentState;
-//        });
-//    }, onError: (x) {
-//      debugPrint("Error: ${x.message}");
-//    });
-//
-//    channel = await Pusher.subscribe(channelName);
+    await Pusher.init(
+        DotEnv().env['PUSHER_APP_KEY'],
+        PusherOptions(cluster: DotEnv().env['PUSHER_APP_CLUSTER']),
+        enableLogging: true
+    );
+    Pusher.connect(onConnectionStateChange: (x) async {
+      if (mounted)
+        setState(() {
+          lastConnectionState = x.currentState;
+          print("cekpik");
+        });
+    }, onError: (x) {
+      debugPrint("Error: ${x.message}");
+    });
+
+    channel = await Pusher.subscribe(channelName);
 
 
     await channel.bind(eventName, (x) {

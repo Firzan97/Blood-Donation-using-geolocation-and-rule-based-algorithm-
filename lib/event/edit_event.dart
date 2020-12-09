@@ -19,7 +19,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EditEvent extends StatefulWidget {
-  final Event edit;
+  final Campaign edit;
 
   EditEvent({Key key, @required this.edit}) : super(key: key);
 

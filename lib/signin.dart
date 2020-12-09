@@ -63,17 +63,17 @@ class _SignInState extends State<SignIn> {
   void initState(){
     super.initState();
     firebaseCloudMessaging_Listeners();
-    initPusher();
+//    initPusher();
 
   }
-  void dispose()
-  {
-    super.dispose();
-    Pusher.unsubscribe(channelName);
-    channel.unbind(eventName);
-    _eventData.close();
-
-  }
+//  void dispose()
+//  {
+//    super.dispose();
+//    Pusher.unsubscribe(channelName);
+//    channel.unbind(eventName);
+//    _eventData.close();
+//
+//  }
   @override
   Widget build(BuildContext context) {
     pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: true, showLogs: true);
@@ -305,9 +305,11 @@ class _SignInState extends State<SignIn> {
       "password": password.text
     };
 
+
     var res = await Api().postData(data, "login");
     var body = json.decode(res.body);
     if(body['success']){
+      initPusher();
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['token']);
       localStorage.setString('user', json.encode(body['user']));

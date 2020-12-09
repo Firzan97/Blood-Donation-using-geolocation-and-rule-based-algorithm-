@@ -826,7 +826,7 @@ class _RequestBloodState extends State<RequestBlood> {
 
   Future<List<User>> findDonor() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var userjson = localStorage.getString("user");
+    var userjson = jsonDecode(localStorage.getString("user"));
     var res = await Api().getData("${dropdownValue}/findDonor");
     print(dropdownValue);
     var body = json.decode(res.body);
@@ -836,7 +836,10 @@ class _RequestBloodState extends State<RequestBlood> {
       List<User> users = [];
       for (var u in body) {
         User user = User.fromJson(u);
-        users.add(user);
+        if(userjson["_id"]!=user.id){
+          users.add(user);
+
+        }
       }
       return users;
     } else {
