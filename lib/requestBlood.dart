@@ -586,6 +586,7 @@ class _RequestBloodState extends State<RequestBlood> {
       "bloodType": dropdownValue,
       "reason": reason.text,
       "user_id": user["_id"],
+      "donor_id": ""
     };
 
     var res = await Api().postData(data, "request");

@@ -8,8 +8,10 @@ class Requestor {
   final String user_id;
   final String created_at;
   final User user;
+  final User donor;
 
-  Requestor(this.location, this.bloodType, this.reason, this.user_id, this.created_at, this.user, this.id);
+
+  Requestor(this.location, this.bloodType, this.reason, this.user_id, this.created_at, this.user, this.id, this.donor);
 
   Requestor.fromJson(Map<String, dynamic> json)
       : id = json['_id'],
@@ -18,7 +20,9 @@ class Requestor {
         reason = json['reason'],
         user_id = json['user_id'],
         created_at = json['created_at'],
-        user = User.fromJson(json['user']);
+        user = User.fromJson(json['user']),
+        donor = User.fromJson(json['user']);
+
 
 
   Map<String, dynamic> toJson() =>

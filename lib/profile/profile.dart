@@ -38,6 +38,8 @@ class _ProfileState extends State<Profile> {
   Future<List<Requestor>> _futureRequest;
   Future<List<Requestor>> _futureDonation;
   Future<List<Campaign>> _futureEvent;
+  Future<List<User>> _futureLiveSaved;
+
   var pr;
   var user;
   String time;
@@ -49,6 +51,8 @@ class _ProfileState extends State<Profile> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     setState(() {
       user = jsonDecode(localStorage.getString("user"));
+      _futureLiveSaved = _lifeSaved(user);
+
     });
     print(user['created_at']);
   }
@@ -938,7 +942,7 @@ class _ProfileState extends State<Profile> {
                                                       children: <Widget>[
                                                         FutureBuilder(
                                                             future:
-                                                                _futureEvent,
+                                                            _futureLiveSaved,
                                                             builder: (context,
                                                                 snapshot) {
                                                               if (snapshot
@@ -1479,7 +1483,24 @@ class _ProfileState extends State<Profile> {
       });
     }
   }
+Future<List<User>> _lifeSaved(user)async{
+  var res = await Api().getData('${user["_id"]}/lifeSaved');
+  List<User> users=[];
 
+  if(res.statusCode==200)
+    {
+     print(res.body);
+      var bodys = json.decode(res.body);
+      print("pariyaaasssssssssssssssssssssssssssssssssssssssssssssssssssssssssaaa ${res.statusCode}");
+
+      for (Map u in bodys) {
+
+        Requestor req = Requestor.fromJson(u);
+        users.add(req.user);
+      }
+    }
+    return users;
+}
   Future<List<Requestor>> fetchRequest() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString("user"));
@@ -1489,7 +1510,6 @@ class _ProfileState extends State<Profile> {
       List<Requestor> requests = [];
       var count = 0;
       for (Map u in bodys) {
-        print(user);
         Requestor req = Requestor.fromJson(u);
         if (user['_id'] == req.user.id) {
           requests.add(req);

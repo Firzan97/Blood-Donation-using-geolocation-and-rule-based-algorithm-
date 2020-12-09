@@ -153,12 +153,13 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
                                   btnOkOnPress: () {
                                     Navigator.of(context, rootNavigator: true).pop();
                                     //Will not exit the App
-                                    deleteRequest(widget.requestId);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Profile()),
-                                    );
+//                                    deleteRequest(widget.requestId);
+                                    receivedDonation(widget.requestId,snapshot.data[index].id);
+//                                    Navigator.push(
+//                                      context,
+//                                      MaterialPageRoute(
+//                                          builder: (context) => Profile()),
+//                                    );
                                   },
                                 )..show();
                               },))
@@ -250,7 +251,18 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
     );
   }
 
+Future<void> receivedDonation(requestId,donorId) async{
+    var data = {
+      "requestId": requestId,
+      "donorId": donorId
+    };
+    print(data);
+  var res = await Api().postData(data,"request/donor");
+  if(res.statusCode==200){
+    print("Yess berjaya sudahh");
+  }
 
+}
 
  Future<void> getCurrentUser() async{
    SharedPreferences localStorage = await SharedPreferences.getInstance();
