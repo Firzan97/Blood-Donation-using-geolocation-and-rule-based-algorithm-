@@ -981,8 +981,8 @@ class _ProfileState extends State<Profile> {
                                                                                   ),
                                                                                   child: ClipRRect(
                                                                                       borderRadius: BorderRadius.circular(5),
-                                                                                      child: Image.asset(
-                                                                                        "assets/images/lari2.jpg",
+                                                                                      child: Image.network(
+                                                                                        snapshot.data[index].imageURL,
                                                                                         fit: BoxFit.cover,
                                                                                       )),
                                                                                 ),
@@ -996,7 +996,7 @@ class _ProfileState extends State<Profile> {
                                                                                     Row(
                                                                                       children: <Widget>[
                                                                                         Container(
-                                                                                          child: Text("Syazwan Asraf"),
+                                                                                          child: Text(snapshot.data[index].username),
                                                                                         ),
                                                                                         SizedBox(
                                                                                           width: size.width * 0.08,
@@ -1405,7 +1405,7 @@ class _ProfileState extends State<Profile> {
             );
   }
 
-  void _setBloodDonated() async {
+  Future<void> _setBloodDonated() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString("user"));
     var res = await Api().getData("user/${user["_id"]}/request");
