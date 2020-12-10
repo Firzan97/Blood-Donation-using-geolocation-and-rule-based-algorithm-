@@ -1,3 +1,4 @@
+import 'package:easy_blood/model/request.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -155,11 +156,11 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
                                     //Will not exit the App
 //                                    deleteRequest(widget.requestId);
                                     receivedDonation(widget.requestId,snapshot.data[index].id);
-//                                    Navigator.push(
-//                                      context,
-//                                      MaterialPageRoute(
-//                                          builder: (context) => Profile()),
-//                                    );
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Profile()),
+                                    );
                                   },
                                 )..show();
                               },))
@@ -250,16 +251,75 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
       ),
     );
   }
+  Future<void> fetchBloodDonatedCount(donorId) async {
+    int count=0;
+    var data;
+    var res = await Api().getData("user/${donorId}/request");
+    var bodys = json.decode(res.body);
 
+    if (res.statusCode == 200) {
+      for (Map u in bodys) {
+
+        Requestor req = Requestor.fromJson(u);
+        if(req.donor_id==donorId) {
+            count++;
+
+        }
+      }
+      print(count);
+
+      if(count==1){
+        data={
+          "achievement_id": "5fd180b744710ef17fc8c6cd"
+        };
+
+        var res = await Api().postData(data,"userAchievement/${donorId}");
+
+      }
+      else if(count==3){
+        data={
+          "achievement_id": "5fd1814c44710ef17fc8c6ce"
+        };
+        var res = await Api().postData(data,"userAchievement/${donorId}");
+      }
+      else if(count==10){
+        data={
+          "achievement_id": "5fd1817f44710ef17fc8c6cf"
+        };
+        var res = await Api().postData(data,"userAchievement/${donorId}");
+      }
+      else if(count==15){
+        data={
+          "achievement_id": "5fd1819a44710ef17fc8c6d0"
+        };
+        var res = await Api().postData(data,"userAchievement/${donorId}");
+      }
+      else if(count==30){
+        data={
+          "achievement_id": "5fd181bd44710ef17fc8c6d1"
+        };
+        var res = await Api().postData(data,"userAchievement/${donorId}");
+      }
+
+      if(res.statusCode==200){
+        print("babiaaaaaaaaaaaaaaaaaa");
+
+      }
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
 Future<void> receivedDonation(requestId,donorId) async{
     var data = {
       "requestId": requestId,
       "donorId": donorId
     };
     print(data);
-  var res = await Api().postData(data,"request/donor");
+  var res = await Api().updateData(data,"request/donor");
+  print(res.statusCode);
   if(res.statusCode==200){
     print("Yess berjaya sudahh");
+    fetchBloodDonatedCount(donorId);
   }
 
 }

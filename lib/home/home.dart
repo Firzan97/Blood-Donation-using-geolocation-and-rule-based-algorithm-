@@ -441,7 +441,7 @@ class _HomeState extends State<Home> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => Achievement()),
+                                            builder: (context) => AchievementPage()),
                                       );
                                     }else{
                                       updateProfileDialog(context);
