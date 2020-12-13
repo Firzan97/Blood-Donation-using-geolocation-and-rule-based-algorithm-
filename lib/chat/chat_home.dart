@@ -37,14 +37,17 @@ class _ChatHomeState extends State<ChatHome> {
   List<String> unread2=[];
 
   var futureConversation;
-  StreamController<String> _eventData = StreamController<String>();
-  Sink get _inEventData => _eventData.sink;
-  Stream get eventStream => _eventData.stream;
+//  StreamController<String> _eventData = StreamController<String>();
+//  Sink get _inEventData => _eventData.sink;
+//  Stream get eventStream => _eventData.stream;
   Channel channel;
   String channelName = 'easy-blood';
   String eventName = "message";
   List<Conversation> convers = [];
   List<Conversation> convers2 = [];
+  StreamController<String> _eventData = StreamController<String>();
+  Sink get _inEventData => _eventData.sink;
+  Stream get eventStream => _eventData.stream;
 
   _getUserData()async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -52,12 +55,29 @@ class _ChatHomeState extends State<ChatHome> {
       currentUser = jsonDecode(localStorage.getString("user"));
     });
   }
+  Future<void> listen()async{
 
+    channel = await Pusher.subscribe(channelName);
+    setState(() {
+
+      channel.bind(eventName, (last) {
+        final String data = last.data;
+        _inEventData.add(data);
+        setState(() {
+          futureConversation= fetchConversation();
+
+        });
+
+
+      });
+    });
+  }
 
   @override
   void initState(){
     super.initState();
 //    initPusher();
+    listen();
     _getUserData();
     Future.delayed(const Duration(milliseconds: 500), () {
 
@@ -87,133 +107,139 @@ class _ChatHomeState extends State<ChatHome> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-    ),
-    child: Scaffold(
-        body: Container(
-        decoration: BoxDecoration(
-          gradient: colorgradient,
-            image: new DecorationImage(
-        image: new AssetImage("assets/images/bloodcell.png"),
-        fit: BoxFit.fill,
-      )
-        ),
+    return WillPopScope(
+      onWillPop: (){
+        channel.unbind(eventName);
+        Pusher.unsubscribe(channelName);
+        Navigator.pop(context);
+      },
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+      ),
+      child: Scaffold(
+          body: Container(
+          decoration: BoxDecoration(
+            gradient: colorgradient,
+              image: new DecorationImage(
+          image: new AssetImage("assets/images/bloodcell.png"),
+          fit: BoxFit.fill,
+        )
+          ),
 
-          child: Padding(
-            padding: const EdgeInsets.only( top: 30),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:17.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: currentUser!=null ? NetworkImage(
-                                    currentUser['imageURL']) : NetworkImage("https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadProfileImage.png"),
-                                fit: BoxFit.cover)),
-                      ),
-                      Text(
-                        "Chats",
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      Icon(Icons.edit)
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: size.height*0.12,
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)),
-                        boxShadow: [
-                    BoxShadow(
-                    color: Colors.black.withOpacity(0.4),
-                      blurRadius: 5,
-                      spreadRadius: 3
-                  )
-                    ]
+            child: Padding(
+              padding: const EdgeInsets.only( top: 30),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal:17.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: currentUser!=null ? NetworkImage(
+                                      currentUser['imageURL']) : NetworkImage("https://easy-blood.s3-ap-southeast-1.amazonaws.com/loadProfileImage.png"),
+                                  fit: BoxFit.cover)),
+                        ),
+                        Text(
+                          "Chats",
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        Icon(Icons.edit)
+                      ],
                     ),
-                    child: Column(
-                      children: [
-                        FutureBuilder(
-                            future: futureConversation,
-                            builder: (context,
-                                snapshot) {
-                              if (snapshot
-                                  .data ==
-                                  null) {
-                                return Container(
-                                  height: size.height*0.4,
-                                  child:
-                                  Center(
+                  ),
+                  SizedBox(
+                    height: size.height*0.12,
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)),
+                          boxShadow: [
+                      BoxShadow(
+                      color: Colors.black.withOpacity(0.4),
+                        blurRadius: 5,
+                        spreadRadius: 3
+                    )
+                      ]
+                      ),
+                      child: Column(
+                        children: [
+                          FutureBuilder(
+                              future: futureConversation,
+                              builder: (context,
+                                  snapshot) {
+                                if (snapshot
+                                    .data ==
+                                    null) {
+                                  return Container(
+                                    height: size.height*0.4,
                                     child:
-                                    LoadingScreen(),
-                                  ),
-                                );
-                              }
-                              else if (snapshot
-                                  .data.isEmpty) {
-                                return Container(
-                                  width: size.width*1,
-                                  height: size.height*0.7,
-                                  child:
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text("There are no message yet!"),
-                                      SvgPicture.asset(
-                                        "assets/images/message.svg",
-                                        semanticsLabel: 'A red up arrow',height: 250,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                              return SingleChildScrollView(
-                                child: Container(
-                                  height:
-                                  size.height *
-                                      0.75,
-                                  decoration: BoxDecoration(
-                                  ),
-                                  child: ListView
-                                      .builder(
-                                      itemCount: snapshot
-                                          .data
-                                          .length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return GestureDetector(
-                                          onTap: (){
-                                            Navigator.push(context, MaterialPageRoute(builder: (_) => MessageScreen(user: users[index], conversation: convers[index])));
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              border: Border(
+                                    Center(
+                                      child:
+                                      LoadingScreen(),
+                                    ),
+                                  );
+                                }
+                                else if (snapshot
+                                    .data.isEmpty) {
+                                  return Container(
+                                    width: size.width*1,
+                                    height: size.height*0.7,
+                                    child:
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text("There are no message yet!"),
+                                        SvgPicture.asset(
+                                          "assets/images/message.svg",
+                                          semanticsLabel: 'A red up arrow',height: 250,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                                return SingleChildScrollView(
+                                  child: Container(
+                                    height:
+                                    size.height *
+                                        0.75,
+                                    decoration: BoxDecoration(
+                                    ),
+                                    child: ListView
+                                        .builder(
+                                        itemCount: snapshot
+                                            .data
+                                            .length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return GestureDetector(
+                                            onTap: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (_) => MessageScreen(user: users[index], conversation: convers[index])));
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                border: Border(
 
-                                                bottom: BorderSide(width: 1.0, color: Colors.grey.withOpacity(0.1)),
+                                                  bottom: BorderSide(width: 1.0, color: Colors.grey.withOpacity(0.1)),
+                                                ),
+
                                               ),
-
-                                            ),
-                                            child: Row(
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                                                  child: Container(
-                                                    height: size.height*0.1,
-                                                    child: Stack(
-                                                      children: <Widget>[
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
+                                                    child: Container(
+                                                      height: size.height*0.1,
+                                                      child: Stack(
+                                                        children: <Widget>[
 //                                                  userMessages[index]['story']
 //                                                      ? Container(
 //                                                    decoration: BoxDecoration(
@@ -235,16 +261,16 @@ class _ChatHomeState extends State<ChatHome> {
 //                                                    ),
 //                                                  )
 //                                                      :
-                                                    Container(
-                                                      width: size.width*0.15,
-                                                      height: size.height*0.09,
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape.circle,
-                                                              image: DecorationImage(
-                                                                  image:
-                                                                  NetworkImage(users2[index].imageURL),
-                                                                  fit: BoxFit.cover)),
-                                                        ),
+                                                      Container(
+                                                        width: size.width*0.15,
+                                                        height: size.height*0.09,
+                                                            decoration: BoxDecoration(
+                                                                shape: BoxShape.circle,
+                                                                image: DecorationImage(
+                                                                    image:
+                                                                    NetworkImage(users2[index].imageURL),
+                                                                    fit: BoxFit.cover)),
+                                                          ),
 
 //                                                  userMessages[index]['online']
 //                                                      ? Positioned(
@@ -261,75 +287,76 @@ class _ChatHomeState extends State<ChatHome> {
 //                                                    ),
 //                                                  )
 //                                                      : Container()
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+
+                                                  SizedBox(
+                                                    width: size.width*0.01,
+                                                  ),
+                                                  Container(
+                                                    width: size.width*0.6,
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          users2[index].username,
+                                                          style: TextStyle(
+                                                              fontSize: 17, fontWeight: FontWeight.w600),
+                                                        ),
+                                                        SizedBox(
+                                                          height: size.height*0.001,
+                                                        ),
+                                                        SizedBox(
+                                                          width: MediaQuery.of(context).size.width - 135,
+                                                          child: Text(
+
+                                                            "${latestMessages2.length!=0 ? latestMessages2[index].message: ""}",
+                                                            style: TextStyle(
+                                                                fontSize: 15, color: black.withOpacity(0.5)
+                                                            ),
+                                                            overflow: TextOverflow.ellipsis,
+                                                          ),
+                                                        )
                                                       ],
                                                     ),
                                                   ),
-                                                ),
+                                                  unread2[index]=="0" ? Container() :
+                                                  Container(
+                                                    width: size.width*0.08,
 
-                                                SizedBox(
-                                                  width: size.width*0.01,
-                                                ),
-                                                Container(
-                                                  width: size.width*0.6,
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        users2[index].username,
-                                                        style: TextStyle(
-                                                            fontSize: 17, fontWeight: FontWeight.w600),
-                                                      ),
-                                                      SizedBox(
-                                                        height: size.height*0.001,
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(context).size.width - 135,
-                                                        child: Text(
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
 
-                                                          "${latestMessages2.length!=0 ? latestMessages2[index].message: ""}",
-                                                          style: TextStyle(
-                                                              fontSize: 15, color: black.withOpacity(0.5)
-                                                          ),
-                                                          overflow: TextOverflow.ellipsis,
-                                                        ),
-                                                      )
-                                                    ],
+                                                        color: kGradient1.withOpacity(0.5),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(unread2[index] ,style: TextStyle(
+                                                        fontSize: size.width*0.039
+                                                      ),),
+                                                    ),
                                                   ),
-                                                ),
-                                                unread2[index]=="0" ? Container() :
-                                                Container(
-                                                  width: size.width*0.08,
-
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-
-                                                      color: kGradient1.withOpacity(0.5),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(unread2[index] ,style: TextStyle(
-                                                      fontSize: size.width*0.039
-                                                    ),),
-                                                  ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      }
+                                          );
+                                        }
+                                    ),
                                   ),
-                                ),
-                              );
-                            }
-                        ),
-                      ],
+                                );
+                              }
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
-      ),
-    ),);
+        ),
+      ),),
+    );
 
   }
 

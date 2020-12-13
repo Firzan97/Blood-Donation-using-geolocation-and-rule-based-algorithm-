@@ -156,11 +156,7 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
                                     //Will not exit the App
 //                                    deleteRequest(widget.requestId);
                                     receivedDonation(widget.requestId,snapshot.data[index].id);
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Profile()),
-                                    );
+
                                   },
                                 )..show();
                               },))

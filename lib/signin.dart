@@ -104,124 +104,122 @@ class _SignInState extends State<SignIn> {
           decoration: BoxDecoration(
             color: Colors.white,
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Column(
-              children: <Widget>[
-                Center(
-                  child: Text("LOGIN",style: TextStyle(
-                    fontFamily: "Muli",
-                    fontWeight: FontWeight.bold,
-                    fontSize: 40.0,
-                    color: kPrimaryColor
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: size.height*0.112),
+              Center(
+                child: Text("LOGIN",style: TextStyle(
+                  fontFamily: "Muli",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40.0,
+                  color: kPrimaryColor
 
-                  ),),
-                ),
-                SizedBox(height: size.height*0.02,),
-                Image.asset("assets/images/blood2.png", width: size.height*0.3,),
-                Form(
-                  key: _formkey,
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 15.0),
-                      InputRound(
-                        controller: email,
-                        deco: InputDecoration(
-                          hintText: "Email",
-                          border: InputBorder.none,
-                          icon: Icon(Icons.email, color: kPrimaryColor,),
-                        ),
-                        onchanged: (value){
-                          setState(() {
-                            if(email.text!="" && password.text!=""){
-                              dataFilled = true;
-                            }
-                            else{
-                              dataFilled = false;
-                            }
-                          });
-                        },
-                        validator: (value) =>
-                        (value.isEmpty) ? 'Please enter some text' :
-                        null,
+                ),),
+              ),
+              SizedBox(height: size.height*0.02,),
+              Image.asset("assets/images/blood2.png", width: size.height*0.3,),
+              Form(
+                key: _formkey,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 15.0),
+                    InputRound(
+                      controller: email,
+                      deco: InputDecoration(
+                        hintText: "Email",
+                        border: InputBorder.none,
+                        icon: Icon(Icons.email, color: kPrimaryColor,),
                       ),
-
-                      InputPasswordRound(
-                        controller: password,
-                        onchanged: (value){
-                          setState(() {
-                            if(email.text!="" && password.text!=""){
-                              dataFilled = true;
-                            }
-                            else{
-                              dataFilled = false;
-                            }
-                          });
-                        },
-                          validator: (val) {
-                            if (val.length < 6) {
-                              passwordValidator = false;
-                            }
-                            else{
-                              passwordValidator = true;
-                            }
+                      onchanged: (value){
+                        setState(() {
+                          if(email.text!="" && password.text!=""){
+                            dataFilled = true;
                           }
-                      ),
-                      ButtonRound(
-                        color: kPrimaryColor,
-                        textColor: dataFilled!=true  ? Colors.grey : Colors.white ,
-                        text: "LOGIN",
-                        press: dataFilled!=true ? null : (){
-                          if (_formkey.currentState.validate()) {
-                            bool isValid = EmailValidator.validate(email.text);
-                            if (isValid == false) {
-                              AwesomeDialog(
-                                context: context,
-                                dismissOnBackKeyPress: true,
-                                dialogType: DialogType.NO_HEADER,
-                                headerAnimationLoop: false,
-                                animType: AnimType.SCALE,
-                                title: 'Invalid Email',
-                                desc:
-                                'Please make sure that you entered the correct email format!',
-                              )
-                                ..show();
-                            }
-                            else if (passwordValidator == false) {
-                              AwesomeDialog(
-                                context: context,
-                                dismissOnBackKeyPress: true,
-                                dialogType: DialogType.NO_HEADER,
-                                headerAnimationLoop: false,
-                                animType: AnimType.SCALE,
-                                title: 'Password too short!',
-                                desc:
-                                'Please make sure your password is at least 6 word!',
-                              )
-                                ..show();
-                            }
-                            else {
-                              pr.show();
+                          else{
+                            dataFilled = false;
+                          }
+                        });
+                      },
+                      validator: (value) =>
+                      (value.isEmpty) ? 'Please enter some text' :
+                      null,
+                    ),
+
+                    InputPasswordRound(
+                      controller: password,
+                      onchanged: (value){
+                        setState(() {
+                          if(email.text!="" && password.text!=""){
+                            dataFilled = true;
+                          }
+                          else{
+                            dataFilled = false;
+                          }
+                        });
+                      },
+                        validator: (val) {
+                          if (val.length < 6) {
+                            passwordValidator = false;
+                          }
+                          else{
+                            passwordValidator = true;
+                          }
+                        }
+                    ),
+                    ButtonRound(
+                      color: kPrimaryColor,
+                      textColor: dataFilled!=true  ? Colors.grey : Colors.white ,
+                      text: "LOGIN",
+                      press: dataFilled!=true ? null : (){
+                        if (_formkey.currentState.validate()) {
+                          bool isValid = EmailValidator.validate(email.text);
+                          if (isValid == false) {
+                            AwesomeDialog(
+                              context: context,
+                              dismissOnBackKeyPress: true,
+                              dialogType: DialogType.NO_HEADER,
+                              headerAnimationLoop: false,
+                              animType: AnimType.SCALE,
+                              title: 'Invalid Email',
+                              desc:
+                              'Please make sure that you entered the correct email format!',
+                            )
+                              ..show();
+                          }
+                          else if (passwordValidator == false) {
+                            AwesomeDialog(
+                              context: context,
+                              dismissOnBackKeyPress: true,
+                              dialogType: DialogType.NO_HEADER,
+                              headerAnimationLoop: false,
+                              animType: AnimType.SCALE,
+                              title: 'Password too short!',
+                              desc:
+                              'Please make sure your password is at least 6 word!',
+                            )
+                              ..show();
+                          }
+                          else {
+                            pr.show();
 //                              updateName();
-                              login();
-                            }
+                            login();
                           }
-                        },
-                      ),
-                    ],
-                  ),
+                        }
+                      },
+                    ),
+                  ],
                 ),
-                SizedBox(height: size.height * 0.02),
-                AlreadyHaveAnAccountCheck(
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUp()),
-                    );
-                  },
-                ),
-              ],
-            ),
+              ),
+              SizedBox(height: size.height * 0.02),
+              AlreadyHaveAnAccountCheck(
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUp()),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -240,18 +238,20 @@ class _SignInState extends State<SignIn> {
 
     Pusher.connect();
 
-    channel = await Pusher.subscribe(channelName);
-
-    channel.bind(eventName, (last) {
-      final String data = last.data;
-      _inEventData.add(data);
-    });
-
-    eventStream.listen((data) async {
-      setState(() {
-
-      });
-    });
+//    channel = await Pusher.subscribe(channelName);
+//
+//    channel.bind(eventName, (last) {
+//      final String data = last.data;
+//      _inEventData.add(data);
+//      print("nate cekkpiiiiiiiiiiiiiiiiiiiik");
+//
+//    });
+//
+//    eventStream.listen((data) async {
+//      setState(() {
+//        print("nate babi beruk 3");
+//      });
+//    });
   }
 
 //  updateName() async{

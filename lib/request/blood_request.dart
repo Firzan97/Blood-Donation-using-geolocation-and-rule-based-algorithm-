@@ -199,7 +199,7 @@ _getUserData()async{
                   ),
                 ),
               ),
-              Positioned(
+              requestDetail!= null ? Positioned(
                 bottom: size.height*0.35,
                 child: Container(
                   width: size.width,
@@ -238,7 +238,7 @@ _getUserData()async{
                     ],
                   ),
                 ),
-              ),
+              ) : SizedBox(),
               Positioned(
                 bottom: size.height*0.08,
                 left: 15,
@@ -333,12 +333,21 @@ _getUserData()async{
                       )
 
                     ],
-                  ) : LoadingScreen()
+                  ) : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Text("Sorry there are no request yet!"),
+                        SizedBox(height: size.height*0.03,),
+                        Image.asset("assets/images/norequest.png",scale: 4,),
+                      ],
+                    ),
+                  )
                 ),
               ),
-              DraggableScrollableSheet(
-                  initialChildSize: 0.1,
-                  minChildSize: 0.1,
+              userDetail!= null ? DraggableScrollableSheet(
+                  initialChildSize: 0.05,
+                  minChildSize: 0.05,
                   maxChildSize: 0.95,
                   builder: (BuildContext c, s)
                   {
@@ -719,7 +728,7 @@ _getUserData()async{
                         ),
                       ),
                     );
-                  })
+                  }) : SizedBox()
             ],
           ),
         ),

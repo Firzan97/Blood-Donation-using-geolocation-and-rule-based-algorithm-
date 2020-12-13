@@ -9,6 +9,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_blood/model/request.dart';
 import 'package:easy_blood/model/user.dart';
+import 'package:easy_blood/model/leaderboard.dart';
+
 import 'package:easy_blood/api/api.dart';
 import 'dart:convert';
 import 'dart:async';
@@ -99,7 +101,8 @@ class _ChoicePageState extends State<ChoicePage> {
   Color selected1, selected2, selected3;
   int trophies = 0;
   List<User> a = [];
-  Future<List<Achievement>> _FutureFetchAchievement,_futureFetchLeaderBoard;
+  Future<List<Achievement>> _FutureFetchAchievement;
+  Future<List<Leaderboard>>  _futureFetchLeaderBoard;
   int totalDonated = 0;
   List<Color> colors = [
     Colors.grey,
@@ -113,8 +116,9 @@ class _ChoicePageState extends State<ChoicePage> {
   var currentUser;
   String user_id;
   List<int> numberDonate = [1, 3, 10, 15, 30];
-  List<Achievement> top3 = [];
-
+  List<Leaderboard> top3 = [];
+  List<int> totalDonor=[];
+  List<int> totalDonorTop3=[];
   @override
   void initState() {
     super.initState();
@@ -246,9 +250,9 @@ class _ChoicePageState extends State<ChoicePage> {
                                                               color: Colors
                                                                   .black
                                                                   .withOpacity(
-                                                                      0.1),
-                                                              spreadRadius: 3,
-                                                              blurRadius: 9)
+                                                                      0.9),
+                                                              spreadRadius: 1,
+                                                              blurRadius: 2)
                                                         ]),
                                                     child: Padding(
                                                       padding:
@@ -497,177 +501,76 @@ class _ChoicePageState extends State<ChoicePage> {
                         bottomLeft: Radius.circular(40))),
                 child: Column(
                   children: [
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: size.width * 1,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: size.width * 0.64,
-                                height: size.height * 0.07,
-                                decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
-                                          spreadRadius: 5,
-                                          blurRadius: 8)
-                                    ]),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          selected1 = Colors.white;
-                                          selected2 = Colors.red;
-                                          selected3 = Colors.red;
-                                        });
-                                      },
-                                      child: Container(
-                                        height: double.infinity,
-                                        decoration: BoxDecoration(
-                                            color: selected1,
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        child: Center(
-                                            child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "All The Time",
-                                            style: TextStyle(
-                                                fontSize: size.height * 0.018,
-                                                fontFamily: "Muli"),
-                                          ),
-                                        )),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          selected1 = Colors.red;
-                                          selected2 = Colors.white;
-                                          selected3 = Colors.red;
-                                        });
-                                      },
-                                      child: Container(
-                                        height: double.infinity,
-                                        decoration: BoxDecoration(
-                                            color: selected2,
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        child: Center(
-                                            child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "Last Week",
-                                            style: TextStyle(
-                                                fontSize: size.height * 0.018,
-                                                fontFamily: "Muli"),
-                                          ),
-                                        )),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          selected1 = Colors.red;
-                                          selected2 = Colors.red;
-                                          selected3 = Colors.white;
-                                        });
-                                      },
-                                      child: Container(
-                                        height: double.infinity,
-                                        decoration: BoxDecoration(
-                                            color: selected3,
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        child: Center(
-                                            child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "Last Month",
-                                            style: TextStyle(
-                                                fontSize: size.height * 0.018,
-                                                fontFamily: "Muli"),
-                                          ),
-                                        )),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                   SizedBox(height: size.height*0.05,),
                     Container(
                       height: size.height * 0.25,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Stack(
-                                children: [
-                                  Container(
-                                      width: size.width * 0.24,
-                                      height: size.height * 0.17,
-                                      decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black
-                                                    .withOpacity(0.3),
-                                                spreadRadius: 4,
-                                                blurRadius: 10)
-                                          ],
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: AssetImage(
-                                                  top3[1].imageURL)))),
-                                  Positioned(
-                                    left: size.width * 0.07,
-                                    child: Container(
-                                      height: size.height * 0.05,
-                                      width: size.width * 0.1,
-                                      child: Center(
-                                          child: Text(
-                                        "2",
-                                        style: TextStyle(
-                                            fontSize: size.height * 0.025,
-                                            fontFamily: "Muli"),
-                                      )),
-                                      decoration: BoxDecoration(
-                                          color: Colors.amber,
-                                          shape: BoxShape.circle),
+                          top3.length>=2 ? Container(
+                            width: size.width/3,
+                            height: size.height * 0.20,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Stack(
+                                  children: [
+                                    Container(
+                                        width: size.width * 0.24,
+                                        height: size.height * 0.17,
+                                        decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.3),
+                                                  spreadRadius: 1,
+                                                  blurRadius: 2)
+                                            ],
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                    top3[1].imageURL
+                                                )))),
+                                    Positioned(
+                                      left: size.width * 0.07,
+                                      child: Container(
+                                        height: size.height * 0.05,
+                                        width: size.width * 0.1,
+                                        child: Center(
+                                            child: Text(
+                                          "2",
+                                          style: TextStyle(
+                                              fontSize: size.height * 0.025,
+                                              fontFamily: "Muli"),
+                                        )),
+                                        decoration: BoxDecoration(
+                                            color: Colors.amber,
+                                            shape: BoxShape.circle),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.redAccent,
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Text("9 Times",
-                                      style: TextStyle(
-                                          fontSize: size.height * 0.016,
-                                          fontFamily: "Muli")),
+                                  ],
                                 ),
-                              )
-                            ],
-                          ),
-                          Container(
+                                Container(
+                                  height: size.height*0.03,
+                                  width: size.width*0.18,
+                                  decoration: BoxDecoration(
+                                      color: Colors.redAccent,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Center(
+                                    child: Text("${top3[1].count.toString()} donation",
+                                        style: TextStyle(
+                                            fontSize: size.height * 0.016,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "Muli")),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ) : SizedBox(),
+                          top3.length>=1 ? Container(
+                            width: size.width/3,
+                            height: size.height * 0.27,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -687,18 +590,19 @@ class _ChoicePageState extends State<ChoicePage> {
                                                   BoxShadow(
                                                       color: Colors.black
                                                           .withOpacity(0.3),
-                                                      spreadRadius: 4,
-                                                      blurRadius: 10)
+                                                      spreadRadius: 2,
+                                                      blurRadius: 1)
                                                 ],
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     fit: BoxFit.cover,
-                                                    image: AssetImage(
-                                                        top3[0].imageURL)))),
+                                                    image:  NetworkImage(
+                                                        top3[0].imageURL
+                                                    )))),
                                       ),
                                       Positioned(
-                                          bottom: size.height * 0.14,
-                                          left: size.width * 0.12,
+                                          bottom: size.height * 0.15,
+                                          left: size.width * 0.07,
                                           child: Image.asset(
                                             "assets/images/king.png",
                                             scale: 7,
@@ -707,75 +611,85 @@ class _ChoicePageState extends State<ChoicePage> {
                                   ),
                                 ),
                                 Container(
+                                  height: size.height*0.03,
+                                  width: size.width*0.18,
                                   decoration: BoxDecoration(
                                       color: Colors.redAccent,
                                       borderRadius: BorderRadius.circular(20)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Text("10 Times",
+                                  child: Center(
+                                    child: Text("${top3[0].count.toString()} donation",
                                         style: TextStyle(
                                             fontSize: size.height * 0.016,
+                                            fontWeight: FontWeight.w600,
                                             fontFamily: "Muli")),
                                   ),
                                 )
                               ],
                             ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Stack(
-                                children: [
-                                  Container(
-                                      width: size.width * 0.22,
-                                      height: size.height * 0.17,
-                                      decoration: BoxDecoration(
-                                          color: Colors.blue,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black
-                                                    .withOpacity(0.3),
-                                                spreadRadius: 4,
-                                                blurRadius: 10)
-                                          ],
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: AssetImage(
-                                                  top3[2].imageURL)))),
-                                  Positioned(
-                                    right: size.width * 0.06,
-                                    child: Container(
-                                      height: size.height * 0.04,
-                                      width: size.width * 0.1,
-                                      child: Center(
-                                          child: Text(
-                                        "3",
-                                        style: TextStyle(
-                                            fontSize: size.height * 0.025,
-                                            fontFamily: "Muli"),
-                                      )),
-                                      decoration: BoxDecoration(
-                                          color: Colors.amber,
-                                          shape: BoxShape.circle),
+                          ) : SizedBox(),
+                          top3.length>=3 ? Container(
+                            width: size.width/3,
+                            height: size.height * 0.20,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Stack(
+                                  children: [
+                                    Container(
+                                        width: size.width * 0.22,
+                                        height: size.height * 0.17,
+                                        decoration: BoxDecoration(
+                                            color: Colors.blue,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.3),
+                                                  spreadRadius: 4,
+                                                  blurRadius: 10)
+                                            ],
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                  top3[2].imageURL
+                                                )))),
+                                    Positioned(
+                                      top: size.height*0.013,
+                                      right: size.width * 0.06,
+                                      child: Container(
+                                        height: size.height * 0.04,
+                                        width: size.width * 0.1,
+                                        child: Center(
+                                            child: Text(
+                                          "3",
+                                          style: TextStyle(
+                                              fontSize: size.height * 0.025,
+                                              fontFamily: "Muli"),
+                                        )),
+                                        decoration: BoxDecoration(
+                                            color: Colors.amber,
+                                            shape: BoxShape.circle),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.redAccent,
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Text("8 Times",
-                                      style: TextStyle(
-                                          fontSize: size.height * 0.016,
-                                          fontFamily: "Muli")),
+                                  ],
                                 ),
-                              )
-                            ],
-                          )
+                                Container(
+                                  height: size.height*0.03,
+                                  width: size.width*0.18,
+                                  decoration: BoxDecoration(
+                                      color: Colors.redAccent,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Center(
+                                    child: Text("${top3[2].count.toString()} donation",
+                                        style: TextStyle(
+                                            fontSize: size.height * 0.016,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "Muli")),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ) : SizedBox()
                         ],
                       ),
                     ),
@@ -785,7 +699,14 @@ class _ChoicePageState extends State<ChoicePage> {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 2,
+                          spreadRadius: 1
+                        )
+                      ],
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20))),
@@ -808,10 +729,13 @@ class _ChoicePageState extends State<ChoicePage> {
                               if (snapshot.data.length == 0) {
                                 return Column(
                                   children: [
-                                    Text(
-                                      widget.choice.noData,
-                                      textAlign: TextAlign.center,
-                                    ),
+                                    top3.length==0 ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        widget.choice.noData,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )  : SizedBox(),
                                     SizedBox(
                                       height: 30.0,
                                     ),
@@ -880,7 +804,7 @@ class _ChoicePageState extends State<ChoicePage> {
                                                       shape: BoxShape.circle,
                                                       image: DecorationImage(
                                                           fit: BoxFit.cover,
-                                                          image: AssetImage(
+                                                          image: NetworkImage(
                                                               snapshot
                                                                   .data[index]
                                                                   .imageURL)))),
@@ -890,11 +814,11 @@ class _ChoicePageState extends State<ChoicePage> {
                                               Container(
                                                   width: size.width * 0.3,
                                                   child: Text(snapshot
-                                                      .data[index].type)),
+                                                      .data[index].username)),
                                               SizedBox(
                                                 width: size.width * 0.17,
                                               ),
-                                              Text(" 5 times"),
+                                              Text(snapshot.data[index].count),
                                             ],
                                           ),
                                         ),
@@ -929,6 +853,7 @@ class _ChoicePageState extends State<ChoicePage> {
 
           setState(() {
             colors[count] = Colors.red;
+            trophies++;
           });
           count++;
         }
@@ -989,30 +914,34 @@ class _ChoicePageState extends State<ChoicePage> {
   }
 
 
-  Future<List<Achievement>> fetchLeaderBoard() async {
-    var res = await Api().getData("achievement");
+  Future<List<Leaderboard>> fetchLeaderBoard() async {
+    var res = await Api().getData("leaderBoard");
     var bodys = json.decode(res.body);
     int count = 0;
-    if (res.statusCode == 200) {
-      List<Achievement> achievements = [];
-      for (Map u in bodys) {
-        Achievement achievement = Achievement.fromJson(u);
-        if (count < 3) {
-          top3.add(achievement);
-        } else {
-          achievements.add(achievement);
-          setState(() {
-            description.add(achievement.description);
-            type.add(achievement.type);
-          });
-        }
+    int count1=0;
+    int count2=0;
+    Requestor req;
 
-        count++;
+    if (res.statusCode == 200) {
+      List<Leaderboard> leaderboards = [];
+      for (Map u in bodys) {
+          Leaderboard leaderboard = Leaderboard.fromJson(u);
+          if(count<3){
+            top3.add(leaderboard);
+          }
+          else{
+            setState(() {
+              leaderboards.add(leaderboard);
+            });
+          }
+
+          count++;
       }
 
-      return achievements;
+      return leaderboards;
     } else {
       throw Exception('Failed to load album');
     }
   }
+
 }

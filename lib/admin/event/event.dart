@@ -7,7 +7,6 @@ import 'package:easy_blood/event/bloodEventDetail.dart';
 import 'package:easy_blood/event/edit_event.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/model/event.dart';
-import 'package:easy_blood/test.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:progress_dialog/progress_dialog.dart';

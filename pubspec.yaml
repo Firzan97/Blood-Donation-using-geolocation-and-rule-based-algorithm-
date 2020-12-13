@@ -76,6 +76,8 @@ dependencies:
   image: ^2.1.19
   flutter_rounded_date_picker: 1.0.5
   dart_date: ^1.0.8
+  firebase_in_app_messaging: ^0.2.3
+  firebase_analytics: ^6.3.0
 
 
 
