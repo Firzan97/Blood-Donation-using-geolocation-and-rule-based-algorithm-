@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:easy_blood/model/request.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_blood/constant/constant.dart';
+import 'package:image/image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -45,7 +48,7 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
         child: Column(
           children: [
             Container(
-              height: size.height*0.7,
+              height: size.height*1,
               width: size.width*1,
 
               child: FutureBuilder(
@@ -65,7 +68,7 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
 
 
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB( 8.0,20.0,8.0,0.0),
                 child: Container(
                     height: size.height*0.26,
                     width: size.width*1,
@@ -73,16 +76,16 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
                     decoration: BoxDecoration(
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
+                                            color: Colors.grey.withOpacity(0.1),
                                             blurRadius: 9,
-                                            spreadRadius: 7
+                                            spreadRadius: 1
                                           )
                                         ],
                                           color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(5.0)),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.fromLTRB( 10.0,20.0,10.0,0.0),
                     child: Column(
                       children: [
                       Row(
@@ -93,26 +96,29 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height: size.height*0.2,
-                              width: size.width*0.2,
+                              width: 80,
+                              height: 80,
                               decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                    snapshot.data[index].imageURL
+                                  shape: BoxShape.rectangle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                      snapshot.data[index].imageURL
                                   )
                                 )
                               ),
                             ),
+                            SizedBox(width: size.width*0.03,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(snapshot.data[index].username,style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900,
+                                    fontSize: size.height*0.022,
+                                    fontWeight: FontWeight.w600,
                                     fontFamily: "Muli"
                                 ),),
-                                Text(snapshot.data[index].age,style: TextStyle(
-                                    fontSize: 16,
+                                Text(snapshot.data[index].bloodtype,style: TextStyle(
+                                    fontSize: size.height*0.016,
                                     fontFamily: "Muli"
                                 ),)
                               ],
@@ -120,47 +126,71 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
                           ],
                         ),
 
-                          Container(
-                            height: size.height*0.045,
-                              width: size.width*0.30,
-                              decoration: BoxDecoration(
-                                color: kPrimaryColor
-                              ),
-                              child: FlatButton(child: Text("Received Blood From this user",textAlign:TextAlign.center,style: TextStyle(
-                                color: Colors.white,
-                                fontSize: size.height*0.015,
-                                fontFamily: "Muli"
-                              ),),
-                              onPressed: (){
-                                AwesomeDialog(
-                                  context: context,
-                                  width: 390,
-                                  buttonsBorderRadius: BorderRadius.all(Radius.circular(2)),
-                                  headerAnimationLoop: false,
-                                  dialogType: DialogType.NO_HEADER,
+                          Column(
+                            children: [
+                              Container(
+                                height: size.height*0.045,
+                                  width: size.width*0.30,
+                                  decoration: BoxDecoration(
+                                    color: kPrimaryColor
+                                  ),
+                                  child: FlatButton(child: Text("Received Blood From this user",textAlign:TextAlign.center,style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: size.height*0.015,
+                                    fontFamily: "Muli"
+                                  ),),
+                                  onPressed: (){
+                                    AwesomeDialog(
+                                      context: context,
+                                      width: 390,
+                                      buttonsBorderRadius: BorderRadius.all(Radius.circular(2)),
+                                      headerAnimationLoop: false,
+                                      dialogType: DialogType.NO_HEADER,
 
-                                  animType: AnimType.BOTTOMSLIDE,
-                                  title: 'Blood Donor Confirmation',
-                                  desc: 'Are you confirm that this donor have donate blood for you?',
-                                  btnCancelOnPress: () {
-                                    Navigator.of(context, rootNavigator: true).pop();
-                                    //Will not exit the App
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => CompatibleDonor(bloodType: widget.bloodType,requestId: widget.requestId,)),
-                                    );
-                                  },
-                                  btnOkOnPress: () {
-                                    Navigator.of(context, rootNavigator: true).pop();
-                                    //Will not exit the App
+                                      animType: AnimType.BOTTOMSLIDE,
+                                      title: 'Blood Donor Confirmation',
+                                      desc: 'Are you confirm that this donor have donate blood for you?',
+                                      btnCancelOnPress: () {
+                                        Navigator.of(context, rootNavigator: true).pop();
+                                        //Will not exit the App
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => CompatibleDonor(bloodType: widget.bloodType,requestId: widget.requestId,)),
+                                        );
+                                      },
+                                      btnOkOnPress: () {
+//                                        Navigator.of(context, rootNavigator: true).pop();
+                                        //Will not exit the App
 //                                    deleteRequest(widget.requestId);
-                                    receivedDonation(widget.requestId,snapshot.data[index].id);
+//                                        receivedDonation(widget.requestId,snapshot.data[index].id);
 
-                                  },
-                                )..show();
-                              },))
+                                      },
+                                    )..show();
+                                  },)),
+                              SizedBox(height: size.height*0.02,),
+                              Container(
+                                  height: size.height*0.045,
+                                  width: size.width*0.30,
+                                  decoration: BoxDecoration(
+                                      color: kPrimaryColor
+                                  ),
+                                  child: FlatButton(child: Text("Chat User",textAlign:TextAlign.center,style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: size.height*0.015,
+                                      fontFamily: "Muli"
+                                  ),),
+                                    onPressed: (){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => CompatibleDonor(bloodType: widget.bloodType,requestId: widget.requestId,)),
+                                      );
+                                    },)),
+                            ],
+                          )
                       ],),
+                        SizedBox(height: size.height*0.05,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -168,12 +198,21 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
                               height: size.height*0.037,
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
-                                child: Text("Gender: ${snapshot.data[index].gender}",style: TextStyle(
-                                    fontSize: size.height*0.015
-                                )),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.nature_people_outlined,size: 15,color: kPrimaryColor,),
+                                    Text("Gender: ${snapshot.data[index].gender}",style: TextStyle(
+                                        fontSize: size.height*0.015,
+                                      color:kPrimaryColor,
+                                      fontWeight: FontWeight.w900
+                                    )),
+                                  ],
+                                ),
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.lightBlueAccent,
+
+
+                                  color:text,
                                 borderRadius: BorderRadius.circular(5)
                               ),
                             ),
@@ -182,12 +221,20 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
 
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
-                                child: Text("${snapshot.data[index].phoneNumber}",style: TextStyle(
-                                  fontSize: size.height*0.015
-                                ),),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.phone,size: 15,),
+                                    Text("${snapshot.data[index].phoneNumber}",style: TextStyle(
+                                      fontSize: size.height*0.015,
+                                      color: Colors.black,
+                                        fontWeight: FontWeight.w900,
+
+                                    ),),
+                                  ],
+                                ),
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.red,
+                                color: Colors.yellow,
                                   borderRadius: BorderRadius.circular(5)
                               ),
                             ),
@@ -199,16 +246,19 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
-                                    Icon(Icons.add_location,size: 15,),
+                                    Icon(Icons.add_location,size: 15,color: kPrimaryColor),
                                     Text("${listDistance[index].toString()} KM",style: TextStyle(
-                                        fontSize: size.height*0.015
+                                        fontSize: size.height*0.015,
+                                        color:kPrimaryColor,
+                                      fontWeight: FontWeight.w900
                                     ))
                                   ],
                                 ),
                               ),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
-                                color: Colors.green,
+                                color:text,
+
 
                               ),
                             )
@@ -340,12 +390,12 @@ Future<void> receivedDonation(requestId,donorId) async{
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userjson = localStorage.getString("user");
     var res = await Api().getData("${widget.bloodType}/findDonor");
-    print(widget.bloodType);
     var body = json.decode(res.body);
-
+     print(body);
     if (res.statusCode == 200) {
       List<User> users = [];
       for (var u in body) {
+        print("heloooo");
         User user = User.fromJson(u);
         if(user.id!=currentUser["_id"]) {
 //        print(double.parse(currentUser['latitude']));

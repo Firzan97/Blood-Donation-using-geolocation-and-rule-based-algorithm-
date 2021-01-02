@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_blood/profile/edit_profile.dart';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/button_round.dart';
 import 'package:easy_blood/constant/constant.dart';
@@ -278,7 +279,7 @@ class _SecondRequirementState extends State<SecondRequirement> {
       pr.hide();
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Home()),
+        MaterialPageRoute(builder: (context) => EditProfile()),
       );
     }
   }

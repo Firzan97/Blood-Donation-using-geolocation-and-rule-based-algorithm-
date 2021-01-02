@@ -323,6 +323,7 @@ class _SignInState extends State<SignIn> {
         );
       }
       else{
+//        initPusher();
         pr.hide();
         Navigator.push(
           context,

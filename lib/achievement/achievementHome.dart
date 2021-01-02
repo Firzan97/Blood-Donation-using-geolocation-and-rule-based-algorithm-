@@ -123,10 +123,11 @@ class _ChoicePageState extends State<ChoicePage> {
   void initState() {
     super.initState();
     getUserData();
+    _futureFetchLeaderBoard= fetchLeaderBoard();
     _FutureFetchAchievement = fetchBlood();
     fetchBloodDonatedCount();
     achievementComparison();
-   _futureFetchLeaderBoard= fetchLeaderBoard();
+
   }
 
   @override
@@ -848,6 +849,8 @@ class _ChoicePageState extends State<ChoicePage> {
     var bodys = json.decode(res.body);
     if (res.statusCode == 200) {
       for (Map u in bodys) {
+        print("babi");
+
         UserAchievement userAchievement = UserAchievement.fromJson(u);
         if (userAchievement.userId == currentUser["_id"]) {
 
@@ -882,9 +885,7 @@ class _ChoicePageState extends State<ChoicePage> {
     if (res.statusCode == 200) {
           setState(() {
             totalDonated=bodys;
-
           });
-
     } else {
       throw Exception('Failed to load album');
     }
@@ -898,7 +899,6 @@ class _ChoicePageState extends State<ChoicePage> {
       List<Achievement> achievements = [];
       for (Map u in bodys) {
         Achievement achievement = Achievement.fromJson(u);
-
           achievements.add(achievement);
           setState(() {
             description.add(achievement.description);
@@ -915,6 +915,7 @@ class _ChoicePageState extends State<ChoicePage> {
 
 
   Future<List<Leaderboard>> fetchLeaderBoard() async {
+    top3 = [];
     var res = await Api().getData("leaderBoard");
     var bodys = json.decode(res.body);
     int count = 0;
@@ -927,14 +928,16 @@ class _ChoicePageState extends State<ChoicePage> {
       for (Map u in bodys) {
           Leaderboard leaderboard = Leaderboard.fromJson(u);
           if(count<3){
-            top3.add(leaderboard);
+            setState(() {
+              top3.add(leaderboard);
+
+            });
           }
           else{
             setState(() {
               leaderboards.add(leaderboard);
             });
           }
-
           count++;
       }
 

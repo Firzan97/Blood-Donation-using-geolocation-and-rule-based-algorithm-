@@ -865,11 +865,16 @@ class _ProfileState extends State<Profile> {
                                                     ],
                                                   ),
                                                 ),
-                                              )
+                                              ),
+
                                             ],
                                           ),
                                         ),
                                       ),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                      size.height * 0.07,
                                     ),
                                   ],
                                 ),
@@ -878,13 +883,13 @@ class _ProfileState extends State<Profile> {
                             DraggableScrollableSheet(
                                 initialChildSize: 0.05,
                                 minChildSize: 0.05,
-                                maxChildSize: 0.8,
+                                maxChildSize: 1,
                                 builder: (BuildContext c, s) {
                                   return Container(
                                     height: size.height * 0.2,
                                     width: size.width * 1,
                                     decoration: BoxDecoration(
-                                        color: kGradient1.withOpacity(0.3),
+                                        color: kGradient1,
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(20),
                                             topRight: Radius.circular(20)),
@@ -901,8 +906,8 @@ class _ProfileState extends State<Profile> {
                                         children: <Widget>[
                                           SizedBox(height: size.height * 0.007),
                                           Container(
-                                            height: 30,
-                                            width: 150,
+                                            height: size.height*0.04,
+                                            width: size.width*0.3,
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(20),
@@ -923,6 +928,7 @@ class _ProfileState extends State<Profile> {
                                               child: Stack(
                                                 children: <Widget>[
                                                   Container(
+                                                    height: size.height*0.5,
                                                     width: size.width * 1,
                                                     decoration: BoxDecoration(
                                                         color: Colors.white,
@@ -938,101 +944,100 @@ class _ProfileState extends State<Profile> {
                                                               spreadRadius: 3,
                                                               blurRadius: 12)
                                                         ]),
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        FutureBuilder(
-                                                            future:
-                                                            _futureLiveSaved,
-                                                            builder: (context,
-                                                                snapshot) {
-                                                              if (snapshot
-                                                                      .data ==
-                                                                  null) {
-                                                                return Container(
-                                                                  child: Center(
-                                                                    child:
-                                                                        LoadingScreen(),
-                                                                  ),
-                                                                );
-                                                              }
+                                                    child: Container(
+                                                      height: size.height*0.5,
+                                                      child: FutureBuilder(
+                                                          future:
+                                                          _futureLiveSaved,
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            if (snapshot
+                                                                    .data ==
+                                                                null) {
                                                               return Container(
-                                                                height:
-                                                                    size.height *
-                                                                        0.4,
-                                                                child: ListView
-                                                                    .builder(
-                                                                        itemCount: snapshot
-                                                                            .data
-                                                                            .length,
-                                                                        itemBuilder:
-                                                                            (BuildContext context,
-                                                                                int index) {
-                                                                          return Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.all(15.0),
-                                                                            child:
-                                                                                Row(
-                                                                              children: <Widget>[
-                                                                                Container(
-                                                                                  height: 50,
-                                                                                  width: 60,
-                                                                                  decoration: BoxDecoration(
-                                                                                    shape: BoxShape.rectangle,
-                                                                                  ),
-                                                                                  child: ClipRRect(
-                                                                                      borderRadius: BorderRadius.circular(5),
-                                                                                      child: Image.network(
-                                                                                        snapshot.data[index].imageURL,
-                                                                                        fit: BoxFit.cover,
-                                                                                      )),
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: size.width * 0.09,
-                                                                                ),
-                                                                                Column(
-                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                  children: <Widget>[
-                                                                                    Text("6 hours ago"),
-                                                                                    Row(
-                                                                                      children: <Widget>[
-                                                                                        Container(
-                                                                                          child: Text(snapshot.data[index].username),
-                                                                                        ),
-                                                                                        SizedBox(
-                                                                                          width: size.width * 0.08,
-                                                                                        ),
-                                                                                        Container(
-                                                                                          child: Row(
-                                                                                            children: <Widget>[
-                                                                                              Row(
-                                                                                                children: <Widget>[
-                                                                                                  Icon(Icons.thumb_up),
-                                                                                                  Text("1")
-                                                                                                ],
-                                                                                              ),
-                                                                                              SizedBox(
-                                                                                                width: size.width * 0.05,
-                                                                                              ),
-                                                                                              Row(
-                                                                                                children: <Widget>[
-                                                                                                  Icon(Icons.comment),
-                                                                                                  Text("1")
-                                                                                                ],
-                                                                                              )
-                                                                                            ],
-                                                                                          ),
-                                                                                        )
-                                                                                      ],
-                                                                                    )
-                                                                                  ],
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                          );
-                                                                        }),
+                                                                child: Center(
+                                                                  child:
+                                                                      LoadingScreen(),
+                                                                ),
                                                               );
-                                                            }),
-                                                      ],
+                                                            }
+                                                            return Container(
+                                                              height:
+                                                                  size.height *
+                                                                      0.5,
+                                                              child: ListView
+                                                                  .builder(
+                                                                      itemCount: snapshot
+                                                                          .data
+                                                                          .length,
+                                                                      itemBuilder:
+                                                                          (BuildContext context,
+                                                                              int index) {
+                                                                        return Padding(
+                                                                          padding:
+                                                                          const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 0.0),
+                                                                          child:
+                                                                              Row(
+                                                                            children: <Widget>[
+                                                                              Container(
+                                                                                height: 50,
+                                                                                width: 60,
+                                                                                decoration: BoxDecoration(
+                                                                                  shape: BoxShape.rectangle,
+                                                                                ),
+                                                                                child: ClipRRect(
+                                                                                    borderRadius: BorderRadius.circular(5),
+                                                                                    child: Image.network(
+                                                                                      snapshot.data[index].imageURL,
+                                                                                      fit: BoxFit.cover,
+                                                                                    )),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                width: size.width * 0.09,
+                                                                              ),
+                                                                              Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: <Widget>[
+                                                                                  Text("6 hours ago"),
+                                                                                  Row(
+                                                                                    children: <Widget>[
+                                                                                      Container(
+                                                                                        child: Text(snapshot.data[index].username),
+                                                                                      ),
+                                                                                      SizedBox(
+                                                                                        width: size.width * 0.08,
+                                                                                      ),
+                                                                                      Container(
+                                                                                        child: Row(
+                                                                                          children: <Widget>[
+                                                                                            Row(
+                                                                                              children: <Widget>[
+                                                                                                Icon(Icons.thumb_up),
+                                                                                                Text("1")
+                                                                                              ],
+                                                                                            ),
+                                                                                            SizedBox(
+                                                                                              width: size.width * 0.05,
+                                                                                            ),
+                                                                                            Row(
+                                                                                              children: <Widget>[
+                                                                                                Icon(Icons.comment),
+                                                                                                Text("1")
+                                                                                              ],
+                                                                                            )
+                                                                                          ],
+                                                                                        ),
+                                                                                      )
+                                                                                    ],
+                                                                                  )
+                                                                                ],
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                        );
+                                                                      }),
+                                                            );
+                                                          }),
                                                     ),
                                                   ),
                                                   Container(
@@ -1065,6 +1070,9 @@ class _ProfileState extends State<Profile> {
                                               child: Stack(
                                                 children: <Widget>[
                                                   Container(
+                                                    height:
+                                                    size.height *
+                                                        0.5,
                                                     width: size.width * 1,
                                                     decoration: BoxDecoration(
                                                         color: Colors.white,
@@ -1091,9 +1099,9 @@ class _ProfileState extends State<Profile> {
                                                                       .data ==
                                                                   null) {
                                                                 return Container(
-                                                                  height:
-                                                                      size.height *
-                                                                          0.4,
+                                                                    height:
+                                                                    size.height *
+                                                                        0.5,
                                                                   child: Center(
                                                                     child:
                                                                         LoadingScreen(),
@@ -1103,7 +1111,7 @@ class _ProfileState extends State<Profile> {
                                                               return Container(
                                                                 height:
                                                                     size.height *
-                                                                        0.4,
+                                                                        0.5,
                                                                 child: ListView
                                                                     .builder(
                                                                         itemCount: snapshot
@@ -1114,7 +1122,7 @@ class _ProfileState extends State<Profile> {
                                                                                 int index) {
                                                                           return Padding(
                                                                             padding:
-                                                                                const EdgeInsets.symmetric(horizontal: 15.0),
+                                                                                const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 0.0),
                                                                             child:
                                                                                 Container(
 
@@ -1123,8 +1131,8 @@ class _ProfileState extends State<Profile> {
                                                                                       Row(
                                                                               children: <Widget>[
                                                                                       Container(
-                                                                                        height: 50,
-                                                                                        width: 60,
+                                                                                        height: size.height*0.07,
+                                                                                        width: size.width*0.15,
                                                                                         decoration: BoxDecoration(
                                                                                           shape: BoxShape.rectangle,
                                                                                         ),
@@ -1138,74 +1146,57 @@ class _ProfileState extends State<Profile> {
                                                                                       SizedBox(
                                                                                         width: size.width * 0.05,
                                                                                       ),
-                                                                                      Column(
-                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                        children: <Widget>[
-                                                                                          SizedBox(
-                                                                                            height: size.height * 0.02,
-                                                                                          ),
-                                                                                          Text("6 hours ago"),
-                                                                                          Row(
-                                                                                            children: <Widget>[
-                                                                                              Container(
-                                                                                                child: Text("Syazwan Asraf"),
-                                                                                              ),
-                                                                                              SizedBox(
-                                                                                                width: size.width * 0.08,
-                                                                                              ),
-                                                                                              Container(
-                                                                                                child: Row(
-                                                                                                  children: <Widget>[
-                                                                                                    IconButton(
-                                                                                                      onPressed: () {
-                                                                                                        _DeleteDialog(snapshot.data[index].id, 'event');
-                                                                                                      },
-                                                                                                      icon: Icon(
-                                                                                                        Icons.edit,
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                    IconButton(
-                                                                                                      icon: Icon(Icons.delete_forever),
-                                                                                                      onPressed: () {
-                                                                                                        print(snapshot.data[index].id);
-                                                                                                        _DeleteDialog(snapshot.data[index].id, 'request');
-                                                                                                      },
-                                                                                                    )
-                                                                                                  ],
-                                                                                                ),
-                                                                                              )
-                                                                                            ],
-                                                                                          ),
+                                                                                      Container(
+                                                                                        width: size.width*0.5,
+                                                                                        child: Column(
+                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                          children: <Widget>[
+                                                                                            Container(
+                                                                                              child: Text("Required Blood: " + snapshot.data[index].bloodType),
+                                                                                            ),
+                                                                                            Text("6 hours ago"),
 
 
-                                                                                        ],
-                                                                                      )
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+
+                                                                                IconButton(
+                                                                                  icon: Icon(Icons.delete_forever),
+                                                                                  onPressed: () {
+                                                                                    print(snapshot.data[index].id);
+                                                                                    _DeleteDialog(snapshot.data[index].id, 'request');
+                                                                                  },
+                                                                                )
                                                                               ],
                                                                             ),
 
-                                                                                      Container(
-                                                                                        height: size.height*0.04,
-                                                                                        decoration: BoxDecoration(
-                                                                                          color: kPrimaryColor,
-                                                                                          borderRadius: BorderRadius.circular(5),
-                                                                                          boxShadow: [
-                                                                                            BoxShadow(
-                                                                                              color: Colors.black.withOpacity(0.1),
-                                                                                              blurRadius: 3,
-                                                                                              spreadRadius: 5
-                                                                                            )
-                                                                                          ]
-                                                                                        ),
-                                                                                        child: FlatButton(
-                                                                                          child: Text("Compatible Donor"),
-                                                                                          onPressed: (){
-                                                                                            Navigator.push(
-                                                                                              context,
-                                                                                              MaterialPageRoute(
-                                                                                                  builder: (context) =>
-                                                                                                      CompatibleDonor(bloodType: snapshot.data[index].bloodType,requestId: snapshot.data[index].id)),
-                                                                                            );
-                                                                                          },
+                                                                                      Padding(
+                                                                                        padding: const EdgeInsets.all(8.0),
+                                                                                        child: Container(
+                                                                                          height: size.height*0.04,
+                                                                                          decoration: BoxDecoration(
+                                                                                            color: kPrimaryColor,
+                                                                                            borderRadius: BorderRadius.circular(5),
+                                                                                            boxShadow: [
+                                                                                              BoxShadow(
+                                                                                                color: Colors.black.withOpacity(0.1),
+                                                                                                blurRadius: 9,
+                                                                                                spreadRadius: 5
+                                                                                              )
+                                                                                            ]
+                                                                                          ),
+                                                                                          child: FlatButton(
+                                                                                            child: Text("Search Donor"),
+                                                                                            onPressed: (){
+                                                                                              Navigator.push(
+                                                                                                context,
+                                                                                                MaterialPageRoute(
+                                                                                                    builder: (context) =>
+                                                                                                        CompatibleDonor(bloodType: snapshot.data[index].bloodType,requestId: snapshot.data[index].id)),
+                                                                                              );
+                                                                                            },
+                                                                                          ),
                                                                                         ),
                                                                                       ),
                                                                                     ],
@@ -1243,7 +1234,8 @@ class _ProfileState extends State<Profile> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.all(19.0),
+                                            padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 0.0),
+
                                             child: Container(
                                               child: Stack(
                                                 children: <Widget>[
@@ -1282,8 +1274,8 @@ class _ProfileState extends State<Profile> {
                                                               }
                                                               return Container(
                                                                 height:
-                                                                    size.height *
-                                                                        0.4,
+                                                                size.height *
+                                                                    0.5,
                                                                 child: ListView
                                                                     .builder(
                                                                         itemCount: snapshot
@@ -1390,8 +1382,9 @@ class _ProfileState extends State<Profile> {
                                               ),
                                             ),
                                           ),
+                                          SizedBox(height: size.height*0.05)
                                         ],
-                                      ),
+                                      )
                                     ),
                                   );
                                 }),
@@ -1454,7 +1447,6 @@ class _ProfileState extends State<Profile> {
   _deleteRequest(requestId) async {
     var res = await Api().deleteData("request/${requestId}");
     if (res.statusCode == 200) {
-      print("request/${requestId}");
       pr.show();
       setState(() {
         _futureRequest=fetchRequest();
@@ -1486,15 +1478,11 @@ class _ProfileState extends State<Profile> {
 Future<List<User>> _lifeSaved(user)async{
   var res = await Api().getData('${user["_id"]}/lifeSaved');
   List<User> users=[];
-
   if(res.statusCode==200)
     {
      print(res.body);
       var bodys = json.decode(res.body);
-      print("pariyaaasssssssssssssssssssssssssssssssssssssssssssssssssssssssssaaa ${res.statusCode}");
-
       for (Map u in bodys) {
-
         Requestor req = Requestor.fromJson(u);
         users.add(req.user);
       }
@@ -1515,7 +1503,6 @@ Future<List<User>> _lifeSaved(user)async{
           requests.add(req);
         }
       }
-
       return requests;
     } else {
       throw Exception('Failed to load album');
@@ -1547,13 +1534,8 @@ Future<List<User>> _lifeSaved(user)async{
     var res = await Api().getData("${user["_id"]}/qualification");
     var body = json.decode(res.body);
     if (res.statusCode == 200) {
-
-      Qualification qualification = Qualification.fromJson(body);
-      DateTime dateTime = DateTime.parse(qualification.lastDonation.toString());
-      final date2 = DateTime.now();
-      final difference = date2.difference(qualification.lastDonation).inDays;
       setState(() {
-        lastDonate=difference.toString();
+        lastDonate=body.toString();
       });
     } else {
       throw Exception('Failed to load album');

@@ -209,7 +209,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             children: <Widget>[
                               Container(
                                 width: size.width * 0.75,
-                                height: size.height * 0.07,
+                                height: size.height * 0.06,
                                 decoration: BoxDecoration(
                                     boxShadow: [
                                       BoxShadow(
@@ -228,7 +228,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                       border: InputBorder.none,
                                       hintText: "Write a reply ....",
                                       hintStyle: TextStyle(
-                                          fontSize: size.width * 0.042)),
+                                          fontSize: size.height * 0.022)),
                                 ),
                               ),
                               IconButton(
@@ -419,7 +419,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                   child: Text(
                     widget.message,
                     style:
-                        TextStyle(color: white, fontSize: size.width * 0.033),
+                        TextStyle(color: white, fontSize: size.width * 0.04),
                   ),
                 ),
               ),
@@ -434,8 +434,8 @@ class _ChatBubbleState extends State<ChatBubble> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              width: 35,
-              height: 35,
+              width: 50,
+              height: 50,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
@@ -460,7 +460,7 @@ class _ChatBubbleState extends State<ChatBubble> {
                   child: Text(
                     widget.message,
                     style:
-                        TextStyle(color: black, fontSize: size.width * 0.033),
+                        TextStyle(color: black, fontSize: size.width * 0.04),
                   ),
                 ),
               ),

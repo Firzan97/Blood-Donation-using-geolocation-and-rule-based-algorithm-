@@ -96,15 +96,13 @@ class _SignUpState extends State<SignUp> {
               child: Center(
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      bottom.toString(),
-                      style: TextStyle(
+                    Text("SIGN UP",style: TextStyle(
                         fontFamily: "Muli",
-                        color: kPrimaryColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: 15.0,
-                      ),
-                    ),
+                        fontSize: 40.0,
+                        color: kPrimaryColor
+
+                    ),),
                     SizedBox(
                       height: 10.0,
                     ),

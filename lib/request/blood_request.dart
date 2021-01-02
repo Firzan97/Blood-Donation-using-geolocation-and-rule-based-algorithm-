@@ -160,7 +160,7 @@ _getUserData()async{
                 child: Container(
                   child: GoogleMap(
                     initialCameraPosition: _initialLocation,
-                    zoomControlsEnabled: true,
+                    zoomControlsEnabled: false,
                     polylines: Set<Polyline>.of(polylines.values),
                     markers: Set.from(allMarkers),
                     onMapCreated: (GoogleMapController controller) {

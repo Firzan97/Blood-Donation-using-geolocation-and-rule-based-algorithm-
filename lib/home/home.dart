@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:easy_blood/about/about.dart';
 import 'package:easy_blood/animation/faceAnimation.dart';
@@ -121,9 +122,16 @@ class _HomeState extends State<Home> {
       },
       onMessage: (Map<String, dynamic> message) async {
         print("onMessagwe: $message");
-        print("onmessage berjaya la");
-        notificationDialog(contextDummy);
-        addUserNotification();
+        print(message["notification"]["title"]);
+        if(message["notification"]["title"]=="New Event"){
+          notificationDialog(contextDummy);
+          addUserNotification();
+        }
+        else{
+          requestDialog(contextDummy);
+
+        }
+
       },
 
       onResume: (Map<String, dynamic> message) async {
@@ -687,9 +695,9 @@ class _HomeState extends State<Home> {
                           height: size.height * 0.39,
                           child: Column(
                             children: <Widget>[
+                              SizedBox(height: size.height*0.03,),
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10.0, top: 40.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
@@ -798,7 +806,7 @@ class _HomeState extends State<Home> {
                                               Text("Latest Donation", style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontFamily: "Muli",
-                                              color: Colors.black,fontSize: size.width*0.026),),
+                                              color: Colors.black,fontSize: size.height*0.015),),
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                 children: <Widget>[
@@ -809,7 +817,7 @@ class _HomeState extends State<Home> {
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.w500,
                                                         fontFamily: "Muli",
-                                                        color: Colors.black,fontSize: size.width*0.028),
+                                                        color: Colors.black,fontSize: size.height*0.015),
 
                                                   )
                                                 ],
@@ -1129,11 +1137,11 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       statusUpdated==true ? Positioned(
-                        bottom:5,
-                        right: 70,
+                        bottom:size.height*0.01,
+                        right: size.width*0.2,
                         child: Container(
-                          height: 55,
-                          width: 270,
+                          height: size.height*0.07,
+                          width: size.width*0.6,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               color: Colors.yellow
@@ -1149,17 +1157,12 @@ class _HomeState extends State<Home> {
                                     builder: (context) => EditProfile()),
                               );
                             },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Text("Your profile is not updated yet. \n Please update your profile!",style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "Muli",
-                                    color: Colors.black,
-                                    fontSize: size.width*0.031
-                                ),),
-                              ),
-                            ),
+                            child: Text("Your profile is not updated yet. \n Please update your profile!",style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "Muli",
+                                color: Colors.black,
+                                fontSize: size.width*0.031
+                            ),textAlign: TextAlign.center,),
                           ),
                         ),
                       ) : Container()
@@ -1408,7 +1411,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                                 child: Container(
-                                        height: size.height*0.33,
+                                        height: size.height*0.362,
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
@@ -1423,6 +1426,7 @@ class _HomeState extends State<Home> {
                                         child: Column(
                                           children: <Widget>[
                                             Container(
+
                                               decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.only(topLeft: Radius.circular(5),topRight: Radius.circular(5)),
                                                   gradient: colorgradient2
@@ -1453,106 +1457,108 @@ class _HomeState extends State<Home> {
                                         ),
                                               ),
                                             ),
-                                      FutureBuilder(
-                                        future: fetchBlood(),
-                                        builder: (BuildContext context,AsyncSnapshot snapshot){
-                                          if(!snapshot.hasData){
-                                            return Container(
-                                              height:size.height*0.27,
-                                              child: Center(
-                                                child: LoadingScreen(),
-                                              ),
-                                            );
-                                          }
-                                          else if(snapshot.data.length==0){
-                                            return Container(
-                                              height: 170,
-                                              width: size.width*0.9,
-                                              child: Center(
-                                                child: Image.asset(
-                                                    "assets/images/nodata.png"
+                                      Container(
+                                        height: size.height*0.328,
+                                        child: FutureBuilder(
+                                          future: fetchBlood(),
+                                          builder: (BuildContext context,AsyncSnapshot snapshot){
+                                            if(!snapshot.hasData){
+                                              return Container(
+                                                height:size.height*0.27,
+                                                child: Center(
+                                                  child: LoadingScreen(),
                                                 ),
-                                              ),
-                                            );
-                                          }
-                                          else{
-                                            return  Container(
-                                                height:size.height*0.291,
-                                                child: ListView.builder(
-                                                    shrinkWrap: true,
-                                                    itemCount: snapshot.data.length,
-                                                    itemBuilder: (BuildContext context, int index) {
-                                                      DateTime dateTime = DateTime.parse(snapshot.data[index].created_at);
-                                                      DateFormat dateFormat = DateFormat('yyyy-MM-dd');
-                                                      String time = dateFormat.format(dateTime);
+                                              );
+                                            }
+                                            else if(snapshot.data.length==0){
+                                              return Container(
+                                                height: 170,
+                                                width: size.width*0.9,
+                                                child: Center(
+                                                  child: Image.asset(
+                                                      "assets/images/nodata.png"
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                            else{
+                                              return  Container(
+                                                  child: ListView.builder(
+                                                      shrinkWrap: true,
+                                                      itemCount: snapshot.data.length,
+                                                      itemBuilder: (BuildContext context, int index) {
+                                                        DateTime dateTime = DateTime.parse(snapshot.data[index].created_at);
+                                                        DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+                                                        String time = dateFormat.format(dateTime);
 
-                                                      return Column(
-                                                        children: <Widget>[
-                                                          Container(
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.all(8.0),
-                                                              child: Row(
-                                                                mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-                                                                children: <Widget>[
-                                                                  Row(
-                                                                    children: <Widget>[
-                                                                      Container(
-                                                                        height: size.height * 0.08,
-                                                                        width: size.width * 0.18,
-                                                                        decoration: BoxDecoration(
-                                                                            image: DecorationImage(
-                                                                              fit: BoxFit.cover,
-                                                                              image: NetworkImage(
-                                                                                a[index].imageURL,),
+                                                        return Column(
+                                                          children: <Widget>[
+                                                            Container(
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(left:8.0,right: 8.0,bottom:16.0),
+                                                                child: Row(
+                                                                  mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                                                  children: <Widget>[
+                                                                    Row(
+                                                                      children: <Widget>[
+                                                                        Container(
+                                                                          height: size.height * 0.1,
+                                                                          width: size.width * 0.18,
+                                                                          decoration: BoxDecoration(
+                                                                              image: DecorationImage(
+                                                                                fit: BoxFit.cover,
+                                                                                image: NetworkImage(
+                                                                                  a[index].imageURL,),
+                                                                              ),
+                                                                              borderRadius:
+                                                                              BorderRadius.circular(2)),
+                                                                        ),
+                                                                        SizedBox(width: size.width*0.03,),
+                                                                        Column(
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: <Widget>[
+                                                                            Text(
+                                                                              a[index].username,
+                                                                              style: TextStyle(
+                                                                                  color: Colors.black,
+                                                                                  fontWeight: FontWeight.w700,
+                                                                                  fontSize: size.width*0.033),
                                                                             ),
-                                                                            borderRadius:
-                                                                            BorderRadius.circular(2)),
-                                                                      ),
-                                                                      SizedBox(width: size.width*0.03,),
-                                                                      Column(
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                        children: <Widget>[
-                                                                          Text(
-                                                                            a[index].username,
-                                                                            style: TextStyle(
-                                                                                color: Colors.black,
-                                                                                fontWeight: FontWeight.w700,
-                                                                                fontSize: size.width*0.033),
-                                                                          ),
-                                                                          Text(
-                                                                            snapshot.data[index].location,
-                                                                            style: TextStyle(
-                                                                                color: Colors.black,
-                                                                                fontWeight: FontWeight.w500,
-                                                                                fontSize: size.width*0.031),
-                                                                          ),
-                                                                          Text(
-                                                                            Jiffy(time).fromNow() // 7 years ago
-                                                                            ,
-                                                                            style: TextStyle(
-                                                                                color: Colors.grey,
-                                                                                fontSize: size.width*0.029,
-                                                                                fontWeight: FontWeight.w300),
-                                                                          ),
-                                                                        ],
-                                                                      ),
+                                                                            Text(
+                                                                              snapshot.data[index].location,
+                                                                              style: TextStyle(
+                                                                                  color: Colors.black,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontSize: size.width*0.031),
+                                                                            ),
+                                                                            Text(
+                                                                              Jiffy(time).fromNow() // 7 years ago
+                                                                              ,
+                                                                              style: TextStyle(
+                                                                                  color: Colors.grey,
+                                                                                  fontSize: size.width*0.029,
+                                                                                  fontWeight: FontWeight.w300),
+                                                                            ),
+                                                                          ],
+                                                                        ),
 
-                                                                    ],
-                                                                  ),
-                                                                  Text(
-                                                                    snapshot.data[index].bloodType,
-                                                                    style:
-                                                                    TextStyle(color: kPrimaryColor,fontSize: size.width*0.033),
-                                                                  ),
-                                                                ],
+                                                                      ],
+                                                                    ),
+                                                                    Text(
+                                                                      snapshot.data[index].bloodType,
+                                                                      style:
+                                                                      TextStyle(color: kPrimaryColor,fontSize: size.width*0.033),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ],
-                                                      );}
-                                                ));
-                                          }
-                                        },
+                                                          ],
+                                                        );}
+                                                  ));
+                                            }
+                                          },
+                                        ),
                                       )
                                       ],
                                     ),
@@ -1880,6 +1886,18 @@ Future<bool> notificationDialog(context){
   );
 }
 
+Future<bool> requestDialog(context){
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) => CustomDialogNotification(
+        title: "New Request Has been made",
+        description:
+        "Someone has request blood. Lets help them!",
+        buttonText: "Okay",
+        image: "assets/images/eligible.png"
+    ),
+  );
+}
 
 Future<bool> updateProfileDialog(context){
   return showDialog(

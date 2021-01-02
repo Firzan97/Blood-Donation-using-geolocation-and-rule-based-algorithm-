@@ -55,6 +55,30 @@ class _ChatHomeState extends State<ChatHome> {
       currentUser = jsonDecode(localStorage.getString("user"));
     });
   }
+  Future<void> initPusher() async {
+    await Pusher.init(
+        DotEnv().env['PUSHER_APP_KEY'],
+        PusherOptions(cluster: DotEnv().env['PUSHER_APP_CLUSTER']),
+        enableLogging: true
+    );
+
+    Pusher.connect();
+
+//    channel = await Pusher.subscribe(channelName);
+//
+//    channel.bind(eventName, (last) {
+//      final String data = last.data;
+//      _inEventData.add(data);
+//      print("nate cekkpiiiiiiiiiiiiiiiiiiiik");
+//
+//    });
+//
+//    eventStream.listen((data) async {
+//      setState(() {
+//        print("nate babi beruk 3");
+//      });
+//    });
+  }
   Future<void> listen()async{
 
     channel = await Pusher.subscribe(channelName);
@@ -76,6 +100,7 @@ class _ChatHomeState extends State<ChatHome> {
   @override
   void initState(){
     super.initState();
+    initPusher();
 //    initPusher();
     listen();
     _getUserData();
@@ -111,7 +136,10 @@ class _ChatHomeState extends State<ChatHome> {
       onWillPop: (){
         channel.unbind(eventName);
         Pusher.unsubscribe(channelName);
-        Navigator.pop(context);
+        Navigator.pop(context, false);
+
+        //we need to return a future
+        return Future.value(false);
       },
       child: AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(
@@ -360,33 +388,34 @@ class _ChatHomeState extends State<ChatHome> {
 
   }
 
-  Future<void> initPusher() async {
-    var b,lastConnectionState;
-    await Pusher.init(
-        DotEnv().env['PUSHER_APP_KEY'],
-        PusherOptions(cluster: DotEnv().env['PUSHER_APP_CLUSTER']),
-        enableLogging: true
-    );
-    Pusher.connect(onConnectionStateChange: (x) async {
-      if (mounted)
-        setState(() {
-          lastConnectionState = x.currentState;
-        });
-    }, onError: (x) {
-      debugPrint("Error: ${x.message}");
-    });
-
-    channel = await Pusher.subscribe(channelName);
 
 
-    await channel.bind(eventName, (x) {
-      if (mounted)
-        setState(() {
-          b = x;
-          print("babi");
-        });
-    });
 
+  Future<bool> _onBackPressed() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Confirm'),
+          content: Text('Do you want to exit the App'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(false); //Will not exit the App
+              },
+            ),
+            FlatButton(
+              child: Text('Yes'),
+              onPressed: () {
+
+                Navigator.of(context).pop(true); //Will exit the App
+              },
+            )
+          ],
+        );
+      },
+    ) ?? false;
   }
 
   Future<List<Conversation>> fetchConversation() async {

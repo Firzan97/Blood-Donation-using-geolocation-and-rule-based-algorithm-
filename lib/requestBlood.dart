@@ -184,7 +184,7 @@ class _RequestBloodState extends State<RequestBlood> {
                 height: size.height * 1,
                 child: GoogleMap(
                   initialCameraPosition: _initialLocation,
-                  zoomControlsEnabled: true,
+                  zoomControlsEnabled: false,
                   markers: Set.from(allMarkers),
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
@@ -597,6 +597,7 @@ class _RequestBloodState extends State<RequestBlood> {
 
   }
 
+
   Future<List<User>> fetchUser() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var currentUser = jsonDecode(localStorage.getString("user"));
@@ -714,12 +715,6 @@ class _RequestBloodState extends State<RequestBlood> {
                                           Text("Gender: "+snapshot.data[index].gender),
                                           Text("Phone Number: "+snapshot.data[index].phoneNumber),
                                           SizedBox(height: size.height*0.03),
-
-
-
-
-
-
                                         ],
                                       ),
                                       Row(
@@ -735,9 +730,9 @@ class _RequestBloodState extends State<RequestBlood> {
                                                 boxShadow: [
                                                   BoxShadow(
                                                       blurRadius: 7,
-                                                      spreadRadius: 3,
+                                                      spreadRadius: 1,
                                                       color: Colors.black
-                                                          .withOpacity(0.25))
+                                                          .withOpacity(0.1))
                                                 ]),
                                             child: FlatButton(
                                                 onPressed: () {
@@ -797,7 +792,7 @@ class _RequestBloodState extends State<RequestBlood> {
                     IconButton(
                       icon: Icon(Icons.close),
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.pop(context);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -815,9 +810,9 @@ class _RequestBloodState extends State<RequestBlood> {
       //call php file
       token.add(id);
       var data={
-        "token": token,
+        "token": id,
       };print(token);
-      var res = await Api().postData(data,"notification");
+      var res = await Api().postData(data,"requestNotification");
 //        return json.decode(res.body);
     }
     else{
@@ -829,11 +824,8 @@ class _RequestBloodState extends State<RequestBlood> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userjson = jsonDecode(localStorage.getString("user"));
     var res = await Api().getData("${dropdownValue}/findDonor");
-    print(dropdownValue);
     var body = json.decode(res.body);
-
     if (res.statusCode == 200) {
-      print("ini semua babiiiiii222222222222");
       List<User> users = [];
       for (var u in body) {
         User user = User.fromJson(u);

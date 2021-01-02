@@ -7,6 +7,7 @@ import 'package:easy_blood/onboarding.dart';
 import 'package:easy_blood/profile/edit_profile.dart';
 import 'package:easy_blood/profile/profile.dart';
 import 'package:easy_blood/splash.dart';
+import 'package:easy_blood/test.dart';
 import 'package:easy_blood/welcome/requirement.dart';
 import 'package:easy_blood/welcome/welcome.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,8 @@ class _MyAppState extends State<MyApp> {
         '/messageScreen': (BuildContext context) => MessageScreen(),
         '/homepage': (BuildContext context) => ChatHome(),
         '/requirementForm': (BuildContext context) => RequirementForm(),
+        '/test': (BuildContext context) => Testing(),
+
 
       }
     );

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/constant/constant.dart';
+import 'package:easy_blood/home/home.dart';
 import 'package:easy_blood/loadingScreen.dart';
 import 'package:easy_blood/profile/profile.dart';
 import 'package:geolocator/geolocator.dart';
@@ -96,10 +97,10 @@ class _EditProfileState extends State<EditProfile> {
     gender = "Male";
   }
   else{
-    gender="female";
+    gender="Female";
   }
     http.put(uploadEndPoint, body: {
-      "image": base64Image!=null ? base64Image : "" ,
+      "image": base64Image!=null ? base64Image : "default image" ,
       "username": _usernameController.text!="" ? _usernameController.text : user['username'].toString(),
       "email": _emailController.text!="" ? _emailController.text : user['email'].toString(),
       "latitude": latitude!=null ? latitude.toString() : user['latitude'].toString(),
@@ -110,6 +111,7 @@ class _EditProfileState extends State<EditProfile> {
       "height": _heightController.text!="" ? _heightController.text : user['height'].toString(),
       "weight": _weightController.text!="" ? _weightController.text : user['weight'].toString()
     }).then((result) {
+      print(result);
       if(result.statusCode==200){
       }
       setStatus(result.statusCode == 200 ? result.body : errMessage);
@@ -591,6 +593,7 @@ class _EditProfileState extends State<EditProfile> {
                                   pr.show();
                                   upload();
                                   fetchUser();
+
                                   setState(() {
                                     sasasa = [ _usernameController.text ,_emailController.text,_weightController.text,_heightController.text ,_mobileController.text,dropdownValue,checkedValueMale,checkedValueFemale,updateLocation];
                                   });
@@ -639,6 +642,11 @@ class _EditProfileState extends State<EditProfile> {
         localStorage.setBool("statusUpdated", checkIfAnyIsNull());
         pr.hide();
       });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Home()),
+      );
       return localStorage.getString("user");
     } else {
       throw Exception('Failed to load user');

@@ -141,6 +141,7 @@ class _BloodEventState extends State<BloodEvent> {
                                         return Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
+                                            height: size.height*0.3,
 //                                      decoration: BoxDecoration(
 //                                          color: Colors.white,
 //                                          borderRadius:
@@ -152,7 +153,7 @@ class _BloodEventState extends State<BloodEvent> {
                                             right:size.width*0.01,
                                             child: Container(
                                               width: size.width*0.67,
-                                            height: size.height*0.23,
+                                            height: size.height*0.24,
                                             decoration: BoxDecoration(
                                                 boxShadow: [
                                                   BoxShadow(
@@ -168,7 +169,7 @@ class _BloodEventState extends State<BloodEvent> {
                                                 padding: const EdgeInsets.all(8.0),
                                                 child: Row(
                                                   children: <Widget>[
-                                                    SizedBox(width: size.width*0.06,),
+                                                    SizedBox(width: size.width*0.07,),
 
                                                     Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,8 +238,8 @@ class _BloodEventState extends State<BloodEvent> {
 borderRadius: BorderRadius.circular(25),
                                                   child: Image.network(
                                                     snapshot.data[index].imageURL,
-                                                    width: 140,
-                                                    height: 200,
+                                                    width: size.width*0.35,
+                                                    height: size.height*0.26,
                                                     fit: BoxFit.fill,
                                                   )),
                                             ),
@@ -639,8 +640,8 @@ borderRadius: BorderRadius.circular(25),
     if (res.statusCode == 200) {
       var count = 0;
       for (var u in body) {
-        User user = User.fromJson(u);
-        token.add(user.notificationToken);
+        var t = u['notificationToken'];
+        token.add(t);
       };
     }
 
