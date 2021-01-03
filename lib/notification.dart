@@ -142,6 +142,22 @@ class _NotificationsState extends State<Notifications> {
                                               ),
                                             );
                                           }
+                                          else if(snapshot.data.length==0){
+                                            return Container(
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(height: size.height*0.15,),
+                                                  Image.asset(
+                                                      "assets/images/notify.png"
+                                                  ),
+                                                  Text("You have no notification",style: TextStyle(
+                                                      fontSize: size.height*0.033,
+                                                      fontFamily: "Muli"
+                                                  ),)
+                                                ],
+                                              ),
+                                            );
+                                          }
                                           return Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: ListView.builder(

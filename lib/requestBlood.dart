@@ -53,7 +53,23 @@ class _RequestBloodState extends State<RequestBlood> {
   var first;
   static CameraPosition _userLocation;
   var _findDonor;
+  var user;
 
+
+  void getUserData()async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    user= jsonDecode(localStorage.getString("user"));
+
+    final coordinates = new Coordinates(double.parse(user["latitude"]), double.parse(user["longitude"]));
+    addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    setState(() {
+      first = addresses.first;
+      location.text = first.addressLine.toString();
+    });
+    print("${first.featureName} : ${first.addressLine}");
+
+
+  }
   getUserAddress() async {
     final coordinates = new Coordinates(latitude, longitude);
     addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
@@ -143,6 +159,7 @@ class _RequestBloodState extends State<RequestBlood> {
   void initState() {
     super.initState();
 //    getUserLocation();
+    getUserData();
     fetchUser();
     _findDonor = findDonor();
   }
@@ -231,7 +248,7 @@ class _RequestBloodState extends State<RequestBlood> {
                           color: Colors.white.withOpacity(0.4),
                           borderRadius: BorderRadius.circular(10.0)),
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 4.0, top: 2.0),
+                        padding: const EdgeInsets.only(left: 4.0, top: 4.0),
                         child: TextFormField(
                           style: TextStyle(
                               fontSize: size.width * 0.037,
@@ -251,7 +268,7 @@ class _RequestBloodState extends State<RequestBlood> {
                             disabledBorder: InputBorder.none,
                             hintText: "Search Location...",
                             contentPadding:
-                                EdgeInsets.only(bottom: 15.0, left: -14.0),
+                                EdgeInsets.only(bottom: 10.0, left: -14.0),
                             hintStyle: TextStyle(fontSize: size.width * 0.035),
                           ),
                           controller: locationSearch,
@@ -379,7 +396,7 @@ class _RequestBloodState extends State<RequestBlood> {
                                                               0.035),
                                                       contentPadding:
                                                           const EdgeInsets.only(
-                                                              bottom: 8.0)),
+                                                              bottom: 2.0)),
                                                   controller: location,
                                                 ),
                                               ),
@@ -652,8 +669,10 @@ class _RequestBloodState extends State<RequestBlood> {
         barrierDismissible: true,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(
-                "Request has been made. This are the list of suitable donors"),
+            title: Center(
+              child: Text(
+                  "Request has been made. This are the list of suitable donors"),
+            ),
             content:              Column(
               mainAxisSize: MainAxisSize.min,
 

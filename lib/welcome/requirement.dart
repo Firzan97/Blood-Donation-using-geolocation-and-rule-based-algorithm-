@@ -877,7 +877,7 @@ class _RequirementFormState extends State<RequirementForm> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString("user"));
     var data={
-      "lastDonation": lastDonation.toString(),
+      "lastDonation": lastDonation.toString()!=null ? lastDonation.toString() : null,
       "desease": dropdownValue,
       "problem": _problemController.text!="" ? _problemController.text : "no donation problem",
       "beautyInjection": _beautyInjection.text!="" ? _beautyInjection.text : "nobeauty injection",

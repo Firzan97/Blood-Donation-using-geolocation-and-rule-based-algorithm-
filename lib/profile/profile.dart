@@ -961,6 +961,15 @@ class _ProfileState extends State<Profile> {
                                                                 ),
                                                               );
                                                             }
+                                                            else if(snapshot.data.length==0){
+                                                              return Container(
+                                                                child: Center(
+                                                                  child: Image.asset(
+                                                                      "assets/images/not_found.png"
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            }
                                                             return Container(
                                                               height:
                                                                   size.height *
@@ -1108,6 +1117,18 @@ class _ProfileState extends State<Profile> {
                                                                   ),
                                                                 );
                                                               }
+                                                              else if(snapshot.data.length==0){
+                                                                return Container(
+                                                                  child: Column(
+                                                                    children: [
+                                                                      SizedBox(height: size.height*0.08,),
+                                                                      Image.asset(
+                                                                          "assets/images/not_found.png"
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                );
+                                                              }
                                                               return Container(
                                                                 height:
                                                                     size.height *
@@ -1240,6 +1261,9 @@ class _ProfileState extends State<Profile> {
                                               child: Stack(
                                                 children: <Widget>[
                                                   Container(
+                                                    height:
+                                                    size.height *
+                                                        0.5,
                                                     width: size.width * 1,
                                                     decoration: BoxDecoration(
                                                         color: Colors.white,
@@ -1266,9 +1290,24 @@ class _ProfileState extends State<Profile> {
                                                                       .data ==
                                                                   null) {
                                                                 return Container(
+                                                                  height:
+                                                                  size.height *
+                                                                      0.5,
                                                                   child: Center(
                                                                     child:
-                                                                        LoadingScreen(),
+                                                                    LoadingScreen(),
+                                                                  ),
+                                                                );
+                                                              }
+                                                              else if(snapshot.data.length==0){
+                                                                return Container(
+                                                                  child: Column(
+                                                                    children: [
+                                                                      SizedBox(height: size.height*0.08,),
+                                                                      Image.asset(
+                                                                          "assets/images/not_found.png"
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 );
                                                               }

@@ -127,6 +127,9 @@ class _HomeState extends State<Home> {
           notificationDialog(contextDummy);
           addUserNotification();
         }
+        else if(message["notification"]["body"]=="Someone has receive your blood!") {
+          donateBloodDialog(context,user);
+        }
         else{
           requestDialog(contextDummy);
 
@@ -812,7 +815,7 @@ class _HomeState extends State<Home> {
                                                 children: <Widget>[
 
                                                   Text(
-                                                   " ${lastdonate} days ago",
+                                                   lastdonate=="never" ? "Never Donate" : "${lastdonate} days ago",
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.w500,
@@ -1524,12 +1527,16 @@ class _HomeState extends State<Home> {
                                                                                   fontWeight: FontWeight.w700,
                                                                                   fontSize: size.width*0.033),
                                                                             ),
-                                                                            Text(
-                                                                              snapshot.data[index].location,
-                                                                              style: TextStyle(
-                                                                                  color: Colors.black,
-                                                                                  fontWeight: FontWeight.w500,
-                                                                                  fontSize: size.width*0.031),
+                                                                            Container(
+                                                                              height: size.height*0.05,
+                                                                              width: size.width*0.6,
+                                                                              child: Text(
+                                                                                snapshot.data[index].location,
+                                                                                style: TextStyle(
+                                                                                    color: Colors.black,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    fontSize: size.width*0.031),
+                                                                              ),
                                                                             ),
                                                                             Text(
                                                                               Jiffy(time).fromNow() // 7 years ago
@@ -1709,7 +1716,6 @@ class _HomeState extends State<Home> {
   Future<String> lastDonation() async{
 
 var response = await Api().getData("${user["_id"]}/qualification");
-print("cibaiii luu "+ "${user["_id"]}/qualification");
 
 if(response.statusCode==200){
 
@@ -1790,8 +1796,11 @@ if(response.statusCode==200){
             ),
             FlatButton(
               child: Text('Yes'),
-              onPressed: () {
+              onPressed: () async{
+                SharedPreferences localStorage = await SharedPreferences.getInstance();
+                user= jsonDecode(localStorage.getString("user"));
 
+                updateUserPresence(user["_id"]);
                 Navigator.of(context).pop(true); //Will exit the App
               },
             )
@@ -1863,12 +1872,25 @@ void getPosition() async {
 
 void LogOut() async{
   SharedPreferences pref = await SharedPreferences.getInstance();
+  var user = jsonDecode(pref.getString("user"));
+  print("sahjsgahsghasgyag"+user["_id"]);
+  updateUserPresence(user["_id"]);
+
   pref.setString("user", null);
   var email2=pref.getString("userEmail");
-  print(email2);
 }
 
+void updateUserPresence($userid)async{
+  var data = {
+    "type": "update status",
+    "isOnline": false
+  };
 
+  var res = await Api().updateData(data, "user/${$userid}");
+  if(res.statusCode==200){
+    print("status updated");
+  }
+}
 
 
 
@@ -1893,6 +1915,19 @@ Future<bool> requestDialog(context){
         title: "New Request Has been made",
         description:
         "Someone has request blood. Lets help them!",
+        buttonText: "Okay",
+        image: "assets/images/eligible.png"
+    ),
+  );
+}
+
+Future<bool> donateBloodDialog(context,user){
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) => CustomDialogNotification(
+        title: "Congratulation ${user["username"]}!",
+        description:
+        "Someone have receive your blood. Keep it up!",
         buttonText: "Okay",
         image: "assets/images/eligible.png"
     ),

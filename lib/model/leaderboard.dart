@@ -11,7 +11,7 @@ class Leaderboard {
 
   Leaderboard.fromJson(Map<String, dynamic> json)
       : donorId = json['donor_id'],
-        username = json['username'],
+        username = json['name'],
         count = json['count'],
         imageURL = json['imageURL'];
 

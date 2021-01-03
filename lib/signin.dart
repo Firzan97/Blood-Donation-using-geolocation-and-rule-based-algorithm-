@@ -317,6 +317,7 @@ class _SignInState extends State<SignIn> {
       var a =localStorage.getString('user');
       if(body["user"]["role"]=="admin"){
         pr.hide();
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Dashboard()),
@@ -324,6 +325,7 @@ class _SignInState extends State<SignIn> {
       }
       else{
 //        initPusher();
+        updateUserPresence(body["user"]["_id"]);
         pr.hide();
         Navigator.push(
           context,
@@ -335,6 +337,18 @@ class _SignInState extends State<SignIn> {
     else {
       pr.hide();
       infoDialog(context);
+    }
+  }
+
+  void updateUserPresence($userid)async{
+    var data = {
+      "type": "update status",
+      "isOnline": true
+    };
+
+    var res = await Api().updateData(data, "user/${$userid}");
+    if(res.statusCode==200){
+      print("status updated");
     }
   }
 }

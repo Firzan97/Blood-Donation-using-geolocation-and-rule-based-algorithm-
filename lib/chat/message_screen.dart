@@ -88,10 +88,7 @@ class _MessageScreenState extends State<MessageScreen> {
         channel.unbind(eventName);
         Pusher.unsubscribe(channelName);
         Navigator.pop(context);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => ChatHome()),
-        );
+
       },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -102,6 +99,7 @@ class _MessageScreenState extends State<MessageScreen> {
           leading: FlatButton(
               onPressed: () {
                 Navigator.pop(context);
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ChatHome()));
               },
               child: Icon(
                 Icons.arrow_back_ios,
@@ -135,7 +133,7 @@ class _MessageScreenState extends State<MessageScreen> {
                     height: 3,
                   ),
                   Text(
-                    widget.user.isOnline == true ? "Online" : "Offsline",
+                    widget.user.isOnline == true ? "Online" : "Offline",
                     style: TextStyle(
                         color: Colors.white, fontSize: size.width * 0.026),
                   )
@@ -236,6 +234,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                     size: size.width * 0.08,
                                     color: Colors.black),
                                 onPressed: () {
+
 //                      _sendMessage(k.text);
                                   _setConversation();
 
@@ -306,13 +305,13 @@ class _MessageScreenState extends State<MessageScreen> {
       "isRead": false,
       "message": k.text
     };
-
+    setState(() {
+      k.text = "";
+    });
     var res = await Api().postData(data, "conversation");
 
     if (res.statusCode == 200) {
-      setState(() {
-        k.text = "";
-      });
+
     }
   }
 

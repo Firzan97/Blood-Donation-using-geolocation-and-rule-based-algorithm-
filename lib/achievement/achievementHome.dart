@@ -506,6 +506,7 @@ class _ChoicePageState extends State<ChoicePage> {
                     Container(
                       height: size.height * 0.25,
                       child: Row(
+
                         children: [
                           top3.length>=2 ? Container(
                             width: size.width/3,
@@ -570,7 +571,7 @@ class _ChoicePageState extends State<ChoicePage> {
                             ),
                           ) : SizedBox(),
                           top3.length>=1 ? Container(
-                            width: size.width/3,
+                            width: top3.length==1 ? size.width/1 : size.width/3,
                             height: size.height * 0.27,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -603,7 +604,7 @@ class _ChoicePageState extends State<ChoicePage> {
                                       ),
                                       Positioned(
                                           bottom: size.height * 0.15,
-                                          left: size.width * 0.07,
+                                          left: size.width * 0.08,
                                           child: Image.asset(
                                             "assets/images/king.png",
                                             scale: 7,
@@ -819,7 +820,7 @@ class _ChoicePageState extends State<ChoicePage> {
                                               SizedBox(
                                                 width: size.width * 0.17,
                                               ),
-                                              Text(snapshot.data[index].count),
+                                              Text(snapshot.data[index].count.toString()),
                                             ],
                                           ),
                                         ),

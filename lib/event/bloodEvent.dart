@@ -128,6 +128,22 @@ class _BloodEventState extends State<BloodEvent> {
                                     ),
                                   );
                                 }
+                                else if(snapshot.data.length==0){
+                                  return Container(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: size.height*0.2,),
+                                        Image.asset(
+                                            "assets/images/not_found.png"
+                                        ),
+                                        Text("Currently no event :(",style: TextStyle(
+                                          fontSize: size.height*0.033,
+                                          fontFamily: "Muli"
+                                        ),)
+                                      ],
+                                    ),
+                                  );
+                                }
                                 return ListView.builder(
                                   itemCount: snapshot.data.length,
                                   itemBuilder:

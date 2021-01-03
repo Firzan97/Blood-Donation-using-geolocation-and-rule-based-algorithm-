@@ -13,6 +13,7 @@ import 'package:easy_blood/loadingScreen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:easy_blood/profile/profile.dart';
 import 'package:geolocator/geolocator.dart';
+import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/chat/message_screen.dart';
 
 
 class CompatibleDonor extends StatefulWidget {
@@ -153,17 +154,23 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
                                       btnCancelOnPress: () {
                                         Navigator.of(context, rootNavigator: true).pop();
                                         //Will not exit the App
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => CompatibleDonor(bloodType: widget.bloodType,requestId: widget.requestId,)),
-                                        );
+//                                        Navigator.push(
+//                                          context,
+//                                          MaterialPageRoute(
+//                                              builder: (context) => CompatibleDonor(bloodType: widget.bloodType,requestId: widget.requestId,)),
+//                                        );
                                       },
                                       btnOkOnPress: () {
-//                                        Navigator.of(context, rootNavigator: true).pop();
+                                        Navigator.of(context, rootNavigator: true).pop();
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Profile()),
+                                        );
                                         //Will not exit the App
-//                                    deleteRequest(widget.requestId);
 //                                        receivedDonation(widget.requestId,snapshot.data[index].id);
+                                        getQue(snapshot.data[index].notificationToken,snapshot.data[index].username);
+//                                    deleteRequest(widget.requestId);
 
                                       },
                                     )..show();
@@ -184,7 +191,7 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => CompatibleDonor(bloodType: widget.bloodType,requestId: widget.requestId,)),
+                                            builder: (context) => MessageScreen(user: snapshot.data[index])),
                                       );
                                     },)),
                             ],
@@ -377,6 +384,22 @@ Future<void> receivedDonation(requestId,donorId) async{
       print(currentUser);
    });
  }
+
+  Future getQue(token,username) async {
+    print("sasasasasa"+ token + username);
+    if(token!=null){
+      //call php file
+      var data={
+        "token": token,
+        "userName": username,
+      };print(token);
+      var res = await Api().postData(data,"confirmDonationNotification");
+//        return json.decode(res.body);
+    }
+    else{
+      print("Token is null");
+    }
+  }
 
   Future<void> deleteRequest(id)async{
     var res = await Api().deleteData("request/${id}");
