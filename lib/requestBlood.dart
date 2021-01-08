@@ -625,21 +625,24 @@ class _RequestBloodState extends State<RequestBlood> {
       var count = 2;
       for (var u in body) {
         count++;
-        User user = User.fromJson(u);
-        double lat = user.latitude.toDouble();
-        double lon = user.longitude.toDouble();
-        allMarkers.add(Marker(
-            markerId: MarkerId('myMarker${count}'),
-            icon: user.email == currentUser['email']
-                ? BitmapDescriptor.fromBytes(customHereIcon)
-                : BitmapDescriptor.fromBytes(customIcon),
-            draggable: false,
-            onTap: () {
-              print("I m here");
-              print(user.email);
-              print(currentUser['email']);
-            },
-            position: LatLng(lat, lon)));
+        if(u["bloodType"]!=null && u["gender"]!=null && u["height"]!=null && u["latitude"]!=null && u["longitude"]!=null && u["weight"]!=null  && u["phoneNumber"]!=null ){
+          User user = User.fromJson(u);
+          double lat = user.latitude.toDouble();
+          double lon = user.longitude.toDouble();
+          allMarkers.add(Marker(
+              markerId: MarkerId('myMarker${count}'),
+              icon: user.email == currentUser['email']
+                  ? BitmapDescriptor.fromBytes(customHereIcon)
+                  : BitmapDescriptor.fromBytes(customIcon),
+              draggable: false,
+              onTap: () {
+                print("I m here");
+                print(user.email);
+                print(currentUser['email']);
+              },
+              position: LatLng(lat, lon)));
+        }
+
       }
       return users;
     } else {
@@ -681,6 +684,15 @@ class _RequestBloodState extends State<RequestBlood> {
                 FutureBuilder(
                     future: _findDonor,
                     builder: (context,snapshot){
+                      if (snapshot.data == null) {
+                        return Container(
+                          height: 350,
+                          width: 250,
+                          child: Center(
+                            child: LoadingScreen(),
+                          ),
+                        );
+                      }
                       if(snapshot.data.length==0){
                         return Container(
                           height: 350,
@@ -829,8 +841,8 @@ class _RequestBloodState extends State<RequestBlood> {
       //call php file
       token.add(id);
       var data={
-        "token": id,
-      };print(token);
+        "token": token,
+      };print("hehehe   " +token.toString());
       var res = await Api().postData(data,"requestNotification");
 //        return json.decode(res.body);
     }
@@ -847,11 +859,15 @@ class _RequestBloodState extends State<RequestBlood> {
     if (res.statusCode == 200) {
       List<User> users = [];
       for (var u in body) {
-        User user = User.fromJson(u);
-        if(userjson["_id"]!=user.id){
-          users.add(user);
+        print(u["bloodType"]);
+        if(u["bloodType"]!=null && u["gender"]!=null && u["height"]!=null && u["latitude"]!=null && u["longitude"]!=null && u["weight"]!=null  && u["phoneNumber"]!=null ) {
+          User user = User.fromJson(u);
+          if(userjson["_id"]!=user.id){
+            users.add(user);
 
+          }
         }
+
       }
       return users;
     } else {

@@ -414,7 +414,9 @@ class _ChoicePageState extends State<ChoicePage> {
                                                             children: <Widget>[
                                                               Icon(Icons.delete_forever,color: Colors.black,),
                                                               Text("Delete",style: TextStyle(
-                                                                  color: Colors.black
+                                                                  color: Colors.black,
+                                                                  fontSize: size.height*0.016
+
                                                               ),)
                                                             ],
                                                           ),
@@ -428,7 +430,9 @@ class _ChoicePageState extends State<ChoicePage> {
                                                             children: <Widget>[
                                                               Icon(Icons.edit,color: Colors.black,),
                                                               Text("Edit",style: TextStyle(
-                                                                  color: Colors.black
+                                                                  color: Colors.black,
+                                                                  fontSize: size.height*0.016
+
                                                               ))
                                                             ],
                                                           ),
@@ -441,7 +445,8 @@ class _ChoicePageState extends State<ChoicePage> {
                                                             children: <Widget>[
                                                               Icon(widget.choice.icon,color: Colors.black,),
                                                               Text(widget.choice.noData,style: TextStyle(
-                                                                  color: Colors.black
+                                                                  color: Colors.black,
+                                                                fontSize: size.height*0.016
                                                               ))
                                                             ],
                                                           ),

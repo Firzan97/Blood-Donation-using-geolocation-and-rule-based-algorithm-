@@ -1820,6 +1820,7 @@ if(response.statusCode==200){
       for (Map u in body) {
         Campaign event = Campaign.fromJson(u);
         events.add(event);
+        print(events);
       }
 
       return events;
@@ -1849,7 +1850,7 @@ if(response.statusCode==200){
 
   Future<void> addUserNotification() async{
     var data = {
-      "notification_id": "5fb2151a4580d49d1570018f",
+      "notification_id": "5fef348e54220000950035c2",
       "user_id": user['_id'],
       "is_read": false,
     };
@@ -1903,7 +1904,9 @@ Future<bool> notificationDialog(context){
         description:
         "Someone has added new event. Lets join!",
         buttonText: "Okay",
-        image: "assets/images/eligible.png"
+        image: "assets/images/eligible.png",
+        topic: "event",
+        page: BloodEvent()
     ),
   );
 }
@@ -1916,7 +1919,9 @@ Future<bool> requestDialog(context){
         description:
         "Someone has request blood. Lets help them!",
         buttonText: "Okay",
-        image: "assets/images/eligible.png"
+        image: "assets/images/bloodrequest.png",
+        topic: "request",
+        page: BloodRequest()
     ),
   );
 }
@@ -1929,7 +1934,9 @@ Future<bool> donateBloodDialog(context,user){
         description:
         "Someone have receive your blood. Keep it up!",
         buttonText: "Okay",
-        image: "assets/images/eligible.png"
+        topic: "current donation",
+        image: "assets/images/thankyoudonate.png",
+        page: AchievementPage()
     ),
   );
 }

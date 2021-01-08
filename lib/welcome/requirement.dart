@@ -21,7 +21,7 @@ class RequirementForm extends StatefulWidget {
 class _RequirementFormState extends State<RequirementForm> {
   final _formKey = GlobalKey<FormState>();
 
-  var lastDonation,dropdownValue,pr;
+  var lastDonation,dropdownValue="Dont have all these desease",pr;
   bool checkedDenggi,receiveVaccine,misscariage, takeAntibiotic,piercedCuppingAcupuntureTattoo;
   List<String> deaseseList= ["Diabetes","Asthma","Hepatitis B","HIV","Sawan","Sakit Jantung","Darah Tinggi","Dont have all these desease"];
    bool surgical=false;

@@ -653,11 +653,20 @@ borderRadius: BorderRadius.circular(25),
     List<String> token=[];
     var res = await Api().getData("user");
     var body = json.decode(res.body);
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var userjson = localStorage.getString("user");
+    var user= jsonDecode(userjson);
+
     if (res.statusCode == 200) {
       var count = 0;
       for (var u in body) {
-        var t = u['notificationToken'];
-        token.add(t);
+        print(user["_id"].toString() + "==="+u["_id"].toString());
+        if(user["_id"]!=u["id"]){
+          var t = u['notificationToken'];
+          token.add(t);
+        }
+
+
       };
     }
 

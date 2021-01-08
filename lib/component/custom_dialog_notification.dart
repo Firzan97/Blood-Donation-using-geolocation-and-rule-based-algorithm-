@@ -4,14 +4,17 @@ import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/con
 import 'package:intl/intl.dart';
 
 class CustomDialogNotification extends StatelessWidget {
-  final String title, description, buttonText;
+  final String title, description, buttonText,topic;
   final String image;
+  final Widget page;
 
   CustomDialogNotification({
     @required this.title,
+    @required this.topic,
     @required this.description,
     @required this.buttonText,
     this.image,
+    this.page
   });
 
   @override
@@ -156,11 +159,11 @@ class CustomDialogNotification extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => BloodEvent()),
+                        builder: (context) => page),
                   );
                 },
                 child: Center(
-                  child: Text("See Events",
+                  child: Text("See ${topic}",
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontFamily: "Muli",

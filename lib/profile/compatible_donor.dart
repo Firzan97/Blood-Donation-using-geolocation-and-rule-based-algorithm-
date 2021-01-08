@@ -168,7 +168,7 @@ class _CompatibleDonorState extends State<CompatibleDonor> {
                                               builder: (context) => Profile()),
                                         );
                                         //Will not exit the App
-//                                        receivedDonation(widget.requestId,snapshot.data[index].id);
+                                        receivedDonation(widget.requestId,snapshot.data[index].id);
                                         getQue(snapshot.data[index].notificationToken,snapshot.data[index].username);
 //                                    deleteRequest(widget.requestId);
 
