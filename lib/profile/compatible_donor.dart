@@ -13,7 +13,7 @@ import 'package:easy_blood/loadingScreen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:easy_blood/profile/profile.dart';
 import 'package:geolocator/geolocator.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/chat/message_screen.dart';
+import 'package:easy_blood/chat/message_screen.dart';
 
 
 class CompatibleDonor extends StatefulWidget {

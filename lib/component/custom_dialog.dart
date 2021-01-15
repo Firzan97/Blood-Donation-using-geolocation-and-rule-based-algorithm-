@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
+import 'package:easy_blood/constant/constant.dart';
 
 class CustomDialog extends StatelessWidget {
   final String title, description, buttonText;

@@ -6,7 +6,7 @@ import 'package:easy_blood/chat/chat_detail.dart';
 import 'package:easy_blood/constant/constant.dart';
 import 'package:easy_blood/constant/data.dart';
 import 'package:easy_blood/loadingScreen.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/chat/message_screen.dart';
+import 'package:easy_blood/chat/message_screen.dart';
 import 'package:easy_blood/model/conversation.dart';
 import 'package:easy_blood/model/message.dart';
 import 'package:easy_blood/model/user.dart';

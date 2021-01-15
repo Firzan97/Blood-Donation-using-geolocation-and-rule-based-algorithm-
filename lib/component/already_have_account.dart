@@ -1,4 +1,4 @@
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
+import 'package:easy_blood/constant/constant.dart';
 import 'package:flutter/material.dart';
 
 

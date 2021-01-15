@@ -89,9 +89,6 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   upload(){
-//    SharedPreferences pref = await SharedPreferences.getInstance();
-//    pref.setString("user", null);
-//    var email2=pref.getString("_id");
   var gender;
   if(checkedValueMale==true){
     gender = "Male";
@@ -155,12 +152,15 @@ class _EditProfileState extends State<EditProfile> {
 
     });
   }
-
+  //check if no data changes then the confirm button will be disabled
   bool checkData(){
     List temp = [ _usernameController.text ,_emailController.text,_weightController.text,_heightController.text ,_mobileController.text,dropdownValue,checkedValueMale,checkedValueFemale,updateLocation];
-    print(sasasa);
-    print(temp);
-    return listEquals(sasasa, temp) ;
+    if((listEquals(sasasa, temp)==false) || (_image!=null)){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
   void getUserLocation()async{
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);

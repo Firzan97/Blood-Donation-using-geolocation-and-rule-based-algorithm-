@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/home/home.dart';
+import 'package:easy_blood/constant/constant.dart';
+import 'package:easy_blood/home/home.dart';
 import 'package:easy_blood/api/api.dart';
 import 'package:easy_blood/component/custom_dialog.dart';
 import 'package:easy_blood/component/custom_dialog_notification.dart';

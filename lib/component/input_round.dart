@@ -1,5 +1,5 @@
 import 'package:easy_blood/component/input_container.dart';
-import 'file:///C:/Users/Firza/AndroidStudioProjects/easy_blood/lib/constant/constant.dart';
+import 'package:easy_blood/constant/constant.dart';
 import "package:flutter/material.dart";
 
 class InputRound extends StatelessWidget {
