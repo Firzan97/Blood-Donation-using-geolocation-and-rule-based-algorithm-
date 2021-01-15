@@ -339,7 +339,7 @@ _getUserData()async{
                     child: Column(
                       children: [
                         Text("Sorry there are no request yet!"),
-                        SizedBox(height: size.height*0.03,),
+                        SizedBox(height: size.height*0.02,),
                         Image.asset("assets/images/norequest.png",scale: 4,),
                       ],
                     ),
@@ -653,7 +653,7 @@ _getUserData()async{
                                                         Container(
                                                           child: Column(
                                                             children: <Widget>[
-                                                              Image.asset("assets/images/lari2.jpg"),
+                                                              Image.network(a[index].imageURL),
                                                               Container(
                                                                 child: Padding(
                                                                   padding: const EdgeInsets.only(left:8.0,right: 8.0),
