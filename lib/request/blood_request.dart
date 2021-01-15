@@ -175,8 +175,9 @@ _getUserData()async{
                 ),
               ),
               Positioned(
-                top: 50,
+                top: size.height*0.05,
                 left: size.width * 0.3,
+                right: size.width*0.3,
                 child: Container(
                   height: size.height * 0.055,
                   decoration: BoxDecoration(
@@ -243,7 +244,7 @@ _getUserData()async{
                 bottom: size.height*0.08,
                 left: 15,
                 child: Container(
-                  height: size.height*0.27,
+                  height: size.height*0.25,
                   width: size.width*0.92,
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.9),
@@ -283,7 +284,7 @@ _getUserData()async{
                             fontWeight: FontWeight.w500,
                         ),),
                       ),
-
+                      SizedBox(height: size.height*0.01,),
                       Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Row(
@@ -304,7 +305,7 @@ _getUserData()async{
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Center(child: Text("NAVIGATE",style: TextStyle(
-                                  fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: size.width*0.033
+                                  fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: size.width*0.032
 
                                 ),)),
                               ),
@@ -324,7 +325,7 @@ _getUserData()async{
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Center(child: Text("CALL",style: TextStyle(
-                                    fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: size.width*0.033
+                                    fontWeight: FontWeight.bold,fontFamily: "Muli",color: Colors.white,fontSize: size.width*0.032
                                 ),)),
                               ),
                             ),
