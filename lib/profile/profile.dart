@@ -946,107 +946,109 @@ class _ProfileState extends State<Profile> {
                                                         ]),
                                                     child: Container(
                                                       height: size.height*0.5,
-                                                      child: FutureBuilder(
-                                                          future:
-                                                          _futureLiveSaved,
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            if (snapshot
-                                                                    .data ==
-                                                                null) {
-                                                              return Container(
-                                                                child: Center(
-                                                                  child:
-                                                                      LoadingScreen(),
-                                                                ),
-                                                              );
-                                                            }
-                                                            else if(snapshot.data.length==0){
-                                                              return Container(
-                                                                child: Center(
-                                                                  child: Image.asset(
-                                                                      "assets/images/not_found.png"
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(top:40.0),
+                                                        child: FutureBuilder(
+                                                            future:
+                                                            _futureLiveSaved,
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              if (snapshot
+                                                                      .data ==
+                                                                  null) {
+                                                                return Container(
+                                                                  child: Center(
+                                                                    child:
+                                                                        LoadingScreen(),
                                                                   ),
-                                                                ),
-                                                              );
-                                                            }
-                                                            return Container(
-                                                              height:
-                                                                  size.height *
-                                                                      0.5,
-                                                              child: ListView
-                                                                  .builder(
-                                                                      itemCount: snapshot
-                                                                          .data
-                                                                          .length,
-                                                                      itemBuilder:
-                                                                          (BuildContext context,
-                                                                              int index) {
-                                                                        return Padding(
-                                                                          padding:
-                                                                          const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 0.0),
-                                                                          child:
-                                                                              Row(
-                                                                            children: <Widget>[
-                                                                              Container(
-                                                                                height: 50,
-                                                                                width: 60,
-                                                                                decoration: BoxDecoration(
-                                                                                  shape: BoxShape.rectangle,
+                                                                );
+                                                              }
+                                                              else if(snapshot.data.length==0){
+                                                                return Container(
+                                                                  child: Center(
+                                                                    child: Image.asset(
+                                                                        "assets/images/not_found.png"
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }
+                                                              return MediaQuery.removePadding(
+                                                                context: context,
+                                                                removeTop: true,
+                                                                child: ListView
+                                                                    .builder(
+                                                                        itemCount: snapshot
+                                                                            .data
+                                                                            .length,
+                                                                        itemBuilder:
+                                                                            (BuildContext context,
+                                                                                int index) {
+                                                                          return Padding(
+                                                                            padding:
+                                                                            const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+                                                                            child:
+                                                                                Row(
+                                                                              children: <Widget>[
+                                                                                Container(
+                                                                                  height: 50,
+                                                                                  width: 60,
+                                                                                  decoration: BoxDecoration(
+                                                                                    shape: BoxShape.rectangle,
+                                                                                  ),
+                                                                                  child: ClipRRect(
+                                                                                      borderRadius: BorderRadius.circular(5),
+                                                                                      child: Image.network(
+                                                                                        snapshot.data[index].imageURL,
+                                                                                        fit: BoxFit.cover,
+                                                                                      )),
                                                                                 ),
-                                                                                child: ClipRRect(
-                                                                                    borderRadius: BorderRadius.circular(5),
-                                                                                    child: Image.network(
-                                                                                      snapshot.data[index].imageURL,
-                                                                                      fit: BoxFit.cover,
-                                                                                    )),
-                                                                              ),
-                                                                              SizedBox(
-                                                                                width: size.width * 0.09,
-                                                                              ),
-                                                                              Column(
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: <Widget>[
-                                                                                  Text("6 hours ago"),
-                                                                                  Row(
-                                                                                    children: <Widget>[
-                                                                                      Container(
-                                                                                        child: Text(snapshot.data[index].username),
-                                                                                      ),
-                                                                                      SizedBox(
-                                                                                        width: size.width * 0.08,
-                                                                                      ),
-                                                                                      Container(
-                                                                                        child: Row(
-                                                                                          children: <Widget>[
-                                                                                            Row(
-                                                                                              children: <Widget>[
-                                                                                                Icon(Icons.thumb_up),
-                                                                                                Text("1")
-                                                                                              ],
-                                                                                            ),
-                                                                                            SizedBox(
-                                                                                              width: size.width * 0.05,
-                                                                                            ),
-                                                                                            Row(
-                                                                                              children: <Widget>[
-                                                                                                Icon(Icons.comment),
-                                                                                                Text("1")
-                                                                                              ],
-                                                                                            )
-                                                                                          ],
+                                                                                SizedBox(
+                                                                                  width: size.width * 0.09,
+                                                                                ),
+                                                                                Column(
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  children: <Widget>[
+                                                                                    Text("6 hours ago"),
+                                                                                    Row(
+                                                                                      children: <Widget>[
+                                                                                        Container(
+                                                                                          child: Text(snapshot.data[index].username),
                                                                                         ),
-                                                                                      )
-                                                                                    ],
-                                                                                  )
-                                                                                ],
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        );
-                                                                      }),
-                                                            );
-                                                          }),
+                                                                                        SizedBox(
+                                                                                          width: size.width * 0.08,
+                                                                                        ),
+                                                                                        Container(
+                                                                                          child: Row(
+                                                                                            children: <Widget>[
+                                                                                              Row(
+                                                                                                children: <Widget>[
+                                                                                                  Icon(Icons.thumb_up),
+                                                                                                  Text("1")
+                                                                                                ],
+                                                                                              ),
+                                                                                              SizedBox(
+                                                                                                width: size.width * 0.05,
+                                                                                              ),
+                                                                                              Row(
+                                                                                                children: <Widget>[
+                                                                                                  Icon(Icons.comment),
+                                                                                                  Text("1")
+                                                                                                ],
+                                                                                              )
+                                                                                            ],
+                                                                                          ),
+                                                                                        )
+                                                                                      ],
+                                                                                    )
+                                                                                  ],
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          );
+                                                                        }),
+                                                              );
+                                                            }),
+                                                      ),
                                                     ),
                                                   ),
                                                   Container(
@@ -1097,42 +1099,45 @@ class _ProfileState extends State<Profile> {
                                                               spreadRadius: 3,
                                                               blurRadius: 12)
                                                         ]),
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        FutureBuilder(
-                                                            future:
-                                                                _futureRequest,
-                                                            builder: (context,
-                                                                snapshot) {
-                                                              if (snapshot
-                                                                      .data ==
-                                                                  null) {
-                                                                return Container(
-                                                                    height:
-                                                                    size.height *
-                                                                        0.5,
-                                                                  child: Center(
-                                                                    child:
-                                                                        LoadingScreen(),
-                                                                  ),
-                                                                );
-                                                              }
-                                                              else if(snapshot.data.length==0){
-                                                                return Container(
-                                                                  child: Column(
-                                                                    children: [
-                                                                      SizedBox(height: size.height*0.08,),
-                                                                      Image.asset(
-                                                                          "assets/images/not_found.png"
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                );
-                                                              }
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(top:20.0),
+                                                      child: FutureBuilder(
+                                                          future:
+                                                              _futureRequest,
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            if (snapshot
+                                                                    .data ==
+                                                                null) {
                                                               return Container(
-                                                                height:
-                                                                    size.height *
-                                                                        0.5,
+                                                                  height:
+                                                                  size.height *
+                                                                      0.5,
+                                                                child: Center(
+                                                                  child:
+                                                                      LoadingScreen(),
+                                                                ),
+                                                              );
+                                                            }
+                                                            else if(snapshot.data.length==0){
+                                                              return Container(
+                                                                child: Column(
+                                                                  children: [
+                                                                    SizedBox(height: size.height*0.08,),
+                                                                    Image.asset(
+                                                                        "assets/images/not_found.png"
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            }
+                                                            return Container(
+                                                              height:
+                                                                  size.height *
+                                                                      0.5,
+                                                              child: MediaQuery.removePadding(
+                                                                context: context,
+                                                                removeTop: true,
                                                                 child: ListView
                                                                     .builder(
                                                                         itemCount: snapshot
@@ -1225,9 +1230,9 @@ class _ProfileState extends State<Profile> {
                                                                                 ),
                                                                           );
                                                                         }),
-                                                              );
-                                                            }),
-                                                      ],
+                                                              ),
+                                                            );
+                                                          }),
                                                     ),
                                                   ),
                                                   Container(
