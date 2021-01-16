@@ -9,6 +9,7 @@ import 'package:easy_blood/chat/chat_home.dart';
 import 'package:easy_blood/component/curvedBackground.dart';
 import 'package:easy_blood/component/custom_dialog_notification.dart';
 import 'package:easy_blood/constant/constant.dart';
+import 'package:easy_blood/donation/donation.dart';
 import 'package:easy_blood/event/bloodEvent.dart';
 import 'package:easy_blood/event/bloodEventDetail.dart';
 import 'package:easy_blood/loadingScreen.dart';
@@ -357,6 +358,57 @@ class _HomeState extends State<Home> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => BloodRequest()),
+                                      );
+                                    }
+                                    else{
+                                      updateProfileDialog(context);
+                                    }
+
+                                  },
+                                ),
+                              ),
+                            )),
+                        FadeAnimation(
+                            0.5,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 13, right: 8, left: 8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey.withOpacity(0.1),
+                                          spreadRadius: 1,
+                                          blurRadius: 7
+                                      )
+                                    ]),
+                                height: 50,
+                                child: FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  disabledColor: Colors.white,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text("Your Donation Status",style: TextStyle(
+                                          fontSize: size.width*0.031
+                                      ),),
+                                      Icon(
+                                        Icons.find_in_page,
+                                        color: kPrimaryColor,
+                                      )
+                                    ],
+                                  ),
+                                  onPressed: () {
+                                    if(!checkIfAnyIsNull()){
+
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Donation()),
                                       );
                                     }
                                     else{
@@ -1885,7 +1937,7 @@ void updateUserPresence($userid)async{
     "isOnline": false
   };
 
-  var res = await Api().updateData(data, "user/${$userid}");
+  var res = await Api().updateData(data, "user/${$userid}/updatePresence");
   if(res.statusCode==200){
     print("status updated");
   }

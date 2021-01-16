@@ -346,7 +346,7 @@ class _SignInState extends State<SignIn> {
       "isOnline": true
     };
 
-    var res = await Api().updateData(data, "user/${$userid}");
+    var res = await Api().updateData(data, "user/${$userid}/updatePresence");
     if(res.statusCode==200){
       print("status updated");
     }
