@@ -1284,42 +1284,45 @@ class _ProfileState extends State<Profile> {
                                                               spreadRadius: 3,
                                                               blurRadius: 12)
                                                         ]),
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        FutureBuilder(
-                                                            future:
-                                                                _futureEvent,
-                                                            builder: (context,
-                                                                snapshot) {
-                                                              if (snapshot
-                                                                      .data ==
-                                                                  null) {
-                                                                return Container(
-                                                                  height:
-                                                                  size.height *
-                                                                      0.5,
-                                                                  child: Center(
-                                                                    child:
-                                                                    LoadingScreen(),
-                                                                  ),
-                                                                );
-                                                              }
-                                                              else if(snapshot.data.length==0){
-                                                                return Container(
-                                                                  child: Column(
-                                                                    children: [
-                                                                      SizedBox(height: size.height*0.08,),
-                                                                      Image.asset(
-                                                                          "assets/images/not_found.png"
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                );
-                                                              }
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(top:30.0),
+                                                      child: FutureBuilder(
+                                                          future:
+                                                              _futureEvent,
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            if (snapshot
+                                                                    .data ==
+                                                                null) {
                                                               return Container(
                                                                 height:
                                                                 size.height *
                                                                     0.5,
+                                                                child: Center(
+                                                                  child:
+                                                                  LoadingScreen(),
+                                                                ),
+                                                              );
+                                                            }
+                                                            else if(snapshot.data.length==0){
+                                                              return Container(
+                                                                child: Column(
+                                                                  children: [
+                                                                    SizedBox(height: size.height*0.08,),
+                                                                    Image.asset(
+                                                                        "assets/images/not_found.png"
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            }
+                                                            return Container(
+                                                              height:
+                                                              size.height *
+                                                                  0.5,
+                                                              child: MediaQuery.removePadding(
+                                                                context: context,
+                                                                removeTop: true,
                                                                 child: ListView
                                                                     .builder(
                                                                         itemCount: snapshot
@@ -1397,9 +1400,9 @@ class _ProfileState extends State<Profile> {
                                                                             ),
                                                                           );
                                                                         }),
-                                                              );
-                                                            }),
-                                                      ],
+                                                              ),
+                                                            );
+                                                          }),
                                                     ),
                                                   ),
                                                   Container(
