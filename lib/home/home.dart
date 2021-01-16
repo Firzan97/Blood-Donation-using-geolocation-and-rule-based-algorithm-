@@ -1414,7 +1414,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                                 child: Container(
-                                        height: size.height*0.362,
+                                        height: size.height*0.360,
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
@@ -1485,7 +1485,9 @@ class _HomeState extends State<Home> {
                                               );
                                             }
                                             else{
-                                              return  Container(
+                                              return  MediaQuery.removePadding(
+                                                  context: context,
+                                                  removeTop: true,
                                                   child: ListView.builder(
                                                       shrinkWrap: true,
                                                       itemCount: snapshot.data.length,
@@ -1494,73 +1496,69 @@ class _HomeState extends State<Home> {
                                                         DateFormat dateFormat = DateFormat('yyyy-MM-dd');
                                                         String time = dateFormat.format(dateTime);
 
-                                                        return Column(
-                                                          children: <Widget>[
-                                                            Container(
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(left:8.0,right: 8.0,bottom:16.0),
-                                                                child: Row(
-                                                                  mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                                        return Container(
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.only(top:6.0,left:8.0,right: 8.0,bottom:6.0),
+                                                            child: Row(
+                                                              mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                                                              children: <Widget>[
+                                                                Row(
                                                                   children: <Widget>[
-                                                                    Row(
+                                                                    Container(
+                                                                      height: size.height * 0.1,
+                                                                      width: size.width * 0.18,
+                                                                      decoration: BoxDecoration(
+                                                                          image: DecorationImage(
+                                                                            fit: BoxFit.cover,
+                                                                            image: NetworkImage(
+                                                                              a[index].imageURL,),
+                                                                          ),
+                                                                          borderRadius:
+                                                                          BorderRadius.circular(2)),
+                                                                    ),
+                                                                    SizedBox(width: size.width*0.03,),
+                                                                    Column(
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                                       children: <Widget>[
+                                                                        Text(
+                                                                          a[index].username,
+                                                                          style: TextStyle(
+                                                                              color: Colors.black,
+                                                                              fontWeight: FontWeight.w700,
+                                                                              fontSize: size.width*0.033),
+                                                                        ),
                                                                         Container(
-                                                                          height: size.height * 0.1,
-                                                                          width: size.width * 0.18,
-                                                                          decoration: BoxDecoration(
-                                                                              image: DecorationImage(
-                                                                                fit: BoxFit.cover,
-                                                                                image: NetworkImage(
-                                                                                  a[index].imageURL,),
-                                                                              ),
-                                                                              borderRadius:
-                                                                              BorderRadius.circular(2)),
+                                                                          height: size.height*0.05,
+                                                                          width: size.width*0.6,
+                                                                          child: Text(
+                                                                            snapshot.data[index].location,
+                                                                            style: TextStyle(
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontSize: size.width*0.031),
+                                                                          ),
                                                                         ),
-                                                                        SizedBox(width: size.width*0.03,),
-                                                                        Column(
-                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                          children: <Widget>[
-                                                                            Text(
-                                                                              a[index].username,
-                                                                              style: TextStyle(
-                                                                                  color: Colors.black,
-                                                                                  fontWeight: FontWeight.w700,
-                                                                                  fontSize: size.width*0.033),
-                                                                            ),
-                                                                            Container(
-                                                                              height: size.height*0.05,
-                                                                              width: size.width*0.6,
-                                                                              child: Text(
-                                                                                snapshot.data[index].location,
-                                                                                style: TextStyle(
-                                                                                    color: Colors.black,
-                                                                                    fontWeight: FontWeight.w500,
-                                                                                    fontSize: size.width*0.031),
-                                                                              ),
-                                                                            ),
-                                                                            Text(
-                                                                              Jiffy(time).fromNow() // 7 years ago
-                                                                              ,
-                                                                              style: TextStyle(
-                                                                                  color: Colors.grey,
-                                                                                  fontSize: size.width*0.029,
-                                                                                  fontWeight: FontWeight.w300),
-                                                                            ),
-                                                                          ],
+                                                                        Text(
+                                                                          Jiffy(time).fromNow() // 7 years ago
+                                                                          ,
+                                                                          style: TextStyle(
+                                                                              color: Colors.grey,
+                                                                              fontSize: size.width*0.029,
+                                                                              fontWeight: FontWeight.w300),
                                                                         ),
-
                                                                       ],
                                                                     ),
-                                                                    Text(
-                                                                      snapshot.data[index].bloodType,
-                                                                      style:
-                                                                      TextStyle(color: kPrimaryColor,fontSize: size.width*0.033),
-                                                                    ),
+
                                                                   ],
                                                                 ),
-                                                              ),
+                                                                Text(
+                                                                  snapshot.data[index].bloodType,
+                                                                  style:
+                                                                  TextStyle(color: kPrimaryColor,fontSize: size.width*0.033),
+                                                                ),
+                                                              ],
                                                             ),
-                                                          ],
+                                                          ),
                                                         );}
                                                   ));
                                             }
